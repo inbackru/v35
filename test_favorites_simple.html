@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Тест избранного</title>
+    <script src="/static/js/favorites.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .favorite-heart { cursor: pointer; color: #ccc; font-size: 20px; }
+        .favorite-heart.favorited { color: red; }
+        .favorite-heart:hover { color: #ff6b6b; }
+    </style>
+</head>
+<body>
+    <h1>Простой тест системы избранного</h1>
+    
+    <div class="property-card" data-property-id="test-1">
+        <h3>Тестовый объект 1</h3>
+        <div class="favorite-heart" data-property-id="test-1" title="Добавить в избранное">
+            <i class="fas fa-heart"></i>
+        </div>
+    </div>
+    
+    <button onclick="testFavorites()">Тест API избранного</button>
+    <div id="result"></div>
+
+    <script>
+        function testFavorites() {
+            fetch('/api/favorites/toggle', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    property_id: 'test-1',
+                    property_name: 'Тестовый объект',
+                    property_type: 'Квартира',
+                    property_size: 100,
+                    property_price: 5000000,
+                    complex_name: 'Тестовый ЖК',
+                    developer_name: 'Тестовый застройщик'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerHTML = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                document.getElementById('result').innerHTML = 'Ошибка: ' + error.message;
+            });
+        }
+    </script>
+</body>
+</html>

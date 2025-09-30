@@ -1,0 +1,577 @@
+{% extends "manager/base.html" %}
+
+{% block title %}Управление сделками | InBack{% endblock %}
+
+{% block content %}
+<div class="bg-gray-50 py-4">
+    <div class="max-w-7xl mx-auto px-4">
+        <!-- Header -->
+        <div class="mb-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">Управление сделками</h1>
+                    <p class="mt-2 text-gray-600">Отслеживайте и управляйте сделками с клиентами</p>
+                </div>
+                <button onclick="openCreateDealModal()" 
+                        class="bg-[#059669] hover:bg-[#047857] text-white px-6 py-3 rounded-lg font-medium transition-colors">
+                    <i class="fas fa-plus mr-2"></i>Создать новую сделку
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center">
+                    <div class="p-3 bg-blue-100 rounded-lg">
+                        <i class="fas fa-handshake text-blue-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Активных сделок</p>
+                        <p class="text-2xl font-bold text-gray-900" id="active-deals-count">{{ active_deals_count or 0 }}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center">
+                    <div class="p-3 bg-green-100 rounded-lg">
+                        <i class="fas fa-check-circle text-green-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Завершено</p>
+                        <p class="text-2xl font-bold text-gray-900" id="completed-deals-count">{{ completed_deals_count or 0 }}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center">
+                    <div class="p-3 bg-yellow-100 rounded-lg">
+                        <i class="fas fa-clock text-yellow-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">В процессе</p>
+                        <p class="text-2xl font-bold text-gray-900" id="in-progress-deals-count">{{ in_progress_deals_count or 0 }}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center">
+                    <div class="p-3 bg-[#059669]/10 rounded-lg">
+                        <i class="fas fa-ruble-sign text-[#059669]"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Общий кешбек</p>
+                        <p class="text-2xl font-bold text-gray-900" id="total-cashback">{{ total_cashback or 0 }} ₽</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters and Search -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+            <div class="flex flex-wrap items-center gap-4">
+                <div class="flex-1 min-w-64">
+                    <input type="text" id="search-deals" placeholder="Поиск по номеру сделки или клиенту..."
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#059669] focus:border-transparent">
+                </div>
+                
+                <div class="flex items-center space-x-2">
+                    <span class="text-sm font-medium text-gray-700">Статус:</span>
+                    <select id="status-filter" 
+                            class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#059669] focus:border-transparent">
+                        <option value="">Все</option>
+                        <option value="new">Новые</option>
+                        <option value="reserved">Забронированы</option>
+                        <option value="mortgage">Ипотека</option>
+                        <option value="completed">Завершены</option>
+                        <option value="rejected">Отклонены</option>
+                    </select>
+                </div>
+                
+                <button onclick="applyFilters()" 
+                        class="bg-[#059669] hover:bg-[#047857] text-white px-4 py-2 rounded-lg transition-colors">
+                    <i class="fas fa-filter mr-2"></i>Применить
+                </button>
+                
+                <button onclick="resetFilters()" 
+                        class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-colors">
+                    <i class="fas fa-times mr-2"></i>Сбросить
+                </button>
+            </div>
+        </div>
+
+        <!-- Deals Table -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full" id="deals-table">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Номер сделки
+                            </th>
+                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Клиент
+                            </th>
+                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                ЖК
+                            </th>
+                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Стоимость
+                            </th>
+                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Кешбек
+                            </th>
+                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Статус
+                            </th>
+                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Дата создания
+                            </th>
+                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Действия
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200" id="deals-tbody">
+                        {% for deal in deals %}
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm font-medium text-gray-900">{{ deal.deal_number }}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mr-3">
+                                        <span class="text-white text-xs font-medium">
+                                            {{ deal.client.full_name[0] if deal.client.full_name else deal.client.email[0] }}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-gray-900">{{ deal.client.full_name or deal.client.email }}</div>
+                                        <div class="text-sm text-gray-500">{{ deal.client.email }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">{{ deal.residential_complex.name }}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm font-medium text-gray-900">
+                                    {{ "{:,.0f}".format(deal.property_price).replace(',', ' ') }} ₽
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm font-medium text-[#059669]">
+                                    {{ "{:,.0f}".format(deal.cashback_amount).replace(',', ' ') }} ₽
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                    {{ 'bg-yellow-100 text-yellow-800' if deal.status == 'new' 
+                                       else 'bg-blue-100 text-blue-800' if deal.status == 'reserved'
+                                       else 'bg-purple-100 text-purple-800' if deal.status == 'mortgage'
+                                       else 'bg-green-100 text-green-800' if deal.status == 'completed'
+                                       else 'bg-red-100 text-red-800' if deal.status == 'rejected'
+                                       else 'bg-gray-100 text-gray-800' }}">
+                                    {{ 'Новая' if deal.status == 'new'
+                                       else 'Забронирована' if deal.status == 'reserved'
+                                       else 'Ипотека' if deal.status == 'mortgage'
+                                       else 'Завершена' if deal.status == 'completed'
+                                       else 'Отклонена' if deal.status == 'rejected'
+                                       else deal.status }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ deal.created_at.strftime('%d.%m.%Y') if deal.created_at else 'Недавно' }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <div class="flex items-center space-x-2">
+                                    <button onclick="openEditStatusModal({{ deal.id }}, '{{ deal.status }}')"
+                                            class="text-[#059669] hover:text-[#047857] transition-colors" title="Изменить статус">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button onclick="viewDealDetails({{ deal.id }})"
+                                            class="text-blue-600 hover:text-blue-800 transition-colors" title="Подробности">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr id="no-deals-row">
+                            <td colspan="8" class="px-6 py-12 text-center">
+                                <div class="text-gray-400">
+                                    <i class="fas fa-handshake text-6xl mb-4"></i>
+                                    <p class="text-xl font-medium mb-2">Нет сделок</p>
+                                    <p>Создайте первую сделку с клиентом</p>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Create New Deal -->
+<div id="createDealModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between p-6 border-b">
+                <h3 class="text-lg font-semibold text-gray-900">Создать новую сделку</h3>
+                <button onclick="closeCreateDealModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="createDealForm" class="p-6 space-y-6">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                
+                <!-- Client Selection -->
+                <div>
+                    <label for="client_id" class="block text-sm font-medium text-gray-700 mb-2">
+                        Клиент <span class="text-red-500">*</span>
+                    </label>
+                    <select id="client_id" name="client_id" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#059669] focus:border-transparent">
+                        <option value="">Выберите клиента</option>
+                        {% for client in assigned_clients %}
+                        <option value="{{ client.id }}">{{ client.full_name or client.email }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Residential Complex Selection -->
+                <div>
+                    <label for="residential_complex_id" class="block text-sm font-medium text-gray-700 mb-2">
+                        Жилой комплекс <span class="text-red-500">*</span>
+                    </label>
+                    <select id="residential_complex_id" name="residential_complex_id" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#059669] focus:border-transparent">
+                        <option value="">Выберите ЖК</option>
+                        {% for complex in residential_complexes %}
+                        <option value="{{ complex.id }}">{{ complex.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Property Price -->
+                <div>
+                    <label for="property_price" class="block text-sm font-medium text-gray-700 mb-2">
+                        Стоимость объекта (₽) <span class="text-red-500">*</span>
+                    </label>
+                    <input type="number" id="property_price" name="property_price" required
+                           min="100000" step="10000" placeholder="3500000"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#059669] focus:border-transparent">
+                </div>
+
+                <!-- Property Description -->
+                <div>
+                    <label for="property_description" class="block text-sm font-medium text-gray-700 mb-2">
+                        Описание объекта
+                    </label>
+                    <textarea id="property_description" name="property_description" rows="3"
+                              placeholder="Квартира с отделкой, панорамные окна, хорошая планировка..."
+                              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#059669] focus:border-transparent resize-none"></textarea>
+                </div>
+
+                <!-- Property Details Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label for="property_floor" class="block text-sm font-medium text-gray-700 mb-2">
+                            Этаж
+                        </label>
+                        <input type="number" id="property_floor" name="property_floor" 
+                               min="1" max="50" placeholder="5"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#059669] focus:border-transparent">
+                    </div>
+                    
+                    <div>
+                        <label for="property_area" class="block text-sm font-medium text-gray-700 mb-2">
+                            Площадь (м²)
+                        </label>
+                        <input type="number" id="property_area" name="property_area" 
+                               min="10" step="0.1" placeholder="65.5"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#059669] focus:border-transparent">
+                    </div>
+                    
+                    <div>
+                        <label for="property_rooms" class="block text-sm font-medium text-gray-700 mb-2">
+                            Комнат
+                        </label>
+                        <select id="property_rooms" name="property_rooms"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#059669] focus:border-transparent">
+                            <option value="">Не указано</option>
+                            <option value="студия">Студия</option>
+                            <option value="1">1 комната</option>
+                            <option value="2">2 комнаты</option>
+                            <option value="3">3 комнаты</option>
+                            <option value="4">4 комнаты</option>
+                            <option value="5+">5+ комнат</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Notes -->
+                <div>
+                    <label for="notes" class="block text-sm font-medium text-gray-700 mb-2">
+                        Заметки менеджера
+                    </label>
+                    <textarea id="notes" name="notes" rows="2"
+                              placeholder="Дополнительные заметки о сделке..."
+                              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#059669] focus:border-transparent resize-none"></textarea>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex justify-end space-x-4 pt-4 border-t">
+                    <button type="button" onclick="closeCreateDealModal()" 
+                            class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                        Отмена
+                    </button>
+                    <button type="submit" id="createDealBtn"
+                            class="px-6 py-2 bg-[#059669] text-white rounded-lg hover:bg-[#047857] transition-colors">
+                        <i class="fas fa-plus mr-2"></i>Создать сделку
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Edit Status -->
+<div id="editStatusModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white rounded-lg max-w-lg w-full">
+            <div class="flex items-center justify-between p-6 border-b">
+                <h3 class="text-lg font-semibold text-gray-900">Изменить статус сделки</h3>
+                <button onclick="closeEditStatusModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="editStatusForm" class="p-6 space-y-4">
+                <input type="hidden" id="edit-deal-id" name="deal_id">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                
+                <div>
+                    <label for="edit-status" class="block text-sm font-medium text-gray-700 mb-2">
+                        Новый статус <span class="text-red-500">*</span>
+                    </label>
+                    <select id="edit-status" name="status" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#059669] focus:border-transparent">
+                        <option value="new">Новая</option>
+                        <option value="reserved">Забронирована</option>
+                        <option value="mortgage">Ипотека</option>
+                        <option value="completed">Завершена</option>
+                        <option value="rejected">Отклонена</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="status-notes" class="block text-sm font-medium text-gray-700 mb-2">
+                        Комментарий к изменению
+                    </label>
+                    <textarea id="status-notes" name="status_notes" rows="3"
+                              placeholder="Причина изменения статуса..."
+                              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#059669] focus:border-transparent resize-none"></textarea>
+                </div>
+
+                <div class="flex justify-end space-x-4 pt-4 border-t">
+                    <button type="button" onclick="closeEditStatusModal()" 
+                            class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                        Отмена
+                    </button>
+                    <button type="submit" id="updateStatusBtn"
+                            class="px-6 py-2 bg-[#059669] text-white rounded-lg hover:bg-[#047857] transition-colors">
+                        <i class="fas fa-save mr-2"></i>Обновить статус
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript for Deals Management -->
+<script>
+// Deal Management Functions
+function openCreateDealModal() {
+    document.getElementById('createDealModal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeCreateDealModal() {
+    document.getElementById('createDealModal').classList.add('hidden');
+    document.body.style.overflow = 'auto';
+    document.getElementById('createDealForm').reset();
+}
+
+function openEditStatusModal(dealId, currentStatus) {
+    document.getElementById('edit-deal-id').value = dealId;
+    document.getElementById('edit-status').value = currentStatus;
+    document.getElementById('editStatusModal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeEditStatusModal() {
+    document.getElementById('editStatusModal').classList.add('hidden');
+    document.body.style.overflow = 'auto';
+    document.getElementById('editStatusForm').reset();
+}
+
+// Form Submission Handlers
+document.getElementById('createDealForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData);
+    
+    // Calculate cashback based on property price (5% default)
+    const propertyPrice = parseFloat(data.property_price);
+    data.cashback_amount = (propertyPrice * 0.05).toFixed(2);
+    
+    try {
+        const response = await fetch('/api/deals', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': data.csrf_token
+            },
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            closeCreateDealModal();
+            location.reload(); // Reload to show new deal
+        } else {
+            alert('Ошибка при создании сделки: ' + result.error);
+        }
+    } catch (error) {
+        console.error('Error creating deal:', error);
+        alert('Произошла ошибка при создании сделки');
+    }
+});
+
+document.getElementById('editStatusForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData);
+    const dealId = data.deal_id;
+    
+    try {
+        const response = await fetch(`/api/deals/${dealId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': data.csrf_token
+            },
+            body: JSON.stringify({
+                status: data.status,
+                notes: data.status_notes
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            closeEditStatusModal();
+            location.reload(); // Reload to show updated status
+        } else {
+            alert('Ошибка при обновлении статуса: ' + result.error);
+        }
+    } catch (error) {
+        console.error('Error updating deal status:', error);
+        alert('Произошла ошибка при обновлении статуса');
+    }
+});
+
+// Filter and Search Functions
+function applyFilters() {
+    const searchTerm = document.getElementById('search-deals').value.toLowerCase();
+    const statusFilter = document.getElementById('status-filter').value;
+    const rows = document.querySelectorAll('#deals-tbody tr:not(#no-deals-row)');
+    
+    let visibleCount = 0;
+    
+    rows.forEach(row => {
+        const dealNumber = row.querySelector('td:first-child').textContent.toLowerCase();
+        const clientName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+        const status = row.querySelector('td:nth-child(6) span').textContent.toLowerCase();
+        
+        const matchesSearch = !searchTerm || dealNumber.includes(searchTerm) || clientName.includes(searchTerm);
+        const matchesStatus = !statusFilter || row.querySelector(`td:nth-child(6) span[class*="${getStatusColorClass(statusFilter)}"]`);
+        
+        if (matchesSearch && (matchesStatus || !statusFilter)) {
+            row.style.display = '';
+            visibleCount++;
+        } else {
+            row.style.display = 'none';
+        }
+    });
+    
+    // Show/hide no results message
+    const noDealsRow = document.getElementById('no-deals-row');
+    if (noDealsRow) {
+        noDealsRow.style.display = visibleCount === 0 && rows.length > 0 ? '' : 'none';
+    }
+}
+
+function resetFilters() {
+    document.getElementById('search-deals').value = '';
+    document.getElementById('status-filter').value = '';
+    const rows = document.querySelectorAll('#deals-tbody tr');
+    rows.forEach(row => {
+        row.style.display = '';
+    });
+}
+
+function getStatusColorClass(status) {
+    const statusClasses = {
+        'new': 'yellow',
+        'reserved': 'blue',
+        'mortgage': 'purple',
+        'completed': 'green',
+        'rejected': 'red'
+    };
+    return statusClasses[status] || 'gray';
+}
+
+function viewDealDetails(dealId) {
+    // Implement deal details view - could open a modal with full deal information
+    console.log('View deal details for ID:', dealId);
+    // For now, just show an alert - could be enhanced later
+    alert('Функция просмотра подробностей будет добавлена в следующих версиях');
+}
+
+// Real-time search
+document.getElementById('search-deals').addEventListener('input', applyFilters);
+document.getElementById('status-filter').addEventListener('change', applyFilters);
+
+// Close modals when clicking outside
+window.addEventListener('click', function(event) {
+    const createModal = document.getElementById('createDealModal');
+    const editModal = document.getElementById('editStatusModal');
+    
+    if (event.target === createModal) {
+        closeCreateDealModal();
+    }
+    if (event.target === editModal) {
+        closeEditStatusModal();
+    }
+});
+
+// Keyboard shortcuts
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeCreateDealModal();
+        closeEditStatusModal();
+    }
+});
+</script>
+{% endblock %}

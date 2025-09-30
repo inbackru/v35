@@ -1,0 +1,325 @@
+{% extends "base.html" %}
+
+{% block title %}Избранные объекты - InBack.ru{% endblock %}
+
+{% block description %}Ваши избранные объекты недвижимости в Краснодаре. Сохраненные квартиры и апартаменты с кэшбеком.{% endblock %}
+
+{% block content %}
+<div class="bg-gradient-to-r from-[#0088CC] to-[#006699] text-white py-16">
+    <div class="container mx-auto px-4 text-center">
+        <div class="flex items-center justify-center gap-3 mb-4">
+            <div class="favorites-counter">
+                <i class="fas fa-heart text-4xl"></i>
+                <div class="badge show">0</div>
+            </div>
+        </div>
+        <h1 class="text-4xl font-bold mb-4">Избранные объекты</h1>
+        <p class="text-xl text-blue-100 max-w-2xl mx-auto">
+            Здесь собраны все квартиры, которые вы добавили в избранное. Сравнивайте, анализируйте и выбирайте лучший вариант для покупки.
+        </p>
+    </div>
+</div>
+
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <!-- Empty State -->
+        <div id="empty-favorites" class="text-center py-16">
+            <div class="mb-8">
+                <i class="fas fa-heart text-6xl text-gray-300 mb-4"></i>
+                <h2 class="text-2xl font-bold text-gray-700 mb-4">У вас пока нет избранных объектов</h2>
+                <p class="text-gray-500 mb-8 max-w-md mx-auto">
+                    Добавляйте понравившиеся квартиры в избранное, нажимая на сердечко в карточке объекта
+                </p>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="{{ url_for('properties') }}" class="inline-flex items-center px-6 py-3 bg-[#0088CC] text-white rounded-lg hover:bg-[#0077BB] transition-colors">
+                    <i class="fas fa-search mr-2"></i>
+                    Поиск квартир
+                </a>
+                <a href="{{ url_for('districts') }}" class="inline-flex items-center px-6 py-3 border border-[#0088CC] text-[#0088CC] rounded-lg hover:bg-blue-50 transition-colors">
+                    <i class="fas fa-map-marker-alt mr-2"></i>
+                    Выбрать район
+                </a>
+            </div>
+
+            <!-- Pulse Animation Tutorial -->
+            <div class="mt-12 p-6 bg-white rounded-xl shadow-md max-w-lg mx-auto">
+                <h3 class="font-semibold mb-4 flex items-center justify-center gap-2">
+                    <span>Как добавить в избранное?</span>
+                </h3>
+                <div class="flex items-center justify-center gap-4 mb-4">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center mb-2">
+                            <i class="fas fa-home text-2xl text-gray-400"></i>
+                        </div>
+                        <p class="text-sm text-gray-600">Найдите квартиру</p>
+                    </div>
+                    <i class="fas fa-arrow-right text-gray-400"></i>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center mb-2">
+                            <div class="favorite-heart pulse">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600">Нажмите на сердечко</p>
+                    </div>
+                    <i class="fas fa-arrow-right text-gray-400"></i>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center mb-2">
+                            <div class="favorite-heart favorited">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600">Готово!</p>
+                    </div>
+                </div>
+                <p class="text-xs text-gray-500">
+                    Сердечко станет красным и будет пульсировать при наведении курсора на карточку
+                </p>
+            </div>
+        </div>
+
+        <!-- Favorites Grid -->
+        <div id="favorites-grid" class="hidden">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-bold flex items-center gap-2">
+                    <i class="fas fa-heart text-red-500"></i>
+                    Избранные объекты
+                    <span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium ml-2" id="favorites-count">0</span>
+                </h2>
+                
+                <div class="flex gap-3">
+                    <button onclick="compareSelectedProperties()" id="compare-btn" class="hidden px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
+                        <i class="fas fa-balance-scale mr-2"></i>
+                        Сравнить (<span id="selected-count">0</span>)
+                    </button>
+                    <button onclick="clearAllFavorites()" class="px-4 py-2 border border-red-500 text-red-500 rounded-lg hover:bg-red-50 transition-colors">
+                        <i class="fas fa-trash mr-2"></i>
+                        Очистить все
+                    </button>
+                </div>
+            </div>
+
+            <!-- Properties Container -->
+            <div id="favorites-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Property cards will be inserted here by JavaScript -->
+            </div>
+
+            <!-- Comparison Panel (Hidden by default) -->
+            <div id="comparison-panel" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+                <div class="bg-white rounded-xl shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+                    <div class="flex justify-between items-center p-6 border-b">
+                        <h3 class="text-xl font-bold">Сравнение объектов</h3>
+                        <button onclick="closeComparison()" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                    <div id="comparison-content" class="p-6">
+                        <!-- Comparison content will be inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// Initialize favorites page functionality
+document.addEventListener('DOMContentLoaded', function() {
+    loadFavoritesPage();
+    
+    // Update favorites display every second to sync with other tabs
+    setInterval(updateFavoritesDisplay, 1000);
+});
+
+function loadFavoritesPage() {
+    const favorites = JSON.parse(localStorage.getItem('inback_favorites') || '[]');
+    const emptyState = document.getElementById('empty-favorites');
+    const favoritesGrid = document.getElementById('favorites-grid');
+    const favoritesContainer = document.getElementById('favorites-container');
+    const favoritesCount = document.getElementById('favorites-count');
+    
+    if (favorites.length === 0) {
+        emptyState.classList.remove('hidden');
+        favoritesGrid.classList.add('hidden');
+        return;
+    }
+    
+    emptyState.classList.add('hidden');
+    favoritesGrid.classList.remove('hidden');
+    favoritesCount.textContent = favorites.length;
+    
+    // Load property data and display favorites
+    loadFavoriteProperties(favorites);
+}
+
+function updateFavoritesDisplay() {
+    const currentFavorites = JSON.parse(localStorage.getItem('inback_favorites') || '[]');
+    const displayedCount = parseInt(document.getElementById('favorites-count')?.textContent || '0');
+    
+    if (currentFavorites.length !== displayedCount) {
+        loadFavoritesPage();
+    }
+}
+
+async function loadFavoriteProperties(favoriteIds) {
+    const container = document.getElementById('favorites-container');
+    container.innerHTML = '<div class="col-span-full text-center py-8"><i class="fas fa-spinner fa-spin text-2xl text-gray-400"></i><p class="mt-2 text-gray-500">Загрузка избранных объектов...</p></div>';
+    
+    try {
+        // In a real application, you would fetch this data from your API
+        // For now, we'll create mock data based on favorite IDs
+        const properties = favoriteIds.map(id => ({
+            id: id,
+            title: `${Math.floor(Math.random() * 4) + 1}-к. квартира`,
+            area: Math.floor(Math.random() * 50) + 30,
+            floor: Math.floor(Math.random() * 20) + 1,
+            total_floors: Math.floor(Math.random() * 5) + 20,
+            price: Math.floor(Math.random() * 5000000) + 2000000,
+            district: ['Центральный', 'Западный', 'Карасунский', 'Прикубанский'][Math.floor(Math.random() * 4)],
+            complex_name: ['ЖК Панорама', 'ЖК Солнечный', 'ЖК Фестивальный', 'ЖК Центральный'][Math.floor(Math.random() * 4)],
+            image: `https://via.placeholder.com/400x300/0088CC/FFFFFF?text=ID-${id}`,
+            developer: 'ООО "СтройИнвест"'
+        }));
+        
+        container.innerHTML = properties.map(property => createPropertyCard(property)).join('');
+        
+    } catch (error) {
+        console.warn('Error loading favorite properties:', error);
+        container.innerHTML = '<div class="col-span-full text-center py-8 text-red-500"><i class="fas fa-exclamation-triangle text-2xl mb-2"></i><p>Ошибка загрузки данных</p></div>';
+    }
+}
+
+function createPropertyCard(property) {
+    const pricePerSqm = Math.floor(property.price / property.area);
+    return `
+        <div class="property-card bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden relative">
+            <!-- Favorite Heart (always favorited on this page) -->
+            <div class="favorite-heart favorited" data-property-id="${property.id}" title="Удалить из избранного">
+                <i class="fas fa-heart"></i>
+            </div>
+            
+            <!-- Comparison Checkbox -->
+            <div class="absolute top-3 left-3 z-20">
+                <label class="flex items-center cursor-pointer">
+                    <input type="checkbox" class="comparison-checkbox sr-only" data-property-id="${property.id}" onchange="updateComparisonButton()">
+                    <div class="w-6 h-6 bg-white border-2 border-gray-300 rounded flex items-center justify-center transition-colors hover:border-blue-500">
+                        <i class="fas fa-check text-[#0088CC] text-xs hidden"></i>
+                    </div>
+                </label>
+            </div>
+            
+            <img src="${property.image}" alt="${property.title}" class="w-full h-48 object-cover">
+            
+            <div class="p-4">
+                <h3 class="font-semibold text-lg mb-2">${property.title}, ${property.area} м²</h3>
+                <p class="text-gray-600 text-sm mb-2">
+                    <i class="fas fa-map-marker-alt mr-1 text-[#0088CC]"></i>
+                    ${property.district}, ${property.complex_name}
+                </p>
+                <p class="text-gray-600 text-sm mb-3">${property.floor}/${property.total_floors} этаж</p>
+                
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <div class="text-xl font-bold text-[#0088CC]">
+                            ${property.price.toLocaleString('ru-RU')} ₽
+                        </div>
+                        <div class="text-sm text-gray-500">
+                            ${pricePerSqm.toLocaleString('ru-RU')} ₽/м²
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-sm font-medium text-green-600">Кэшбек 5%</div>
+                        <div class="text-sm text-gray-500">до ${Math.floor(property.price * 0.05).toLocaleString('ru-RU')} ₽</div>
+                    </div>
+                </div>
+                
+                <div class="flex gap-2">
+                    <a href="/object/${property.id}" class="flex-1 bg-[#0088CC] text-white text-center py-2 rounded-lg hover:bg-[#0077BB] transition-colors text-sm">
+                        Подробнее
+                    </a>
+                    <button onclick="shareProperty(${property.id})" class="px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors" title="Поделиться">
+                        <i class="fas fa-share-alt text-sm"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function updateComparisonButton() {
+    const selected = document.querySelectorAll('.comparison-checkbox:checked');
+    const compareBtn = document.getElementById('compare-btn');
+    const selectedCount = document.getElementById('selected-count');
+    
+    selectedCount.textContent = selected.length;
+    
+    if (selected.length >= 2) {
+        compareBtn.classList.remove('hidden');
+    } else {
+        compareBtn.classList.add('hidden');
+    }
+}
+
+function clearAllFavorites() {
+    if (confirm('Вы уверены, что хотите удалить все избранные объекты?')) {
+        if (window.favoritesManager) {
+            window.favoritesManager.clearAllFavorites();
+        }
+        loadFavoritesPage();
+    }
+}
+
+function shareProperty(propertyId) {
+    const url = `${window.location.origin}/object/${propertyId}`;
+    if (navigator.share) {
+        navigator.share({
+            title: 'Квартира с кэшбеком на InBack.ru',
+            url: url
+        });
+    } else {
+        navigator.clipboard.writeText(url).then(() => {
+            window.favoritesManager?.showNotification('Ссылка скопирована в буфер обмена', 'success');
+        });
+    }
+}
+
+// Comparison functionality
+function compareSelectedProperties() {
+    const selected = Array.from(document.querySelectorAll('.comparison-checkbox:checked'))
+                          .map(cb => cb.dataset.propertyId);
+    
+    if (selected.length < 2) {
+        alert('Выберите минимум 2 объекта для сравнения');
+        return;
+    }
+    
+    // Show comparison panel
+    document.getElementById('comparison-panel').classList.remove('hidden');
+    // Add comparison logic here
+}
+
+function closeComparison() {
+    document.getElementById('comparison-panel').classList.add('hidden');
+}
+</script>
+
+<style>
+/* Custom checkbox styles */
+.comparison-checkbox:checked + div {
+    background-color: #3b82f6;
+    border-color: #3b82f6;
+}
+
+.comparison-checkbox:checked + div i {
+    display: block !important;
+}
+
+/* Favorite heart positioning for favorites page */
+.property-card .favorite-heart {
+    top: 12px;
+    right: 12px;
+}
+</style>
+{% endblock %}

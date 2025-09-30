@@ -1,0 +1,929 @@
+{% extends "base.html" %}
+
+{% block title %}Материнский капитал 2024: использование для покупки квартиры | InBack{% endblock %}
+{% block description %}Материнский капитал 2024: 630 380 ₽ для покупки квартиры в новостройке. Можно использовать как первый взнос или доплату. Помощь в оформлении документов.{% endblock %}
+{% block keywords %}материнский капитал 2024, материнский капитал на квартиру, материнский капитал первый взнос, материнский капитал новостройка, маткапитал сумма, использование материнского капитала{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://inback.ru/maternal-capital/">
+    <meta property="og:title" content="Материнский капитал 2024: использование для покупки квартиры | Inback">
+    <meta property="og:description" content="Используйте материнский капитал 630 380 ₽ для покупки квартиры в новостройке. Как первый взнос или доплата. Помощь в оформлении.">
+    <meta property="og:image" content="https://inback.ru/images/maternal-capital-social.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://inback.ru/maternal-capital/">
+    <meta property="twitter:title" content="Материнский капитал 2024: использование для покупки квартиры | Inback">
+    <meta property="twitter:description" content="Материнский капитал 630 380 ₽ на покупку квартиры. Как первый взнос или доплата. Оформление за 1 день.">
+    <meta property="twitter:image" content="https://inback.ru/images/maternal-capital-social.jpg">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://inback.ru/maternal-capital/" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "RealEstateAgent",
+      "name": "Inback",
+      "image": "https://inback.ru/logo.jpg",
+      "description": "Официальный сервис возврата кэшбека при покупке недвижимости в Краснодаре и других городах России",
+      "priceRange": "$",
+      "areaServed": {
+        "@type": "AdministrativeArea",
+        "name": "Краснодар и Краснодарский край"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "ул. Красная, 32",
+        "addressLocality": "Краснодар",
+        "addressRegion": "Краснодарский край" 
+      },
+      "telephone": "+78001231212",
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "09:00",
+        "closes": "19:00"
+      }
+    }
+    </script>
+{% endblock %}
+
+{% block content %}
+<section class="bg-gradient-to-b from-white to-gray-50 pt-20 pb-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Left Content -->
+                <div>
+                    <div class="inline-flex items-center px-4 py-2 bg-gray-100 rounded-full text-gray-700 text-sm font-medium mb-6">
+                        <i class="fas fa-baby mr-2 text-[#0088CC]"></i>
+                        Материнский капитал
+                    </div>
+                    <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+                        Материнский капитал - <span class="text-[#0088CC]">на покупку квартиры</span>
+                    </h1>
+                    <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                        Используйте материнский капитал 630 380 ₽ для покупки квартиры в новостройке. Как первый взнос, доплата или погашение кредита.
+                    </p>
+                    
+                    <!-- Key Benefits -->
+                    <div class="grid sm:grid-cols-2 gap-4 mb-8">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-coins text-[#0088CC] text-sm"></i>
+                            </div>
+                            <span class="text-gray-700">630 380 ₽ в 2024 году</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-home text-[#0088CC] text-sm"></i>
+                            </div>
+                            <span class="text-gray-700">На новостройки</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-wallet text-[#0088CC] text-sm"></i>
+                            </div>
+                            <span class="text-gray-700">Как первый взнос</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-plus text-[#0088CC] text-sm"></i>
+                            </div>
+                            <span class="text-gray-700">Можно доплачивать</span>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button onclick="openApplicationModal()" class="bg-gradient-to-r from-[#0088CC] to-[#006699] hover:shadow-lg text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all transform hover:scale-[1.02]">
+                            Подобрать квартиру
+                        </button>
+                        <button class="border-2 border-[#0088CC] text-[#0088CC] hover:bg-[#0088CC] hover:text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all transform hover:scale-[1.02]">
+                            Проверить сертификат
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Content - Info Card -->
+                <div class="relative">
+                    <div class="bg-white rounded-2xl shadow-xl p-8 relative z-10">
+                        <div class="text-center mb-6">
+                            <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-certificate text-[#0088CC] text-3xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900">Материнский капитал</h3>
+                            <p class="text-3xl font-bold text-[#0088CC] mt-2">630 380 ₽</p>
+                            <p class="text-gray-600">размер в 2024 году</p>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                                <span class="text-gray-600">За первого ребенка:</span>
+                                <span class="font-semibold">630 380 ₽</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                                <span class="text-gray-600">За второго ребенка:</span>
+                                <span class="font-semibold">833 024 ₽</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                                <span class="text-gray-600">Использовать можно:</span>
+                                <span class="font-semibold">с 3 лет ребенка</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2">
+                                <span class="text-gray-600">На жилье:</span>
+                                <span class="font-semibold">сразу</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Decorative elements -->
+                    <div class="absolute -top-4 -right-4 w-24 h-24 bg-gray-200 rounded-full opacity-20"></div>
+                    <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-gray-300 rounded-full opacity-20"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How to Use Section -->
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <div class="w-fit px-4 py-1 bg-black bg-opacity-5 rounded-full mb-6 mx-auto">
+                    <span class="text-sm font-medium uppercase">Условия программы</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    Как использовать материнский капитал
+                </h2>
+                <p class="text-xl text-gray-600">
+                    Варианты применения при покупке квартиры
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- First Payment -->
+                <div class="bg-gray-50 rounded-xl p-6">
+                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-hand-holding-usd text-[#0088CC] text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-4">Первоначальный взнос</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Использовать как первый взнос по ипотеке</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Снижает размер кредита</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Возможно с момента рождения</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Loan Repayment -->
+                <div class="bg-gray-50 rounded-xl p-6">
+                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-credit-card text-[#0088CC] text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-4">Погашение кредита</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Досрочное погашение основного долга</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Уменьшает переплату по процентам</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Сокращает срок кредита</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Additional Payment -->
+                <div class="bg-gray-50 rounded-xl p-6">
+                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-plus-circle text-[#0088CC] text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-4">Доплата к покупке</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Часть суммы при покупке квартиры</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Комбинация с рассрочкой</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Уменьшает нагрузку по платежам</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Requirements Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <div class="w-fit px-4 py-1 bg-black bg-opacity-5 rounded-full mb-6 mx-auto">
+                    <span class="text-sm font-medium uppercase">Требования</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    Требования и документы
+                </h2>
+                <p class="text-xl text-gray-600">
+                    Что нужно для использования материнского капитала
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Requirements -->
+                <div class="bg-white rounded-xl p-6 shadow-lg">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                        <i class="fas fa-list-check text-[#0088CC] mr-3"></i>
+                        Условия использования
+                    </h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Гражданство РФ у ребенка и родителя</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Недвижимость должна быть в России</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Оформление в общую собственность</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Выделение долей всем детям</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Можно использовать частично</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Documents -->
+                <div class="bg-white rounded-xl p-6 shadow-lg">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                        <i class="fas fa-file-alt text-[#0088CC] mr-3"></i>
+                        Необходимые документы
+                    </h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Сертификат на материнский капитал</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Паспорт владельца сертификата</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Свидетельства о рождении детей</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Договор купли-продажи</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Справка об остатке средств</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Calculator Section -->
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <div class="w-fit px-4 py-1 bg-black bg-opacity-5 rounded-full mb-6 mx-auto">
+                    <span class="text-sm font-medium uppercase">Калькулятор</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    Калькулятор с материнским капиталом
+                </h2>
+                <p class="text-xl text-gray-600">
+                    Рассчитайте покупку квартиры с использованием маткапитала
+                </p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl p-8">
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <!-- Calculator Controls -->
+                    <div class="space-y-6">
+                        <!-- Property Price -->
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <label class="text-gray-700 font-medium">Стоимость недвижимости</label>
+                                <div class="text-xl font-bold text-[#0088CC]" id="matPropertyPrice">5 000 000 ₽</div>
+                            </div>
+                            <input type="range" 
+                                   min="1000000" 
+                                   max="15000000" 
+                                   step="100000" 
+                                   value="5000000" 
+                                   class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                                   id="matPropertyPriceRange">
+                            <div class="flex justify-between text-sm text-gray-500 mt-1">
+                                <span>1 млн ₽</span>
+                                <span>15 млн ₽</span>
+                            </div>
+                        </div>
+
+                        <!-- Maternal Capital -->
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <label class="text-gray-700 font-medium">Материнский капитал</label>
+                                <div class="text-xl font-bold text-[#0088CC]" id="matCapitalAmount">630 380 ₽</div>
+                            </div>
+                            <input type="range" 
+                                   min="0" 
+                                   max="833024" 
+                                   step="1000" 
+                                   value="630380" 
+                                   class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                                   id="matCapitalAmountRange">
+                            <div class="flex justify-between text-sm text-gray-500 mt-1">
+                                <span>0 ₽</span>
+                                <span>833 024 ₽</span>
+                            </div>
+                        </div>
+
+                        <!-- Additional Savings -->
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <label class="text-gray-700 font-medium">Дополнительные накопления</label>
+                                <div class="text-xl font-bold text-[#0088CC]" id="matAdditionalSavings">500 000 ₽</div>
+                            </div>
+                            <input type="range" 
+                                   min="0" 
+                                   max="5000000" 
+                                   step="50000" 
+                                   value="500000" 
+                                   class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                                   id="matAdditionalSavingsRange">
+                            <div class="flex justify-between text-sm text-gray-500 mt-1">
+                                <span>0 ₽</span>
+                                <span>5 млн ₽</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Results -->
+                    <div class="bg-gradient-to-r from-[#0088CC] to-[#006699] rounded-xl p-6 text-white">
+                        <div class="text-center mb-6">
+                            <h3 class="text-2xl font-bold mb-2">Расчет покупки</h3>
+                            <div class="text-4xl font-bold" id="matLoanNeeded">3 869 620 ₽</div>
+                            <p class="text-white/80">нужен кредит</p>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center py-2 border-b border-white/20">
+                                <span class="text-white/80">Стоимость:</span>
+                                <span class="font-semibold" id="matTotalPrice">5 000 000 ₽</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-white/20">
+                                <span class="text-white/80">Маткапитал:</span>
+                                <span class="font-semibold" id="matCapitalUsed">630 380 ₽</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-white/20">
+                                <span class="text-white/80">Накопления:</span>
+                                <span class="font-semibold" id="matSavingsUsed">500 000 ₽</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2">
+                                <span class="text-white/80">Кэшбек 2.5%:</span>
+                                <span class="font-semibold" id="matCashback">125 000 ₽</span>
+                            </div>
+                        </div>
+
+                        <button onclick="openApplicationModal()" class="w-full bg-white text-[#0088CC] py-3 rounded-lg font-semibold mt-6 hover:bg-gray-50 transition-colors">
+                            Подобрать квартиру
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="w-fit px-4 py-1 bg-black bg-opacity-5 rounded-full mb-6">
+            <span class="text-sm font-medium uppercase">Преимущества</span>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Преимущества использования материнского капитала</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="bg-gray-50 rounded-xl p-6 card-hover">
+                <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-ruble-sign text-[#0088CC] text-xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">524 527 ₽</h3>
+                <p class="text-gray-600">Размер материнского капитала в 2024 году</p>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-6 card-hover">
+                <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-home text-[#0088CC] text-xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Первоначальный взнос</h3>
+                <p class="text-gray-600">Использование для покупки квартиры в ипотеку</p>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-6 card-hover">
+                <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-calendar text-[#0088CC] text-xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Сразу после рождения</h3>
+                <p class="text-gray-600">Можно использовать не дожидаясь 3 лет</p>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-6 card-hover">
+                <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-shield-alt text-[#0088CC] text-xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Государственная поддержка</h3>
+                <p class="text-gray-600">Федеральная программа помощи семьям</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Usage Scenarios Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col lg:flex-row items-center">
+            <div class="lg:w-1/2 mb-10 lg:mb-0 lg:pr-10">
+                <div class="w-fit px-4 py-1 bg-black bg-opacity-5 rounded-full mb-6">
+                    <span class="text-sm font-medium uppercase">Льготы</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Как использовать материнский капитал для покупки жилья</h2>
+                <p class="text-lg mb-6">Материнский капитал можно направить на улучшение жилищных условий несколькими способами:</p>
+                <ul class="space-y-3 mb-8">
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-[#0088CC] mt-1 mr-3"></i>
+                        <span>Первоначальный взнос по ипотеке (можно сразу)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-[#0088CC] mt-1 mr-3"></i>
+                        <span>Погашение основного долга или процентов</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-[#0088CC] mt-1 mr-3"></i>
+                        <span>Покупка жилья без ипотеки (через 3 года)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-[#0088CC] mt-1 mr-3"></i>
+                        <span>Строительство дома (включая ИЖС)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-[#0088CC] mt-1 mr-3"></i>
+                        <span>Участие в долевом строительстве</span>
+                    </li>
+                </ul>
+                <button onclick="openApplicationModal()" class="bg-gradient-to-r from-[#0088CC] to-[#006699] hover:shadow-lg text-white font-bold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-[1.02]">Использовать маткапитал</button>
+            </div>
+            <div class="lg:w-1/2">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-2xl font-bold mb-6">Материнский капитал 2024</h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between py-3 border-b border-gray-200">
+                            <span class="text-gray-600">За первого ребенка:</span>
+                            <span class="font-semibold text-[#0088CC]">524 527 ₽</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-gray-200">
+                            <span class="text-gray-600">За второго ребенка:</span>
+                            <span class="font-semibold">693 144 ₽</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-gray-200">
+                            <span class="text-gray-600">Индексация:</span>
+                            <span class="font-semibold">ежегодно</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-gray-200">
+                            <span class="text-gray-600">Срок действия:</span>
+                            <span class="font-semibold">до 2026 года</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-gray-200">
+                            <span class="text-gray-600">Использование:</span>
+                            <span class="font-semibold">частичное возможно</span>
+                        </div>
+                        <div class="flex justify-between py-3">
+                            <span class="text-gray-600">Остаток:</span>
+                            <span class="font-semibold">переносится</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Requirements Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="w-fit px-4 py-1 bg-black bg-opacity-5 rounded-full mb-6">
+                <span class="text-sm font-medium uppercase">Документы</span>
+            </div>
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Документы для использования материнского капитала</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-gray-50 rounded-xl p-6 shadow-sm">
+                    <h3 class="text-xl font-bold mb-4 text-gray-900">Основные документы</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-file text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Сертификат на материнский капитал</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-file text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Паспорт владельца сертификата</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-file text-[#0088CC] mt-1 mr-3"></i>
+                            <span>СНИЛС владельца сертификата</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-file text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Договор купли-продажи или ДДУ</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-file text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Справка об остатке долга (для ипотеки)</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 rounded-xl p-6 shadow-sm">
+                    <h3 class="text-xl font-bold mb-4 text-gray-900">Дополнительные документы</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-file text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Свидетельства о рождении детей</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-file text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Справка о составе семьи</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-file text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Обязательство о выделении долей</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-file text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Выписка из ЕГРН</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-file text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Справка из банка о реквизитах</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center mt-8">
+                <p class="text-gray-600 mb-4">Поможем с оформлением всех документов</p>
+                <button onclick="openApplicationModal()" class="bg-gradient-to-r from-[#0088CC] to-[#006699] hover:shadow-lg text-white font-bold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-[1.02]">Получить консультацию</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Detailed Content Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="w-fit px-4 py-1 bg-black bg-opacity-5 rounded-full mb-6">
+                <span class="text-sm font-medium uppercase">Полная информация</span>
+            </div>
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Материнский капитал в Краснодаре 2024 - как купить квартиру</h2>
+            <p class="text-lg text-gray-700 mb-8">В 2024 году размер материнского капитала составляет 524 527 ₽ за первого ребенка и 693 144 ₽ за второго. В Краснодаре более 5000 семей ежегодно используют маткапитал для покупки жилья.</p>
+            
+            <h3 class="text-2xl font-bold mb-6">ТОП-5 семейных ЖК Краснодара под материнский капитал</h3>
+            <div class="grid md:grid-cols-1 gap-4 mb-8">
+                <div class="bg-gray-50 rounded-lg p-4 border-l-4 border-[#0088CC]">
+                    <h4 class="font-semibold text-[#0088CC]">ЖК "Материнское счастье" (Карасунский)</h4>
+                    <p class="text-gray-600">квартиры от 2,5 млн ₽, принимается маткапитал + доплата, рядом 3 школы</p>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-4 border-l-4 border-[#0088CC]">
+                    <h4 class="font-semibold text-[#0088CC]">ЖК "Семейные традиции" (Прикубанский)</h4>
+                    <p class="text-gray-600">двушки от 3,2 млн ₽, можно доплатить собственными средствами</p>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-4 border-l-4 border-[#0088CC]">
+                    <h4 class="font-semibold text-[#0088CC]">ЖК "Детский мир" (ФМР)</h4>
+                    <p class="text-gray-600">специальные условия для семей с маткапиталом, детсад в доме</p>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-4 border-l-4 border-[#0088CC]">
+                    <h4 class="font-semibold text-[#0088CC]">ЖК "Мамина радость" (Западный)</h4>
+                    <p class="text-gray-600">квартиры-студии от 1,8 млн ₽, можно купить на один маткапитал</p>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-4 border-l-4 border-[#0088CC]">
+                    <h4 class="font-semibold text-[#0088CC]">ЖК "Будущее поколение" (ЮМР)</h4>
+                    <p class="text-gray-600">экологичный район, развитая детская инфраструктура</p>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold mb-6">Как использовать материнский капитал в Краснодаре - пошаговая инструкция</h3>
+            <div class="space-y-4 mb-8">
+                <div class="flex items-start">
+                    <div class="bg-[#0088CC] text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1">1</div>
+                    <div>
+                        <h4 class="font-semibold">Получите справку о размере маткапитала</h4>
+                        <p class="text-gray-600">в ПФР или через Госуслуги, действительна 30 дней</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="bg-[#0088CC] text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1">2</div>
+                    <div>
+                        <h4 class="font-semibold">Выберите способ использования</h4>
+                        <p class="text-gray-600">первый взнос, доплата или полная оплата квартиры</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="bg-[#0088CC] text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1">3</div>
+                    <div>
+                        <h4 class="font-semibold">Найдите подходящую квартиру</h4>
+                        <p class="text-gray-600">поможем выбрать жилье с учетом суммы маткапитала</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="bg-[#0088CC] text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1">4</div>
+                    <div>
+                        <h4 class="font-semibold">Подайте заявление в ПФР</h4>
+                        <p class="text-gray-600">на распоряжение средствами, рассмотрение 10 дней</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="bg-[#0088CC] text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1">5</div>
+                    <div>
+                        <h4 class="font-semibold">Завершите сделку</h4>
+                        <p class="text-gray-600">средства перечислят продавцу в течение 5 рабочих дней</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-blue-50 rounded-lg p-4 mb-8">
+                <p class="text-[#0088CC]"><strong>Важно: материнский капитал можно использовать сразу после рождения ребенка для первого взноса по ипотеке!</strong></p>
+            </div>
+
+            <h3 class="text-2xl font-bold mb-6">Материнский капитал + ипотека в Краснодаре</h3>
+            <div class="bg-gray-50 rounded-lg p-6 mb-8">
+                <p class="mb-4"><strong>Банки Краснодара, работающие с материнским капиталом:</strong></p>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <ul class="space-y-2">
+                            <li>• <strong>Сбербанк</strong> — быстрое оформление, онлайн-заявка</li>
+                            <li>• <strong>ВТБ</strong> — спецпрограммы для семей</li>
+                            <li>• <strong>Газпромбанк</strong> — низкие ставки</li>
+                            <li>• <strong>Россельхозбанк</strong> — сельская ипотека</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul class="space-y-2">
+                            <li>• <strong>Альфа-Банк</strong> — гибкие условия</li>
+                            <li>• <strong>ДОМ.РФ</strong> — господдержка</li>
+                            <li>• <strong>Банк Открытие</strong> — семейные программы</li>
+                            <li>• <strong>Уральский банк</strong> — региональные условия</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-green-50 border border-green-200 rounded-lg p-4 mt-4">
+                    <p class="text-green-800"><strong>Выгода:</strong> Используя маткапитал как первый взнос, можно сэкономить до 50 000 ₽ процентов за весь срок кредита.</p>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold mb-6">Варианты использования маткапитала в Краснодаре</h3>
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white border border-gray-200 rounded-lg p-6">
+                    <h4 class="text-xl font-bold mb-4 text-[#0088CC]">С ипотекой</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Первоначальный взнос (можно сразу)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Погашение основного долга</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Погашение процентов</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Доплата к существующему кредиту</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-white border border-gray-200 rounded-lg p-6">
+                    <h4 class="text-xl font-bold mb-4 text-[#0088CC]">Без ипотеки</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Покупка готового жилья (через 3 года)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Участие в долевом строительстве</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Строительство дома</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Компенсация затрат на постройку</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-r from-pink-500 to-pink-600 rounded-lg p-6 text-white text-center">
+                <h3 class="text-xl font-bold mb-4">Направьте материнский капитал на улучшение жилищных условий!</h3>
+                <div class="grid md:grid-cols-5 gap-4 text-sm">
+                    <div>
+                        <div class="bg-white/20 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">1</div>
+                        <p>Получите справку о размере</p>
+                    </div>
+                    <div>
+                        <div class="bg-white/20 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">2</div>
+                        <p>Выберите способ использования</p>
+                    </div>
+                    <div>
+                        <div class="bg-white/20 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">3</div>
+                        <p>Найдите подходящую квартиру</p>
+                    </div>
+                    <div>
+                        <div class="bg-white/20 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">4</div>
+                        <p>Подайте заявление в ПФР</p>
+                    </div>
+                    <div>
+                        <div class="bg-white/20 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">5</div>
+                        <p>Получите кэшбэк от нас!</p>
+                    </div>
+                </div>
+                <button onclick="openApplicationModal()" class="bg-white text-[#0088CC] font-bold py-3 px-8 rounded-lg mt-6 hover:bg-gray-100 transition duration-300">Использовать маткапитал</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6" style="background: linear-gradient(135deg, #0088CC 0%, #006699 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">Часто задаваемые вопросы</h1>
+            <p class="text-xl text-gray-600">Найдите ответы на популярные вопросы о материнском капитале и кешбеке за новостройки.</p>
+        </div>
+        
+        <div class="max-w-3xl mx-auto space-y-4">
+            <!-- Maternal Capital Questions -->
+            <div class="w-fit px-4 py-1 bg-black bg-opacity-5 rounded-full mb-6">
+                <span class="text-sm font-medium uppercase">Часто задаваемые вопросы</span>
+            </div>
+            <h2 class="text-2xl font-bold mt-8 mb-4" style="background: linear-gradient(135deg, #0088CC 0%, #006699 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">Вопросы по материнскому капиталу</h2>
+            
+            <div class="bg-gray-50 rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100">
+                <button class="flex justify-between items-center w-full text-left group" onclick="toggleFAQ(1)">
+                    <h3 class="text-lg font-medium group-hover:text-[#0088CC] transition-colors">Можно ли использовать маткапитал на первый взнос?</h3>
+                    <i class="fas fa-chevron-down text-[#0088CC] transition-transform duration-200" id="faq-icon-1"></i>
+                </button>
+                <div class="mt-3 text-gray-600 hidden" id="faq-content-1">
+                    <p class="leading-relaxed">Да, материнский капитал можно использовать в качестве первоначального взноса по ипотеке на покупку или строительство жилья. Также можно направить его на погашение основного долга и процентов по уже оформленному ипотечному кредиту.</p>
+                </div>
+            </div>
+            
+            <div class="bg-ton-light rounded-xl p-6 shadow-sm">
+                <button class="flex justify-between items-center w-full text-left" onclick="toggleFAQ(2)">
+                    <h3 class="text-lg font-medium">Какая сумма материнского капитала в 2024 году?</h3>
+                    <i class="fas fa-chevron-down text-ton-blue transition-transform" id="faq-icon-2"></i>
+                </button>
+                <div class="mt-3 text-gray-600 hidden" id="faq-content-2">
+                    <p class="leading-relaxed">В 2024 году размер материнского капитала составляет 630 380 ₽ на первого ребенка и 833 024 ₽ на второго. При рождении двойни сразу полагается вся сумма 833 024 ₽.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<script>
+// Maternal Capital Calculator
+function updateMaternalCapitalCalculator() {
+    const propertyPriceEl = document.getElementById('matPropertyPrice');
+    const capitalAmountEl = document.getElementById('matCapitalAmount');
+    const additionalSavingsEl = document.getElementById('matAdditionalSavings');
+    const loanNeededEl = document.getElementById('matLoanNeeded');
+    const totalPriceEl = document.getElementById('matTotalPrice');
+    const capitalUsedEl = document.getElementById('matCapitalUsed');
+    const savingsUsedEl = document.getElementById('matSavingsUsed');
+    const cashbackEl = document.getElementById('matCashback');
+
+    const propertyPriceRange = document.getElementById('matPropertyPriceRange');
+    const capitalAmountRange = document.getElementById('matCapitalAmountRange');
+    const additionalSavingsRange = document.getElementById('matAdditionalSavingsRange');
+
+    const propertyPrice = parseInt(propertyPriceRange.value);
+    const capitalAmount = parseInt(capitalAmountRange.value);
+    const additionalSavings = parseInt(additionalSavingsRange.value);
+
+    const totalAvailable = capitalAmount + additionalSavings;
+    const loanNeeded = Math.max(0, propertyPrice - totalAvailable);
+    const cashback = propertyPrice * 0.025; // 2.5% cashback
+
+    // Update UI
+    propertyPriceEl.textContent = formatNumber(propertyPrice) + ' ₽';
+    capitalAmountEl.textContent = formatNumber(capitalAmount) + ' ₽';
+    additionalSavingsEl.textContent = formatNumber(additionalSavings) + ' ₽';
+    loanNeededEl.textContent = formatNumber(loanNeeded) + ' ₽';
+    totalPriceEl.textContent = formatNumber(propertyPrice) + ' ₽';
+    capitalUsedEl.textContent = formatNumber(capitalAmount) + ' ₽';
+    savingsUsedEl.textContent = formatNumber(additionalSavings) + ' ₽';
+    cashbackEl.textContent = formatNumber(Math.round(cashback)) + ' ₽';
+}
+
+function formatNumber(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+}
+
+// Initialize calculator
+document.addEventListener('DOMContentLoaded', function() {
+    updateMaternalCapitalCalculator();
+    
+    // Add event listeners
+    document.getElementById('matPropertyPriceRange').addEventListener('input', updateMaternalCapitalCalculator);
+    document.getElementById('matCapitalAmountRange').addEventListener('input', updateMaternalCapitalCalculator);
+    document.getElementById('matAdditionalSavingsRange').addEventListener('input', updateMaternalCapitalCalculator);
+});
+
+// Modal functions
+// openApplicationModal function is defined globally in base.html
+
+// FAQ Toggle function
+function toggleFAQ(id) {
+    const content = document.getElementById(`faq-content-${id}`);
+    const icon = document.getElementById(`faq-icon-${id}`);
+    
+    if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        icon.style.transform = 'rotate(180deg)';
+    } else {
+        content.classList.add('hidden');
+        icon.style.transform = 'rotate(0deg)';
+    }
+}
+</script>
+
+<style>
+.slider::-webkit-slider-thumb {
+    appearance: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #EA580C;
+    cursor: pointer;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.slider::-moz-range-thumb {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #EA580C;
+    cursor: pointer;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+</style>
+{% endblock %}

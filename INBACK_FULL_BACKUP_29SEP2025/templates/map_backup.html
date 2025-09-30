@@ -1,0 +1,1155 @@
+{% extends "base.html" %}
+
+{% block head %}
+<!-- Leaflet CSS and JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+{% endblock %}
+
+{% block content %}
+<!-- Search Section -->
+<div class="bg-white shadow-sm sticky top-0 z-30">
+    <div class="container mx-auto px-4 py-3">
+        <div class="flex flex-col md:flex-row md:items-center space-y-3 md:space-y-0 md:space-x-3">
+            <div class="relative flex-grow">
+                <input id="map-search" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0088CC] focus:border-blue-500 text-sm" placeholder="Краснодар, район, метро, улица" type="text" oninput="handleMapSearch(this.value)" autocomplete="off"/>
+                <div class="absolute left-3 top-3 text-gray-400">
+                    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path clip-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" fill-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <!-- Search Suggestions -->
+                <div id="searchSuggestions" class="hidden absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-lg mt-1 shadow-lg z-[9999] max-h-64 overflow-y-auto">
+                    <!-- Suggestions will be populated by JavaScript -->
+                </div>
+            </div>
+            <button class="ton-gradient text-white px-4 py-3 rounded-xl font-medium hover:opacity-90 transition text-sm" onclick="performMapSearch()">
+                Найти
+            </button>
+            <button class="flex items-center text-gray-600 hover:text-[#0088CC] px-3 py-1 rounded-lg text-sm" onclick="toggleFilters()">
+                <svg class="h-5 w-5 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"></path>
+                </svg>
+                Фильтры
+            </button>
+        </div>
+        
+        <!-- Advanced Filters -->
+        <div class="hidden mt-4 bg-gray-50 p-4 rounded-xl" id="advancedFilters">
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <!-- Price Range -->
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-700">Цена, ₽</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <input id="priceFrom" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm" placeholder="От" type="number"/>
+                        <input id="priceTo" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm" placeholder="До" type="number"/>
+                    </div>
+                </div>
+                <!-- Property Type -->
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-700">Тип</label>
+                    <select id="propertyType" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                        <option value="">Любой</option>
+                        <option value="apartment">Квартира</option>
+                        <option value="newbuilding">Новостройка</option>
+                        <option value="house">Дом</option>
+                        <option value="commercial">Коммерческая</option>
+                    </select>
+                </div>
+                <!-- Rooms -->
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-700">Комнат</label>
+                    <div class="flex space-x-1" id="roomsFilter">
+                        <button class="filter-pill" data-rooms="0">Студия</button>
+                        <button class="filter-pill" data-rooms="1">1</button>
+                        <button class="filter-pill" data-rooms="2">2</button>
+                        <button class="filter-pill" data-rooms="3">3</button>
+                        <button class="filter-pill" data-rooms="4">4+</button>
+                    </div>
+                </div>
+                <!-- Area -->
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-700">Площадь, м²</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <input id="areaFrom" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm" placeholder="От" type="number"/>
+                        <input id="areaTo" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm" placeholder="До" type="number"/>
+                    </div>
+                </div>
+                <!-- Floor -->
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-700">Этаж</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <input id="floorFrom" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm" placeholder="От" type="number"/>
+                        <input id="floorTo" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm" placeholder="До" type="number"/>
+                    </div>
+                </div>
+                <!-- House Type -->
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-700">Дом</label>
+                    <select id="houseType" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                        <option value="">Любой</option>
+                        <option value="panel">Панельный</option>
+                        <option value="brick">Кирпичный</option>
+                        <option value="monolith">Монолитный</option>
+                        <option value="block">Блочный</option>
+                    </select>
+                </div>
+                <!-- Developer -->
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-700">Застройщик</label>
+                    <select id="developer" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                        <option value="">Любой</option>
+                        {% for developer in developers %}
+                        <option value="{{ developer }}">{{ developer }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <!-- Additional Options -->
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-700">Опции</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center text-sm">
+                            <input id="onlyCashback" class="rounded border-gray-300 text-[#0088CC] mr-2" type="checkbox"/>
+                            Только с кэшбеком
+                        </label>
+                        <label class="flex items-center text-sm">
+                            <input id="withPhoto" class="rounded border-gray-300 text-[#0088CC] mr-2" type="checkbox"/>
+                            С фото
+                        </label>
+                        <label class="flex items-center text-sm">
+                            <input id="withBalcony" class="rounded border-gray-300 text-[#0088CC] mr-2" type="checkbox"/>
+                            С балконом
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4 flex justify-between">
+                <button class="text-sm text-[#0088CC] hover:text-[#006699]" onclick="clearMapFilters()">
+                    Очистить фильтры
+                </button>
+                <button class="bg-gradient-to-r from-[#006699] to-[#0088CC] text-white px-4 py-2 rounded-lg text-sm font-medium" onclick="applyMapFilters()">
+                    Показать объекты
+                </button>
+            </div>
+        </div>
+        
+        <!-- Active Filter Tags -->
+        <div class="mt-3 flex flex-wrap gap-2" id="activeFilters">
+            <!-- Active filter tags will be added here -->
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="flex flex-col lg:flex-row h-[calc(100vh-135px)]">
+    <!-- Objects List -->
+    <div class="lg:w-96 xl:w-104 bg-white shadow-sm z-20 lg:overflow-y-auto lg:h-full">
+        <div class="bg-white rounded-lg shadow-sm p-4 mb-4">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="font-semibold text-lg"><span id="objectCount">{{ properties|length }}</span> объектов</h3>
+                <div class="flex items-center text-sm text-gray-500">
+                    <span class="mr-2">Сортировка:</span>
+                    <select id="sortBy" class="font-medium text-[#0088CC] border-none bg-transparent" onchange="sortProperties()">
+                        <option value="price_asc">По цене ↑</option>
+                        <option value="price_desc">По цене ↓</option>
+                        <option value="area_asc">По площади ↑</option>
+                        <option value="area_desc">По площади ↓</option>
+                    </select>
+                </div>
+            </div>
+            <label class="flex items-center">
+                <input id="onlyWithCashback" class="rounded border-gray-300 text-[#0088CC] focus:ring-[#0088CC] mr-2" type="checkbox" onchange="filterProperties()"/>
+                <span>Только с кэшбеком</span>
+            </label>
+        </div>
+        
+        <!-- View Toggle -->
+        <div class="bg-white rounded-lg shadow-sm p-4 mb-4">
+            <div class="flex justify-center">
+                <div class="bg-gray-100 p-1 rounded-lg">
+                    <button id="listViewBtn" class="px-4 py-2 rounded-md text-sm font-medium bg-blue-500 text-white transition" onclick="switchView('list')">
+                        <i class="fas fa-list mr-2"></i>Список
+                    </button>
+                    <button id="cardViewBtn" class="px-4 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-gray-800 transition" onclick="switchView('cards')">
+                        <i class="fas fa-th-large mr-2"></i>Карточки
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Object Cards -->
+        <div class="space-y-4" id="objectsList">
+            {% for property in properties %}
+            <div class="object-card bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer transition hover:shadow-md" data-property-id="{{ property.id }}" onclick="showObjectOnMap({{ property.id }})">
+                <!-- Image Slider -->
+                <div class="relative">
+                    <div class="property-slider" data-property-id="{{ property.id }}">
+                        <div class="slider-container relative overflow-hidden">
+                            <div class="slider-track flex transition-transform duration-300" style="transform: translateX(0%);">
+                                <img alt="{{ property.title }}" class="w-full h-48 object-cover flex-shrink-0" src="{{ property.image }}"/>
+                                <img alt="{{ property.title }}" class="w-full h-48 object-cover flex-shrink-0" src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"/>
+                                <img alt="{{ property.title }}" class="w-full h-48 object-cover flex-shrink-0" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"/>
+                                <img alt="{{ property.title }}" class="w-full h-48 object-cover flex-shrink-0" src="https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"/>
+                            </div>
+                            
+                            <!-- Slider Controls -->
+                            <button class="slider-btn slider-prev absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/80 rounded-full p-2 shadow-lg hover:bg-white transition" onclick="event.stopPropagation(); prevImage({{ property.id }})">
+                                <i class="fas fa-chevron-left text-gray-600"></i>
+                            </button>
+                            <button class="slider-btn slider-next absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/80 rounded-full p-2 shadow-lg hover:bg-white transition" onclick="event.stopPropagation(); nextImage({{ property.id }})">
+                                <i class="fas fa-chevron-right text-gray-600"></i>
+                            </button>
+                            
+                            <!-- Slide Indicators -->
+                            <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                                <div class="slide-indicator w-2 h-2 rounded-full bg-white opacity-75"></div>
+                                <div class="slide-indicator w-2 h-2 rounded-full bg-white/50"></div>
+                                <div class="slide-indicator w-2 h-2 rounded-full bg-white/50"></div>
+                                <div class="slide-indicator w-2 h-2 rounded-full bg-white/50"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="absolute top-2 right-2 bg-amber-400 text-xs font-medium px-2 py-1 rounded-full">Кэшбек 5%</div>
+                    <div class="absolute bottom-2 left-2 bg-white/90 text-xs font-medium px-2 py-1 rounded">4 фото</div>
+                </div>
+                
+                <div class="p-4">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-lg">{{ "{:,.0f}".format(property.price) }} ₽</h3>
+                            <p class="text-gray-600">{{ property.rooms }}-комн. квартира, {{ property.area }} м²</p>
+                        </div>
+                        <div class="bg-blue-50 text-[#0088CC] px-2 py-1 rounded-2xl text-xs">{{ property.floor }} этаж</div>
+                    </div>
+                    <p class="text-gray-800 mt-2">{{ property.residential_complex or 'ЖК ' + property.title }} · <span class="text-[#0088CC]">{{ property.developer }}</span></p>
+                    <p class="text-sm text-gray-500">{{ property.district }}, {{ property.address }}</p>
+                    <div class="flex items-center mt-3 text-sm text-gray-500">
+                        <span class="mr-3">{{ property.completion_date or '2024 год' }}</span>
+                        <span>Дом на карте</span>
+                        <svg class="h-4 w-4 ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path clip-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" fill-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <!-- Map -->
+    <div class="flex-1 relative h-full">
+        <div id="map" class="w-full h-full rounded-xl shadow-sm overflow-hidden"></div>
+        
+        <!-- Map Controls -->
+        <div class="absolute top-4 right-4 bg-white rounded-lg shadow-lg p-2 space-y-2">
+            <button class="w-10 h-10 bg-white border rounded-lg hover:bg-gray-50 flex items-center justify-center" onclick="mapInstance.zoomIn()">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                </svg>
+            </button>
+            <button class="w-10 h-10 bg-white border rounded-lg hover:bg-gray-50 flex items-center justify-center" onclick="mapInstance.zoomOut()">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
+                </svg>
+            </button>
+        </div>
+        
+        <!-- Back to List Button -->
+        <div class="absolute bottom-4 left-4">
+            <a href="{{ url_for('properties') }}" class="bg-[#0088CC] text-white px-4 py-2 rounded-lg hover:bg-[#006699] flex items-center shadow-lg">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                </svg>
+                Список объектов
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Moved to head section -->
+
+<style>
+.filter-pill {
+    @apply px-2 py-1 text-xs border rounded hover:bg-gray-100 transition-colors;
+}
+.filter-pill.active {
+    @apply bg-blue-500 text-white border-blue-500;
+}
+.object-card:hover {
+    @apply transform scale-[1.02];
+}
+</style>
+
+<script>
+// Global variables
+let mapInstance;
+let markers = [];
+let filteredProperties = [];
+const allProperties = {{ properties|tojson }};
+
+// Initialize map
+function initMap() {
+    mapInstance = L.map('map').setView([45.0355, 38.9753], 11);
+    
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(mapInstance);
+    
+    // Add properties to map
+    addPropertiesToMap(allProperties);
+    filteredProperties = [...allProperties];
+}
+
+// Add properties to map
+function addPropertiesToMap(properties) {
+    // Clear existing markers
+    markers.forEach(marker => mapInstance.removeLayer(marker));
+    markers = [];
+    
+    properties.forEach((property, index) => {
+        const cashback = Math.round(property.price * 0.05);
+        
+        // Generate coordinates if missing
+        const lat = property.latitude || (45.0355 + (Math.random() - 0.5) * 0.1);
+        const lng = property.longitude || (38.9753 + (Math.random() - 0.5) * 0.1);
+        
+        const marker = L.marker([lat, lng])
+            .addTo(mapInstance)
+            .bindPopup(`
+                <div class="p-3 min-w-[250px]">
+                    <img src="${property.image}" alt="${property.title}" class="w-full h-32 object-cover rounded mb-2">
+                    <h4 class="font-bold text-sm mb-1">${property.title}</h4>
+                    <p class="text-xs text-gray-600 mb-2">${property.district}, ${property.address}</p>
+                    <div class="flex justify-between items-center mb-2">
+                        <p class="text-lg font-bold text-[#0088CC]">${property.price.toLocaleString('ru-RU')} ₽</p>
+                        <span class="text-xs bg-gray-100 text-green-600 px-2 py-1 rounded">Кэшбек ${cashback.toLocaleString('ru-RU')} ₽</span>
+                    </div>
+                    <p class="text-xs mb-3">${property.rooms}-к • ${property.area} м² • ${property.floor}/${property.total_floors} эт.</p>
+                    <a href="/object/${property.id}" class="block w-full text-center bg-[#0088CC] text-white py-2 rounded text-xs hover:bg-[#006699] transition">Подробнее →</a>
+                </div>
+            `);
+        
+        marker.propertyId = property.id;
+        markers.push(marker);
+    });
+}
+
+// Enhanced search functionality with smart suggestions
+async function handleMapSearch(query) {
+    const suggestionsContainer = document.getElementById('searchSuggestions');
+    
+    if (!query || query.length < 2) {
+        suggestionsContainer.classList.add('hidden');
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/api/smart-search-suggestions?q=${encodeURIComponent(query)}`);
+        const data = await response.json();
+        
+        if (data.suggestions && data.suggestions.length > 0) {
+            showMapSuggestions(data.suggestions);
+        } else {
+            suggestionsContainer.classList.add('hidden');
+        }
+    } catch (error) {
+        console.error('Search error:', error);
+        suggestionsContainer.classList.add('hidden');
+    }
+}
+
+function showMapSuggestions(suggestions) {
+    const suggestionsContainer = document.getElementById('searchSuggestions');
+    let html = '';
+    
+    suggestions.forEach(suggestion => {
+        const iconClass = {
+            'complex': 'fas fa-building text-[#0088CC]',
+            'developer': 'fas fa-hammer text-[#0088CC]',
+            'district': 'fas fa-map-marker-alt text-orange-500',
+            'rooms': 'fas fa-bed text-purple-500'
+        };
+        
+        html += `
+            <div class="suggestion-item px-4 py-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 flex items-center" 
+                 onclick="selectMapSuggestion('${suggestion.type}', '${suggestion.value}', '${encodeURIComponent(suggestion.text)}')">
+                <i class="${iconClass[suggestion.type] || 'fas fa-search text-gray-400'} mr-3"></i>
+                <div>
+                    <div class="font-medium text-gray-900">${suggestion.text}</div>
+                    <div class="text-sm text-gray-500">${suggestion.category}</div>
+                </div>
+            </div>
+        `;
+    });
+    
+    suggestionsContainer.innerHTML = html;
+    suggestionsContainer.classList.remove('hidden');
+}
+
+function selectMapSuggestion(type, value, encodedText) {
+    const text = decodeURIComponent(encodedText);
+    document.getElementById('map-search').value = text;
+    document.getElementById('searchSuggestions').classList.add('hidden');
+    
+    // Apply search filter
+    filterPropertiesBySearch(text, type, value);
+}
+
+function filterPropertiesBySearch(searchText, type, value) {
+    let filtered = allProperties;
+    
+    if (type === 'complex') {
+        filtered = allProperties.filter(prop => 
+            prop.residential_complex && prop.residential_complex.toLowerCase().includes(searchText.toLowerCase())
+        );
+    } else if (type === 'developer') {
+        filtered = allProperties.filter(prop => 
+            prop.developer && prop.developer.toLowerCase().includes(searchText.toLowerCase())
+        );
+    } else if (type === 'district') {
+        filtered = allProperties.filter(prop => 
+            prop.district && prop.district.toLowerCase().includes(searchText.toLowerCase())
+        );
+    } else if (type === 'rooms') {
+        const roomsCount = value === 'studio' ? 0 : parseInt(value);
+        filtered = allProperties.filter(prop => prop.rooms === roomsCount);
+    } else {
+        // General search
+        filtered = allProperties.filter(property => {
+            const searchFields = [
+                property.title,
+                property.residential_complex,
+                property.developer,
+                property.district,
+                property.address
+            ].join(' ').toLowerCase();
+            return searchFields.includes(searchText.toLowerCase());
+        });
+    }
+    
+    // Update map and list
+    addPropertiesToMap(filtered);
+    updateObjectsList(filtered);
+    updateObjectCount(filtered.length);
+    
+    // Fit map to results if there are properties
+    if (filtered.length > 0 && markers.length > 0) {
+        const group = new L.featureGroup(markers);
+        mapInstance.fitBounds(group.getBounds().pad(0.1));
+    }
+}
+
+// Search functionality with suggestions (legacy support)
+function setupSearch() {
+    const searchInput = document.getElementById('map-search');
+    const suggestionsContainer = document.getElementById('searchSuggestions');
+    const residentialComplexes = {{ residential_complexes|tojson|safe }};
+    
+    // Create search suggestions combining properties and ЖК
+    const suggestions = [];
+    
+    // Add property suggestions
+    allProperties.forEach(property => {
+        suggestions.push(property.title);
+        suggestions.push(property.residential_complex || 'ЖК ' + property.title);
+        suggestions.push(property.developer);
+        suggestions.push(property.district);
+        suggestions.push(property.address);
+    });
+    
+    // Add ЖК suggestions
+    residentialComplexes.forEach(complex => {
+        suggestions.push(complex.name);
+        suggestions.push(complex.developer);
+        suggestions.push(complex.location);
+        suggestions.push(complex.district);
+    });
+    
+    const uniqueSuggestions = [...new Set(suggestions)].filter(Boolean);
+    
+    searchInput.addEventListener('input', function() {
+        const query = this.value.toLowerCase().trim();
+        
+        if (query.length < 2) {
+            suggestionsContainer.classList.add('hidden');
+            return;
+        }
+        
+        // Filter both property and ЖК suggestions
+        const propertySuggestions = uniqueSuggestions
+            .filter(suggestion => suggestion.toLowerCase().includes(query))
+            .slice(0, 5);
+            
+        const complexSuggestions = residentialComplexes
+            .filter(complex => 
+                complex.name.toLowerCase().includes(query) ||
+                complex.developer.toLowerCase().includes(query) ||
+                complex.location.toLowerCase().includes(query)
+            )
+            .slice(0, 3);
+        
+        let suggestionHTML = '';
+        
+        if (propertySuggestions.length > 0) {
+            suggestionHTML += propertySuggestions
+                .map(suggestion => `<div class="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm" onclick="selectSuggestion('${suggestion.replace(/'/g, "\\'")}')">
+                    <i class="fas fa-search mr-2 text-gray-400"></i>${suggestion}
+                </div>`)
+                .join('');
+        }
+        
+        if (complexSuggestions.length > 0) {
+            if (propertySuggestions.length > 0) {
+                suggestionHTML += '<div class="border-t border-gray-200 my-1"></div>';
+            }
+            suggestionHTML += complexSuggestions
+                .map(complex => `<div class="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm" onclick="selectComplexSuggestion('${complex.name.replace(/'/g, "\\'")}')">
+                    <i class="fas fa-building mr-2 text-[#0088CC]"></i><strong>${complex.name}</strong><br>
+                    <small class="text-gray-500 ml-6">${complex.developer} • ${complex.apartments_count} квартир</small>
+                </div>`)
+                .join('');
+        }
+        
+        if (suggestionHTML) {
+            suggestionsContainer.innerHTML = suggestionHTML;
+            suggestionsContainer.classList.remove('hidden');
+        } else {
+            suggestionsContainer.classList.add('hidden');
+        }
+    });
+    
+    // Hide suggestions when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!searchInput.contains(e.target) && !suggestionsContainer.contains(e.target)) {
+            suggestionsContainer.classList.add('hidden');
+        }
+    });
+}
+
+function selectSuggestion(suggestion) {
+    document.getElementById('map-search').value = suggestion;
+    document.getElementById('searchSuggestions').classList.add('hidden');
+    searchProperties();
+}
+
+function selectComplexSuggestion(complexName) {
+    document.getElementById('map-search').value = complexName;
+    document.getElementById('searchSuggestions').classList.add('hidden');
+    
+    // Show ЖК information or filter properties from this complex
+    const residentialComplexes = {{ residential_complexes|tojson|safe }};
+    const selectedComplex = residentialComplexes.find(c => c.name === complexName);
+    
+    if (selectedComplex) {
+        // Filter properties by this ЖК or show ЖК info
+        const complexProperties = allProperties.filter(property => 
+            property.residential_complex === complexName || 
+            property.title.includes(complexName.replace('ЖК ', ''))
+        );
+        
+        if (complexProperties.length > 0) {
+            updateDisplayedProperties(complexProperties);
+        } else {
+            // Show ЖК info instead
+            showResidentialComplexInfo(selectedComplex);
+        }
+    }
+}
+
+// Search properties
+function searchProperties() {
+    const query = document.getElementById('map-search').value.toLowerCase().trim();
+    
+    if (!query) {
+        showAllProperties();
+        return;
+    }
+    
+    const matchingProperties = allProperties.filter(property => {
+        return property.title.toLowerCase().includes(query) ||
+               property.district.toLowerCase().includes(query) ||
+               property.address.toLowerCase().includes(query) ||
+               property.developer.toLowerCase().includes(query) ||
+               (property.residential_complex && property.residential_complex.toLowerCase().includes(query));
+    });
+    
+    updateDisplayedProperties(matchingProperties);
+}
+
+// ЖК Search
+function searchResidentialComplexes() {
+    const query = document.getElementById('map-search').value.toLowerCase().trim();
+    
+    if (!query) {
+        return [];
+    }
+    
+    const residentialComplexes = {{ residential_complexes|tojson|safe }};
+    return residentialComplexes.filter(complex => {
+        return complex.name.toLowerCase().includes(query) ||
+               complex.developer.toLowerCase().includes(query) ||
+               complex.location.toLowerCase().includes(query) ||
+               complex.district.toLowerCase().includes(query);
+    });
+}
+
+// Filter functionality
+function toggleFilters() {
+    const filtersPanel = document.getElementById('advancedFilters');
+    filtersPanel.classList.toggle('hidden');
+}
+
+// Room filter pills
+document.addEventListener('DOMContentLoaded', function() {
+    const roomButtons = document.querySelectorAll('#roomsFilter .filter-pill');
+    roomButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            this.classList.toggle('active');
+            applyFilters();
+        });
+    });
+});
+
+function applyFilters() {
+    let filtered = [...allProperties];
+    
+    // Price filter
+    const priceFrom = document.getElementById('priceFrom').value;
+    const priceTo = document.getElementById('priceTo').value;
+    if (priceFrom) filtered = filtered.filter(p => p.price >= parseInt(priceFrom));
+    if (priceTo) filtered = filtered.filter(p => p.price <= parseInt(priceTo));
+    
+    // Area filter
+    const areaFrom = document.getElementById('areaFrom').value;
+    const areaTo = document.getElementById('areaTo').value;
+    if (areaFrom) filtered = filtered.filter(p => p.area >= parseInt(areaFrom));
+    if (areaTo) filtered = filtered.filter(p => p.area <= parseInt(areaTo));
+    
+    // Floor filter
+    const floorFrom = document.getElementById('floorFrom').value;
+    const floorTo = document.getElementById('floorTo').value;
+    if (floorFrom) filtered = filtered.filter(p => p.floor >= parseInt(floorFrom));
+    if (floorTo) filtered = filtered.filter(p => p.floor <= parseInt(floorTo));
+    
+    // Room filter
+    const activeRoomButtons = document.querySelectorAll('#roomsFilter .filter-pill.active');
+    if (activeRoomButtons.length > 0) {
+        const selectedRooms = Array.from(activeRoomButtons).map(btn => parseInt(btn.dataset.rooms));
+        filtered = filtered.filter(p => selectedRooms.includes(p.rooms));
+    }
+    
+    // Property type filter
+    const propertyType = document.getElementById('propertyType').value;
+    if (propertyType) {
+        // Add property type filtering logic if needed
+    }
+    
+    // Developer filter
+    const developer = document.getElementById('developer').value;
+    if (developer) filtered = filtered.filter(p => p.developer === developer);
+    
+    // Additional options
+    if (document.getElementById('onlyCashback').checked) {
+        // All properties have cashback in this system
+    }
+    
+    updateDisplayedProperties(filtered);
+    toggleFilters();
+}
+
+function clearFilters() {
+    // Clear all form inputs
+    document.getElementById('priceFrom').value = '';
+    document.getElementById('priceTo').value = '';
+    document.getElementById('areaFrom').value = '';
+    document.getElementById('areaTo').value = '';
+    document.getElementById('floorFrom').value = '';
+    document.getElementById('floorTo').value = '';
+    document.getElementById('propertyType').value = '';
+    document.getElementById('developer').value = '';
+    document.getElementById('houseType').value = '';
+    document.getElementById('onlyCashback').checked = false;
+    document.getElementById('withPhoto').checked = false;
+    document.getElementById('withBalcony').checked = false;
+    
+    // Clear room filter
+    document.querySelectorAll('#roomsFilter .filter-pill').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    showAllProperties();
+}
+
+function showAllProperties() {
+    updateDisplayedProperties(allProperties);
+}
+
+function updateDisplayedProperties(properties) {
+    updateDisplayedPropertiesWithSliders(properties);
+}
+
+function showObjectOnMap(propertyId) {
+    const property = allProperties.find(p => p.id === propertyId);
+    if (property) {
+        mapInstance.setView([property.latitude, property.longitude], 16);
+        const marker = markers.find(m => m.propertyId === propertyId);
+        if (marker) {
+            marker.openPopup();
+        }
+    }
+}
+
+function sortProperties() {
+    const sortBy = document.getElementById('sortBy').value;
+    let sorted = [...filteredProperties];
+    
+    switch(sortBy) {
+        case 'price_asc':
+            sorted.sort((a, b) => a.price - b.price);
+            break;
+        case 'price_desc':
+            sorted.sort((a, b) => b.price - a.price);
+            break;
+        case 'area_asc':
+            sorted.sort((a, b) => a.area - b.area);
+            break;
+        case 'area_desc':
+            sorted.sort((a, b) => b.area - a.area);
+            break;
+    }
+    
+    updateDisplayedProperties(sorted);
+}
+
+function filterProperties() {
+    // This function can be extended for additional filtering
+    applyFilters();
+}
+
+// Update displayed properties with slider support
+function updateDisplayedPropertiesWithSliders(properties) {
+    filteredProperties = properties;
+    
+    // Update objects count
+    document.getElementById('objectCount').textContent = properties.length;
+    
+    // Update objects list with sliders
+    const objectsList = document.getElementById('objectsList');
+    objectsList.innerHTML = properties.map(property => `
+        <div class="object-card bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer transition hover:shadow-md" data-property-id="${property.id}" onclick="showObjectOnMap(${property.id})">
+            <!-- Image Slider -->
+            <div class="relative">
+                <div class="property-slider" data-property-id="${property.id}">
+                    <div class="slider-container relative overflow-hidden">
+                        <div class="slider-track flex transition-transform duration-300" style="transform: translateX(0%);">
+                            <img alt="${property.title}" class="w-full h-48 object-cover flex-shrink-0" src="${property.image}"/>
+                            <img alt="${property.title}" class="w-full h-48 object-cover flex-shrink-0" src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"/>
+                            <img alt="${property.title}" class="w-full h-48 object-cover flex-shrink-0" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"/>
+                            <img alt="${property.title}" class="w-full h-48 object-cover flex-shrink-0" src="https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"/>
+                        </div>
+                        
+                        <!-- Slider Controls -->
+                        <button class="slider-btn slider-prev absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/80 rounded-full p-2 shadow-lg hover:bg-white transition" onclick="event.stopPropagation(); prevImage(${property.id})">
+                            <i class="fas fa-chevron-left text-gray-600"></i>
+                        </button>
+                        <button class="slider-btn slider-next absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/80 rounded-full p-2 shadow-lg hover:bg-white transition" onclick="event.stopPropagation(); nextImage(${property.id})">
+                            <i class="fas fa-chevron-right text-gray-600"></i>
+                        </button>
+                        
+                        <!-- Slide Indicators -->
+                        <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                            <div class="slide-indicator w-2 h-2 rounded-full bg-white opacity-75"></div>
+                            <div class="slide-indicator w-2 h-2 rounded-full bg-white/50"></div>
+                            <div class="slide-indicator w-2 h-2 rounded-full bg-white/50"></div>
+                            <div class="slide-indicator w-2 h-2 rounded-full bg-white/50"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="absolute top-2 right-2 bg-amber-400 text-xs font-medium px-2 py-1 rounded-full">Кэшбек 5%</div>
+                <div class="absolute bottom-2 left-2 bg-white/90 text-xs font-medium px-2 py-1 rounded">4 фото</div>
+            </div>
+            
+            <div class="p-4">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-bold text-lg">${property.price.toLocaleString('ru-RU')} ₽</h3>
+                        <p class="text-gray-600">${property.rooms}-комн. квартира, ${property.area} м²</p>
+                    </div>
+                    <div class="bg-blue-50 text-[#0088CC] px-2 py-1 rounded-2xl text-xs">${property.floor} этаж</div>
+                </div>
+                <p class="text-gray-800 mt-2">${property.residential_complex || 'ЖК ' + property.title} · <span class="text-[#0088CC]">${property.developer}</span></p>
+                <p class="text-sm text-gray-500">${property.district}, ${property.address}</p>
+                <div class="flex items-center mt-3 text-sm text-gray-500">
+                    <span class="mr-3">${property.completion_date || '2024 год'}</span>
+                    <span>Дом на карте</span>
+                    <svg class="h-4 w-4 ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path clip-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" fill-rule="evenodd"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    `).join('');
+    
+    // Update map markers
+    addPropertiesToMap(properties);
+    
+    // Reset slider states
+    currentSlides = {};
+}
+
+// Image slider functionality
+let currentSlides = {};
+
+function nextImage(propertyId) {
+    const slider = document.querySelector(`[data-property-id="${propertyId}"] .slider-track`);
+    const indicators = document.querySelectorAll(`[data-property-id="${propertyId}"] .slide-indicator`);
+    
+    if (!currentSlides[propertyId]) currentSlides[propertyId] = 0;
+    
+    currentSlides[propertyId] = (currentSlides[propertyId] + 1) % 4;
+    const translateX = -currentSlides[propertyId] * 100;
+    
+    slider.style.transform = `translateX(${translateX}%)`;
+    
+    // Update indicators
+    indicators.forEach((indicator, index) => {
+        if (index === currentSlides[propertyId]) {
+            indicator.classList.remove('bg-white/50');
+            indicator.classList.add('bg-white', 'opacity-75');
+        } else {
+            indicator.classList.remove('bg-white', 'opacity-75');
+            indicator.classList.add('bg-white/50');
+        }
+    });
+}
+
+function prevImage(propertyId) {
+    const slider = document.querySelector(`[data-property-id="${propertyId}"] .slider-track`);
+    const indicators = document.querySelectorAll(`[data-property-id="${propertyId}"] .slide-indicator`);
+    
+    if (!currentSlides[propertyId]) currentSlides[propertyId] = 0;
+    
+    currentSlides[propertyId] = currentSlides[propertyId] === 0 ? 3 : currentSlides[propertyId] - 1;
+    const translateX = -currentSlides[propertyId] * 100;
+    
+    slider.style.transform = `translateX(${translateX}%)`;
+    
+    // Update indicators
+    indicators.forEach((indicator, index) => {
+        if (index === currentSlides[propertyId]) {
+            indicator.classList.remove('bg-white/50');
+            indicator.classList.add('bg-white', 'opacity-75');
+        } else {
+            indicator.classList.remove('bg-white', 'opacity-75');
+            indicator.classList.add('bg-white/50');
+        }
+    });
+}
+
+// View switching functionality
+function switchView(viewType) {
+    const listBtn = document.getElementById('listViewBtn');
+    const cardBtn = document.getElementById('cardViewBtn');
+    const objectsList = document.getElementById('objectsList');
+    
+    if (viewType === 'list') {
+        listBtn.classList.add('bg-blue-500', 'text-white');
+        listBtn.classList.remove('text-gray-600');
+        cardBtn.classList.remove('bg-blue-500', 'text-white');
+        cardBtn.classList.add('text-gray-600');
+        
+        objectsList.classList.remove('grid', 'grid-cols-2', 'gap-4');
+        objectsList.classList.add('space-y-4');
+    } else {
+        cardBtn.classList.add('bg-blue-500', 'text-white');
+        cardBtn.classList.remove('text-gray-600');
+        listBtn.classList.remove('bg-blue-500', 'text-white');
+        listBtn.classList.add('text-gray-600');
+        
+        objectsList.classList.remove('space-y-4');
+        objectsList.classList.add('grid', 'grid-cols-2', 'gap-4');
+    }
+}
+
+// Show residential complex info
+function showResidentialComplexInfo(complex) {
+    const objectsList = document.getElementById('objectsList');
+    objectsList.innerHTML = `
+        <div class="bg-white rounded-lg shadow-sm p-6">
+            <img src="${complex.image}" alt="${complex.name}" class="w-full h-64 object-cover rounded-lg mb-4">
+            <h2 class="text-2xl font-bold mb-2">${complex.name}</h2>
+            <p class="text-[#0088CC] font-medium mb-2">${complex.developer}</p>
+            <p class="text-gray-600 mb-4">${complex.description}</p>
+            
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div class="bg-gray-50 p-3 rounded-lg">
+                    <div class="text-sm text-gray-500">Местоположение</div>
+                    <div class="font-medium">${complex.location}</div>
+                </div>
+                <div class="bg-gray-50 p-3 rounded-lg">
+                    <div class="text-sm text-gray-500">Срок сдачи</div>
+                    <div class="font-medium">${complex.completion_date}</div>
+                </div>
+                <div class="bg-gray-50 p-3 rounded-lg">
+                    <div class="text-sm text-gray-500">Квартир</div>
+                    <div class="font-medium">${complex.apartments_count}</div>
+                </div>
+                <div class="bg-gray-50 p-3 rounded-lg">
+                    <div class="text-sm text-gray-500">Кэшбек</div>
+                    <div class="font-medium text-green-600">${complex.cashback_percent}%</div>
+                </div>
+            </div>
+            
+            <h3 class="text-lg font-semibold mb-3">Доступные квартиры</h3>
+            <div class="grid grid-cols-2 gap-3">
+                ${complex.apartments.map(apt => `
+                    <div class="border rounded-lg p-3">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="font-medium">${apt.type}</span>
+                            <span class="text-sm bg-gray-100 text-[#0088CC] px-2 py-1 rounded">${apt.count} шт</span>
+                        </div>
+                        <div class="text-sm text-gray-600">от ${apt.area_from} м²</div>
+                        <div class="font-bold text-lg text-[#0088CC]">${apt.price_from.toLocaleString('ru-RU')} ₽</div>
+                    </div>
+                `).join('')}
+            </div>
+            
+            <button class="w-full mt-6 bg-gradient-to-r from-[#006699] to-[#0088CC] text-white py-3 rounded-lg font-medium hover:opacity-90 transition" onclick="showAllProperties()">
+                Показать все объекты
+            </button>
+        </div>
+    `;
+    
+    document.getElementById('objectCount').textContent = '1';
+}
+
+// Fixed filter functions
+function applyFilters() {
+    let filtered = [...allProperties];
+    
+    // Price filter
+    const priceFrom = parseInt(document.getElementById('priceFrom').value) || 0;
+    const priceTo = parseInt(document.getElementById('priceTo').value) || Infinity;
+    filtered = filtered.filter(p => p.price >= priceFrom && p.price <= priceTo);
+    
+    // Area filter  
+    const areaFrom = parseInt(document.getElementById('areaFrom').value) || 0;
+    const areaTo = parseInt(document.getElementById('areaTo').value) || Infinity;
+    filtered = filtered.filter(p => p.area >= areaFrom && p.area <= areaTo);
+    
+    // Floor filter
+    const floorFrom = parseInt(document.getElementById('floorFrom').value) || 0;
+    const floorTo = parseInt(document.getElementById('floorTo').value) || Infinity;
+    filtered = filtered.filter(p => p.floor >= floorFrom && p.floor <= floorTo);
+    
+    // Room filter
+    const activeRoomButtons = document.querySelectorAll('#roomsFilter .filter-pill.active');
+    if (activeRoomButtons.length > 0) {
+        const selectedRooms = Array.from(activeRoomButtons).map(btn => {
+            const rooms = parseInt(btn.dataset.rooms);
+            return btn.dataset.rooms === '4' ? 4 : rooms; // Handle 4+ case
+        });
+        
+        filtered = filtered.filter(p => {
+            if (selectedRooms.includes(4)) {
+                return selectedRooms.includes(p.rooms) || p.rooms >= 4;
+            }
+            return selectedRooms.includes(p.rooms);
+        });
+    }
+    
+    // Property type filter
+    const propertyType = document.getElementById('propertyType').value;
+    if (propertyType) {
+        // Add filtering logic based on property type
+        switch(propertyType) {
+            case 'apartment':
+                filtered = filtered.filter(p => p.property_type === 'apartment' || !p.property_type);
+                break;
+            case 'newbuilding':
+                filtered = filtered.filter(p => p.property_type === 'newbuilding' || p.completion_date);
+                break;
+        }
+    }
+    
+    // Developer filter
+    const developer = document.getElementById('developer').value;
+    if (developer) {
+        filtered = filtered.filter(p => p.developer === developer);
+    }
+    
+    // House type filter
+    const houseType = document.getElementById('houseType').value;
+    if (houseType) {
+        filtered = filtered.filter(p => p.house_type === houseType);
+    }
+    
+    // Additional options
+    if (document.getElementById('onlyCashback').checked) {
+        // All properties have cashback in this system, so no filtering needed
+    }
+    
+    if (document.getElementById('withPhoto').checked) {
+        // All properties have photos in this system
+    }
+    
+    if (document.getElementById('withBalcony').checked) {
+        filtered = filtered.filter(p => p.has_balcony === true);
+    }
+    
+    updateDisplayedProperties(filtered);
+    toggleFilters();
+}
+
+// Add new functions for improved functionality
+function performMapSearch() {
+    const query = document.getElementById('map-search').value.trim();
+    if (query) {
+        filterPropertiesBySearch(query);
+    }
+}
+
+function updateObjectsList(properties) {
+    const objectsList = document.getElementById('objectsList');
+    if (!objectsList) return;
+    
+    // Update the objects list with filtered properties
+    // For now, we'll just update the count
+    updateObjectCount(properties.length);
+}
+
+function updateObjectCount(count) {
+    const countElement = document.getElementById('objectCount');
+    if (countElement) {
+        countElement.textContent = count;
+    }
+}
+
+function clearMapFilters() {
+    // Clear all filter inputs
+    document.getElementById('priceFrom').value = '';
+    document.getElementById('priceTo').value = '';
+    document.querySelectorAll('#roomsFilter .filter-pill').forEach(pill => {
+        pill.classList.remove('active');
+    });
+    document.getElementById('propertyType').value = '';
+    document.getElementById('houseType').value = '';
+    document.getElementById('developer').value = '';
+    document.getElementById('onlyCashback').checked = false;
+    document.getElementById('withPhoto').checked = false;
+    document.getElementById('withBalcony').checked = false;
+    
+    // Reset map to show all properties
+    addPropertiesToMap(allProperties);
+    updateObjectCount(allProperties.length);
+}
+
+function applyMapFilters() {
+    let filtered = [...allProperties];
+    
+    // Price filter
+    const priceFrom = parseFloat(document.getElementById('priceFrom').value) || 0;
+    const priceTo = parseFloat(document.getElementById('priceTo').value) || Infinity;
+    filtered = filtered.filter(p => p.price >= priceFrom && p.price <= priceTo);
+    
+    // Room filter
+    const activeRooms = Array.from(document.querySelectorAll('#roomsFilter .filter-pill.active'))
+        .map(pill => pill.dataset.rooms);
+    if (activeRooms.length > 0) {
+        filtered = filtered.filter(p => {
+            const rooms = p.rooms === 0 ? '0' : p.rooms.toString();
+            return activeRooms.includes(rooms) || (activeRooms.includes('4') && p.rooms >= 4);
+        });
+    }
+    
+    // Property type filter
+    const propertyType = document.getElementById('propertyType').value;
+    if (propertyType) {
+        filtered = filtered.filter(p => p.type === propertyType);
+    }
+    
+    // Developer filter
+    const developer = document.getElementById('developer').value;
+    if (developer) {
+        filtered = filtered.filter(p => p.developer === developer);
+    }
+    
+    // Cashback filter
+    if (document.getElementById('onlyCashback').checked) {
+        filtered = filtered.filter(p => p.cashback > 0);
+    }
+    
+    // Update map and count
+    addPropertiesToMap(filtered);
+    updateObjectCount(filtered.length);
+    
+    // Fit map to results
+    if (filtered.length > 0 && markers.length > 0) {
+        const group = new L.featureGroup(markers);
+        mapInstance.fitBounds(group.getBounds().pad(0.1));
+    }
+}
+
+// Enhanced toggle filters
+function toggleFilters() {
+    const filtersDiv = document.getElementById('advancedFilters');
+    filtersDiv.classList.toggle('hidden');
+}
+
+// Hide suggestions when clicking outside
+document.addEventListener('click', function(e) {
+    const searchInput = document.getElementById('map-search');
+    const suggestions = document.getElementById('searchSuggestions');
+    
+    if (searchInput && suggestions && 
+        !searchInput.contains(e.target) && !suggestions.contains(e.target)) {
+        suggestions.classList.add('hidden');
+    }
+});
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    initMap();
+    setupSearch();
+    
+    // Add room filter click handlers
+    document.querySelectorAll('#roomsFilter .filter-pill').forEach(pill => {
+        pill.addEventListener('click', function() {
+            this.classList.toggle('active');
+        });
+    });
+    
+    // Add Enter key support for search
+    document.getElementById('map-search').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            performMapSearch();
+        }
+    });
+});
+</script>
+
+<!-- Enhanced styles for better UI -->
+<style>
+.filter-pill {
+    @apply px-3 py-2 text-sm border border-gray-300 rounded-full hover:bg-gray-100 transition-all cursor-pointer;
+}
+.filter-pill.active {
+    @apply bg-blue-500 text-white border-blue-500 hover:bg-[#0088CC];
+}
+.object-card:hover {
+    @apply transform scale-[1.02] shadow-lg;
+}
+.suggestion-item:hover {
+    @apply bg-blue-50;
+}
+.map-controls button:hover {
+    @apply bg-gray-100 scale-105;
+}
+</style>
+
+{% endblock %}

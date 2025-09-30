@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Session Test</title>
+</head>
+<body>
+    <h1>Session Test</h1>
+    <button onclick="testSession()">Test Session</button>
+    <button onclick="testAPI()">Test API</button>
+    <div id="results"></div>
+    
+    <script>
+    async function testSession() {
+        try {
+            const response = await fetch('/api/debug/session', {
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const data = await response.json();
+            document.getElementById('results').innerHTML = '<h3>Session Data:</h3><pre>' + JSON.stringify(data, null, 2) + '</pre>';
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+    
+    async function testAPI() {
+        try {
+            const response = await fetch('/api/searches', {
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const data = await response.json();
+            document.getElementById('results').innerHTML = '<h3>API Response:</h3><pre>' + JSON.stringify(data, null, 2) + '</pre>';
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+    </script>
+</body>
+</html>

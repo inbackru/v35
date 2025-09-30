@@ -1,0 +1,423 @@
+{% extends "base.html" %}
+
+{% block title %}Заявка на обратный звонок | InBack{% endblock %}
+
+{% block content %}
+<div id="callback-container">
+<style>
+    .callback-bg {
+        background: white;
+        min-height: auto;
+    }
+    
+    .callback-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    
+    .option-card {
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: white;
+    }
+    
+    .option-card:hover {
+        border-color: #0088cc;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,136,204,0.2);
+    }
+    
+    .option-card.selected {
+        border-color: #0088cc;
+        background: #f0f9ff;
+    }
+    
+    .btn-callback {
+        background: linear-gradient(135deg, #0088cc 0%, #32a4fb 100%);
+        transition: all 0.3s ease;
+    }
+    
+    .btn-callback:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0,136,204,0.3);
+    }
+    
+    .step-indicator {
+        transition: all 0.3s ease;
+    }
+    
+    .step-active {
+        background: #0088cc;
+        color: white;
+    }
+    
+    .step-completed {
+        background: #10b981;
+        color: white;
+    }
+    
+    .step-inactive {
+        background: #e5e7eb;
+        color: #6b7280;
+    }
+</style>
+
+<div class="callback-bg">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">Заявка на обратный звонок</h1>
+            <p class="text-gray-600">Наш менеджер свяжется с вами в течение 15 минут</p>
+        </div>
+        
+        <!-- Progress Indicator -->
+        <div class="flex justify-center mb-8">
+            <div class="flex items-center space-x-4">
+                <div class="step-indicator step-active w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold" id="callback-step-1">1</div>
+                <div class="w-8 h-1 bg-gray-300" id="callback-connector-1"></div>
+                <div class="step-indicator step-inactive w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold" id="callback-step-2">2</div>
+                <div class="w-8 h-1 bg-gray-300" id="callback-connector-2"></div>
+                <div class="step-indicator step-inactive w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold" id="callback-step-3">3</div>
+                <div class="w-8 h-1 bg-gray-300" id="callback-connector-3"></div>
+                <div class="step-indicator step-inactive w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold" id="callback-step-4">4</div>
+            </div>
+        </div>
+        
+        <!-- Callback Form -->
+        <div class="max-w-2xl mx-auto">
+            <div class="callback-card p-8">
+                <!-- Step 1: Interest -->
+                <div id="callback-step-1" class="callback-step">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Что вас интересует?</h2>
+                    <p class="text-gray-600 text-center mb-8">Выберите тип недвижимости</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                        <div class="option-card" data-value="Квартира в новостройке" onclick="selectCallbackOption(this, 'interest')">
+                            <i class="fas fa-building text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg mb-2">Квартира</h3>
+                            <p class="text-gray-600 text-sm">В новостройке</p>
+                        </div>
+                        <div class="option-card" data-value="Таунхаус" onclick="selectCallbackOption(this, 'interest')">
+                            <i class="fas fa-home text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg mb-2">Таунхаус</h3>
+                            <p class="text-gray-600 text-sm">Готовый или в строительстве</p>
+                        </div>
+                        <div class="option-card" data-value="Коммерческая недвижимость" onclick="selectCallbackOption(this, 'interest')">
+                            <i class="fas fa-store text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg mb-2">Коммерция</h3>
+                            <p class="text-gray-600 text-sm">Офисы, магазины</p>
+                        </div>
+                        <div class="option-card" data-value="Консультация по кешбеку" onclick="selectCallbackOption(this, 'interest')">
+                            <i class="fas fa-coins text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg mb-2">Кешбек</h3>
+                            <p class="text-gray-600 text-sm">Консультация по услуге</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 2: Budget -->
+                <div id="callback-step-2" class="callback-step hidden">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Какой бюджет?</h2>
+                    <p class="text-gray-600 text-center mb-8">Выберите примерный ценовой диапазон</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                        <div class="option-card" data-value="До 3 млн ₽" onclick="selectCallbackOption(this, 'budget')">
+                            <i class="fas fa-ruble-sign text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg">До 3 млн ₽</h3>
+                        </div>
+                        <div class="option-card" data-value="3-5 млн ₽" onclick="selectCallbackOption(this, 'budget')">
+                            <i class="fas fa-ruble-sign text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg">3-5 млн ₽</h3>
+                        </div>
+                        <div class="option-card" data-value="5-8 млн ₽" onclick="selectCallbackOption(this, 'budget')">
+                            <i class="fas fa-ruble-sign text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg">5-8 млн ₽</h3>
+                        </div>
+                        <div class="option-card" data-value="От 8 млн ₽" onclick="selectCallbackOption(this, 'budget')">
+                            <i class="fas fa-ruble-sign text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg">От 8 млн ₽</h3>
+                        </div>
+                        <div class="option-card md:col-span-2" data-value="Не определился" onclick="selectCallbackOption(this, 'budget')">
+                            <i class="fas fa-question text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg">Еще не определился</h3>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 3: Timing -->
+                <div id="callback-step-3" class="callback-step hidden">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Когда планируете покупку?</h2>
+                    <p class="text-gray-600 text-center mb-8">Выберите примерные сроки</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                        <div class="option-card" data-value="В течение месяца" onclick="selectCallbackOption(this, 'timing')">
+                            <i class="fas fa-clock text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg">В течение месяца</h3>
+                            <p class="text-gray-600 text-sm">Готов к покупке</p>
+                        </div>
+                        <div class="option-card" data-value="В течение 3 месяцев" onclick="selectCallbackOption(this, 'timing')">
+                            <i class="fas fa-calendar text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg">В течение 3 месяцев</h3>
+                            <p class="text-gray-600 text-sm">Активно ищу</p>
+                        </div>
+                        <div class="option-card" data-value="В течение полугода" onclick="selectCallbackOption(this, 'timing')">
+                            <i class="fas fa-calendar-alt text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg">В течение полугода</h3>
+                            <p class="text-gray-600 text-sm">Рассматриваю варианты</p>
+                        </div>
+                        <div class="option-card" data-value="Просто изучаю рынок" onclick="selectCallbackOption(this, 'timing')">
+                            <i class="fas fa-search text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg">Изучаю рынок</h3>
+                            <p class="text-gray-600 text-sm">Пока присматриваюсь</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 4: Contact Info -->
+                <div id="callback-step-4" class="callback-step hidden">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Как с вами связаться?</h2>
+                    <p class="text-gray-600 text-center mb-8">Укажите ваши контактные данные</p>
+                    
+                    <form id="callbackForm" class="space-y-6" data-validation="true">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Ваше имя</label>
+                            <input type="text" id="callback_name" name="name" required 
+                                   data-validate="name" data-required="true"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-blue-500 form-field"
+                                   placeholder="Как к вам обращаться?">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Номер телефона</label>
+                            <input type="tel" id="callback_phone" name="phone" required 
+                                   data-validate="phone" data-required="true"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-blue-500 form-field"
+                                   placeholder="+7 (999) 123-45-67">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email (необязательно)</label>
+                            <input type="email" id="callback_email" name="email" 
+                                   data-validate="email"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-blue-500 form-field"
+                                   placeholder="ivan@example.com">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Удобное время для звонка</label>
+                            <select id="callback_time" name="preferred_time" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-blue-500">
+                                <option value="Сейчас">Сейчас</option>
+                                <option value="Утром (9:00-12:00)">Утром (9:00-12:00)</option>
+                                <option value="Днем (12:00-15:00)">Днем (12:00-15:00)</option>
+                                <option value="Вечером (15:00-18:00)">Вечером (15:00-18:00)</option>
+                                <option value="После 18:00">После 18:00</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Дополнительная информация (необязательно)</label>
+                            <textarea id="callback_notes" name="notes" rows="3" 
+                                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-blue-500"
+                                     placeholder="Расскажите, что именно вас интересует..."></textarea>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <input type="checkbox" id="callback_agree" name="agree_terms" required class="mt-1 mr-3">
+                            <label for="callback_agree" class="text-sm text-gray-600">
+                                Я соглашаюсь с <a href="/privacy_policy" class="text-[#0088CC] hover:underline" target="_blank">политикой конфиденциальности</a> 
+                                и <a href="/data_processing_consent" class="text-[#0088CC] hover:underline" target="_blank">обработкой персональных данных</a>
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Navigation -->
+                <div class="flex justify-between items-center mt-8">
+                    <button id="callbackPrevBtn" class="px-6 py-3 text-gray-600 hover:text-gray-800 font-medium" onclick="previousCallbackStep()" style="display: none;">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Назад
+                    </button>
+                    <div class="flex-1"></div>
+                    <button id="callbackNextBtn" class="btn-callback px-8 py-3 text-white font-semibold rounded-lg" onclick="nextCallbackStep()" disabled>
+                        Далее
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                    <button id="callbackSubmitBtn" class="btn-callback px-8 py-3 text-white font-semibold rounded-lg hidden" onclick="submitCallbackRequest()">
+                        <span id="callbackSubmitText">Отправить заявку</span>
+                        <span id="callbackSubmitSpinner" class="hidden">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentCallbackStep = 1;
+const totalCallbackSteps = 4;
+const callbackData = {
+    interest: '',
+    budget: '',
+    timing: ''
+};
+
+function selectCallbackOption(element, category) {
+    // Remove selection from siblings
+    const siblings = element.parentNode.querySelectorAll('.option-card');
+    siblings.forEach(sibling => sibling.classList.remove('selected'));
+    
+    // Add selection to current
+    element.classList.add('selected');
+    
+    // Store selection
+    callbackData[category] = element.dataset.value;
+    
+    // Enable next button
+    document.getElementById('callbackNextBtn').disabled = false;
+    document.getElementById('callbackNextBtn').classList.remove('opacity-50');
+}
+
+function nextCallbackStep() {
+    if (currentCallbackStep < totalCallbackSteps) {
+        // Hide current step
+        document.getElementById(`callback-step-${currentCallbackStep}`).classList.add('hidden');
+        
+        // Update step indicator
+        const currentIndicator = document.querySelector(`[onclick="showCallbackStep(${currentCallbackStep})"]`);
+        if (currentIndicator) {
+            currentIndicator.classList.remove('step-active');
+            currentIndicator.classList.add('step-completed');
+        }
+        
+        // Show next step
+        currentCallbackStep++;
+        document.getElementById(`callback-step-${currentCallbackStep}`).classList.remove('hidden');
+        
+        const nextIndicator = document.querySelector(`[onclick="showCallbackStep(${currentCallbackStep})"]`);
+        if (nextIndicator) {
+            nextIndicator.classList.remove('step-inactive');
+            nextIndicator.classList.add('step-active');
+        }
+        
+        // Update navigation
+        updateCallbackNavigation();
+    }
+}
+
+function previousCallbackStep() {
+    if (currentCallbackStep > 1) {
+        // Hide current step
+        document.getElementById(`callback-step-${currentCallbackStep}`).classList.add('hidden');
+        
+        // Update step indicator
+        const currentIndicator = document.querySelector(`[onclick="showCallbackStep(${currentCallbackStep})"]`);
+        if (currentIndicator) {
+            currentIndicator.classList.remove('step-active');
+            currentIndicator.classList.add('step-inactive');
+        }
+        
+        // Show previous step
+        currentCallbackStep--;
+        document.getElementById(`callback-step-${currentCallbackStep}`).classList.remove('hidden');
+        
+        const prevIndicator = document.querySelector(`[onclick="showCallbackStep(${currentCallbackStep})"]`);
+        if (prevIndicator) {
+            prevIndicator.classList.remove('step-completed');
+            prevIndicator.classList.add('step-active');
+        }
+        
+        // Update navigation
+        updateCallbackNavigation();
+    }
+}
+
+function updateCallbackNavigation() {
+    const prevBtn = document.getElementById('callbackPrevBtn');
+    const nextBtn = document.getElementById('callbackNextBtn');
+    const submitBtn = document.getElementById('callbackSubmitBtn');
+    
+    // Show/hide previous button
+    prevBtn.style.display = currentCallbackStep > 1 ? 'block' : 'none';
+    
+    // Show/hide next/submit buttons
+    if (currentCallbackStep === totalCallbackSteps) {
+        nextBtn.classList.add('hidden');
+        submitBtn.classList.remove('hidden');
+    } else {
+        nextBtn.classList.remove('hidden');
+        submitBtn.classList.add('hidden');
+        nextBtn.disabled = true;
+        nextBtn.classList.add('opacity-50');
+    }
+}
+
+function submitCallbackRequest() {
+    const form = document.getElementById('callbackForm');
+    const formData = new FormData(form);
+    
+    // Validate form
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+    
+    // Show loading
+    document.getElementById('callbackSubmitText').classList.add('hidden');
+    document.getElementById('callbackSubmitSpinner').classList.remove('hidden');
+    document.getElementById('callbackSubmitBtn').disabled = true;
+    
+    // Prepare callback data
+    const requestData = {
+        name: formData.get('name'),
+        phone: formData.get('phone'),
+        email: formData.get('email') || '',
+        preferred_time: formData.get('preferred_time'),
+        notes: formData.get('notes') || '',
+        interest: callbackData.interest,
+        budget: callbackData.budget,
+        timing: callbackData.timing
+    };
+    
+    // Submit callback request
+    fetch('/api/callback-request', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Show success and redirect
+            alert('Заявка отправлена! Наш менеджер свяжется с вами в ближайшее время.');
+            window.location.href = '/thank_you';
+        } else {
+            alert('Ошибка отправки заявки: ' + data.error);
+            // Reset button
+            document.getElementById('callbackSubmitText').classList.remove('hidden');
+            document.getElementById('callbackSubmitSpinner').classList.add('hidden');
+            document.getElementById('callbackSubmitBtn').disabled = false;
+        }
+    })
+    .catch(error => {
+        console.error('Callback request error:', error);
+        alert('Произошла ошибка. Попробуйте еще раз.');
+        // Reset button
+        document.getElementById('callbackSubmitText').classList.remove('hidden');
+        document.getElementById('callbackSubmitSpinner').classList.add('hidden');
+        document.getElementById('callbackSubmitBtn').disabled = false;
+    });
+}
+
+// Initialize
+updateCallbackNavigation();
+</script>
+</div>
+{% endblock %}

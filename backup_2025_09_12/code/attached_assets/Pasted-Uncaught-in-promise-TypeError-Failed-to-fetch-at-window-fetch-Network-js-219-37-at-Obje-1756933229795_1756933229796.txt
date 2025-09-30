@@ -1,0 +1,150 @@
+Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    a

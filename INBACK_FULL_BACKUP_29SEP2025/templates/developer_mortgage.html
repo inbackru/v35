@@ -1,0 +1,775 @@
+{% extends "base.html" %}
+
+{% block title %}Рассрочка от застройщика 0%: беспроцентная покупка квартир | InBack{% endblock %}
+{% block description %}Рассрочка от застройщика 0% на новостройки в Краснодаре. Беспроцентная рассрочка до 5 лет, первый взнос от 30%. Прямые договоры с застройщиками.{% endblock %}
+{% block keywords %}рассрочка от застройщика, беспроцентная рассрочка, рассрочка 0 процентов, рассрочка на новостройку, рассрочка на квартиру, рассрочка без процентов{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://inback.ru/developer-mortgage/">
+    <meta property="og:title" content="Рассрочка от застройщика 0%: беспроцентная покупка квартир | Inback">
+    <meta property="og:description" content="Беспроцентная рассрочка от застройщика на новостройки в Краснодаре. Срок до 5 лет, первый взнос от 30%. Прямые договоры без банков.">
+    <meta property="og:image" content="https://inback.ru/images/developer-mortgage-social.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://inback.ru/developer-mortgage/">
+    <meta property="twitter:title" content="Рассрочка от застройщика 0%: беспроцентная покупка квартир | Inback">
+    <meta property="twitter:description" content="Беспроцентная рассрочка от застройщика до 5 лет. Первый взнос от 30%. Без банков и процентов.">
+    <meta property="twitter:image" content="https://inback.ru/images/developer-mortgage-social.jpg">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://inback.ru/developer-mortgage/" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "RealEstateAgent",
+      "name": "Inback",
+      "image": "https://inback.ru/logo.jpg",
+      "description": "Официальный сервис возврата кэшбека при покупке недвижимости в Краснодаре и других городах России",
+      "priceRange": "$",
+      "areaServed": {
+        "@type": "AdministrativeArea",
+        "name": "Краснодар и Краснодарский край"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "ул. Красная, 32",
+        "addressLocality": "Краснодар",
+        "addressRegion": "Краснодарский край" 
+      },
+      "telephone": "+78001231212",
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "09:00",
+        "closes": "19:00"
+      }
+    }
+    </script>
+{% endblock %}
+
+{% block content %}
+<section class="bg-gradient-to-br from-blue-50 to-cyan-100 pt-20 pb-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Left Content -->
+                <div>
+                    <div class="inline-flex items-center px-4 py-2 bg-gray-100 rounded-full text-[#006699] text-sm font-medium mb-6">
+                        <i class="fas fa-building mr-2"></i>
+                        Рассрочка от застройщика
+                    </div>
+                    <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+                        Рассрочка 0% - <span class="text-[#0088CC]">прямо от застройщика</span>
+                    </h1>
+                    <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                        Беспроцентная рассрочка на новостройки до 5 лет без банков и процентов. Первый взнос от 30%, прямые договоры с застройщиками.
+                    </p>
+                    
+                    <!-- Key Benefits -->
+                    <div class="grid sm:grid-cols-2 gap-4 mb-8">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-percentage text-[#0088CC] text-sm"></i>
+                            </div>
+                            <span class="text-gray-700">Ставка 0%</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-calendar text-[#0088CC] text-sm"></i>
+                            </div>
+                            <span class="text-gray-700">До 5 лет</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-wallet text-[#0088CC] text-sm"></i>
+                            </div>
+                            <span class="text-gray-700">Взнос от 30%</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-handshake text-[#0088CC] text-sm"></i>
+                            </div>
+                            <span class="text-gray-700">Прямой договор</span>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button onclick="openApplicationModal()" class="bg-[#0088CC] hover:bg-[#006699] text-white px-8 py-4 rounded-xl font-semibold text-lg transition-colors shadow-lg">
+                            Подобрать рассрочку
+                        </button>
+                        <button class="border-2 border-blue-600 text-[#0088CC] hover:bg-blue-50 px-8 py-4 rounded-xl font-semibold text-lg transition-colors">
+                            Посмотреть объекты
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Content - Calculator Preview -->
+                <div class="relative">
+                    <div class="bg-white rounded-2xl shadow-xl p-8 relative z-10">
+                        <div class="text-center mb-6">
+                            <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-percent text-[#0088CC] text-3xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900">Без процентов</h3>
+                            <p class="text-3xl font-bold text-[#0088CC] mt-2">0%</p>
+                            <p class="text-gray-600">переплаты</p>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                                <span class="text-gray-600">Срок рассрочки:</span>
+                                <span class="font-semibold">до 5 лет</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                                <span class="text-gray-600">Первый взнос:</span>
+                                <span class="font-semibold">от 30%</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                                <span class="text-gray-600">Оформление:</span>
+                                <span class="font-semibold">за 1 день</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2">
+                                <span class="text-gray-600">Справки:</span>
+                                <span class="font-semibold">не нужны</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Decorative elements -->
+                    <div class="absolute -top-4 -right-4 w-24 h-24 bg-blue-200 rounded-full opacity-20"></div>
+                    <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-cyan-200 rounded-full opacity-20"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Advantages Section -->
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                    Преимущества рассрочки от застройщика
+                </h2>
+                <p class="text-xl text-gray-600">
+                    Почему выбирают беспроцентную рассрочку
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-calculator text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Никаких процентов</h3>
+                    <p class="text-gray-600">Платите только стоимость квартиры без банковских процентов и переплат</p>
+                </div>
+
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-file-contract text-[#0088CC] text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Простое оформление</h3>
+                    <p class="text-gray-600">Прямой договор с застройщиком без справок о доходах и поручителей</p>
+                </div>
+
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-clock text-[#0088CC] text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Быстрое решение</h3>
+                    <p class="text-gray-600">Одобрение рассрочки за 1 день, оформление документов за неделю</p>
+                </div>
+
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-home text-[#0088CC] text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Новостройки</h3>
+                    <p class="text-gray-600">Только качественные объекты от проверенных застройщиков Краснодара</p>
+                </div>
+
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-shield-alt text-[#0088CC] text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Гарантии</h3>
+                    <p class="text-gray-600">Полная защита покупателя, страхование объекта долевого строительства</p>
+                </div>
+
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-coins text-[#0088CC] text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Кэшбек</h3>
+                    <p class="text-gray-600">Дополнительно получите кэшбек до 500 000 ₽ за покупку</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Calculator Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                    Калькулятор рассрочки
+                </h2>
+                <p class="text-xl text-gray-600">
+                    Рассчитайте ежемесячный платеж по рассрочке 0%
+                </p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl p-8">
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <!-- Calculator Controls -->
+                    <div class="space-y-6">
+                        <!-- Property Price -->
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <label class="text-gray-700 font-medium">Стоимость недвижимости</label>
+                                <div class="text-xl font-bold text-[#0088CC]" id="devPropertyPrice">6 000 000 ₽</div>
+                            </div>
+                            <input type="range" 
+                                   min="2000000" 
+                                   max="20000000" 
+                                   step="100000" 
+                                   value="6000000" 
+                                   class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                                   id="devPropertyPriceRange">
+                            <div class="flex justify-between text-sm text-gray-500 mt-1">
+                                <span>2 млн ₽</span>
+                                <span>20 млн ₽</span>
+                            </div>
+                        </div>
+
+                        <!-- Down Payment -->
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <label class="text-gray-700 font-medium">Первоначальный взнос</label>
+                                <div class="text-xl font-bold text-[#0088CC]" id="devDownPayment">1 800 000 ₽ (30%)</div>
+                            </div>
+                            <input type="range" 
+                                   min="30" 
+                                   max="80" 
+                                   step="5" 
+                                   value="30" 
+                                   class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                                   id="devDownPaymentRange">
+                            <div class="flex justify-between text-sm text-gray-500 mt-1">
+                                <span>30%</span>
+                                <span>80%</span>
+                            </div>
+                        </div>
+
+                        <!-- Installment Term -->
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <label class="text-gray-700 font-medium">Срок рассрочки</label>
+                                <div class="text-xl font-bold text-[#0088CC]" id="devInstallmentTerm">3 года</div>
+                            </div>
+                            <input type="range" 
+                                   min="1" 
+                                   max="5" 
+                                   step="1" 
+                                   value="3" 
+                                   class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                                   id="devInstallmentTermRange">
+                            <div class="flex justify-between text-sm text-gray-500 mt-1">
+                                <span>1 год</span>
+                                <span>5 лет</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Results -->
+                    <div class="bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl p-6 text-white">
+                        <div class="text-center mb-6">
+                            <h3 class="text-2xl font-bold mb-2">Ваш платеж</h3>
+                            <div class="text-4xl font-bold" id="devMonthlyPayment">116 667 ₽</div>
+                            <p class="text-blue-100">в месяц</p>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center py-2 border-b border-blue-300/30">
+                                <span class="text-blue-100">Ставка:</span>
+                                <span class="font-semibold">0%</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-blue-300/30">
+                                <span class="text-blue-100">К доплате:</span>
+                                <span class="font-semibold" id="devRemainingAmount">4 200 000 ₽</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-blue-300/30">
+                                <span class="text-blue-100">Переплата:</span>
+                                <span class="font-semibold">0 ₽</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2">
+                                <span class="text-blue-100">Кэшбек 2.5%:</span>
+                                <span class="font-semibold" id="devCashback">150 000 ₽</span>
+                            </div>
+                        </div>
+
+                        <button onclick="openApplicationModal()" class="w-full bg-white text-[#0088CC] py-3 rounded-lg font-semibold mt-6 hover:bg-blue-50 transition-colors">
+                            Оформить рассрочку
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Developers Section -->
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                    Застройщики-партнеры
+                </h2>
+                <p class="text-xl text-gray-600">
+                    Проверенные компании с программами рассрочки
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-building text-[#0088CC] text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">ССК</h3>
+                    <p class="text-gray-600 mb-4">Рассрочка до 3 лет, взнос от 30%</p>
+                    <button class="text-[#0088CC] hover:text-gray-700 font-semibold">Смотреть объекты</button>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-building text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Кубань Жилстрой</h3>
+                    <p class="text-gray-600 mb-4">Рассрочка до 4 лет, взнос от 35%</p>
+                    <button class="text-[#0088CC] hover:text-[#006699] font-semibold">Смотреть объекты</button>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-building text-[#0088CC] text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Премьер</h3>
+                    <p class="text-gray-600 mb-4">Рассрочка до 5 лет, взнос от 40%</p>
+                    <button class="text-[#0088CC] hover:text-[#006699] font-semibold">Смотреть объекты</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12">Преимущества рассрочки от застройщика</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="bg-gray-50 rounded-xl p-6 card-hover">
+                <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-percent text-[#0088CC] text-xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">0% переплаты</h3>
+                <p class="text-gray-600">Покупка квартиры без процентов и банковских комиссий</p>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-6 card-hover">
+                <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-hand-holding-usd text-green-600 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Первый взнос от 30%</h3>
+                <p class="text-gray-600">Минимальный первоначальный взнос для старта покупки</p>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-6 card-hover">
+                <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-calendar text-[#0088CC] text-xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">До 3 лет</h3>
+                <p class="text-gray-600">Удобные сроки погашения до сдачи дома</p>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-6 card-hover">
+                <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-file-contract text-[#0088CC] text-xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Без справок</h3>
+                <p class="text-gray-600">Оформление без подтверждения доходов</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Developer Benefits Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col lg:flex-row items-center">
+            <div class="lg:w-1/2 mb-10 lg:mb-0 lg:pr-10">
+                <h2 class="text-3xl font-bold mb-6">Рассрочка от застройщика - выгодная альтернатива ипотеке</h2>
+                <p class="text-lg mb-6">Покупайте квартиру в новостройке без банковских процентов и сложных процедур:</p>
+                <ul class="space-y-3 mb-8">
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-[#0088CC] mt-1 mr-3"></i>
+                        <span>0% переплаты - платите только стоимость квартиры</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-[#0088CC] mt-1 mr-3"></i>
+                        <span>Первоначальный взнос от 30%</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-[#0088CC] mt-1 mr-3"></i>
+                        <span>Рассрочка до 3 лет без процентов</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-[#0088CC] mt-1 mr-3"></i>
+                        <span>Оформление без справок о доходах</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-[#0088CC] mt-1 mr-3"></i>
+                        <span>Возможность досрочного погашения</span>
+                    </li>
+                </ul>
+                <button onclick="openApplicationModal()" class="bg-gradient-to-r from-[#0088CC] to-[#006699] hover:shadow-lg text-white font-bold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-[1.02]">Получить рассрочку</button>
+            </div>
+            <div class="lg:w-1/2">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-2xl font-bold mb-6">Условия рассрочки 2024</h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between py-3 border-b border-gray-200">
+                            <span class="text-gray-600">Процентная ставка:</span>
+                            <span class="font-semibold text-[#0088CC]">0% годовых</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-gray-200">
+                            <span class="text-gray-600">Первоначальный взнос:</span>
+                            <span class="font-semibold">от 30%</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-gray-200">
+                            <span class="text-gray-600">Срок рассрочки:</span>
+                            <span class="font-semibold">до 3 лет</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-gray-200">
+                            <span class="text-gray-600">Справки о доходах:</span>
+                            <span class="font-semibold">не требуются</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-gray-200">
+                            <span class="text-gray-600">Досрочное погашение:</span>
+                            <span class="font-semibold">без штрафов</span>
+                        </div>
+                        <div class="flex justify-between py-3">
+                            <span class="text-gray-600">Страхование:</span>
+                            <span class="font-semibold">не обязательно</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Developers Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12">Застройщики с рассрочкой</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+            <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-center h-24 hover:shadow-md transition-shadow">
+                <img alt="ЮгСтройИмпериал" class="max-h-12" src="https://via.placeholder.com/150x60/FF6600/ffffff?text=ЮСИ"/>
+            </div>
+            <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-center h-24 hover:shadow-md transition-shadow">
+                <img alt="Мегастрой-Юг" class="max-h-12" src="https://via.placeholder.com/150x60/0066CC/ffffff?text=МСЮ"/>
+            </div>
+            <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-center h-24 hover:shadow-md transition-shadow">
+                <img alt="Краснодар Девелопмент" class="max-h-12" src="https://via.placeholder.com/150x60/009639/ffffff?text=КД"/>
+            </div>
+            <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-center h-24 hover:shadow-md transition-shadow">
+                <img alt="ЛСР Юг" class="max-h-12" src="https://via.placeholder.com/150x60/CC0000/ffffff?text=ЛСР"/>
+            </div>
+            <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-center h-24 hover:shadow-md transition-shadow">
+                <img alt="Премьер" class="max-h-12" src="https://via.placeholder.com/150x60/7B68EE/ffffff?text=Премьер"/>
+            </div>
+            <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-center h-24 hover:shadow-md transition-shadow">
+                <img alt="Галактика" class="max-h-12" src="https://via.placeholder.com/150x60/FF1493/ffffff?text=Галактика"/>
+            </div>
+        </div>
+        <div class="text-center mt-8">
+            <p class="text-gray-600 mb-4">Проверенные застройщики Краснодара</p>
+            <button onclick="openApplicationModal()" class="bg-gradient-to-r from-[#0088CC] to-[#006699] hover:shadow-lg text-white font-bold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-[1.02]">Выбрать объект</button>
+        </div>
+    </div>
+</section>
+
+<!-- Detailed Content Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold mb-8">Рассрочка от застройщика в Краснодаре 2024 - покупка без банка</h2>
+            <p class="text-lg text-gray-700 mb-8">Более 40 застройщиков Краснодара предлагают беспроцентную рассрочку на период строительства. Это выгодная альтернатива ипотеке без банковских переплат и сложного оформления.</p>
+            
+            <h3 class="text-2xl font-bold mb-6">ТОП-5 ЖК Краснодара с выгодной рассрочкой</h3>
+            <div class="grid md:grid-cols-1 gap-4 mb-8">
+                <div class="bg-gray-50 rounded-lg p-4 border-l-4 border-[#0088CC]">
+                    <h4 class="font-semibold text-[#0088CC]">ЖК "Новая Адыгея" от ЮгСтройИмпериал</h4>
+                    <p class="text-gray-600">рассрочка на 3 года, взнос 30%, сдача в 2025 году</p>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-4 border-l-4 border-[#0088CC]">
+                    <h4 class="font-semibold text-[#0088CC]">ЖК "Гвардейский" от Мегастрой-Юг</h4>
+                    <p class="text-gray-600">взнос от 35%, рассрочка до ключей, акция -200 000 ₽</p>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-4 border-l-4 border-[#0088CC]">
+                    <h4 class="font-semibold text-[#0088CC]">ЖК "Южная резиденция" от Краснодар Девелопмент</h4>
+                    <p class="text-gray-600">рассрочка на 2 года, первый взнос 40%, готовые секции</p>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-4 border-l-4 border-[#0088CC]">
+                    <h4 class="font-semibold text-[#0088CC]">ЖК "Пикассо" от ЛСР</h4>
+                    <p class="text-gray-600">премиум-класс, рассрочка до 36 месяцев, индивидуальные условия</p>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-4 border-l-4 border-[#0088CC]">
+                    <h4 class="font-semibold text-[#0088CC]">ЖК "Аврора" от Премьер</h4>
+                    <p class="text-gray-600">центр города, рассрочка на 2,5 года, без процентов</p>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold mb-6">Как получить рассрочку в Краснодаре - простая схема</h3>
+            <div class="space-y-4 mb-8">
+                <div class="flex items-start">
+                    <div class="bg-[#0088CC] text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1">1</div>
+                    <div>
+                        <h4 class="font-semibold">Выберите ЖК и планировку</h4>
+                        <p class="text-gray-600">поможем подобрать оптимальный вариант по цене и срокам</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="bg-[#0088CC] text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1">2</div>
+                    <div>
+                        <h4 class="font-semibold">Забронируйте квартиру</h4>
+                        <p class="text-gray-600">внесите бронь 50-100 тысяч рублей (засчитывается в счет оплаты)</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="bg-[#0088CC] text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1">3</div>
+                    <div>
+                        <h4 class="font-semibold">Подпишите договор долевого участия</h4>
+                        <p class="text-gray-600">оформление в отделе продаж за 1 день</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="bg-[#0088CC] text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1">4</div>
+                    <div>
+                        <h4 class="font-semibold">Внесите первоначальный взнос</h4>
+                        <p class="text-gray-600">от 30-40% стоимости квартиры</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="bg-[#0088CC] text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1">5</div>
+                    <div>
+                        <h4 class="font-semibold">Вносите ежемесячные платежи</h4>
+                        <p class="text-gray-600">фиксированная сумма до сдачи дома</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-blue-50 rounded-lg p-4 mb-8">
+                <p class="text-[#0088CC]"><strong>Оформление рассрочки: всего 1 день, минимум документов!</strong></p>
+            </div>
+
+            <h3 class="text-2xl font-bold mb-6">Лидеры строительного рынка Краснодара</h3>
+            <div class="bg-gray-50 rounded-lg p-6 mb-8">
+                <p class="mb-4"><strong>Проверенные застройщики с рассрочкой:</strong></p>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <ul class="space-y-2">
+                            <li>• <strong>ЮгСтройИмпериал</strong> — 15 лет на рынке, 30+ ЖК</li>
+                            <li>• <strong>Мегастрой-Юг</strong> — лидер эконом-сегмента</li>
+                            <li>• <strong>ЛСР Юг</strong> — федеральный застройщик</li>
+                            <li>• <strong>Краснодар Девелопмент</strong> — местный лидер</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul class="space-y-2">
+                            <li>• <strong>Премьер</strong> — центральные локации</li>
+                            <li>• <strong>Галактика</strong> — инновационные проекты</li>
+                            <li>• <strong>Кубань Строй Групп</strong> — семейные ЖК</li>
+                            <li>• <strong>ДСК-Краснодар</strong> — надежное качество</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-green-50 border border-green-200 rounded-lg p-4 mt-4">
+                    <p class="text-green-800"><strong>Гарантии:</strong> Все застройщики имеют аккредитацию банков и эскроу-счета для защиты дольщиков.</p>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg p-6 text-white text-center">
+                <h3 class="text-xl font-bold mb-4">Покупайте квартиру без банковских переплат!</h3>
+                <div class="grid md:grid-cols-5 gap-4 text-sm">
+                    <div>
+                        <div class="bg-white/20 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">1</div>
+                        <p>Выберите ЖК</p>
+                    </div>
+                    <div>
+                        <div class="bg-white/20 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">2</div>
+                        <p>Забронируйте квартиру</p>
+                    </div>
+                    <div>
+                        <div class="bg-white/20 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">3</div>
+                        <p>Подпишите ДДУ</p>
+                    </div>
+                    <div>
+                        <div class="bg-white/20 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">4</div>
+                        <p>Внесите первый взнос</p>
+                    </div>
+                    <div>
+                        <div class="bg-white/20 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">5</div>
+                        <p>Получите ключи и кэшбэк!</p>
+                    </div>
+                </div>
+                <button onclick="openApplicationModal()" class="bg-white text-[#0088CC] font-bold py-3 px-8 rounded-lg mt-6 hover:bg-gray-100 transition duration-300">Подобрать рассрочку</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6" style="background: linear-gradient(135deg, #0088CC 0%, #006699 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">Часто задаваемые вопросы</h1>
+            <p class="text-xl text-gray-600">Найдите ответы на популярные вопросы о рассрочке от застройщика и кешбеке за новостройки.</p>
+        </div>
+        
+        <div class="max-w-3xl mx-auto space-y-4">
+            <!-- Developer Mortgage Questions -->
+            <h2 class="text-2xl font-bold mt-8 mb-4" style="background: linear-gradient(135deg, #0088CC 0%, #006699 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">Вопросы по рассрочке от застройщика</h2>
+            
+            <div class="bg-gray-50 rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100">
+                <button class="flex justify-between items-center w-full text-left group" onclick="toggleFAQ(1)">
+                    <h3 class="text-lg font-medium group-hover:text-[#0088CC] transition-colors">Чем рассрочка отличается от ипотеки?</h3>
+                    <i class="fas fa-chevron-down text-[#0088CC] transition-transform duration-200" id="faq-icon-1"></i>
+                </button>
+                <div class="mt-3 text-gray-600 hidden" id="faq-content-1">
+                    <p class="leading-relaxed">Рассрочка от застройщика предоставляется под 0% без участия банка. Квартира оформляется в собственность только после полной оплаты. Ипотека - это банковский кредит с процентами, но право собственности оформляется сразу.</p>
+                </div>
+            </div>
+            
+            <div class="bg-ton-light rounded-xl p-6 shadow-sm">
+                <button class="flex justify-between items-center w-full text-left" onclick="toggleFAQ(2)">
+                    <h3 class="text-lg font-medium">Какие документы нужны для рассрочки?</h3>
+                    <i class="fas fa-chevron-down text-ton-blue transition-transform" id="faq-icon-2"></i>
+                </button>
+                <div class="mt-3 text-gray-600 hidden" id="faq-content-2">
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>Паспорт покупателя</li>
+                        <li>Справка о доходах (не всегда требуется)</li>
+                        <li>Первоначальный взнос (обычно 30-50%)</li>
+                        <li>Подписание договора долевого участия</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+// Developer Mortgage Calculator
+function updateDeveloperCalculator() {
+    const propertyPriceEl = document.getElementById('devPropertyPrice');
+    const downPaymentEl = document.getElementById('devDownPayment');
+    const installmentTermEl = document.getElementById('devInstallmentTerm');
+    const monthlyPaymentEl = document.getElementById('devMonthlyPayment');
+    const remainingAmountEl = document.getElementById('devRemainingAmount');
+    const cashbackEl = document.getElementById('devCashback');
+
+    const propertyPriceRange = document.getElementById('devPropertyPriceRange');
+    const downPaymentRange = document.getElementById('devDownPaymentRange');
+    const installmentTermRange = document.getElementById('devInstallmentTermRange');
+
+    const propertyPrice = parseInt(propertyPriceRange.value);
+    const downPaymentPercent = parseInt(downPaymentRange.value);
+    const installmentTermYears = parseInt(installmentTermRange.value);
+
+    const downPaymentAmount = propertyPrice * downPaymentPercent / 100;
+    const remainingAmount = propertyPrice - downPaymentAmount;
+    const monthlyPayment = remainingAmount / (installmentTermYears * 12);
+    const cashback = propertyPrice * 0.025; // 2.5% cashback
+
+    // Update UI
+    propertyPriceEl.textContent = formatNumber(propertyPrice) + ' ₽';
+    downPaymentEl.textContent = formatNumber(Math.round(downPaymentAmount)) + ' ₽ (' + downPaymentPercent + '%)';
+    installmentTermEl.textContent = installmentTermYears + ' года';
+    monthlyPaymentEl.textContent = formatNumber(Math.round(monthlyPayment)) + ' ₽';
+    remainingAmountEl.textContent = formatNumber(Math.round(remainingAmount)) + ' ₽';
+    cashbackEl.textContent = formatNumber(Math.round(cashback)) + ' ₽';
+}
+
+function formatNumber(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+}
+
+// Initialize calculator
+document.addEventListener('DOMContentLoaded', function() {
+    updateDeveloperCalculator();
+    
+    // Add event listeners
+    document.getElementById('devPropertyPriceRange').addEventListener('input', updateDeveloperCalculator);
+    document.getElementById('devDownPaymentRange').addEventListener('input', updateDeveloperCalculator);
+    document.getElementById('devInstallmentTermRange').addEventListener('input', updateDeveloperCalculator);
+});
+
+// Modal functions
+// openApplicationModal function is defined globally in base.html
+
+// FAQ Toggle function
+function toggleFAQ(id) {
+    const content = document.getElementById(`faq-content-${id}`);
+    const icon = document.getElementById(`faq-icon-${id}`);
+    
+    if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        icon.style.transform = 'rotate(180deg)';
+    } else {
+        content.classList.add('hidden');
+        icon.style.transform = 'rotate(0deg)';
+    }
+}
+</script>
+
+<style>
+.slider::-webkit-slider-thumb {
+    appearance: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #3B82F6;
+    cursor: pointer;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.slider::-moz-range-thumb {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #3B82F6;
+    cursor: pointer;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+</style>
+{% endblock %}

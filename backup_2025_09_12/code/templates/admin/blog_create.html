@@ -1,0 +1,204 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Создать статью - Админ панель | InBack{% endblock %}
+{% block page_title %}Создание статьи{% endblock %}
+
+{% block head %}
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <!-- Page Header -->
+    <div class="flex items-center justify-between mb-6">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Создание статьи</h1>
+            <p class="text-gray-600 mt-1">Создайте новую статью для блога</p>
+        </div>
+        <a href="{{ url_for('admin_blog') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg">
+            <i class="fas fa-arrow-left mr-2"></i>Назад к блогу
+        </a>
+    </div>
+
+    <!-- Create Form -->
+    <div class="bg-white rounded-lg shadow p-6">
+        <form method="POST" enctype="multipart/form-data">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Main Content -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Title -->
+                    <div>
+                        <label for="title" class="block text-sm font-medium text-gray-700 mb-2">
+                            Заголовок <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" 
+                               name="title" 
+                               id="title" 
+                               required
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500"
+                               placeholder="Введите заголовок статьи">
+                    </div>
+
+                    <!-- Excerpt -->
+                    <div>
+                        <label for="excerpt" class="block text-sm font-medium text-gray-700 mb-2">
+                            Краткое описание
+                        </label>
+                        <textarea name="excerpt" 
+                                  id="excerpt" 
+                                  rows="3"
+                                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500"
+                                  placeholder="Краткое описание статьи для превью"></textarea>
+                        <p class="text-xs text-gray-500 mt-1">Используется для превью и SEO (рекомендуется 150-160 символов)</p>
+                    </div>
+
+                    <!-- Content -->
+                    <div>
+                        <label for="content" class="block text-sm font-medium text-gray-700 mb-2">
+                            Содержание <span class="text-red-500">*</span>
+                        </label>
+                        <div class="border border-gray-300 rounded-md">
+                            <textarea name="content" 
+                                      id="content" 
+                                      required
+                                      class="w-full px-3 py-2 border-0 focus:ring-0 focus:outline-none"
+                                      rows="20"
+                                      placeholder="Напишите содержание статьи..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="space-y-6">
+                    <!-- Publish Settings -->
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-gray-900 mb-4">Публикация</h3>
+                        
+                        <div class="space-y-4">
+                            <!-- Status -->
+                            <div>
+                                <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Статус</label>
+                                <select name="status" id="status" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500">
+                                    <option value="draft">Черновик</option>
+                                    <option value="published">Опубликовано</option>
+                                    <option value="scheduled">Запланировано</option>
+                                </select>
+                            </div>
+
+                            <!-- Category -->
+                            <div>
+                                <label for="category_id" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Категория <span class="text-red-500">*</span>
+                                </label>
+                                <select name="category_id" id="category_id" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500">
+                                    <option value="">Выберите категорию</option>
+                                    {% for category in categories %}
+                                    <option value="{{ category.id }}">{{ category.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <!-- Featured -->
+                            <div class="flex items-center">
+                                <input type="checkbox" 
+                                       name="is_featured" 
+                                       id="is_featured" 
+                                       class="h-4 w-4 text-[#1e40af] focus:ring-red-500 border-gray-300 rounded">
+                                <label for="is_featured" class="ml-2 block text-sm text-gray-700">
+                                    Рекомендуемая статья
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Featured Image -->
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-gray-900 mb-4">Изображение</h3>
+                        
+                        <div>
+                            <label for="featured_image" class="block text-sm font-medium text-gray-700 mb-1">URL изображения</label>
+                            <input type="url" 
+                                   name="featured_image" 
+                                   id="featured_image" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500"
+                                   placeholder="https://example.com/image.jpg">
+                        </div>
+                    </div>
+
+                    <!-- SEO -->
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-gray-900 mb-4">SEO</h3>
+                        
+                        <div class="space-y-3">
+                            <div>
+                                <label for="meta_title" class="block text-sm font-medium text-gray-700 mb-1">Meta заголовок</label>
+                                <input type="text" 
+                                       name="meta_title" 
+                                       id="meta_title" 
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500"
+                                       placeholder="SEO заголовок">
+                            </div>
+                            
+                            <div>
+                                <label for="meta_description" class="block text-sm font-medium text-gray-700 mb-1">Meta описание</label>
+                                <textarea name="meta_description" 
+                                          id="meta_description" 
+                                          rows="2"
+                                          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500"
+                                          placeholder="SEO описание"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="flex space-x-3">
+                        <button type="submit" class="flex-1 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium">
+                            <i class="fas fa-save mr-2"></i>Создать
+                        </button>
+                        <a href="{{ url_for('admin_blog') }}" class="flex-1 bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-medium text-center">
+                            Отмена
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Initialize CKEditor
+    ClassicEditor
+        .create(document.querySelector('#content'), {
+            toolbar: {
+                items: [
+                    'heading', '|',
+                    'bold', 'italic', 'link', '|',
+                    'bulletedList', 'numberedList', '|',
+                    'outdent', 'indent', '|',
+                    'blockQuote', 'insertTable', '|',
+                    'undo', 'redo'
+                ]
+            },
+            language: 'ru'
+        })
+        .catch(error => {
+            console.error(error);
+        });
+
+    // Auto-generate meta title from title
+    document.getElementById('title').addEventListener('input', function() {
+        const metaTitleField = document.getElementById('meta_title');
+        if (!metaTitleField.value) {
+            metaTitleField.value = this.value;
+        }
+    });
+
+    // Auto-generate meta description from excerpt
+    document.getElementById('excerpt').addEventListener('input', function() {
+        const metaDescriptionField = document.getElementById('meta_description');
+        if (!metaDescriptionField.value) {
+            metaDescriptionField.value = this.value;
+        }
+    });
+</script>
+{% endblock %}

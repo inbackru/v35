@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заявка принята | InBack</title>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #1f2937;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9fafb;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #059669;
+            margin-bottom: 16px;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            color: #6b7280;
+            font-size: 16px;
+        }
+        .success-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        .content {
+            margin: 32px 0;
+        }
+        .property-card {
+            background: #f3f4f6;
+            border-radius: 8px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+        .property-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1f2937;
+        }
+        .property-detail {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .property-detail strong {
+            color: #374151;
+        }
+        .cashback-highlight {
+            background: #dcfce7;
+            border: 1px solid #22c55e;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 24px 0;
+            text-align: center;
+        }
+        .cashback-amount {
+            font-size: 24px;
+            font-weight: bold;
+            color: #16a34a;
+            margin-bottom: 8px;
+        }
+        .next-steps {
+            background: #eff6ff;
+            border: 1px solid #3b82f6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 24px 0;
+        }
+        .step {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .step-number {
+            background: #3b82f6;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        .btn {
+            display: inline-block;
+            background: #059669;
+            color: white !important;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid #e5e7eb;
+            font-size: 14px;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">InBack</div>
+            <div class="success-icon">✅</div>
+            <h1 class="title">Заявка принята!</h1>
+            <p class="subtitle">Ваша заявка успешно зарегистрирована в системе</p>
+        </div>
+
+        <div class="content">
+            <p>Здравствуйте, {{ user.first_name or user.full_name.split()[0] }}!</p>
+            
+            <p>Мы получили вашу заявку на просмотр недвижимости. Спасибо за интерес к нашим услугам!</p>
+
+            <div class="property-card">
+                <div class="property-title">{{ application.property_name }}</div>
+                <div class="property-detail">
+                    <span><strong>Номер заявки:</strong></span>
+                    <span>#{{ application.id }}</span>
+                </div>
+                <div class="property-detail">
+                    <span><strong>ЖК:</strong></span>
+                    <span>{{ application.complex_name }}</span>
+                </div>
+                <div class="property-detail">
+                    <span><strong>Дата подачи:</strong></span>
+                    <span>{{ application.created_at.strftime('%d.%m.%Y в %H:%M') }}</span>
+                </div>
+                {% if application.message %}
+                <div class="property-detail">
+                    <span><strong>Комментарий:</strong></span>
+                    <span>{{ application.message }}</span>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="cashback-highlight">
+                <div class="cashback-amount">💰 Доступен кэшбек!</div>
+                <p>При покупке этого объекта через InBack вы можете получить кэшбек до 3% от стоимости недвижимости.</p>
+            </div>
+
+            <div class="next-steps">
+                <h3 style="margin-top: 0; color: #1e40af;">🚀 Что происходит дальше?</h3>
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div>Наш менеджер свяжется с вами в течение 2 часов</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div>Согласуем удобное время для показа объекта</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div>Проведем персональную экскурсию по квартире</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div>Поможем с оформлением сделки и получением кэшбека</div>
+                </div>
+            </div>
+
+            <div style="text-align: center;">
+                <a href="{{ base_url }}/dashboard" class="btn">Отследить статус заявки</a>
+            </div>
+
+            <p><strong>Контакты для связи:</strong></p>
+            <ul>
+                <li>Телефон: <a href="tel:+78612345678">+7 (861) 234-56-78</a></li>
+                <li>Email: <a href="mailto:support@inback.ru">support@inback.ru</a></li>
+                <li>Telegram: <a href="https://t.me/inback_support">@inback_support</a></li>
+                <li>WhatsApp: <a href="https://wa.me/78612345678">Написать в WhatsApp</a></li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p>Спасибо за выбор InBack!</p>
+            <p>&copy; 2025 InBack. Все права защищены.</p>
+        </div>
+    </div>
+</body>
+</html>

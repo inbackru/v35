@@ -1,0 +1,302 @@
+{% extends "base.html" %}
+
+{% block title %}{{ property.title }} - Кэшбек до {{ "{:,}".format(cashback).replace(',', ' ') }} ₽ | inback{% endblock %}
+{% block description %}{{ property.title }} в Краснодаре. Получите кэшбек до {{ "{:,}".format(cashback).replace(',', ' ') }} ₽ при покупке квартиры от застройщика {{ property.developer }}.{% endblock %}
+{% block keywords %}{{ property.title }}, кэшбек за квартиру, новостройка Краснодар, {{ property.developer }}{% endblock %}
+
+{% block breadcrumbs %}
+<!-- Breadcrumbs -->
+<div class="container mx-auto px-4 py-3 text-sm">
+    <nav aria-label="Breadcrumb" class="flex">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+                <a class="text-[#0088CC] hover:underline inline-flex items-center" href="{{ url_for('index') }}">
+                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewbox="0 0 20 20">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                    </svg>
+                    Главная
+                </a>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewbox="0 0 20 20">
+                        <path clip-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" fill-rule="evenodd"></path>
+                    </svg>
+                    <a href="{{ url_for('properties') }}" class="text-[#0088CC] hover:underline ml-1 md:ml-2">Новостройки</a>
+                </div>
+            </li>
+            <li aria-current="page">
+                <div class="flex items-center">
+                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewbox="0 0 20 20">
+                        <path clip-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" fill-rule="evenodd"></path>
+                    </svg>
+                    <span class="text-gray-500 ml-1 md:ml-2">{{ property.title }}</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+</div>
+{% endblock %}
+
+{% block content %}
+<main class="bg-gray-50 text-gray-900">
+    <div class="max-w-6xl mx-auto px-4 py-12">
+        <!-- Кешбек баннер -->
+        <div class="ton-bg rounded-2xl p-6 text-white mb-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+                <div class="mb-4 md:mb-0">
+                    <h2 class="text-2xl font-bold mb-2">Получите кешбек при покупке этой квартиры!</h2>
+                    <p class="text-blue-100">Мы вернем вам до {{ "{:,}".format(cashback).replace(',', ' ') }} ₽ после оформления сделки</p>
+                </div>
+                <div class="text-right">
+                    <div class="text-4xl font-bold">{{ "{:,}".format(cashback).replace(',', ' ') }} ₽</div>
+                    <div class="text-blue-100">возврат денег</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Основная информация -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Галерея изображений -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-sm">
+                    <div class="relative">
+                        <img src="{{ property.image }}" alt="{{ property.title }}" class="w-full h-96 object-cover">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-[#0088CC] text-white px-3 py-1 rounded-full text-sm font-medium">
+                                Кэшбек {{ "{:,}".format(cashback).replace(',', ' ') }} ₽
+                            </span>
+                        </div>
+                        {% if property.mortgage_available %}
+                            <div class="absolute top-4 right-4">
+                                <span class="bg-green-500 text-white px-2 py-1 rounded text-xs font-medium">
+                                    Ипотека
+                                </span>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Основная информация о квартире -->
+                <div class="bg-white rounded-xl p-6 shadow-sm">
+                    <h1 class="text-3xl font-bold text-gray-900 mb-4">{{ property.title }}</h1>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                        <div class="text-center p-4 bg-gray-50 rounded-lg">
+                            <div class="text-2xl font-bold text-[#0088CC]">{{ property.rooms }}</div>
+                            <div class="text-sm text-gray-600">комнаты</div>
+                        </div>
+                        <div class="text-center p-4 bg-gray-50 rounded-lg">
+                            <div class="text-2xl font-bold text-[#0088CC]">{{ property.area }}</div>
+                            <div class="text-sm text-gray-600">м²</div>
+                        </div>
+                        <div class="text-center p-4 bg-gray-50 rounded-lg">
+                            <div class="text-2xl font-bold text-[#0088CC]">{{ property.floor }}</div>
+                            <div class="text-sm text-gray-600">этаж</div>
+                        </div>
+                        <div class="text-center p-4 bg-gray-50 rounded-lg">
+                            <div class="text-2xl font-bold text-[#0088CC]">{{ "{:,}".format(property.price // property.area).replace(',', ' ') }}</div>
+                            <div class="text-sm text-gray-600">₽/м²</div>
+                        </div>
+                    </div>
+
+                    <div class="border-t pt-6">
+                        <h3 class="text-xl font-semibold mb-4">О квартире</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Застройщик:</span>
+                                <span class="font-medium">{{ property.developer }}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Район:</span>
+                                <span class="font-medium">{{ property.district }}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Срок сдачи:</span>
+                                <span class="font-medium">{{ property.completion_date }}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Тип дома:</span>
+                                <span class="font-medium">{{ property.building_type or 'Многоэтажный' }}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Отделка:</span>
+                                <span class="font-medium">{{ property.finishing or 'Предчистовая' }}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Балкон:</span>
+                                <span class="font-medium">{% if property.has_balcony != false %}Есть{% else %}Нет{% endif %}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if property.description %}
+                    <div class="border-t pt-6 mt-6">
+                        <h3 class="text-xl font-semibold mb-4">Описание</h3>
+                        <p class="text-gray-700 leading-relaxed">{{ property.description|replace('\n', '<br>')|safe }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Расположение -->
+                <div class="bg-white rounded-xl p-6 shadow-sm">
+                    <h3 class="text-xl font-semibold mb-4">Расположение</h3>
+                    <div class="mb-4">
+                        <p class="text-gray-700 mb-2">
+                            <i class="fas fa-map-marker-alt text-[#0088CC] mr-2"></i>
+                            {{ property.address or (property.district + ', Краснодар') }}
+                        </p>
+                    </div>
+                    
+                    <!-- Карта (placeholder) -->
+                    <div class="bg-gray-200 rounded-lg h-64 flex items-center justify-center">
+                        <div class="text-center text-gray-500">
+                            <i class="fas fa-map text-4xl mb-2"></i>
+                            <p>Интерактивная карта</p>
+                            <p class="text-sm">Точное расположение объекта</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Боковая панель -->
+            <div class="space-y-6">
+                <!-- Цена и заявка -->
+                <div class="bg-white rounded-xl p-6 shadow-sm sticky top-4">
+                    <div class="text-center mb-6">
+                        <div class="text-3xl font-bold text-gray-900 mb-1">
+                            {{ "{:,}".format(property.price).replace(',', ' ') }} ₽
+                        </div>
+                        <div class="text-gray-600">{{ "{:,}".format(property.price // property.area).replace(',', ' ') }} ₽/м²</div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <button onclick="openApplicationModal()" class="w-full bg-gradient-to-r from-[#0088CC] to-[#006699] text-white py-3 px-6 rounded-lg font-medium hover:shadow-lg transition-all duration-300">
+                            Получить кэшбек {{ "{:,}".format(cashback).replace(',', ' ') }} ₽
+                        </button>
+                        
+                        <button class="w-full bg-gray-100 text-gray-700 py-3 px-6 rounded-lg font-medium hover:bg-gray-200 transition-all duration-300">
+                            <i class="far fa-heart mr-2"></i>
+                            Добавить в избранное
+                        </button>
+                        
+                        <button class="w-full bg-gray-100 text-gray-700 py-3 px-6 rounded-lg font-medium hover:bg-gray-200 transition-all duration-300">
+                            <i class="fas fa-phone mr-2"></i>
+                            Позвонить
+                        </button>
+                        
+                        <a href="{{ url_for('property_pdf', property_id=property.id) }}" target="_blank" class="w-full bg-orange-500 text-white py-3 px-6 rounded-lg font-medium hover:bg-orange-600 transition-all duration-300 text-center inline-block">
+                            <i class="fas fa-file-pdf mr-2"></i>
+                            Скачать PDF карточку
+                        </a>
+                    </div>
+
+                    <div class="mt-6 pt-6 border-t">
+                        <h4 class="font-semibold mb-3">Консультация бесплатно</h4>
+                        <div class="space-y-2 text-sm text-gray-600">
+                            <p><i class="fas fa-check text-[#0088CC] mr-2"></i> Помощь с ипотекой</p>
+                            <p><i class="fas fa-check text-[#0088CC] mr-2"></i> Юридическое сопровождение</p>
+                            <p><i class="fas fa-check text-[#0088CC] mr-2"></i> Гарантия возврата кэшбека</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ипотечный калькулятор -->
+                {% if property.mortgage_available %}
+                <div class="bg-white rounded-xl p-6 shadow-sm">
+                    <h3 class="text-lg font-semibold mb-4">
+                        <i class="fas fa-calculator text-[#0088CC] mr-2"></i>
+                        Ипотечный калькулятор
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Первоначальный взнос</label>
+                            <input type="range" min="10" max="90" value="20" class="w-full" id="downPaymentSlider">
+                            <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                <span>10%</span>
+                                <span id="downPaymentValue">20%</span>
+                                <span>90%</span>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Срок кредита</label>
+                            <select class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                                <option value="10">10 лет</option>
+                                <option value="15">15 лет</option>
+                                <option value="20" selected>20 лет</option>
+                                <option value="25">25 лет</option>
+                                <option value="30">30 лет</option>
+                            </select>
+                        </div>
+                        
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-[#0088CC]" id="monthlyPayment">
+                                    {{ "{:,}".format((property.price * 0.8 * 0.01)|round|int).replace(',', ' ') }} ₽
+                                </div>
+                                <div class="text-sm text-gray-600">ежемесячный платеж</div>
+                            </div>
+                        </div>
+                        
+                        <button class="w-full bg-green-500 text-white py-2 px-4 rounded-lg text-sm font-medium hover:bg-green-600 transition-all duration-300">
+                            Подать заявку на ипотеку
+                        </button>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Похожие предложения -->
+                {% if similar_properties %}
+                <div class="bg-white rounded-xl p-6 shadow-sm">
+                    <h3 class="text-lg font-semibold mb-4">Похожие предложения</h3>
+                    <div class="space-y-4">
+                        {% for similar in similar_properties %}
+                        <a href="{{ url_for('property_detail', property_id=similar.id) }}" class="block group">
+                            <div class="flex space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-all duration-300">
+                                <img src="{{ similar.image }}" alt="{{ similar.title }}" class="w-16 h-16 object-cover rounded-lg">
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="text-sm font-medium text-gray-900 truncate group-hover:text-[#0088CC]">
+                                        {{ similar.title }}
+                                    </h4>
+                                    <p class="text-xs text-gray-500 mb-1">{{ similar.rooms }} комн., {{ similar.area }} м²</p>
+                                    <p class="text-sm font-semibold text-gray-900">
+                                        {{ "{:,}".format(similar.price).replace(',', ' ') }} ₽
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Mortgage calculator
+    const downPaymentSlider = document.getElementById('downPaymentSlider');
+    const downPaymentValue = document.getElementById('downPaymentValue');
+    const monthlyPayment = document.getElementById('monthlyPayment');
+    const propertyPrice = {{ property.price }};
+
+    if (downPaymentSlider) {
+        downPaymentSlider.addEventListener('input', function() {
+            const percentage = this.value;
+            downPaymentValue.textContent = percentage + '%';
+            
+            const loanAmount = propertyPrice * (100 - percentage) / 100;
+            const monthlyRate = 0.12 / 12; // 12% годовых
+            const months = 20 * 12; // 20 лет
+            
+            const payment = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
+            monthlyPayment.textContent = new Intl.NumberFormat('ru-RU').format(Math.round(payment)) + ' ₽';
+        });
+    }
+</script>
+{% endblock %}

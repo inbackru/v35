@@ -1,0 +1,351 @@
+{% extends "base.html" %}
+
+{% block title %}Сравнение объектов | InBack{% endblock %}
+{% block description %}Сравнение выбранных объектов недвижимости в Краснодаре{% endblock %}
+
+{% block content %}
+<!-- Breadcrumbs -->
+<div class="container mx-auto px-4 py-3 text-sm">
+    <nav aria-label="Breadcrumb" class="flex">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+                <a class="text-[#0088CC] hover:underline inline-flex items-center" href="{{ url_for('index') }}">
+                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                    </svg>
+                    Главная
+                </a>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path clip-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" fill-rule="evenodd"></path>
+                    </svg>
+                    <a href="{{ url_for('properties') }}" class="text-[#0088CC] hover:underline ml-1 md:ml-2">Каталог</a>
+                </div>
+            </li>
+            <li aria-current="page">
+                <div class="flex items-center">
+                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path clip-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" fill-rule="evenodd"></path>
+                    </svg>
+                    <span class="text-gray-500 ml-1 md:ml-2">Сравнение</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+</div>
+
+<!-- Main Content -->
+<div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-900">Сравнение объектов</h1>
+        <div class="flex gap-4">
+            <button onclick="clearComparison()" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                Очистить все
+            </button>
+            <a href="{{ url_for('properties') }}" class="px-4 py-2 bg-[#0088CC] text-white rounded-lg hover:bg-[#006699] transition-colors">
+                Добавить объекты
+            </a>
+        </div>
+    </div>
+
+    <!-- Comparison Table Container -->
+    <div id="comparison-container" class="bg-white border rounded-lg overflow-hidden">
+        <div id="empty-comparison" class="text-center py-16">
+            <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">Нет объектов для сравнения</h3>
+            <p class="text-gray-600 mb-6">Добавьте объекты из каталога для сравнения характеристик</p>
+            <a href="{{ url_for('properties') }}" class="inline-flex items-center px-6 py-3 bg-[#0088CC] text-white rounded-lg hover:bg-[#006699] transition-colors">
+                Перейти в каталог
+            </a>
+        </div>
+
+        <!-- Comparison Table -->
+        <div id="comparison-table" class="hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50 border-b">
+                        <tr>
+                            <th class="px-6 py-4 text-left text-sm font-medium text-gray-500 w-48">Характеристика</th>
+                            <th id="property-header-1" class="px-6 py-4 text-center text-sm font-medium text-gray-500 min-w-80">Объект 1</th>
+                            <th id="property-header-2" class="px-6 py-4 text-center text-sm font-medium text-gray-500 min-w-80">Объект 2</th>
+                            <th id="property-header-3" class="px-6 py-4 text-center text-sm font-medium text-gray-500 min-w-80">Объект 3</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200" id="comparison-body">
+                        <!-- Images Row -->
+                        <tr>
+                            <td class="px-6 py-4 font-medium text-gray-900">Фото</td>
+                            <td id="image-1" class="px-6 py-4 text-center"></td>
+                            <td id="image-2" class="px-6 py-4 text-center"></td>
+                            <td id="image-3" class="px-6 py-4 text-center"></td>
+                        </tr>
+                        <!-- Title Row -->
+                        <tr class="bg-gray-50">
+                            <td class="px-6 py-4 font-medium text-gray-900">Название</td>
+                            <td id="title-1" class="px-6 py-4 text-center font-semibold"></td>
+                            <td id="title-2" class="px-6 py-4 text-center font-semibold"></td>
+                            <td id="title-3" class="px-6 py-4 text-center font-semibold"></td>
+                        </tr>
+                        <!-- Price Row -->
+                        <tr>
+                            <td class="px-6 py-4 font-medium text-gray-900">Цена</td>
+                            <td id="price-1" class="px-6 py-4 text-center text-lg font-bold text-[#0088CC]"></td>
+                            <td id="price-2" class="px-6 py-4 text-center text-lg font-bold text-[#0088CC]"></td>
+                            <td id="price-3" class="px-6 py-4 text-center text-lg font-bold text-[#0088CC]"></td>
+                        </tr>
+                        <!-- Cashback Row -->
+                        <tr class="bg-green-50">
+                            <td class="px-6 py-4 font-medium text-gray-900">Кэшбек</td>
+                            <td id="cashback-1" class="px-6 py-4 text-center font-bold text-green-600"></td>
+                            <td id="cashback-2" class="px-6 py-4 text-center font-bold text-green-600"></td>
+                            <td id="cashback-3" class="px-6 py-4 text-center font-bold text-green-600"></td>
+                        </tr>
+                        <!-- Room Count -->
+                        <tr>
+                            <td class="px-6 py-4 font-medium text-gray-900">Количество комнат</td>
+                            <td id="rooms-1" class="px-6 py-4 text-center"></td>
+                            <td id="rooms-2" class="px-6 py-4 text-center"></td>
+                            <td id="rooms-3" class="px-6 py-4 text-center"></td>
+                        </tr>
+                        <!-- Area -->
+                        <tr class="bg-gray-50">
+                            <td class="px-6 py-4 font-medium text-gray-900">Площадь</td>
+                            <td id="area-1" class="px-6 py-4 text-center"></td>
+                            <td id="area-2" class="px-6 py-4 text-center"></td>
+                            <td id="area-3" class="px-6 py-4 text-center"></td>
+                        </tr>
+                        <!-- Floor -->
+                        <tr>
+                            <td class="px-6 py-4 font-medium text-gray-900">Этаж</td>
+                            <td id="floor-1" class="px-6 py-4 text-center"></td>
+                            <td id="floor-2" class="px-6 py-4 text-center"></td>
+                            <td id="floor-3" class="px-6 py-4 text-center"></td>
+                        </tr>
+                        <!-- District -->
+                        <tr class="bg-gray-50">
+                            <td class="px-6 py-4 font-medium text-gray-900">Район</td>
+                            <td id="district-1" class="px-6 py-4 text-center"></td>
+                            <td id="district-2" class="px-6 py-4 text-center"></td>
+                            <td id="district-3" class="px-6 py-4 text-center"></td>
+                        </tr>
+                        <!-- Developer -->
+                        <tr>
+                            <td class="px-6 py-4 font-medium text-gray-900">Застройщик</td>
+                            <td id="developer-1" class="px-6 py-4 text-center"></td>
+                            <td id="developer-2" class="px-6 py-4 text-center"></td>
+                            <td id="developer-3" class="px-6 py-4 text-center"></td>
+                        </tr>
+                        <!-- Complex -->
+                        <tr class="bg-gray-50">
+                            <td class="px-6 py-4 font-medium text-gray-900">ЖК</td>
+                            <td id="complex-1" class="px-6 py-4 text-center"></td>
+                            <td id="complex-2" class="px-6 py-4 text-center"></td>
+                            <td id="complex-3" class="px-6 py-4 text-center"></td>
+                        </tr>
+                        <!-- Completion Date -->
+                        <tr>
+                            <td class="px-6 py-4 font-medium text-gray-900">Срок сдачи</td>
+                            <td id="completion-1" class="px-6 py-4 text-center"></td>
+                            <td id="completion-2" class="px-6 py-4 text-center"></td>
+                            <td id="completion-3" class="px-6 py-4 text-center"></td>
+                        </tr>
+                        <!-- Finish Type -->
+                        <tr class="bg-gray-50">
+                            <td class="px-6 py-4 font-medium text-gray-900">Тип отделки</td>
+                            <td id="finish-1" class="px-6 py-4 text-center"></td>
+                            <td id="finish-2" class="px-6 py-4 text-center"></td>
+                            <td id="finish-3" class="px-6 py-4 text-center"></td>
+                        </tr>
+                        <!-- Actions Row -->
+                        <tr>
+                            <td class="px-6 py-4 font-medium text-gray-900">Действия</td>
+                            <td id="actions-1" class="px-6 py-4 text-center"></td>
+                            <td id="actions-2" class="px-6 py-4 text-center"></td>
+                            <td id="actions-3" class="px-6 py-4 text-center"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    loadComparison();
+});
+
+function loadComparison() {
+    const comparisonList = JSON.parse(localStorage.getItem('property_comparison') || '[]');
+    
+    if (comparisonList.length === 0) {
+        document.getElementById('empty-comparison').classList.remove('hidden');
+        document.getElementById('comparison-table').classList.add('hidden');
+        return;
+    }
+
+    document.getElementById('empty-comparison').classList.add('hidden');
+    document.getElementById('comparison-table').classList.remove('hidden');
+
+    // Hide unused columns
+    for (let i = comparisonList.length; i < 3; i++) {
+        const headerIndex = i + 1;
+        document.getElementById(`property-header-${headerIndex}`).style.display = 'none';
+        
+        // Hide all cells in this column
+        const rows = ['image', 'title', 'price', 'cashback', 'rooms', 'area', 'floor', 'district', 'developer', 'complex', 'completion', 'finish', 'actions'];
+        rows.forEach(row => {
+            const cell = document.getElementById(`${row}-${headerIndex}`);
+            if (cell) cell.style.display = 'none';
+        });
+    }
+
+    // Fetch property data and populate table
+    comparisonList.forEach((propertyId, index) => {
+        fetchPropertyData(propertyId, index + 1);
+    });
+}
+
+async function fetchPropertyData(propertyId, columnIndex) {
+    try {
+        // First try to get from window.allProperties if available (for properties page)
+        if (window.allProperties) {
+            const property = window.allProperties.find(p => p.id === propertyId);
+            if (property) {
+                populatePropertyColumn(property, columnIndex);
+                return;
+            }
+        }
+        
+        // Fallback: Fetch from API
+        const response = await fetch(`/api/property/${propertyId}`);
+        
+        if (!response.ok) {
+            throw new Error('Property not found');
+        }
+        
+        const property = await response.json();
+        populatePropertyColumn(property, columnIndex);
+        
+    } catch (error) {
+        console.warn('Error fetching property data:', error);
+        // Show error in column
+        populateErrorColumn(propertyId, columnIndex);
+    }
+}
+
+function populateErrorColumn(propertyId, columnIndex) {
+    // Show column header
+    document.getElementById(`property-header-${columnIndex}`).style.display = 'table-cell';
+    document.getElementById(`property-header-${columnIndex}`).textContent = 'Ошибка загрузки';
+    
+    // Show all cells in this column
+    const rows = ['image', 'title', 'price', 'cashback', 'rooms', 'area', 'floor', 'district', 'developer', 'complex', 'completion', 'finish', 'actions'];
+    rows.forEach(row => {
+        const cell = document.getElementById(`${row}-${columnIndex}`);
+        if (cell) {
+            cell.style.display = 'table-cell';
+            if (row === 'title') {
+                cell.innerHTML = `<span class="text-[#0088CC]">Объект не найден</span>`;
+            } else if (row === 'actions') {
+                cell.innerHTML = `
+                    <button onclick="removeFromComparison(${propertyId})" 
+                            class="px-3 py-2 text-[#0088CC] border border-red-300 rounded text-sm hover:bg-red-50 transition-colors">
+                        Удалить
+                    </button>
+                `;
+            } else {
+                cell.textContent = '—';
+            }
+        }
+    });
+}
+
+function populatePropertyColumn(property, columnIndex) {
+    // Show column header
+    document.getElementById(`property-header-${columnIndex}`).style.display = 'table-cell';
+    
+    // Show all cells in this column
+    const rows = ['image', 'title', 'price', 'cashback', 'rooms', 'area', 'floor', 'district', 'developer', 'complex', 'completion', 'finish', 'actions'];
+    rows.forEach(row => {
+        const cell = document.getElementById(`${row}-${columnIndex}`);
+        if (cell) cell.style.display = 'table-cell';
+    });
+
+    // Populate data
+    document.getElementById(`image-${columnIndex}`).innerHTML = `
+        <img src="${property.image || '/static/images/placeholder.jpg'}" 
+             alt="${property.title}" 
+             class="w-24 h-16 object-cover rounded mx-auto">
+    `;
+    
+    document.getElementById(`title-${columnIndex}`).innerHTML = `
+        <a href="/object/${property.id}" class="text-[#0088CC] hover:text-gray-700 font-semibold">
+            ${property.title}
+        </a>
+    `;
+    
+    document.getElementById(`price-${columnIndex}`).textContent = 
+        `${parseFloat(property.price).toLocaleString('ru-RU')} ₽`;
+    
+    const cashback = Math.round(property.price * 0.02);
+    document.getElementById(`cashback-${columnIndex}`).textContent = 
+        `${cashback.toLocaleString('ru-RU')} ₽`;
+    
+    document.getElementById(`rooms-${columnIndex}`).textContent = property.room_count || 'Студия';
+    document.getElementById(`area-${columnIndex}`).textContent = `${property.area} м²`;
+    document.getElementById(`floor-${columnIndex}`).textContent = 
+        `${property.floor}/${property.total_floors}`;
+    document.getElementById(`district-${columnIndex}`).textContent = property.district || '—';
+    document.getElementById(`developer-${columnIndex}`).textContent = property.developer || '—';
+    document.getElementById(`complex-${columnIndex}`).textContent = property.complex_name || '—';
+    document.getElementById(`completion-${columnIndex}`).textContent = property.completion_date || '2024';
+    document.getElementById(`finish-${columnIndex}`).textContent = property.finish_type || 'Черновая';
+    
+    document.getElementById(`actions-${columnIndex}`).innerHTML = `
+        <div class="flex flex-col gap-2">
+            <a href="/object/${property.id}" 
+               class="px-3 py-2 bg-[#0088CC] text-white rounded text-sm hover:bg-[#006699] transition-colors">
+                Подробнее
+            </a>
+            <button onclick="removeFromComparison(${property.id})" 
+                    class="px-3 py-2 text-[#0088CC] border border-red-300 rounded text-sm hover:bg-red-50 transition-colors">
+                Удалить
+            </button>
+        </div>
+    `;
+}
+
+function removeFromComparison(propertyId) {
+    let comparisonList = JSON.parse(localStorage.getItem('property_comparison') || '[]');
+    comparisonList = comparisonList.filter(id => id !== propertyId);
+    localStorage.setItem('property_comparison', JSON.stringify(comparisonList));
+    
+    // Reload comparison
+    loadComparison();
+    
+    // Update buttons on other pages
+    if (window.updateCompareButtons) {
+        window.updateCompareButtons();
+    }
+}
+
+function clearComparison() {
+    if (confirm('Вы уверены, что хотите очистить все объекты из сравнения?')) {
+        localStorage.removeItem('property_comparison');
+        loadComparison();
+        
+        // Update buttons on other pages
+        if (window.updateCompareButtons) {
+            window.updateCompareButtons();
+        }
+    }
+}
+</script>
+{% endblock %}

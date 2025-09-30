@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+
+{% block title %}InBack Журнал | Экспертные статьи о недвижимости{% endblock %}
+{% block description %}InBack Журнал - экспертные статьи об ипотеке, законах, инструкциях и аналитике в сфере недвижимости Краснодара{% endblock %}
+{% block keywords %}блог недвижимость, кэшбек квартиры, ипотека Краснодар, новостройки советы{% endblock %}
+
+{% block content %}
+<!-- Breadcrumbs -->
+<div class="container mx-auto px-4 py-3 text-sm">
+    <nav aria-label="Breadcrumb" class="flex">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+                <a class="text-[#0088CC] hover:underline inline-flex items-center" href="{{ url_for('index') }}">
+                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                    </svg>
+                    Главная
+                </a>
+            </li>
+            <li aria-current="page">
+                <div class="flex items-center">
+                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path clip-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" fill-rule="evenodd"></path>
+                    </svg>
+                    <span class="text-gray-500 ml-1 md:ml-2">InBack Журнал</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+</div>
+
+<!-- Hero Section with 3D Animation -->
+<section class="relative py-20 bg-gradient-to-b from-white to-gray-50 overflow-hidden">
+    <!-- 3D Background Elements -->
+    <div class="absolute inset-0 overflow-hidden">
+        <div class="floating-shape floating-shape-1"></div>
+        <div class="floating-shape floating-shape-2"></div>
+        <div class="floating-shape floating-shape-3"></div>
+        <div class="floating-shape floating-shape-4"></div>
+        <div class="floating-shape floating-shape-5"></div>
+        <div class="grid-overlay"></div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 text-center relative z-10">
+        <div class="hero-content">
+            <h1 class="text-5xl md:text-7xl font-bold text-gray-900 mb-6 hero-title">
+                <span class="inline-block transform-3d">InBack</span>
+                <span class="inline-block transform-3d hero-accent">Журнал</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-600 mb-10 max-w-4xl mx-auto leading-relaxed hero-subtitle">
+                Ипотека, законы, инструкции, аналитика и интересные материалы о недвижимости в Краснодаре
+            </p>
+        </div>
+        
+        <!-- Advanced Search -->
+        <div class="max-w-xl mx-auto">
+            <div class="relative">
+                <input type="text" 
+                       id="blog-search" 
+                       placeholder="Поиск по статьям..."
+                       value="{{ search_query or '' }}"
+                       class="w-full px-6 py-4 pr-14 text-gray-900 bg-white bg-opacity-90 backdrop-blur-md rounded-3xl border-0 shadow-2xl focus:ring-4 focus:ring-white focus:ring-opacity-50 focus:outline-none transition-all duration-300 placeholder-gray-500"
+                       autocomplete="off">
+                <button id="search-btn" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-[#0088CC] hover:bg-[#006699] text-white rounded-2xl flex items-center justify-center transition-all duration-200 hover:scale-105">
+                    <i class="fas fa-search text-sm"></i>
+                </button>
+                
+                <!-- Search Suggestions Dropdown -->
+                <div id="search-suggestions" class="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg shadow-lg border border-gray-200 hidden z-10">
+                    <!-- Dynamic suggestions will be inserted here -->
+                </div>
+                
+                <!-- Search Results Count -->
+                {% if search_query %}
+                <div class="absolute top-full left-0 right-0 mt-2 text-white text-sm text-center">
+                    <span class="bg-[#0088CC] bg-opacity-80 px-3 py-1 rounded-full">
+                        Найдено статей: {{ articles|length }}
+                    </span>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Quick Search Tags -->
+            <div class="flex flex-wrap justify-center gap-2 mt-4">
+                <button class="quick-search-tag px-3 py-1 text-sm bg-white bg-opacity-20 text-white rounded-full hover:bg-opacity-30 transition-all" data-query="кэшбек">
+                    кэшбек
+                </button>
+                <button class="quick-search-tag px-3 py-1 text-sm bg-white bg-opacity-20 text-white rounded-full hover:bg-opacity-30 transition-all" data-query="ипотека">
+                    ипотека
+                </button>
+                <button class="quick-search-tag px-3 py-1 text-sm bg-white bg-opacity-20 text-white rounded-full hover:bg-opacity-30 transition-all" data-query="новостройки">
+                    новостройки
+                </button>
+                <button class="quick-search-tag px-3 py-1 text-sm bg-white bg-opacity-20 text-white rounded-full hover:bg-opacity-30 transition-all" data-query="инвестиции">
+                    инвестиции
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Category Navigation -->
+<nav class="container mx-auto px-4 py-8">
+    <div class="flex flex-wrap justify-center gap-2">
+        <a href="/blog" class="bg-blue-500 text-white text-xs px-3 py-1 rounded-full hover:bg-blue-600 transition-colors">
+            Все
+        </a>
+        {% for category in all_categories %}
+        <a href="/blog/category/{{ category.slug }}" class="bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs px-3 py-1 rounded-full transition-colors">
+            {{ category.name }}
+        </a>
+        {% endfor %}
+    </div>
+</nav>
+
+<!-- Main Content with Dynamic Categories -->
+<div class="container mx-auto px-4 py-12">
+    {% if show_category_sections %}
+    <!-- Режим отображения по категориям (без фильтрации) -->
+    {% for item in categories_with_articles %}
+    {% set category = item.category %}
+    {% set category_articles = item.articles %}
+    <!-- {{ category.name }} Section -->
+    <section class="mb-16">
+        <div class="flex items-center justify-between mb-8">
+            <h2 class="text-3xl font-bold text-gray-900">{{ category.name }}</h2>
+            <a href="/blog/category/{{ category.slug }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                Показать все
+            </a>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for article in category_articles %}
+            <article class="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                <div class="aspect-[4/3] relative bg-cover bg-center" 
+                     style="background-image: url('{{ article.featured_image }}');">
+                    <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+                    <div class="absolute top-4 left-4 w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-percentage text-white text-xl"></i>
+                    </div>
+                    <div class="absolute bottom-4 left-4 right-4 text-white z-10">
+                        <div class="text-xs opacity-80 mb-1">{{ article.published_at|russian_date if article.published_at else article.created_at|russian_date }}</div>
+                        <h3 class="text-lg font-bold line-clamp-2">
+                            <a href="{{ article.url }}" class="hover:text-blue-200 transition-colors">
+                                {{ article.title }}
+                            </a>
+                        </h3>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <p class="text-sm text-gray-600 line-clamp-3 mb-3">
+                        {{ article.excerpt|striptags }}
+                    </p>
+                    <div class="text-xs text-gray-500">
+                        Читать {{ article.reading_time }} мин
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+    {% endfor %}
+    {% else %}
+    <!-- Режим списка (с фильтрацией или поиском) -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for article in articles %}
+        <article class="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+            <div class="aspect-[4/3] relative bg-cover bg-center" 
+                 style="background-image: url('{{ article.featured_image }}');">
+                <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+                <div class="absolute top-4 left-4 w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-percentage text-white text-xl"></i>
+                </div>
+                <div class="absolute bottom-4 left-4 right-4 text-white z-10">
+                    <div class="text-xs opacity-80 mb-1">{{ article.published_at|russian_date if article.published_at else article.created_at|russian_date }}</div>
+                    <h3 class="text-lg font-bold line-clamp-2">
+                        <a href="{{ article.url }}" class="hover:text-blue-200 transition-colors">
+                            {{ article.title }}
+                        </a>
+                    </h3>
+                </div>
+            </div>
+            <div class="p-4">
+                <p class="text-sm text-gray-600 line-clamp-3 mb-3">
+                    {{ article.excerpt|striptags }}
+                </p>
+                <div class="text-xs text-gray-500">
+                    Читать {{ article.reading_time }} мин
+                </div>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,279 @@
+{% extends "base.html" %}
+
+{% block title %}Районы Краснодара - Новостройки с кешбеком | InBack{% endblock %}
+
+{% block meta %}
+<meta name="description" content="Полный каталог районов Краснодара для покупки новостроек с кешбеком . Обзор инфраструктуры, транспорта и цен в каждом районе.">
+<meta name="keywords" content="районы Краснодара, новостройки по районам, жилые комплексы, кешбек за квартиру, лучшие районы для покупки жилья">
+{% endblock %}
+
+{% block additional_js %}
+<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="py-20 md:py-32 bg-gradient-to-b from-white to-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6 text-gray-900">Районы Краснодара</h1>
+            <p class="text-xl mb-8 text-gray-600">Выберите идеальный район для покупки новостройки с кешбеком </p>
+            
+            <!-- Search Bar -->
+            <div class="max-w-2xl mx-auto relative">
+                <input 
+                    type="text" 
+                    id="districtSearch" 
+                    placeholder="Найти район..." 
+                    class="w-full px-6 py-4 pl-14 text-gray-700 rounded-full text-lg focus:outline-none focus:ring-4 focus:ring-blue-100 shadow-lg border border-gray-200"
+                >
+                <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                    <i class="fas fa-search text-gray-400 text-xl"></i>
+                </div>
+                <button id="clearSearch" class="absolute inset-y-0 right-0 pr-5 flex items-center text-gray-400 hover:text-gray-600 hidden">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- Search Results Counter -->
+            <div id="searchResults" class="mt-4 text-lg text-gray-600 hidden">
+                Найдено: <span id="resultsCount" class="font-semibold text-[#0088CC]">0</span> районов
+            </div>
+            
+            <!-- CTA Button -->
+            <div class="mt-8">
+                <a class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-[#0088CC] to-[#006699] text-white rounded-lg hover:shadow-lg transition-all duration-200 transform hover:scale-[1.02] shadow-md font-medium" href="#" onclick="openApplicationModal()">
+                    <div class="w-2 h-2 bg-gray-400 rounded-full mr-3"></div>
+                    Получить кешбек
+                </a>
+                </div>
+            </div>
+</section>
+
+<!-- Breadcrumbs -->
+<div class="bg-white py-4 border-b border-gray-100">
+    <div class="container mx-auto px-4">
+        <nav class="flex" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3 text-sm">
+                <li>
+                    <a href="{{ url_for('index') }}" class="text-[#0088CC] hover:text-[#006699] inline-flex items-center">
+                        <div class="w-2 h-2 bg-gray-400 rounded-full mr-3"></div>
+                        Главная
+                    </a>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
+                        <span class="text-gray-700 font-medium">Районы</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<!-- Main Content -->
+<main class="bg-white py-12">
+    <div class="container mx-auto px-4">
+        
+        <!-- Districts Grid -->
+        <div id="districtsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            
+            {% for district in districts %}
+            <!-- {{ district.name }} -->
+            <a href="{{ url_for('district_detail', district=district.slug) }}" class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card block" data-district="{{ district.name.lower() }} {{ district.slug }}">
+                <!-- Static Map for District -->
+                <div class="h-48 relative bg-gradient-to-br from-blue-100 to-blue-200 overflow-hidden">
+                    <div class="absolute inset-0 bg-cover bg-center" 
+                         style="background-image: url('https://static-maps.yandex.ru/1.x/?ll={{ district.longitude or 38.977414 }},{{ district.latitude or 45.035180 }}&size=400,200&z=13&l=map&pt={{ district.longitude or 38.977414 }},{{ district.latitude or 45.035180 }},pm2rdm');">
+                    </div>
+                    <div class="absolute inset-0 bg-blue-900 bg-opacity-20"></div>
+                    <div class="absolute bottom-4 left-4 text-white bg-black bg-opacity-70 px-3 py-2 rounded-lg backdrop-blur-sm">
+                        <div class="flex items-center">
+                            <i class="fas fa-map-marker-alt text-blue-300 mr-2"></i>
+                            <div>
+                                <h3 class="text-xl font-bold mb-1">{{ district.name }}</h3>
+                                {% set infra_data = district.infrastructure_data or {} %}
+                                <p class="text-sm opacity-90">
+                                    {% if district.distance_to_center %}
+                                        {{ "%.1f"|format(district.distance_to_center) }} км от центра
+                                    {% elif infra_data.distance_to_center %}
+                                        {{ "%.1f"|format(infra_data.distance_to_center) }} км от центра
+                                    {% else %}
+                                        Район Краснодара
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">
+                                {% if infra_data.education_count %}{{ infra_data.education_count }}{% else %}5{% endif %}
+                            </div>
+                            <div class="text-gray-600">Образование</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">
+                                {% if infra_data.shopping_count %}{{ infra_data.shopping_count }}{% else %}10{% endif %}
+                            </div>
+                            <div class="text-gray-600">Магазины</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Инфраструктура -->
+                    <div class="space-y-2 text-xs">
+                        <div class="flex items-center text-gray-600">
+                            <div class="w-2 h-2 bg-red-400 rounded-full mr-3"></div>
+                            <span>
+                                {% if infra_data.medical_count %}{{ infra_data.medical_count }} мед. объектов{% else %}Медицинские услуги{% endif %}
+                            </span>
+                        </div>
+                        <div class="flex items-center text-gray-600">
+                            <div class="w-2 h-2 bg-blue-400 rounded-full mr-3"></div>
+                            <span>
+                                {% if infra_data.transport_count %}{{ infra_data.transport_count }} остановок{% else %}Общественный транспорт{% endif %}
+                            </span>
+                        </div>
+                        <div class="flex items-center text-gray-600">
+                            <div class="w-2 h-2 bg-green-400 rounded-full mr-3"></div>
+                            <span>
+                                {% if infra_data.leisure_count %}{{ infra_data.leisure_count }} досуг объектов{% else %}Развлечения и досуг{% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+
+        </div>
+
+        <!-- No Results Message -->
+        <div id="noResults" class="text-center py-16 hidden">
+            <div class="text-gray-400 mb-4">
+                <i class="fas fa-search text-6xl"></i>
+            </div>
+            <h3 class="text-2xl font-semibold text-gray-600 mb-3">Районы не найдены</h3>
+            <p class="text-gray-500 text-lg mb-6">Попробуйте изменить поисковый запрос</p>
+            <button onclick="clearSearch()" class="bg-[#0088CC] text-white px-6 py-3 rounded-full hover:bg-[#006699] transition-colors">
+                Показать все районы
+            </button>
+        </div>
+
+    </div>
+</main>
+
+<script>
+// Районы с картами загружены - статические карты Yandex
+console.log('✅ Статические карты районов загружены');
+</script>
+
+           
+
+        <!-- No Results Message -->
+        <div id="noResults" class="text-center py-16 hidden">
+            <div class="text-gray-400 mb-4">
+                <i class="fas fa-search text-6xl"></i>
+            </div>
+            <h3 class="text-2xl font-semibold text-gray-600 mb-3">Районы не найдены</h3>
+            <p class="text-gray-500 text-lg mb-6">Попробуйте изменить поисковый запрос</p>
+            <button onclick="clearSearch()" class="bg-[#0088CC] text-white px-6 py-3 rounded-full hover:bg-[#006699] transition-colors">
+                Показать все районы
+            </button>
+        </div>
+
+    </div>
+</main>
+
+<!-- CTA Section -->
+<section class="bg-white py-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Не нашли подходящий район?</h2>
+            <p class="text-xl text-gray-600 mb-8">
+                Наши эксперты помогут выбрать идеальную квартиру с максимальным кешбеком
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <button onclick="openModal('applicationModal')" class="bg-[#0088CC] text-white px-8 py-4 rounded-full font-semibold hover:bg-[#006699] transition-colors">
+                    Получить консультацию
+                </button>
+                <a href="{{ url_for('properties') }}" class="border-2 border-[#0088CC] text-[#0088CC] px-8 py-4 rounded-full font-semibold hover:bg-[#0088CC] hover:text-white transition-colors">
+                    Посмотреть все квартиры
+                </a>
+                </div>
+            </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('districtSearch');
+    const clearButton = document.getElementById('clearSearch');
+    const searchResults = document.getElementById('searchResults');
+    const resultsCount = document.getElementById('resultsCount');
+    const districtsGrid = document.getElementById('districtsGrid');
+    const noResults = document.getElementById('noResults');
+    const allDistrictCards = document.querySelectorAll('.district-card');
+
+    function performSearch() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        let visibleCount = 0;
+
+        allDistrictCards.forEach(card => {
+            const districtData = card.getAttribute('data-district').toLowerCase();
+            const isVisible = !searchTerm || districtData.includes(searchTerm);
+            
+            if (isVisible) {
+                card.style.display = 'block';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        // Update results counter
+        if (searchTerm) {
+            searchResults.classList.remove('hidden');
+            resultsCount.textContent = visibleCount;
+            clearButton.classList.remove('hidden');
+        } else {
+            searchResults.classList.add('hidden');
+            clearButton.classList.add('hidden');
+        }
+
+        // Show/hide no results
+        if (visibleCount === 0 && searchTerm) {
+            noResults.classList.remove('hidden');
+            districtsGrid.classList.add('hidden');
+        } else {
+            noResults.classList.add('hidden');
+            districtsGrid.classList.remove('hidden');
+        }
+    }
+
+    // Search functionality
+    searchInput.addEventListener('input', performSearch);
+    
+    clearButton.addEventListener('click', () => {
+        searchInput.value = '';
+        performSearch();
+        searchInput.focus();
+    });
+
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            performSearch();
+        }
+    });
+
+    // Global clear search function
+    window.clearSearch = function() {
+        searchInput.value = '';
+        performSearch();
+        searchInput.focus();
+    };
+});
+</script>
+{% endblock %}

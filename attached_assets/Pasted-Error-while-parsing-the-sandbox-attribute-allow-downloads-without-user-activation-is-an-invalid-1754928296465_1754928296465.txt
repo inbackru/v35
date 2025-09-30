@@ -1,0 +1,132 @@
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+framework-9d3251a6078e5ccb.js:1 Unrecognized feature: 'ambient-light-sensor'.
+_ @ framework-9d3251a6078e5ccb.js:1
+framework-9d3251a6078e5ccb.js:1 Unrecognized feature: 'battery'.
+_ @ framework-9d3251a6078e5ccb.js:1
+framework-9d3251a6078e5ccb.js:1 Unrecognized feature: 'execution-while-not-rendered'.
+_ @ framework-9d3251a6078e5ccb.js:1
+framework-9d3251a6078e5ccb.js:1 Unrecognized feature: 'execution-while-out-of-viewport'.
+_ @ framework-9d3251a6078e5ccb.js:1
+framework-9d3251a6078e5ccb.js:1 Unrecognized feature: 'layout-animations'.
+_ @ framework-9d3251a6078e5ccb.js:1
+framework-9d3251a6078e5ccb.js:1 Unrecognized feature: 'legacy-image-formats'.
+_ @ framework-9d3251a6078e5ccb.js:1
+framework-9d3251a6078e5ccb.js:1 Unrecognized feature: 'navigation-override'.
+_ @ framework-9d3251a6078e5ccb.js:1
+framework-9d3251a6078e5ccb.js:1 Unrecognized feature: 'oversized-images'.
+_ @ framework-9d3251a6078e5ccb.js:1
+framework-9d3251a6078e5ccb.js:1 Unrecognized feature: 'publickey-credentials'.
+_ @ framework-9d3251a6078e5ccb.js:1
+framework-9d3251a6078e5ccb.js:1 Unrecognized feature: 'speaker-selection'.
+_ @ framework-9d3251a6078e5ccb.js:1
+framework-9d3251a6078e5ccb.js:1 Unrecognized feature: 'unoptimized-images'.
+_ @ framework-9d3251a6078e5ccb.js:1
+framework-9d3251a6078e5ccb.js:1 Unrecognized feature: 'unsized-media'.
+_ @ framework-9d3251a6078e5ccb.js:1
+framework-9d3251a6078e5ccb.js:1 Unrecognized feature: 'pointer-lock'.
+_ @ framework-9d3251a6078e5ccb.js:1
+framework-9d3251a6078e5ccb.js:1 Allow attribute will take precedence over 'allowfullscreen'.
+_ @ framework-9d3251a6078e5ccb.js:1
+framework-9d3251a6078e5ccb.js:1 Allow attribute will take precedence over 'allowpaymentrequest'.
+_ @ framework-9d3251a6078e5ccb.js:1
+analytics.google.com/g/collect?v=2&tid=G-MPJY3F1YEL&gtm=45je5861v9135634466za200&_p=1754861233552&gcd=13l3l3l3l2l1&npa=0&dma=0&tag_exp=101509157~103116026~103200004~103233427~104527907~104528500~104684208~104684211~104948813~105033763~105033765~105103161~105103163~105135708~105135710~105231383~105231385&ul=ru-ru&sr=2560x1440&cid=470065766.1754840276&ecid=187232112&ir=1&uaa=x86&uab=64&uafvl=Not)A%253BBrand%3B8.0.0.0%7CChromium%3B138.0.7204.184%7CGoogle%2520Chrome%3B138.0.7204.184&uamb=0&uam=&uap=Windows&uapv=14.0.0&uaw=0&are=1&frm=0&pscdl=noapi&_eu=EBAIAAQ&_s=292&dl=https%3A%2F%2Freplit.com%2F~&dp=%2F%40proveability%2Fv3&dt=replEnvironmentDesktop&sid=1754861225&sct=2&seg=1&_tu=wAQ&en=Packager%20Packages%20Installed&_ee=1&ep.event_category=All&ep.value=0&_et=10954&tfd=14348539:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+events.launchdarkly.com/events/bulk/62b35a865152ab14c5942820:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+events.launchdarkly.com/events/bulk/62b35a865152ab14c5942820:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+logs.browser-intake-us5-datadoghq.com/api/v2/logs?ddsource=browser&ddtags=sdk_version%3A4.46.0%2Capi%3Afetch%2Cenv%3Aproduction%2Cservice%3Awebsite%2Cversion%3A675522db&dd-api-key=pub31a5047a3a4692afb84a423db984dc57&dd-evp-origin-version=4.46.0&dd-evp-origin=browser&dd-request-id=5a3e341f-6dd5-4078-a85e-5c1172e0a28f:1  Failed to load resource: net::ERR_NETWORK_CHANGED
+/graphql:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+logs.browser-intake-us5-datadoghq.com/api/v2/logs?ddsource=browser&ddtags=sdk_version%3A4.46.0%2Capi%3Axhr%2Cenv%3Aproduction%2Cservice%3Awebsite%2Cversion%3A675522db&dd-api-key=pub31a5047a3a4692afb84a423db984dc57&dd-evp-origin-version=4.46.0&dd-evp-origin=browser&dd-request-id=0cea085d-f0cc-4acf-8692-1f591c62c09d:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+3635-0abc29a912057312.js:1 WebSocket connection to 'wss://eval.worf.platform.replit.com/wsv2/v2.public.Q2dZSS9abmt4QVlTQmdpY3R1VEVCaUlFZDI5eVpqQUFPc01CQ2lSallXUTVZakk0TkMwMU9Ua3hMVFJsWldVdFlqazBPUzB4TXpVeU1tVmxPVE5qWW1FU0EyNXBlQm9XY21Wd2JHbDBMWEpsY0d3dFptbHNaWE10ZDI5eVppSUNkak1xREhCeWIzWmxZV0pwYkdsMGVVSk9DaGR5WlhCc2FYUXRjbVZ3YkMxaWJHOWphM010ZDI5eVpoSVZjbVZ3YkdsMExYSmxjR3d0YldWMFlTMTNiM0ptR2h4eVpYQnNhWFF0YldGeVoyRnlhVzVsTFdKc2IyTnJjeTEzYjNKbVNnY0kzZEtHRmhBQlVBQmFEMmx1ZEdWdWRGOXdaWEp6YjI1aGJIZ0FVaU1JQVJDQWdJQ0FJQmtBQUFBQUFBQVFRQ0VBQUFBQUFBQVFRQ2lBZ0lDQXlBRXdBbUFBYWhNSTNkS0dGaElNY0hKdmRtVmhZbWxzYVhSNWdnRUNLZ0NhQVFvS0NEQXVNQzR4TlRrNW9BRUL-hC68b_hB_ceP9UPtwOs9UyZqygTfiaBaHCLydK7V_HBR6nJ68nBrmiNdoFSjnAbCN36kD35ldLtoiBqBIKMN.Q2dad2NtOWtPak1pQ25KbGNHeHBkQzVqYjIwPQ' failed: 
+connect @ 3635-0abc29a912057312.js:1
+3635-0abc29a912057312.js:1 WebSocket connection to 'wss://eval.worf.platform.replit.com/wsv2/v2.public.Q2dZSS9abmt4QVlTQmdpY3R1VEVCaUlFZDI5eVpqQUFPc01CQ2lSallXUTVZakk0TkMwMU9Ua3hMVFJsWldVdFlqazBPUzB4TXpVeU1tVmxPVE5qWW1FU0EyNXBlQm9XY21Wd2JHbDBMWEpsY0d3dFptbHNaWE10ZDI5eVppSUNkak1xREhCeWIzWmxZV0pwYkdsMGVVSk9DaGR5WlhCc2FYUXRjbVZ3YkMxaWJHOWphM010ZDI5eVpoSVZjbVZ3YkdsMExYSmxjR3d0YldWMFlTMTNiM0ptR2h4eVpYQnNhWFF0YldGeVoyRnlhVzVsTFdKc2IyTnJjeTEzYjNKbVNnY0kzZEtHRmhBQlVBQmFEMmx1ZEdWdWRGOXdaWEp6YjI1aGJIZ0FVaU1JQVJDQWdJQ0FJQmtBQUFBQUFBQVFRQ0VBQUFBQUFBQVFRQ2lBZ0lDQXlBRXdBbUFBYWhNSTNkS0dGaElNY0hKdmRtVmhZbWxzYVhSNWdnRUNLZ0NhQVFvS0NEQXVNQzR4TlRrNW9BRUL-hC68b_hB_ceP9UPtwOs9UyZqygTfiaBaHCLydK7V_HBR6nJ68nBrmiNdoFSjnAbCN36kD35ldLtoiBqBIKMN.Q2dad2NtOWtPak1pQ25KbGNHeHBkQzVqYjIwPQ' failed: WebSocket is closed before the connection is established.
+cleanupSocket @ 3635-0abc29a912057312.js:1
+_app-29682acb77ecdd83.js:40 WebSocket connection to 'wss://replit.com/graphql_subscriptions' failed: 
+(анонимная) @ _app-29682acb77ecdd83.js:40
+events.launchdarkly.com/events/bulk/62b35a865152ab14c5942820:1  Failed to load resource: net::ERR_INTERNET_DISCONNECTED
+/data/repls/cad9b284-5991-4eee-b949-13522ee93cba/get_connection_metadata:1  Failed to load resource: net::ERR_INTERNET_DISCONNECTED
+events.launchdarkly.com/events/diagnostic/62b35a865152ab14c5942820:1  Failed to load resource: net::ERR_INTERNET_DISCONNECTED
+api.sorryapp.com/v1/pages/27c7b5fc:1  Failed to load resource: net::ERR_INTERNET_DISCONNECTED
+api.sorryapp.com/v1/pages/27c7b5fc:1  Failed to load resource: net::ERR_INTERNET_DISCONNECTED
+events.launchdarkly.com/events/bulk/62b35a865152ab14c5942820:1  Failed to load resource: net::ERR_INTERNET_DISCONNECTED
+events.launchdarkly.com/events/diagnostic/62b35a865152ab14c5942820:1  Failed to load resource: net::ERR_INTERNET_DISCONNECTED
+/graphql:1  Failed to load resource: net::ERR_INTERNET_DISCONNECTED
+sp.replit.com/v1/t:1  Failed to load resource: the server responded with a status of 400 ()
+sp.replit.com/v1/t:1  Failed to load resource: the server responded with a status of 400 ()
+2stallwart.build.js:1 stallwart: failed ping 1
+workspace_iframe.html:32 Unrecognized feature: 'ambient-light-sensor'.
+workspace_iframe.html:32 Unrecognized feature: 'battery'.
+workspace_iframe.html:32 Unrecognized feature: 'execution-while-not-rendered'.
+workspace_iframe.html:32 Unrecognized feature: 'execution-while-out-of-viewport'.
+workspace_iframe.html:32 Unrecognized feature: 'layout-animations'.
+workspace_iframe.html:32 Unrecognized feature: 'legacy-image-formats'.
+workspace_iframe.html:32 Unrecognized feature: 'navigation-override'.
+workspace_iframe.html:32 Unrecognized feature: 'oversized-images'.
+workspace_iframe.html:32 Unrecognized feature: 'publickey-credentials'.
+workspace_iframe.html:32 Unrecognized feature: 'speaker-selection'.
+workspace_iframe.html:32 Unrecognized feature: 'unoptimized-images'.
+workspace_iframe.html:32 Unrecognized feature: 'unsized-media'.
+workspace_iframe.html:32 Allow attribute will take precedence over 'allowfullscreen'.
+workspace_iframe.html:32 Allow attribute will take precedence over 'allowpaymentrequest'.
+Console.js:61 cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation
+Mt.forEach.n.<computed> @ Console.js:61
+Console.js:61 Header: openApplicationModal function defined
+Console.js:61 cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation
+Mt.forEach.n.<computed> @ Console.js:61
+Console.js:61 Slow loading resources: [object PerformanceResourceTiming],[object PerformanceResourceTiming],[object PerformanceResourceTiming]
+Mt.forEach.n.<computed> @ Console.js:61
+Console.js:61 Initializing smart search...
+Console.js:61 Hero search initialized
+Console.js:61 Initializing search input: hero-search
+Console.js:61 Property search initialized with smart search
+2Console.js:61 Initializing search input: property-search
+Console.js:61 Old property search disabled, smart search enabled
+Console.js:61 Page Performance Metrics: [object Object]
+Console.js:61 Fixing find button...
+Console.js:61 Found buttons: 2
+Console.js:61 Fixing button 0
+Console.js:61 Fixing button 1
+Console.js:61 SW registered:  [object ServiceWorkerRegistration]
+Console.js:61 Initializing search...
+Console.js:61 Elements found: true true
+Console.js:61 Initializing hero search...
+Console.js:61 Hero elements found: true true true
+Console.js:61 First Input Delay: 8.400000005960464
+Console.js:61 Header: openApplicationModal function defined
+Console.js:61 cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation
+Mt.forEach.n.<computed> @ Console.js:61
+Console.js:61 Initializing smart search...
+Console.js:61 Page Performance Metrics: [object Object]
+Console.js:61 SW registered:  [object ServiceWorkerRegistration]
+Console.js:61 First Input Delay: 4
+Console.js:61 showAddClientModal called
+Console.js:61 Form submit event triggered
+Console.js:61 Default prevented, calling validateAndSaveNewClient
+Console.js:61 Validating client data: [object Object]
+Console.js:61 Validation passed, calling saveNewClient
+Console.js:61 Sending client data: [object Object]
+cad9b284-5991-4eee-b949-13522ee93cba-00-1n1gimm7303kh.worf.replit.dev/api/manager/add-client:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+Console.js:61 Response status: 400
+Console.js:61 Response data: [object Object]
+Console.js:61 Form submit event triggered
+Console.js:61 Default prevented, calling validateAndSaveNewClient
+Console.js:61 Validating client data: [object Object]
+Console.js:61 Validation passed, calling saveNewClient
+Console.js:61 Sending client data: [object Object]
+cad9b284-5991-4eee-b949-13522ee93cba-00-1n1gimm7303kh.worf.replit.dev/api/manager/add-client:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+Console.js:61 Response status: 400
+Console.js:61 Response data: [object Object]
+Console.js:61 Form submit event triggered
+Console.js:61 Default prevented, calling validateAndSaveNewClient
+Console.js:61 Validating client data: [object Object]
+Console.js:61 Validation passed, calling saveNewClient
+Console.js:61 Sending client data: [object Object]
+cad9b284-5991-4eee-b949-13522ee93cba-00-1n1gimm7303kh.worf.replit.dev/api/manager/add-client:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+Console.js:61 Response status: 400
+Console.js:61 Response data: [object Object]
+Console.js:61 showAddClientModal called
+Console.js:61 Header: openApplicationModal function defined
+Console.js:61 cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation
+Mt.forEach.n.<computed> @ Console.js:61
+Console.js:61 Initializing smart search...
+Console.js:61 Page Performance Metrics: Object
+Console.js:61 SW registered:  ServiceWorkerRegistration
+Console.js:61 First Input Delay: 0.699999988079071

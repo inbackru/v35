@@ -1,0 +1,291 @@
+/* Микроанимации для всего сайта */
+
+/* Плавные переходы для всех элементов */
+*, *::before, *::after {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Анимации загрузки */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* Применение анимаций */
+.fade-in { animation: fadeIn 0.6s ease-out; }
+.slide-up { animation: slideUp 0.6s ease-out; }
+.slide-in-right { animation: slideInRight 0.6s ease-out; }
+.scale-in { animation: scaleIn 0.4s ease-out; }
+
+/* Отложенная анимация */
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+
+/* Анимации для кнопок */
+button, .btn, a[class*="btn"] {
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+button:hover, .btn:hover, a[class*="btn"]:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+button:active, .btn:active, a[class*="btn"]:active {
+    transform: translateY(0);
+    transition: all 0.1s ease;
+}
+
+/* Эффект волны для кнопок */
+.btn-ripple {
+    overflow: hidden;
+    position: relative;
+}
+
+.btn-ripple::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-ripple:active::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Анимации для карточек */
+.card, .property-card, .article-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:hover, .property-card:hover, .article-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* Анимации для форм */
+input, textarea, select {
+    transition: all 0.2s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Loader анимация */
+.loader {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Прогресс бар анимация */
+.progress-bar {
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    transition: width 0.5s ease;
+    position: relative;
+}
+
+.progress-bar-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Navbar анимации */
+.navbar {
+    transition: all 0.3s ease;
+}
+
+.navbar.scrolled {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+}
+
+/* Mobile menu анимации */
+.mobile-menu {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-menu-content {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Tooltip анимации */
+.tooltip {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+.tooltip.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Image hover effects */
+img {
+    transition: transform 0.3s ease;
+}
+
+.hover-zoom:hover img {
+    transform: scale(1.05);
+}
+
+/* Text animations */
+.typewriter {
+    overflow: hidden;
+    border-right: 2px solid #3b82f6;
+    white-space: nowrap;
+    animation: typewriter 3s steps(40) 1s both, blink 1s infinite;
+}
+
+@keyframes typewriter {
+    0% { width: 0; }
+    100% { width: 100%; }
+}
+
+@keyframes blink {
+    50% { border-color: transparent; }
+}
+
+/* Scroll animations */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
+}
+
+.scroll-reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Loading states */
+.skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Success/Error animations */
+@keyframes success {
+    0% { transform: scale(0.8); opacity: 0; }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes error {
+    0%, 20%, 40%, 60%, 80% { transform: translateX(-10px); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(10px); }
+    100% { transform: translateX(0); }
+}
+
+.success-animation { animation: success 0.5s ease; }
+.error-animation { animation: error 0.5s ease; }
+
+/* Performance optimizations */
+.will-change-transform {
+    will-change: transform;
+}
+
+.will-change-opacity {
+    will-change: opacity;
+}
+
+.hardware-accelerated {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

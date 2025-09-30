@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}{{ complex.name }} - ЖК в Краснодаре{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6">{{ complex.name }}</h1>
+    
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+        <p class="text-gray-600 mb-4">{{ complex.district }}</p>
+        <p class="text-2xl font-bold text-[#0088CC]">от {{ "{:,.0f}".format(complex.price_from).replace(',', ' ') }} ₽</p>
+    </div>
+    
+    <div class="bg-white rounded-lg shadow-lg p-6">
+        <h2 class="text-2xl font-bold mb-4">Квартиры в продаже</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for property in properties %}
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold mb-2">{{ property.title }}</h3>
+                <p class="text-gray-600 mb-2">{{ property.area }} м²</p>
+                <p class="text-xl font-bold text-[#0088CC]">{{ "{:,.0f}".format(property.price).replace(',', ' ') }} ₽</p>
+                <a href="{{ url_for('property_detail', property_id=property.id) }}" class="inline-block mt-3 bg-[#0088CC] text-white px-4 py-2 rounded">
+                    Подробнее
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

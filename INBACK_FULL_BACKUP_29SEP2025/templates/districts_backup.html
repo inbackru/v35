@@ -1,0 +1,2027 @@
+{% extends "base.html" %}
+
+{% block title %}Районы Краснодара - Новостройки с кешбеком | InBack{% endblock %}
+
+{% block meta %}
+<meta name="description" content="Полный каталог районов Краснодара для покупки новостроек с кешбеком до 500 000 ₽. Обзор инфраструктуры, транспорта и цен в каждом районе.">
+<meta name="keywords" content="районы Краснодара, новостройки по районам, жилые комплексы, кешбек за квартиру, лучшие районы для покупки жилья">
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gradient-to-br from-blue-600 to-blue-700 text-white py-20">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-3xl md:text-5xl font-bold mb-6">Районы Краснодара</h1>
+            <p class="text-xl md:text-2xl opacity-90 mb-8">Выберите идеальный район для покупки новостройки с кешбеком до 500 000 ₽</p>
+            
+            <!-- Search Bar -->
+            <div class="max-w-2xl mx-auto relative">
+                <input 
+                    type="text" 
+                    id="districtSearch" 
+                    placeholder="Найти район..." 
+                    class="w-full px-6 py-4 pl-14 text-gray-700 rounded-full text-lg focus:outline-none focus:ring-4 focus:ring-white/30 shadow-lg"
+                >
+                <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                    <i class="fas fa-search text-gray-400 text-xl"></i>
+                </div>
+                <button id="clearSearch" class="absolute inset-y-0 right-0 pr-5 flex items-center text-gray-400 hover:text-gray-600 hidden">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- Search Results Counter -->
+            <div id="searchResults" class="mt-4 text-lg opacity-90 hidden">
+                Найдено: <span id="resultsCount" class="font-semibold">0</span> районов
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Breadcrumbs -->
+<div class="bg-gray-50 py-4">
+    <div class="container mx-auto px-4">
+        <nav class="flex" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3 text-sm">
+                <li>
+                    <a href="{{ url_for('index') }}" class="text-[#0088CC] hover:text-[#006699] inline-flex items-center">
+                        <i class="fas fa-home mr-2"></i>
+                        Главная
+                    </a>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
+                        <span class="text-gray-700 font-medium">Районы</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<!-- Main Content -->
+<main class="bg-gray-50 py-12">
+    <div class="container mx-auto px-4">
+        
+        <!-- Districts Grid -->
+        <div id="districtsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            
+            <!-- Центральный район -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="центральный центр">
+                <div class="h-48 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1555881400-74d7acaacd8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80');">
+                    <div class="absolute inset-0 bg-black bg-opacity-30"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Центр</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Центральный</h3>
+                        <p class="text-sm opacity-90">Исторический центр города</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">12</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 3.2 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-end">
+                        <a href="{{ url_for('district_detail', district='tsentralnyy') }}" class="text-blue-600 hover:text-blue-700 font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 40 лет Победы -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="40 лет победы сорок победа">
+                <div class="h-48 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1590736969955-71cc94901144?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Память</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">40 лет Победы</h3>
+                        <p class="text-sm opacity-90">Исторический район</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">8</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.8 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-end">
+                        <a href="{{ url_for('district_detail', district='40-let-pobedy') }}" class="text-blue-600 hover:text-blue-700 font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 9-й километр -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="9 километр девятый">
+                <div class="h-48 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Торговый</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">9-й километр</h3>
+                        <p class="text-sm opacity-90">Торговый район</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">6</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.4 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 120 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='9i-kilometr') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Авиагородок -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="авиагородок авиа аэропорт">
+                <div class="h-48 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Авиация</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Авиагородок</h3>
+                        <p class="text-sm opacity-90">Авиационный район</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">4</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.6 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 130 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='aviagorodok') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Аврора -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="аврора утренняя заря">
+                <div class="h-48 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Уютный</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Аврора</h3>
+                        <p class="text-sm opacity-90">Уютный микрорайон</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">5</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.7 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 135 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='avrora') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Баскет-Холл -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="баскет холл баскетбол спорт">
+                <div class="h-48 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1574923226119-24e8495ba4ee?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Спорт</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Баскет-Холл</h3>
+                        <p class="text-sm opacity-90">Спортивный район</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">3</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.9 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 145 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='basket-hall') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Березовый -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="березовый береза лес">
+                <div class="h-48 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Эко</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Березовый</h3>
+                        <p class="text-sm opacity-90">Зеленый район</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">7</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.5 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 125 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='berezovy') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Западный район -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="западный запад">
+                <div class="h-48 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">ТОП</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Западный</h3>
+                        <p class="text-sm opacity-90">Развивающийся район</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">18</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.8 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 140 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='zapadny') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Карасунский район -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="карасунский карасун">
+                <div class="h-48 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1480714378408-67cf0d13bc1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Новый</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Карасунский</h3>
+                        <p class="text-sm opacity-90">Молодой район</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">8</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.5 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 125 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='karasunsky') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Прикубанский район -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="прикубанский прикубань">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Эко</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Прикубанский</h3>
+                        <p class="text-sm opacity-90">Экологический район</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">6</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 3.0 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 150 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='prikubansky') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Фестивальный район -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="фестивальный фестиваль">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Спорт</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Фестивальный</h3>
+                        <p class="text-sm opacity-90">Спортивный район</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">10</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.7 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 135 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='festivalny') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Юбилейный район -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="юбилейный юбилей">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Семья</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Юбилейный</h3>
+                        <p class="text-sm opacity-90">Семейный район</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">7</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.9 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 145 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='yubileynyy') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Гидростроителей район -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="гидростроителей гэс гидро">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Тихий</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Гидростроителей</h3>
+                        <p class="text-sm opacity-90">Спокойный район</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">5</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.4 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 120 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='gidrostroitelei') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Солнечный район -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="солнечный солнце">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Новый</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Солнечный</h3>
+                        <p class="text-sm opacity-90">Современный район</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">9</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.6 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 130 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='solnechny') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Музыкальный район -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="музыкальный музыка">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Культура</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Музыкальный</h3>
+                        <p class="text-sm opacity-90">Культурный район</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">4</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 3.1 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 155 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='muzykalnyy') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Панорама район -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="панорама вид">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Вид</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Панорама</h3>
+                        <p class="text-sm opacity-90">С красивыми видами</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">6</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.9 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 145 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='panorama') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Дополнительные популярные районы Краснодара -->
+
+            <!-- Комсомольский район -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="комсомольский комсомол молодежь">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Активный</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Комсомольский</h3>
+                        <p class="text-sm opacity-90">Динамично развивающийся</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">11</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.7 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 135 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='komsomolsky') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Прикубанский внутренний город -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="енка авиагородок авиация">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Тихий</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Енка</h3>
+                        <p class="text-sm opacity-90">Спокойный микрорайон</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">8</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.3 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 115 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='enka') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Дубинка -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="дубинка дуб лес">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Эко</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Дубинка</h3>
+                        <p class="text-sm opacity-90">Зеленый район</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">5</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.5 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 125 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='dubinka') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Черемушки -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="черемушки черемуха">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Уютный</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Черемушки</h3>
+                        <p class="text-sm opacity-90">Уютный микрорайон</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">7</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.4 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 120 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='cheremushki') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Калинино -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="калинино калина">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Развитие</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Калинино</h3>
+                        <p class="text-sm opacity-90">Развивающийся район</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">9</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.6 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 130 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='kalinino') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Пашковский -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="пашковский пашков">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Перспективный</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Пашковский</h3>
+                        <p class="text-sm opacity-90">Перспективный район</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">13</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.2 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 110 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='pashkovsky') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Старокорсунская -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="старокорсунская корсун станица">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Станица</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Старокорсунская</h3>
+                        <p class="text-sm opacity-90">Казачья станица</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">6</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.1 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 105 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='starokorsunskaya') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Горхутор -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="горхутор хутор гора">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Пригород</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Горхутор</h3>
+                        <p class="text-sm opacity-90">Пригородный район</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">4</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.0 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 100 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='gorkhutor') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ХБК (Хлопчатобумажный комбинат) -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="хбк хлопчатобумажный комбинат">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Промышленный</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">ХБК</h3>
+                        <p class="text-sm opacity-90">Промышленный район</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">5</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.2 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 110 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='hbk') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ККБ (Краснодарский кожевенный комбинат) -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="ккб кожевенный краснодарский комбинат">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Завод</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">ККБ</h3>
+                        <p class="text-sm opacity-90">Заводской район</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">3</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.1 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 105 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='kkb') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Колосистый -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="колосистый колос поле">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Село</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Колосистый</h3>
+                        <p class="text-sm opacity-90">Сельский район</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">2</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 1.9 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 95 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='kolosistyy') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Кожзавод -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="кожзавод кожевенный завод">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Завод</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Кожзавод</h3>
+                        <p class="text-sm opacity-90">Престижный район у набережной</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">12</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 9.5 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 475 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='kozhzavod') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Красная площадь -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="красная площадь центр площадь">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">ТОП</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Красная площадь</h3>
+                        <p class="text-sm opacity-90">Крупнейший ЖК с инфраструктурой</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">45</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 5.6 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 375 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='krasnaya_ploshchad') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Краснодарский -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="краснодарский кубань">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Классика</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Краснодарский</h3>
+                        <p class="text-sm opacity-90">Классический район</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">9</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.9 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 145 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='krasnodarskiy') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- КСК (Краснодарский скоростной кольцевой) -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="кск кольцевой скоростной">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Трасса</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">КСК</h3>
+                        <p class="text-sm opacity-90">У кольцевой трассы</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">7</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.3 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 115 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='ksk') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Кубанский -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="кубанский кубань река">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Река</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Кубанский</h3>
+                        <p class="text-sm opacity-90">У реки Кубань</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">8</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.6 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 130 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='kubansky') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Молодежный -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="молодежный молодёжь молодой">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Молодой</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Молодежный</h3>
+                        <p class="text-sm opacity-90">Для молодых семей</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">18</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.4 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 120 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='molodezhnyy') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Немецкая деревня -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="немецкая деревня германия немцы">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">История</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Немецкая деревня</h3>
+                        <p class="text-sm opacity-90">Исторический район</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">8</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 3.5 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 175 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='nemetskaya_derevnya') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Новознаменский -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="новознаменский знамя новый">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Развитие</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Новознаменский</h3>
+                        <p class="text-sm opacity-90">Развивающийся</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">10</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.3 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 115 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='novoznamensky') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Покровка -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="покровка покров храм">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Храм</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Покровка</h3>
+                        <p class="text-sm opacity-90">Храмовый район</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">12</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.8 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 140 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='pokrovka') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Район аэропорта -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="аэропорт воздушный порт авиа">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Аэропорт</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Район аэропорта</h3>
+                        <p class="text-sm opacity-90">Рядом с аэропортом</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">5</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.2 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 110 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='avrora') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Репино -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="репино художник искусство">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Творчество</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Репино</h3>
+                        <p class="text-sm opacity-90">Творческий район</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">3</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.7 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 135 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='basket-hall') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Северный -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="северный север полюс">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Север</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Северный</h3>
+                        <p class="text-sm opacity-90">Северный район</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">8</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.5 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 125 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='gidrostroitelei') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Школьный -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="школьный школа образование">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Школа</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Школьный</h3>
+                        <p class="text-sm opacity-90">Образовательный</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">6</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.4 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 120 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='dubinka') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- СХМР (Славянский хуторский массив р-н) -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="схмр славянский хуторской">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Хутор</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">СХМР</h3>
+                        <p class="text-sm opacity-90">Хуторской массив</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">2</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 1.8 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 90 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='eniseyskiy') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- СКХИ (Северо-Кавказский хлебозавод имени) -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="скхи хлебозавод кавказский">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Завод</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">СКХИ</h3>
+                        <p class="text-sm opacity-90">У хлебозавода</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">3</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.1 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 105 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='festivalny') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Славянский 2 -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="славянский 2 второй">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Второй</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Славянский 2</h3>
+                        <p class="text-sm opacity-90">Вторая очередь</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">4</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.0 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 100 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='yubileynyy') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Славянский -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="славянский славяне">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Традиции</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Славянский</h3>
+                        <p class="text-sm opacity-90">Традиционный район</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">7</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.2 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 110 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='cheremushki') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Табачная фабрика -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="табачная фабрика табак">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Фабрика</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Табачная фабрика</h3>
+                        <p class="text-sm opacity-90">Промышленный</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">3</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.0 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 100 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='komsomolsky') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ТЭЦ (Теплоэлектроцентраль) -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="тэц теплоэлектроцентраль электричество">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Энергия</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">ТЭЦ</h3>
+                        <p class="text-sm opacity-90">Энергетический</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">4</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.1 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 105 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='enka') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Учхоз-Кубань -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="учхоз кубань учебное хозяйство">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Учеба</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Учхоз-Кубань</h3>
+                        <p class="text-sm opacity-90">Учебное хозяйство</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">5</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.3 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 115 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='uchhoz-kuban') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Вавилова -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="вавилова улица академик">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Наука</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Вавилова</h3>
+                        <p class="text-sm opacity-90">Научный район</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">6</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.8 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 140 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='vavilova') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Восточно-Кругликовский -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="восточно кругликовский восток круглик">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Восток</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Восточно-Кругликовский</h3>
+                        <p class="text-sm opacity-90">Восточный район</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">3</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.1 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 105 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='aeroport') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Яблоновский -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="яблоновский яблоня сад">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Сад</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Яблоновский</h3>
+                        <p class="text-sm opacity-90">Садовый район</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">7</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.0 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 100 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='yablonovskiy') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Западный обход -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="западный обход трасса дорога">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Трасса</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Западный обход</h3>
+                        <p class="text-sm opacity-90">У объездной трассы</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">4</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 1.9 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 95 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='repino') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Западный округ -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="западный округ запад">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Округ</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">Западный округ</h3>
+                        <p class="text-sm opacity-90">Административный</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">12</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.7 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 135 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='smr') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ЗИП Жукова (Завод имени Жукова) -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 district-card" data-district="зип жукова завод маршал">
+                <div class="h-48 bg-gradient-to-br from-[#006699] to-[#0088CC] relative">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">Завод</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <h3 class="text-xl font-bold mb-1">ЗИП Жукова</h3>
+                        <p class="text-sm opacity-90">Заводской район</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">5</div>
+                            <div class="text-gray-600">ЖК</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800">от 2.2 млн ₽</div>
+                            <div class="text-gray-600">цена</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-green-600">
+                            <i class="fas fa-cash-register mr-2"></i>
+                            <span class="font-semibold">до 110 000 ₽</span>
+                        </div>
+                        <a href="{{ url_for('district_detail', district='tsentralnyy') }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                            Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- No Results Message -->
+        <div id="noResults" class="text-center py-16 hidden">
+            <div class="text-gray-400 mb-4">
+                <i class="fas fa-search text-6xl"></i>
+            </div>
+            <h3 class="text-2xl font-semibold text-gray-600 mb-3">Районы не найдены</h3>
+            <p class="text-gray-500 text-lg mb-6">Попробуйте изменить поисковый запрос</p>
+            <button onclick="clearSearch()" class="bg-[#0088CC] text-white px-6 py-3 rounded-full hover:bg-[#006699] transition-colors">
+                Показать все районы
+            </button>
+        </div>
+
+    </div>
+</main>
+
+<!-- CTA Section -->
+<section class="bg-white py-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Не нашли подходящий район?</h2>
+            <p class="text-xl text-gray-600 mb-8">
+                Наши эксперты помогут выбрать идеальную квартиру с максимальным кешбеком
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <button onclick="openModal('applicationModal')" class="bg-[#0088CC] text-white px-8 py-4 rounded-full font-semibold hover:bg-[#006699] transition-colors">
+                    Получить консультацию
+                </button>
+                <a href="{{ url_for('properties') }}" class="border-2 border-[#0088CC] text-[#0088CC] px-8 py-4 rounded-full font-semibold hover:bg-[#0088CC] hover:text-white transition-colors">
+                    Посмотреть все квартиры
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('districtSearch');
+    const clearButton = document.getElementById('clearSearch');
+    const searchResults = document.getElementById('searchResults');
+    const resultsCount = document.getElementById('resultsCount');
+    const districtsGrid = document.getElementById('districtsGrid');
+    const noResults = document.getElementById('noResults');
+    const allDistrictCards = document.querySelectorAll('.district-card');
+
+    function performSearch() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        let visibleCount = 0;
+
+        allDistrictCards.forEach(card => {
+            const districtData = card.getAttribute('data-district').toLowerCase();
+            const isVisible = !searchTerm || districtData.includes(searchTerm);
+            
+            if (isVisible) {
+                card.style.display = 'block';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        // Update results counter
+        if (searchTerm) {
+            searchResults.classList.remove('hidden');
+            resultsCount.textContent = visibleCount;
+            clearButton.classList.remove('hidden');
+        } else {
+            searchResults.classList.add('hidden');
+            clearButton.classList.add('hidden');
+        }
+
+        // Show/hide no results
+        if (visibleCount === 0 && searchTerm) {
+            noResults.classList.remove('hidden');
+            districtsGrid.classList.add('hidden');
+        } else {
+            noResults.classList.add('hidden');
+            districtsGrid.classList.remove('hidden');
+        }
+    }
+
+    // Search functionality
+    searchInput.addEventListener('input', performSearch);
+    
+    clearButton.addEventListener('click', () => {
+        searchInput.value = '';
+        performSearch();
+        searchInput.focus();
+    });
+
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            performSearch();
+        }
+    });
+
+    // Global clear search function
+    window.clearSearch = function() {
+        searchInput.value = '';
+        performSearch();
+        searchInput.focus();
+    };
+});
+</script>
+{% endblock %}

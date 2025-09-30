@@ -1,0 +1,415 @@
+[
+    {
+        "id": 1,
+        "name": "ЖК «Первое место»",
+        "developer": "ГК «Инвестстройкуб»",
+        "district": "Прикубанский округ",
+        "location": "ул. Уральская, 169",
+        "full_address": "Краснодар, Прикубанский округ, ул. Уральская, 169",
+        "price_from": 4100000,
+        "price_per_sqm_from": 166000,
+        "image": "https://cdn.domclick.ru/complexes/120082_1515508/120082_c4d24d6c-e63b-4561-ab1c-1bc5d1d4b9e1.jpg",
+        "gallery": [
+            "https://cdn.domclick.ru/complexes/120082_1515508/120082_c4d24d6c-e63b-4561-ab1c-1bc5d1d4b9e1.jpg",
+            "https://cdn.domclick.ru/complexes/120082_1515508/120082_ea5dab8a-a42a-496e-a641-c78eefc06e43.jpg",
+            "https://cdn.domclick.ru/complexes/120082_1515508/120082_5367f9ca-9d1c-48cb-9d56-6c3ed1d0a424.jpg"
+        ],
+        "apartments_count": 1500,
+        "completion_date": "4 квартал 2024",
+        "construction_status": "Строится",
+        "building_type": "Монолит",
+        "building_class": "Комфорт",
+        "floors_min": 17,
+        "floors_max": 21,
+        "buildings_count": 5,
+        "ceiling_height": "от 2.7 м",
+        "parking": "подземный",
+        "territory": "закрытая",
+        "security": "видеонаблюдение",
+        "management_company": "собственная УК",
+        "mortgage_rate": 5.7,
+        "cashback_percent": 5,
+        "status": "new",
+        "description": "ЖК «Первое место» — это современный жилой комплекс комфорт-класса в Краснодаре. Проект отличается продуманной инфраструктурой, удобным расположением и высоким качеством строительства.",
+        "detailed_description": "В составе ЖК 5 разноэтажных жилых корпусов от 17 до 21 этажа, подземный паркинг, детские сады и все необходимое для комфортной жизни. На территории оборудованы зоны отдыха, детские и спортивные площадки.",
+        "nearby": "ТРК «Меридиан», парк «Солнечный остров»",
+        "infrastructure": [
+            {"name": "Детский сад", "icon": "school"},
+            {"name": "Спортплощадка", "icon": "basketball-ball"},
+            {"name": "Зеленый двор", "icon": "leaf"},
+            {"name": "Торговые точки", "icon": "store"},
+            {"name": "Детская площадка", "icon": "child"},
+            {"name": "Паркинг", "icon": "car"}
+        ],
+        "advantages": [
+            "Выгодное местоположение — близость к центру и основным транспортным магистралям",
+            "Продуманная инфраструктура внутри комплекса",
+            "Качественные материалы и современные инженерные решения",
+            "Безопасная территория с видеонаблюдением"
+        ],
+        "coordinates": [45.0355, 38.9753],
+        "apartments": [
+            {
+                "type": "Студия",
+                "count": 120,
+                "area_from": 25,
+                "area_to": 35,
+                "price_from": 4100000,
+                "price_to": 5200000
+            },
+            {
+                "type": "1-комн",
+                "count": 520,
+                "area_from": 42,
+                "area_to": 55,
+                "price_from": 4800000,
+                "price_to": 6500000
+            },
+            {
+                "type": "2-комн",
+                "count": 680,
+                "area_from": 58,
+                "area_to": 75,
+                "price_from": 6200000,
+                "price_to": 8900000
+            },
+            {
+                "type": "3-комн",
+                "count": 180,
+                "area_from": 85,
+                "area_to": 110,
+                "price_from": 9200000,
+                "price_to": 13500000
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "name": "ЖК Вишневый Сад",
+        "developer": "Группа ПИК",
+        "district": "Центральный",
+        "location": "ул. Черкесов, д-н Центральный",
+        "full_address": "Краснодар, Центральный район, ул. Черкесов",
+        "price_from": 3900000,
+        "price_per_sqm_from": 100000,
+        "image": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        "gallery": [
+            "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+        ],
+        "apartments_count": 851,
+        "completion_date": "3 кв. 2024",
+        "construction_status": "Строится",
+        "building_type": "Монолит-кирпич",
+        "building_class": "Комфорт",
+        "floors_min": 14,
+        "floors_max": 24,
+        "buildings_count": 3,
+        "ceiling_height": "от 2.8 м",
+        "parking": "подземный + открытый",
+        "territory": "закрытая",
+        "security": "видеонаблюдение + охрана",
+        "management_company": "собственная УК",
+        "mortgage_rate": 6.2,
+        "cashback_percent": 4.5,
+        "status": "new",
+        "description": "Современный жилой комплекс с развитой инфраструктурой в центре Краснодара",
+        "detailed_description": "Жилой комплекс состоит из трех корпусов различной этажности. На территории предусмотрены детские площадки, зоны отдыха, спортивные площадки. Подземный паркинг на 300 машиномест.",
+        "nearby": "ТРЦ «Галерея Краснодар», Городской сад",
+        "infrastructure": [
+            {"name": "Детский сад", "icon": "school"},
+            {"name": "Фитнес-центр", "icon": "dumbbell"},
+            {"name": "Зеленый двор", "icon": "leaf"},
+            {"name": "Кафе", "icon": "coffee"},
+            {"name": "Детская площадка", "icon": "child"},
+            {"name": "Паркинг", "icon": "car"}
+        ],
+        "advantages": [
+            "Центральное расположение с отличной транспортной доступностью",
+            "Собственная детская площадка и зоны отдыха",
+            "Подземный паркинг и дополнительные парковочные места",
+            "Круглосуточная охрана и видеонаблюдение"
+        ],
+        "coordinates": [45.0361, 38.9739],
+        "apartments": [
+            {
+                "type": "Студия",
+                "count": 120,
+                "area_from": 25,
+                "area_to": 39,
+                "price_from": 3900000,
+                "price_to": 4200000
+            },
+            {
+                "type": "1-комн",
+                "count": 320,
+                "area_from": 43,
+                "area_to": 48,
+                "price_from": 4300000,
+                "price_to": 5100000
+            },
+            {
+                "type": "2-комн",
+                "count": 280,
+                "area_from": 58,
+                "area_to": 68,
+                "price_from": 5800000,
+                "price_to": 7200000
+            },
+            {
+                "type": "3+ комн",
+                "count": 131,
+                "area_from": 74,
+                "area_to": 95,
+                "price_from": 7400000,
+                "price_to": 9500000
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "name": "ЖК Гранд Люкс",
+        "developer": "Гарантия-Инвест",
+        "district": "Центральный",
+        "location": "ул. Красных Партизан",
+        "full_address": "Краснодар, Центральный район, ул. Красных Партизан",
+        "price_from": 4500000,
+        "price_per_sqm_from": 132000,
+        "image": "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        "gallery": [
+            "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+        ],
+        "apartments_count": 684,
+        "completion_date": "2 кв. 2024",
+        "construction_status": "Строится",
+        "building_type": "Монолит",
+        "building_class": "Бизнес",
+        "floors_min": 18,
+        "floors_max": 25,
+        "buildings_count": 2,
+        "ceiling_height": "от 3.0 м",
+        "parking": "подземный",
+        "territory": "закрытая",
+        "security": "консьерж + видеонаблюдение",
+        "management_company": "собственная УК",
+        "mortgage_rate": 5.5,
+        "cashback_percent": 5.2,
+        "status": "new",
+        "description": "Премиальный жилой комплекс в центре города с высококлассной отделкой",
+        "detailed_description": "Жилой комплекс бизнес-класса с европейской планировкой и премиальной отделкой. Собственная инфраструктура включает спа-центр, детский клуб, ресторан.",
+        "nearby": "Театральная площадь, ул. Красная",
+        "infrastructure": [
+            {"name": "Спа-центр", "icon": "spa"},
+            {"name": "Детский клуб", "icon": "school"},
+            {"name": "Ресторан", "icon": "utensils"},
+            {"name": "Консьерж", "icon": "concierge-bell"},
+            {"name": "Паркинг", "icon": "car"},
+            {"name": "Охрана", "icon": "shield-alt"}
+        ],
+        "advantages": [
+            "Премиальное местоположение в историческом центре",
+            "Высококлассная отделка и европейская планировка",
+            "Собственная инфраструктура премиум-уровня",
+            "Консьерж-сервис и круглосуточная охрана"
+        ],
+        "coordinates": [45.0370, 38.9755],
+        "apartments": [
+            {
+                "type": "1-комн",
+                "count": 180,
+                "area_from": 45,
+                "area_to": 52,
+                "price_from": 4500000,
+                "price_to": 5800000
+            },
+            {
+                "type": "2-комн",
+                "count": 320,
+                "area_from": 62,
+                "area_to": 78,
+                "price_from": 6200000,
+                "price_to": 8900000
+            },
+            {
+                "type": "3-комн",
+                "count": 144,
+                "area_from": 78,
+                "area_to": 95,
+                "price_from": 8200000,
+                "price_to": 11500000
+            },
+            {
+                "type": "4+ комн",
+                "count": 40,
+                "area_from": 104,
+                "area_to": 140,
+                "price_from": 12800000,
+                "price_to": 18500000
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "name": "ЖК Небесный",
+        "developer": "Эталон Юг",
+        "district": "Прикубанский",
+        "location": "ул. 40 лет Победы",
+        "full_address": "Краснодар, Прикубанский округ, ул. 40 лет Победы",
+        "price_from": 2800000,
+        "price_per_sqm_from": 100000,
+        "image": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        "gallery": [
+            "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+        ],
+        "apartments_count": 727,
+        "completion_date": "1 кв. 2025",
+        "construction_status": "Строится",
+        "building_type": "Кирпич-монолит",
+        "building_class": "Комфорт",
+        "floors_min": 12,
+        "floors_max": 16,
+        "buildings_count": 4,
+        "ceiling_height": "от 2.7 м",
+        "parking": "открытый",
+        "territory": "благоустроенная",
+        "security": "видеонаблюдение",
+        "management_company": "управляющая компания",
+        "mortgage_rate": 6.8,
+        "cashback_percent": 3.8,
+        "status": "new",
+        "description": "Современный жилой комплекс комфорт-класса с семейной направленностью",
+        "detailed_description": "Четыре жилых корпуса средней этажности в тихом районе. Большое внимание уделено благоустройству дворовых территорий и детской инфраструктуре.",
+        "nearby": "Парк Солнечный остров, школы, поликлиника",
+        "infrastructure": [
+            {"name": "Детский сад", "icon": "school"},
+            {"name": "Спортплощадка", "icon": "basketball-ball"},
+            {"name": "Зеленый двор", "icon": "leaf"},
+            {"name": "Магазины", "icon": "store"},
+            {"name": "Детская площадка", "icon": "child"},
+            {"name": "Парковка", "icon": "car"}
+        ],
+        "advantages": [
+            "Тихий спальный район с развитой социальной инфраструктурой",
+            "Доступные цены и различные планировки",
+            "Большие благоустроенные дворы",
+            "Близость к паркам и зеленым зонам"
+        ],
+        "coordinates": [45.0285, 38.9631],
+        "apartments": [
+            {
+                "type": "Студия",
+                "count": 125,
+                "area_from": 28,
+                "area_to": 32,
+                "price_from": 2800000,
+                "price_to": 3200000
+            },
+            {
+                "type": "1-комн",
+                "count": 245,
+                "area_from": 38,
+                "area_to": 44,
+                "price_from": 3800000,
+                "price_to": 4400000
+            },
+            {
+                "type": "2-комн",
+                "count": 238,
+                "area_from": 58,
+                "area_to": 65,
+                "price_from": 5800000,
+                "price_to": 6500000
+            },
+            {
+                "type": "3-комн",
+                "count": 119,
+                "area_from": 78,
+                "area_to": 85,
+                "price_from": 7800000,
+                "price_to": 8500000
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "name": "ЖК Триумфальная Арка",
+        "developer": "ПИК-Юг",
+        "district": "Центральный",
+        "location": "ул. Тургенева",
+        "full_address": "Краснодар, Центральный район, ул. Тургенева",
+        "price_from": 4200000,
+        "price_per_sqm_from": 140000,
+        "image": "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        "gallery": [
+            "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+        ],
+        "apartments_count": 376,
+        "completion_date": "Сдан",
+        "construction_status": "Готов",
+        "building_type": "Монолит",
+        "building_class": "Бизнес",
+        "floors_min": 20,
+        "floors_max": 22,
+        "buildings_count": 1,
+        "ceiling_height": "от 3.2 м",
+        "parking": "подземный",
+        "territory": "закрытая",
+        "security": "консьерж + охрана",
+        "management_company": "собственная УК",
+        "mortgage_rate": 5.9,
+        "cashback_percent": 4.2,
+        "status": "ready",
+        "description": "Элитный жилой комплекс с уникальной архитектурой в престижном районе",
+        "detailed_description": "Архитектурная доминанта района с эксклюзивными планировками и панорамными видами на город. Собственный благоустроенный двор и подземный паркинг.",
+        "nearby": "Театр оперы и балета, Городской сад, ул. Красная",
+        "infrastructure": [
+            {"name": "Консьерж", "icon": "concierge-bell"},
+            {"name": "Фитнес", "icon": "dumbbell"},
+            {"name": "Детская площадка", "icon": "child"},
+            {"name": "Кафе", "icon": "coffee"},
+            {"name": "Паркинг", "icon": "car"},
+            {"name": "Охрана", "icon": "shield-alt"}
+        ],
+        "advantages": [
+            "Уникальная архитектура и панорамные виды",
+            "Готовый к заселению с развитой инфраструктурой",
+            "Престижное местоположение в центре города",
+            "Высококлассная отделка и европейская планировка"
+        ],
+        "coordinates": [45.0398, 38.9764],
+        "apartments": [
+            {
+                "type": "1-комн",
+                "count": 122,
+                "area_from": 42,
+                "area_to": 48,
+                "price_from": 4200000,
+                "price_to": 5000000
+            },
+            {
+                "type": "2-комн",
+                "count": 131,
+                "area_from": 54,
+                "area_to": 68,
+                "price_from": 6200000,
+                "price_to": 8200000
+            },
+            {
+                "type": "3-комн",
+                "count": 118,
+                "area_from": 75,
+                "area_to": 92,
+                "price_from": 8500000,
+                "price_to": 11200000
+            },
+            {
+                "type": "4+ комн",
+                "count": 5,
+                "area_from": 96,
+                "area_to": 120,
+                "price_from": 11200000,
+                "price_to": 14500000
+            }
+        ]
+    }
+]

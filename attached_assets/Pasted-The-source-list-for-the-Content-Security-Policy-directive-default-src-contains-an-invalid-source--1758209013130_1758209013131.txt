@@ -1,0 +1,134 @@
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+15The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+15The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+v27:1 The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+v27:1 The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+v27:1 The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+_app-da9a1e2067458860.js:38 
+      /////////////////////
+   ///////////////////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////        Curious and driven?
+  ///////////////@@@@@@@///////        Work with us!
+  ///////////////@@@@@@@///////
+  ///////////////@@@@@@@///////        https://join.replit.com/hack.with.us
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@#//////////////
+   ///////////////////////////
+      /////////////////////
+      
+_app-da9a1e2067458860.js:38 [LaunchDarkly] LaunchDarkly client initialized
+r.stripe.com/b:1  Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+r.stripe.com/b:1  Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+shared-bb735369aef43d3e0443321a0c3b3429.js:1 Uncaught (in promise) FetchError: Error fetching https://r.stripe.com/b: Failed to fetch
+    at shared-bb735369aef43d3e0443321a0c3b3429.js:1:222392
+v27:1 Banner not shown: beforeinstallpromptevent.preventDefault() called. The page must call beforeinstallpromptevent.prompt() to show the banner.
+r.stripe.com/b:1  Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+r.stripe.com/b:1  Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+shared-bb735369aef43d3e0443321a0c3b3429.js:1 Uncaught (in promise) FetchError: Error fetching https://r.stripe.com/b: Failed to fetch
+    at shared-bb735369aef43d3e0443321a0c3b3429.js:1:222392
+r.stripe.com/b:1  Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+r.stripe.com/b:1  Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+shared-bb735369aef43d3e0443321a0c3b3429.js:1 Uncaught (in promise) FetchError: Error fetching https://r.stripe.com/b: Failed to fetch
+    at shared-bb735369aef43d3e0443321a0c3b3429.js:1:222392
+r.stripe.com/b:1  Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+r.stripe.com/b:1  Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+shared-bb735369aef43d3e0443321a0c3b3429.js:1 Uncaught (in promise) FetchError: Error fetching https://r.stripe.com/b: Failed to fetch
+    at shared-bb735369aef43d3e0443321a0c3b3429.js:1:222392
+8Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+framework-a8d4f779e0a448ee.js:1 Unrecognized feature: 'ambient-light-sensor'.
+_ @ framework-a8d4f779e0a448ee.js:1
+framework-a8d4f779e0a448ee.js:1 Unrecognized feature: 'battery'.
+_ @ framework-a8d4f779e0a448ee.js:1
+framework-a8d4f779e0a448ee.js:1 Unrecognized feature: 'execution-while-not-rendered'.
+_ @ framework-a8d4f779e0a448ee.js:1
+framework-a8d4f779e0a448ee.js:1 Unrecognized feature: 'execution-while-out-of-viewport'.
+_ @ framework-a8d4f779e0a448ee.js:1
+framework-a8d4f779e0a448ee.js:1 Unrecognized feature: 'layout-animations'.
+_ @ framework-a8d4f779e0a448ee.js:1
+framework-a8d4f779e0a448ee.js:1 Unrecognized feature: 'legacy-image-formats'.
+_ @ framework-a8d4f779e0a448ee.js:1
+framework-a8d4f779e0a448ee.js:1 Unrecognized feature: 'navigation-override'.
+_ @ framework-a8d4f779e0a448ee.js:1
+framework-a8d4f779e0a448ee.js:1 Unrecognized feature: 'oversized-images'.
+_ @ framework-a8d4f779e0a448ee.js:1
+framework-a8d4f779e0a448ee.js:1 Unrecognized feature: 'publickey-credentials'.
+_ @ framework-a8d4f779e0a448ee.js:1
+framework-a8d4f779e0a448ee.js:1 Unrecognized feature: 'speaker-selection'.
+_ @ framework-a8d4f779e0a448ee.js:1
+framework-a8d4f779e0a448ee.js:1 Unrecognized feature: 'unoptimized-images'.
+_ @ framework-a8d4f779e0a448ee.js:1
+framework-a8d4f779e0a448ee.js:1 Unrecognized feature: 'unsized-media'.
+_ @ framework-a8d4f779e0a448ee.js:1
+framework-a8d4f779e0a448ee.js:1 Unrecognized feature: 'pointer-lock'.
+_ @ framework-a8d4f779e0a448ee.js:1
+framework-a8d4f779e0a448ee.js:1 Allow attribute will take precedence over 'allowfullscreen'.
+_ @ framework-a8d4f779e0a448ee.js:1
+framework-a8d4f779e0a448ee.js:1 Allow attribute will take precedence over 'allowpaymentrequest'.
+_ @ framework-a8d4f779e0a448ee.js:1
+_app-da9a1e2067458860.js:38 Invalid href 'https://f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev//manager/property-comparison' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-da9a1e2067458860.js:38
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar7d%3A:32 Unrecognized feature: 'ambient-light-sensor'.
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar7d%3A:32 Unrecognized feature: 'battery'.
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar7d%3A:32 Unrecognized feature: 'execution-while-not-rendered'.
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar7d%3A:32 Unrecognized feature: 'execution-while-out-of-viewport'.
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar7d%3A:32 Unrecognized feature: 'layout-animations'.
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar7d%3A:32 Unrecognized feature: 'legacy-image-formats'.
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar7d%3A:32 Unrecognized feature: 'navigation-override'.
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar7d%3A:32 Unrecognized feature: 'oversized-images'.
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar7d%3A:32 Unrecognized feature: 'publickey-credentials'.
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar7d%3A:32 Unrecognized feature: 'speaker-selection'.
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar7d%3A:32 Unrecognized feature: 'unoptimized-images'.
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar7d%3A:32 Unrecognized feature: 'unsized-media'.
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar7d%3A:32 Allow attribute will take precedence over 'allowfullscreen'.
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar7d%3A:32 Allow attribute will take precedence over 'allowpaymentrequest'.
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/static/images/dmitriy_ivanov.webp:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/static/images/aleksandr_petrov.webp:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/static/images/elena_smirnova.webp:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/static/images/dmitriy_ivanov.webp:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/static/images/aleksandr_petrov.webp:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/static/images/elena_smirnova.webp:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/static/images/dmitriy_ivanov.webp:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/static/images/aleksandr_petrov.webp:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/static/images/elena_smirnova.webp:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/static/images/dmitriy_ivanov.webp:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/static/images/aleksandr_petrov.webp:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/static/images/elena_smirnova.webp:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/static/images/no-photo.jpg:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/static/images/agent-photo.webp:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/static/images/agent-photo.webp:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/static/images/agent-photo.webp:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/static/images/agent-photo.webp:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/static/images/no-photo.jpg:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+Console.js:61 cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation
+Mt.forEach.n.<computed> @ Console.js:61
+Console.js:61 Header: openApplicationModal function defined
+Console.js:61 DOM Helper initialized - safe DOM operations available
+2Console.js:61 Phone formatting setup for: phone
+Console.js:61 InBack form validation initialized
+Console.js:61 Performance optimizations initialized
+Console.js:61 CSS optimization: Found 4 stylesheets
+Console.js:61 Turbo loader initialized
+Console.js:61 Cache optimizer initialized
+Console.js:61 Image compressor initialized - WebP support: true
+Console.js:61 🚀 Performance Optimizer v2.0 - Starting...
+Console.js:61 🖼️ Lazy loading initialized for 0 images
+Console.js:61 ✅ Performance Optimizer initialized
+Console.js:61 🚀 SuperSearch v2.0 - Initializing...
+Console.js:61 Found 0 search inputs
+Console.js:61 Initializing smart search...
+Console.js:61 Form validation initialized
+Console.js:61 📊 Page Load Time: 5465ms
+Console.js:61 📊 Performance metrics: Object
+Console.js:61 Cache SW failed: SecurityError: Failed to register a ServiceWorker for scope ('https://f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/') with script ('https://f001c263-718c-4a7f-8607-687fcc8e8053-00-zpcc7bsg47ak.kirk.replit.dev/static/js/sw-cache.js'): The path of the provided scope ('/') is not under the max scope allowed ('/static/js/'). Adjust the scope, move the Service Worker script, or use the Service-Worker-Allowed HTTP header to allow the scope.
+Console.js:61 Real favorites count from API: 5
+Console.js:61 📦 Preloaded: /static/css/styles.css
+Console.js:61 📦 Preloaded: /static/js/main.js
+Console.js:61 📦 Preloaded: /static/js/super_search.js
+Console.js:61 Memory usage: {used: '14 MB', total: '19 MB', limit: '2071 MB'}
+Console.js:61 Preloaded 5 popular queries
+Console.js:61 ✅ SuperSearch initialized successfully
+Console.js:61 Memory usage: {used: '14 MB', total: '19 MB', limit: '2071 MB'}
+Console.js:61 Memory usage: {used: '13 MB', total: '14 MB', limit: '2071 MB'}

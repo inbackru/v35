@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Менеджер | InBack{% endblock %}</title>
+    
+    <!-- Meta tags -->
+    <meta name="description" content="{% block description %}Панель менеджера по недвижимости InBack{% endblock %}">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f8fafc;
+        }
+        
+        .dashboard-header {
+            background: linear-gradient(135deg, #059669 0%, #0d9488 100%);
+            box-shadow: 0 4px 20px rgba(5, 150, 105, 0.15);
+        }
+        
+        .sidebar-item.active {
+            background-color: #ecfdf5;
+            color: #059669;
+            border-right: 3px solid #059669;
+        }
+        
+        .sidebar-item:hover {
+            background-color: #f8fafc;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .floating-card {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+    
+    {% block head %}{% endblock %}
+</head>
+<body class="bg-gray-50">
+    <!-- Dashboard Header -->
+    <header class="dashboard-header text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="{{ url_for('index') }}" class="flex items-center">
+                        <div class="w-8 h-8 bg-white rounded-lg flex items-center justify-center mr-3">
+                            <span class="text-[#059669] font-bold text-lg">IB</span>
+                        </div>
+                        <span class="text-xl font-bold">InBack</span>
+                        <span class="ml-2 px-2 py-1 bg-white/20 text-white text-xs font-medium rounded">Менеджер</span>
+                    </a>
+                </div>
+                
+                <!-- Tools Menu -->
+                <div class="flex items-center">
+                    <div class="relative">
+                        <button class="flex items-center space-x-2 px-4 py-2 hover:bg-white/10 rounded-lg transition-colors" id="tools-menu-button">
+                            <i class="fas fa-tools text-lg"></i>
+                            <span class="font-medium">Инструменты</span>
+                            <i class="fas fa-chevron-down text-sm"></i>
+                        </button>
+                        
+                        <!-- Tools Dropdown Menu -->
+                        <div class="absolute left-0 mt-2 w-56 bg-white rounded-md shadow-lg py-1 z-50 hidden" id="tools-menu-dropdown">
+                            <a href="{{ url_for('manager_clients') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                <i class="fas fa-users mr-3 text-[#059669]"></i>Клиенты
+                            </a>
+                            <a href="{{ url_for('manager_deals') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                <i class="fas fa-handshake mr-3 text-[#059669]"></i>Сделки
+                            </a>
+                            <a href="javascript:void(0)" onclick="switchToPresentations()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                <i class="fas fa-presentation-screen mr-3 text-[#059669]"></i>Презентации
+                            </a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                <i class="fas fa-search mr-3 text-[#059669]"></i>Сохранённые поиски
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- User Menu -->
+                <div class="flex items-center space-x-4">
+                    <!-- Notifications -->
+                    <button class="relative p-2 hover:bg-white/10 rounded-lg transition-colors">
+                        <i class="fas fa-bell text-lg"></i>
+                        <span class="notification-badge">{{ new_applications or 0 }}</span>
+                    </button>
+                    
+                    <!-- User Avatar and Menu -->
+                    <div class="relative">
+                        <button class="flex items-center space-x-3 p-2 hover:bg-white/10 rounded-lg transition-colors" id="manager-menu-button">
+                            <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                                <i class="fas fa-user-tie text-sm"></i>
+                            </div>
+                            <span class="font-medium">{{ manager.full_name or manager.email }}</span>
+                            <i class="fas fa-chevron-down text-sm"></i>
+                        </button>
+                        
+                        <!-- Dropdown Menu -->
+                        <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden" id="manager-menu-dropdown">
+                            <a href="{{ url_for('manager_dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-chart-line mr-2"></i>Дашборд
+                            </a>
+                            <a href="{{ url_for('index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-external-link-alt mr-2"></i>Главный сайт
+                            </a>
+                            <div class="border-t border-gray-100"></div>
+                            <a href="{{ url_for('manager_logout') }}" class="block px-4 py-2 text-sm text-[#059669] hover:bg-gray-100">
+                                <i class="fas fa-sign-out-alt mr-2"></i>Выйти
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} bg-{{ 'green' if category == 'success' else 'red' if category == 'error' else 'blue' if category == 'info' else 'yellow' }}-100 border border-{{ 'green' if category == 'success' else 'red' if category == 'error' else 'blue' if category == 'info' else 'yellow' }}-400 text-{{ 'green' if category == 'success' else 'red' if category == 'error' else 'blue' if category == 'info' else 'yellow' }}-700 px-4 py-3 rounded mb-4">
+                        <div class="flex justify-between items-center">
+                            <span>{{ message }}</span>
+                            <button onclick="this.parentElement.parentElement.remove()" class="text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Main Content with Sidebar -->
+    <div class="flex">
+        <!-- Sidebar -->
+        <div class="w-64 bg-white shadow-lg h-screen sticky top-0">
+            <div class="p-6">
+                <div class="flex items-center mb-8">
+                    <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center mr-3">
+                        <i class="fas fa-user-tie text-[#059669]"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-900">{{ manager.full_name or 'Менеджер' }}</h3>
+                        <p class="text-sm text-gray-500">Панель менеджера</p>
+                    </div>
+                </div>
+                
+            <nav class="px-6">
+                <div class="mb-6">
+                    <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Основное</h3>
+                </div>
+                <ul class="space-y-2">
+                    <li>
+                        <a href="{{ url_for('manager_dashboard') }}" 
+                           class="sidebar-item flex items-center px-4 py-3 text-gray-700 hover:text-[#059669] transition-colors rounded-lg">
+                            <i class="fas fa-chart-line mr-3 w-5"></i>
+                            <span>Дашборд</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('manager_clients') }}" 
+                           class="sidebar-item flex items-center px-4 py-3 text-gray-700 hover:text-[#059669] transition-colors rounded-lg">
+                            <i class="fas fa-users mr-3 w-5"></i>
+                            <span>Клиенты</span>
+                            <span class="ml-auto bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">{{ clients_count or '0' }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" onclick="switchToPresentations()" 
+                           class="sidebar-item flex items-center px-4 py-3 text-gray-700 hover:text-[#059669] transition-colors rounded-lg" id="presentations-menu-item">
+                            <i class="fas fa-presentation-screen mr-3 w-5"></i>
+                            <span>Презентации</span>
+                            <span class="ml-auto bg-gray-100 text-blue-800 text-xs px-2 py-1 rounded-full" id="presentations-count">0</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="mb-6 mt-8">
+                    <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Инструменты</h3>
+                </div>
+                <ul class="space-y-2">
+                    <li>
+                        <a href="#" 
+                           class="sidebar-item flex items-center px-4 py-3 text-gray-700 hover:text-[#059669] transition-colors rounded-lg">
+                            <i class="fas fa-search mr-3 w-5"></i>
+                            <span>Сохраненные поиски</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" onclick="showFavoriteProperties()" 
+                           class="sidebar-item flex items-center px-4 py-3 text-gray-700 hover:text-[#059669] transition-colors rounded-lg">
+                            <i class="fas fa-heart mr-3 w-5 text-pink-500"></i>
+                            <span>Избранные объекты</span>
+                            <span class="ml-auto bg-pink-100 text-pink-800 text-xs px-2 py-1 rounded-full" id="favorite-properties-count">0</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" onclick="showFavoriteComplexes()" 
+                           class="sidebar-item flex items-center px-4 py-3 text-gray-700 hover:text-[#059669] transition-colors rounded-lg">
+                            <i class="fas fa-building mr-3 w-5 text-purple-500"></i>
+                            <span>Избранные ЖК</span>
+                            <span class="ml-auto bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full" id="favorite-complexes-count">0</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            </div>
+        </div>
+        
+        <!-- Main Content Area -->
+        <div class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50">
+            <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Favorites functions
+        async function showFavoriteProperties() {
+            console.log('🔍 Loading favorite properties...');
+            
+            try {
+                const response = await fetch('/api/manager/favorites/list');
+                const data = await response.json();
+                
+                if (data.success) {
+                    const count = data.favorites ? data.favorites.length : 0;
+                    console.log(`✅ Found ${count} favorite properties`);
+                    
+                    // Update count in sidebar
+                    const countElement = document.getElementById('favorite-properties-count');
+                    if (countElement) {
+                        countElement.textContent = count;
+                    }
+                    
+                    // Create modal or redirect to dedicated page
+                    showFavoritesModal('properties', data.favorites || [], 'Избранные объекты');
+                } else {
+                    console.error('❌ Failed to load properties:', data);
+                }
+            } catch (error) {
+                console.error('❌ Error loading favorite properties:', error);
+            }
+        }
+        
+        async function showFavoriteComplexes() {
+            console.log('🔍 Loading favorite complexes...');
+            
+            try {
+                const response = await fetch('/api/manager/complexes/favorites/list');
+                const data = await response.json();
+                
+                if (data.success) {
+                    const complexes = data.favorites || [];
+                    const count = complexes.length;
+                    console.log(`✅ Found ${count} favorite complexes`);
+                    
+                    // Update count in sidebar
+                    const countElement = document.getElementById('favorite-complexes-count');
+                    if (countElement) {
+                        countElement.textContent = count;
+                    }
+                    
+                    // Create modal or redirect to dedicated page
+                    showFavoritesModal('complexes', complexes, 'Избранные ЖК');
+                } else {
+                    console.error('❌ Failed to load complexes:', data);
+                }
+            } catch (error) {
+                console.error('❌ Error loading favorite complexes:', error);
+            }
+        }
+        
+        function showFavoritesModal(type, items, title) {
+            // Create modal overlay
+            const overlay = document.createElement('div');
+            overlay.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4';
+            overlay.onclick = () => overlay.remove();
+            
+            // Create modal content
+            const modal = document.createElement('div');
+            modal.className = 'bg-white rounded-lg max-w-4xl w-full max-h-[80vh] overflow-hidden';
+            modal.onclick = (e) => e.stopPropagation();
+            
+            // Modal header
+            const header = document.createElement('div');
+            header.className = 'px-6 py-4 border-b border-gray-200 flex justify-between items-center';
+            header.innerHTML = `
+                <h2 class="text-xl font-semibold text-gray-900">${title} (${items.length})</h2>
+                <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            `;
+            
+            // Modal body
+            const body = document.createElement('div');
+            body.className = 'p-6 overflow-y-auto max-h-96';
+            
+            if (items.length === 0) {
+                body.innerHTML = `
+                    <div class="text-center py-8">
+                        <i class="fas fa-heart text-4xl text-gray-300 mb-4"></i>
+                        <p class="text-gray-500">Пока нет избранных ${type === 'properties' ? 'объектов' : 'ЖК'}</p>
+                    </div>
+                `;
+            } else {
+                body.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        ${items.map(item => createFavoriteCard(type, item)).join('')}
+                    </div>
+                `;
+            }
+            
+            modal.appendChild(header);
+            modal.appendChild(body);
+            overlay.appendChild(modal);
+            document.body.appendChild(overlay);
+        }
+        
+        function createFavoriteCard(type, item) {
+            if (type === 'properties') {
+                return `
+                    <div class="bg-gray-50 rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <div class="flex">
+                            <img src="${item.image || '/static/images/no-photo.jpg'}" 
+                                 alt="${item.title}" 
+                                 class="w-20 h-20 object-cover rounded-lg mr-4"
+                                 onerror="this.src='/static/images/no-photo.jpg'">
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-gray-900 mb-1 text-sm">${item.title}</h3>
+                                <p class="text-xs text-gray-600 mb-1">${item.complex}</p>
+                                <p class="text-sm font-bold text-blue-600">₽${Number(item.price || 0).toLocaleString('ru-RU')}</p>
+                                <p class="text-xs text-green-600">Кешбек: ₽${Number(item.cashback_amount || 0).toLocaleString('ru-RU')}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                return `
+                    <div class="bg-gray-50 rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <div class="flex">
+                            <img src="${item.image || '/static/images/no-photo.jpg'}" 
+                                 alt="${item.name}" 
+                                 class="w-20 h-20 object-cover rounded-lg mr-4"
+                                 onerror="this.src='/static/images/no-photo.jpg'">
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-gray-900 mb-1 text-sm">${item.name}</h3>
+                                <p class="text-xs text-gray-600 mb-1">${item.developer}</p>
+                                <p class="text-xs text-gray-600 mb-1">${item.district}</p>
+                                <p class="text-sm font-bold text-blue-600">
+                                    ${item.min_price ? `от ₽${Number(item.min_price).toLocaleString('ru-RU')}` : 'Цена не указана'}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        
+        // Load counts on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load favorites counts
+            fetch('/api/manager/favorites/count')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const propCount = document.getElementById('favorite-properties-count');
+                        const complexCount = document.getElementById('favorite-complexes-count');
+                        
+                        if (propCount) propCount.textContent = data.properties_count || 0;
+                        if (complexCount) complexCount.textContent = data.complexes_count || 0;
+                        
+                        console.log(`📊 Loaded counts: ${data.properties_count} properties, ${data.complexes_count} complexes`);
+                    }
+                })
+                .catch(error => console.error('❌ Error loading counts:', error));
+        });
+
+        // Toggle manager menu dropdown
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuButton = document.getElementById('manager-menu-button');
+            const menuDropdown = document.getElementById('manager-menu-dropdown');
+            const toolsButton = document.getElementById('tools-menu-button');
+            const toolsDropdown = document.getElementById('tools-menu-dropdown');
+            
+            // Manager menu dropdown
+            if (menuButton && menuDropdown) {
+                menuButton.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    menuDropdown.classList.toggle('hidden');
+                    // Close tools dropdown if open
+                    if (toolsDropdown) {
+                        toolsDropdown.classList.add('hidden');
+                    }
+                });
+            }
+            
+            // Tools menu dropdown
+            if (toolsButton && toolsDropdown) {
+                toolsButton.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    toolsDropdown.classList.toggle('hidden');
+                    // Close manager dropdown if open
+                    if (menuDropdown) {
+                        menuDropdown.classList.add('hidden');
+                    }
+                });
+            }
+            
+            // Close all dropdowns when clicking outside
+            document.addEventListener('click', function() {
+                if (menuDropdown) {
+                    menuDropdown.classList.add('hidden');
+                }
+                if (toolsDropdown) {
+                    toolsDropdown.classList.add('hidden');
+                }
+            });
+
+            // Auto-hide flash messages after 5 seconds
+            const flashMessages = document.querySelectorAll('.alert');
+            flashMessages.forEach(function(message) {
+                setTimeout(function() {
+                    message.style.transition = 'opacity 0.5s ease';
+                    message.style.opacity = '0';
+                    setTimeout(function() {
+                        message.remove();
+                    }, 500);
+                }, 5000);
+            });
+        });
+    </script>
+    
+    {% block scripts %}{% endblock %}
+</body>
+</html>

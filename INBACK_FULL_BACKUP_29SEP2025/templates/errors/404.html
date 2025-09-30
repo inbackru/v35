@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Страница не найдена - InBack.ru{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-orange-50">
+    <div class="max-w-md w-full mx-auto p-8 text-center">
+        <!-- Error Icon -->
+        <div class="mb-8">
+            <div class="w-32 h-32 mx-auto bg-gray-100 rounded-full flex items-center justify-center">
+                <i class="fas fa-exclamation-triangle text-6xl text-[#0088CC]"></i>
+            </div>
+        </div>
+        
+        <!-- Error Message -->
+        <h1 class="text-6xl font-bold text-gray-800 mb-4">404</h1>
+        <h2 class="text-2xl font-semibold text-gray-700 mb-4">Страница не найдена</h2>
+        <p class="text-gray-600 mb-8">
+            К сожалению, запрашиваемая страница не существует или была перемещена.
+        </p>
+        
+        <!-- Action Buttons -->
+        <div class="space-y-4">
+            <a href="/" class="inline-block bg-orange-600 text-white px-8 py-3 rounded-lg hover:bg-orange-700 transition-colors font-medium">
+                <i class="fas fa-home mr-2"></i>
+                На главную
+            </a>
+            <div class="text-sm text-gray-500">
+                <a href="/search" class="text-[#0088cc] hover:underline mr-4">
+                    <i class="fas fa-search mr-1"></i>
+                    Поиск недвижимости
+                </a>
+                <a href="/contacts" class="text-[#0088cc] hover:underline">
+                    <i class="fas fa-phone mr-1"></i>
+                    Контакты
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,121 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Категории блога - InBack.ru{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-6">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <div class="flex items-center space-x-3 mb-2">
+                <a href="{{ url_for('admin_blog') }}" 
+                   class="text-gray-600 hover:text-gray-900">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <h1 class="text-3xl font-bold text-gray-900">Категории блога</h1>
+            </div>
+            <p class="text-gray-600">Управление категориями статей блога</p>
+        </div>
+        <a href="{{ url_for('admin_create_category') }}" 
+           class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors">
+            <i class="fas fa-plus mr-2"></i>Новая категория
+        </a>
+    </div>
+
+    <!-- Categories List -->
+    <div class="bg-white rounded-lg shadow-sm border overflow-hidden">
+        {% if categories %}
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Категория</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Описание</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Статьи</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Статус</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Сортировка</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Действия</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for category in categories %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 w-8 h-8 bg-{{ category.color }}-100 rounded-full flex items-center justify-center">
+                                    <i class="{{ category.icon or 'fas fa-folder' }} text-{{ category.color }}-600 text-sm"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <div class="font-medium text-gray-900">{{ category.name }}</div>
+                                    <div class="text-sm text-gray-500">{{ category.slug }}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm text-gray-900">
+                                {% if category.description %}
+                                {{ category.description|truncate(100) }}
+                                {% else %}
+                                <span class="text-gray-400">Без описания</span>
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                {{ category.articles_count or 0 }} статей
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            {% if category.is_active %}
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-green-800">
+                                <i class="fas fa-check-circle mr-1"></i>Активна
+                            </span>
+                            {% else %}
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                <i class="fas fa-pause-circle mr-1"></i>Неактивна
+                            </span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            {{ category.sort_order or 0 }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                            <a href="{{ url_for('admin_edit_blog_category_new', category_id=category.id) }}" 
+                               class="text-[#1e40af] hover:text-blue-900">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            {% if category.articles_count == 0 %}
+                            <form method="POST" 
+                                  action="{{ url_for('admin_delete_blog_category_new', category_id=category.id) }}" 
+                                  class="inline-block"
+                                  onsubmit="return confirm('Вы уверены, что хотите удалить эту категорию?')">
+                                <button type="submit" class="text-[#1e40af] hover:text-red-900">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                            {% else %}
+                            <span class="text-gray-400" title="Нельзя удалить категорию со статьями">
+                                <i class="fas fa-trash"></i>
+                            </span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <!-- Empty State -->
+        <div class="text-center py-12">
+            <i class="fas fa-tags text-gray-400 text-4xl mb-4"></i>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">Категории не найдены</h3>
+            <p class="text-gray-600 mb-4">Создайте первую категорию для организации статей блога.</p>
+            <a href="{{ url_for('admin_create_blog_category_new') }}" 
+               class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#1e40af] hover:bg-[#1d4ed8]">
+                <i class="fas fa-plus mr-2"></i>Создать категорию
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

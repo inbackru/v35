@@ -1,0 +1,643 @@
+<script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "Как получить кэшбек за новостройку",
+      "description": "Пошаговая инструкция получения кэшбека при покупке квартиры в новостройке",
+      "totalTime": "P60D",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "text": "Зарегистрируйтесь на сайте или оставьте заявку",
+          "name": "Регистрация на сайте"
+        },
+        {
+          "@type": "HowToStep",
+          "text": "Выберите новостройку из каталога или укажите уже выбранную",
+          "name": "Выбор новостройки"
+        },
+        {
+          "@type": "HowToStep",
+          "text": "Мы регистрируем вас как нашего клиента у застройщика перед покупкой",
+          "name": "Оформление сделки"
+        },
+        {
+          "@type": "HowToStep",
+          "text": "После оформления собственности деньги поступают на ваш счет",
+          "name": "Получение кэшбека"
+        }
+      ]
+    }
+    // Helper to format numbers with spaces
+                function formatNumber(num) {
+                    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+                }
+    </script>
+<script type="application/ld+json">
+    { 
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Главная",
+        "item": "https://inback.ru/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Как это работает",
+        "item": "https://inback.ru/kak-eto-rabotaet"
+      }]
+    }
+    </script>
+{% extends "base.html" %}
+
+{% block title %}Ипотека 2024: все программы и лучшие условия | InBack{% endblock %}
+{% block description %}Все программы ипотеки 2024: семейная 6%, IT-ипотека 5%, военная 2.35%, рассрочка 0%. Помощь в выборе и оформлении. Калькуляторы и консультации.{% endblock %}
+{% block keywords %}ипотека 2024, программы ипотеки, лучшие условия ипотеки, семейная ипотека, it ипотека, военная ипотека{% endblock %}
+
+{% block head %}
+<meta content="Как получить кэшбек 2,5-10% за новостройку? | Пошаговая инструкция" property="og:title"/>
+<meta content="Узнайте, как работает система кэшбека Inback при покупке квартиры в новостройке. 4 простых шага для получения возврата денег от застройщика" property="og:description"/>
+<link href="https://inback.ru/kak-eto-rabotaet" rel="canonical"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://inback.ru/" rel="canonical"/>
+<link href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "RealEstateAgent",
+      "name": "Inback",
+      "image": "https://inback.ru/logo.jpg",
+      "description": "Официальный сервис возврата кэшбека при покупке недвижимости в Краснодаре и других городах России",
+      "priceRange": "$",
+      "areaServed": {
+        "@type": "AdministrativeArea",
+        "name": "Краснодар и Краснодарский край"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "ул. Красная, 32",
+        "addressLocality": "Краснодар",
+        "addressRegion": "Краснодарский край" 
+      },
+      "telephone": "+78001231212",
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "09:00",
+        "closes": "19:00"
+      }
+    }
+    </script>
+<link href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+<section class="bg-gradient-to-b from-white to-gray-50 pt-20 pb-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Left Content -->
+                <div>
+                    <div class="inline-flex items-center px-4 py-2 bg-gray-100 rounded-full text-gray-700 text-sm font-medium mb-6">
+                        <i class="fas fa-calculator mr-2 text-[#0088CC]"></i>
+                        Ипотечный калькулятор
+                    </div>
+                    <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+                        Рассчитайте свою <span class="text-[#0088CC]">ипотеку</span> за 30 секунд
+                    </h1>
+                    <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                        Узнайте точную сумму ежемесячного платежа и размер кэшбека за покупку квартиры в новостройке
+                    </p>
+                    
+                    <!-- Benefits -->
+                    <div class="grid sm:grid-cols-2 gap-4 mb-8">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-check text-[#0088CC] text-sm"></i>
+                            </div>
+                            <span class="text-gray-700">Ставка от 2%</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-check text-[#0088CC] text-sm"></i>
+                            </div>
+                            <span class="text-gray-700">Кэшбек до 500 000 ₽</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-check text-[#0088CC] text-sm"></i>
+                            </div>
+                            <span class="text-gray-700">Одобрение за 1 день</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-check text-[#0088CC] text-sm"></i>
+                            </div>
+                            <span class="text-gray-700">Без скрытых комиссий</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calculator -->
+                <div class="bg-white rounded-2xl shadow-xl p-8">
+                    <h3 class="text-2xl font-bold text-center mb-6">Ипотечный калькулятор</h3>
+                    
+                    <!-- Property Price -->
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-3">
+                            <label class="text-gray-700 font-medium">Стоимость недвижимости</label>
+                            <div class="text-xl font-bold text-[#0088CC]" id="propertyPrice">5 000 000 ₽</div>
+                        </div>
+                        <input type="range" 
+                               min="1000000" 
+                               max="30000000" 
+                               step="100000" 
+                               value="5000000" 
+                               class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                               id="propertyPriceRange">
+                        <div class="flex justify-between text-sm text-gray-500 mt-1">
+                            <span>1 млн ₽</span>
+                            <span>30 млн ₽</span>
+                        </div>
+                    </div>
+
+                    <!-- Down Payment -->
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-3">
+                            <label class="text-gray-700 font-medium">Первоначальный взнос</label>
+                            <div class="text-xl font-bold text-[#0088CC]" id="downPayment">1 000 000 ₽ (20%)</div>
+                        </div>
+                        <input type="range" 
+                               min="10" 
+                               max="80" 
+                               step="5" 
+                               value="20" 
+                               class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                               id="downPaymentRange">
+                        <div class="flex justify-between text-sm text-gray-500 mt-1">
+                            <span>10%</span>
+                            <span>80%</span>
+                        </div>
+                    </div>
+
+                    <!-- Loan Term -->
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-3">
+                            <label class="text-gray-700 font-medium">Срок кредита</label>
+                            <div class="text-xl font-bold text-[#0088CC]" id="loanTerm">20 лет</div>
+                        </div>
+                        <input type="range" 
+                               min="1" 
+                               max="30" 
+                               step="1" 
+                               value="20" 
+                               class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                               id="loanTermRange">
+                        <div class="flex justify-between text-sm text-gray-500 mt-1">
+                            <span>1 год</span>
+                            <span>30 лет</span>
+                        </div>
+                    </div>
+
+                    <!-- Interest Rate -->
+                    <div class="mb-8">
+                        <div class="flex justify-between items-center mb-3">
+                            <label class="text-gray-700 font-medium">Процентная ставка</label>
+                            <div class="text-xl font-bold text-[#0088CC]" id="interestRate">6.5%</div>
+                        </div>
+                        <input type="range" 
+                               min="2" 
+                               max="20" 
+                               step="0.1" 
+                               value="6.5" 
+                               class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                               id="interestRateRange">
+                        <div class="flex justify-between text-sm text-gray-500 mt-1">
+                            <span>2%</span>
+                            <span>20%</span>
+                        </div>
+                    </div>
+
+                    <!-- Results -->
+                    <div class="bg-gradient-to-r from-[#0088CC] to-[#006699] rounded-xl p-6 text-white mb-6">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <div class="text-sm opacity-90">Ежемесячный платеж</div>
+                                <div class="text-2xl font-bold" id="monthlyPayment">32 450 ₽</div>
+                            </div>
+                            <div>
+                                <div class="text-sm opacity-90">Кэшбек 2.5%</div>
+                                <div class="text-2xl font-bold" id="cashbackAmount">125 000 ₽</div>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-white/20">
+                            <div class="flex justify-between">
+                                <span class="text-sm opacity-90">Переплата</span>
+                                <span class="font-bold" id="overpayment">2 788 000 ₽</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="openApplicationModal()" class="w-full bg-gradient-to-r from-[#0088CC] to-[#006699] hover:shadow-lg text-white py-4 rounded-xl font-semibold text-lg transition-all transform hover:scale-[1.02]">
+                        Подать заявку на ипотеку
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mortgage Programs -->
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                    Ипотечные программы
+                </h2>
+                <p class="text-xl text-gray-600">
+                    Выберите подходящий тип ипотеки для вашей ситуации
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Family Mortgage -->
+                <div class="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-shadow">
+                    <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-heart text-[#0088CC] text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Семейная ипотека</h3>
+                    <p class="text-gray-600 mb-4">Льготная ставка 6% для семей с детьми</p>
+                    <div class="space-y-2 mb-6">
+                        <div class="flex justify-between">
+                            <span class="text-sm text-gray-500">Ставка:</span>
+                            <span class="font-semibold text-[#0088CC]">от 6%</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm text-gray-500">Сумма:</span>
+                            <span class="font-semibold">до 12 млн ₽</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm text-gray-500">Взнос:</span>
+                            <span class="font-semibold">от 15%</span>
+                        </div>
+                    </div>
+                    <a href="{{ url_for('family_mortgage') }}" class="block w-full bg-gradient-to-r from-[#0088CC] to-[#006699] hover:shadow-lg text-white py-3 rounded-lg text-center font-medium transition-all transform hover:scale-[1.02]">
+                        Подробнее
+                    </a>
+                </div>
+
+                <!-- IT Mortgage -->
+                <div class="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-shadow">
+                    <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-code text-[#0088CC] text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">IT ипотека</h3>
+                    <p class="text-gray-600 mb-4">Специальные условия для IT-специалистов</p>
+                    <div class="space-y-2 mb-6">
+                        <div class="flex justify-between">
+                            <span class="text-sm text-gray-500">Ставка:</span>
+                            <span class="font-semibold text-[#0088CC]">от 5%</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm text-gray-500">Сумма:</span>
+                            <span class="font-semibold">до 18 млн ₽</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm text-gray-500">Взнос:</span>
+                            <span class="font-semibold">от 15%</span>
+                        </div>
+                    </div>
+                    <a href="{{ url_for('it_mortgage') }}" class="block w-full bg-gradient-to-r from-[#0088CC] to-[#006699] hover:shadow-lg text-white py-3 rounded-lg text-center font-medium transition-all transform hover:scale-[1.02]">
+                        Подробнее
+                    </a>
+                </div>
+
+                <!-- Military Mortgage -->
+                <div class="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-shadow">
+                    <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-shield-alt text-[#0088CC] text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Военная ипотека</h3>
+                    <p class="text-gray-600 mb-4">Для военнослужащих по НИС</p>
+                    <div class="space-y-2 mb-6">
+                        <div class="flex justify-between">
+                            <span class="text-sm text-gray-500">Ставка:</span>
+                            <span class="font-semibold text-[#0088CC]">от 2.35%</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm text-gray-500">Сумма:</span>
+                            <span class="font-semibold">до 4.6 млн ₽</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm text-gray-500">Взнос:</span>
+                            <span class="font-semibold">без взноса</span>
+                        </div>
+                    </div>
+                    <a href="{{ url_for('military_mortgage') }}" class="block w-full bg-gradient-to-r from-[#0088CC] to-[#006699] hover:shadow-lg text-white py-3 rounded-lg text-center font-medium transition-all transform hover:scale-[1.02]">
+                        Подробнее
+                    </a>
+                </div>
+
+                <!-- Developer Mortgage -->
+                <div class="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-shadow">
+                    <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-building text-[#0088CC] text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">От застройщика</h3>
+                    <p class="text-gray-600 mb-4">Беспроцентная рассрочка на 0%</p>
+                    <div class="space-y-2 mb-6">
+                        <div class="flex justify-between">
+                            <span class="text-sm text-gray-500">Ставка:</span>
+                            <span class="font-semibold text-[#0088CC]">0%</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm text-gray-500">Срок:</span>
+                            <span class="font-semibold">до 5 лет</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm text-gray-500">Взнос:</span>
+                            <span class="font-semibold">от 30%</span>
+                        </div>
+                    </div>
+                    <a href="{{ url_for('developer_mortgage') }}" class="block w-full bg-gradient-to-r from-[#0088CC] to-[#006699] hover:shadow-lg text-white py-3 rounded-lg text-center font-medium transition-all transform hover:scale-[1.02]">
+                        Подробнее
+                    </a>
+                </div>
+
+                <!-- Maternal Capital -->
+                <div class="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-shadow">
+                    <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-baby text-[#0088CC] text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Материнский капитал</h3>
+                    <p class="text-gray-600 mb-4">Использование маткапитала для покупки</p>
+                    <div class="space-y-2 mb-6">
+                        <div class="flex justify-between">
+                            <span class="text-sm text-gray-500">Сумма:</span>
+                            <span class="font-semibold text-[#0088CC]">630 380 ₽</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm text-gray-500">На взнос:</span>
+                            <span class="font-semibold">можно</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm text-gray-500">Доплата:</span>
+                            <span class="font-semibold">возможна</span>
+                        </div>
+                    </div>
+                    <a href="{{ url_for('maternal_capital') }}" class="block w-full bg-gradient-to-r from-[#0088CC] to-[#006699] hover:shadow-lg text-white py-3 rounded-lg text-center font-medium transition-all transform hover:scale-[1.02]">
+                        Подробнее
+                    </a>
+                </div>
+
+                <!-- Standard Mortgage -->
+                <div class="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-shadow">
+                    <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-home text-gray-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Стандартная ипотека</h3>
+                    <p class="text-gray-600 mb-4">Классические условия кредитования</p>
+                    <div class="space-y-2 mb-6">
+                        <div class="flex justify-between">
+                            <span class="text-sm text-gray-500">Ставка:</span>
+                            <span class="font-semibold text-gray-600">от 13%</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm text-gray-500">Сумма:</span>
+                            <span class="font-semibold">до 30 млн ₽</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm text-gray-500">Взнос:</span>
+                            <span class="font-semibold">от 10%</span>
+                        </div>
+                    </div>
+                    <button onclick="openApplicationModal()" class="w-full bg-gradient-to-r from-[#0088CC] to-[#006699] hover:shadow-lg text-white py-3 rounded-lg font-medium transition-all transform hover:scale-[1.02]">
+                        Рассчитать
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6 text-gray-900">Часто задаваемые вопросы</h1>
+            <p class="text-xl text-gray-600">Найдите ответы на популярные вопросы о нашем сервисе кешбеков за новостройки.</p>
+        </div>
+        
+        <div class="max-w-3xl mx-auto space-y-4">
+            <!-- General Questions -->
+            <h2 class="text-2xl font-bold mt-8 mb-4 text-gray-900">Общие вопросы</h2>
+            
+            <div class="bg-gray-50 rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100">
+                <button class="flex justify-between items-center w-full text-left group" onclick="toggleFAQ(1)">
+                    <h3 class="text-lg font-medium group-hover:text-[#0088CC] transition-colors">Что такое кешбек за новостройку?</h3>
+                    <i class="fas fa-chevron-down text-[#0088CC] transition-transform duration-200" id="faq-icon-1"></i>
+                </button>
+                <div class="mt-3 text-gray-600 hidden" id="faq-content-1">
+                    <p class="leading-relaxed">Кешбек за новостройку - это возврат части комиссии, которую застройщик платит агентам по недвижимости. Мы помогаем получить эту комиссию вам напрямую, без посредников. В среднем это составляет от 2,5% до 5% от стоимости квартиры.</p>
+                </div>
+            </div>
+            
+            <div class="bg-ton-light rounded-xl p-6 shadow-sm">
+                <button class="flex justify-between items-center w-full text-left" onclick="toggleFAQ(2)">
+                    <h3 class="text-lg font-medium">Как работает ваш сервис?</h3>
+                    <i class="fas fa-chevron-down text-ton-blue transition-transform" id="faq-icon-2"></i>
+                </button>
+                <div class="mt-3 text-gray-600 hidden" id="faq-content-2">
+                    <ol class="list-decimal pl-5 space-y-2">
+                        <li>Вы регистрируетесь на нашем сайте</li>
+                        <li>Выбираете интересующую новостройку</li>
+                        <li>Мы оформляем вас как нашего клиента у застройщика</li>
+                        <li>После покупки квартиры получаете кешбек на банковский счет</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <!-- Payment Questions -->
+            <h2 class="text-2xl font-bold mt-8 mb-4 text-gray-900">Оплата и выплаты</h2>
+            
+            <div class="bg-ton-light rounded-xl p-6 shadow-sm">
+                <button class="flex justify-between items-center w-full text-left" onclick="toggleFAQ(3)">
+                    <h3 class="text-lg font-medium">Когда я получу кешбек?</h3>
+                    <i class="fas fa-chevron-down text-ton-blue transition-transform" id="faq-icon-3"></i>
+                </button>
+                <div class="mt-3 text-gray-600 hidden" id="faq-content-3">
+                    <p>Выплата кешбека происходит после:</p>
+                    <ul class="list-disc pl-5 mt-2 space-y-1">
+                        <li>Полной оплаты квартиры</li>
+                        <li>Оформления права собственности</li>
+                        <li>Завершения проверки документов (до 10 рабочих дней)</li>
+                    </ul>
+                    <p class="mt-2">В среднем весь процесс занимает от 1 до 3 месяцев после покупки.</p>
+                </div>
+            </div>
+            
+            <div class="bg-ton-light rounded-xl p-6 shadow-sm">
+                <button class="flex justify-between items-center w-full text-left" onclick="toggleFAQ(4)">
+                    <h3 class="text-lg font-medium">Какой максимальный кешбек я могу получить?</h3>
+                    <i class="fas fa-chevron-down text-ton-blue transition-transform" id="faq-icon-4"></i>
+                </button>
+                <div class="mt-3 text-gray-600 hidden" id="faq-content-4">
+                    <p>Размер кешбека зависит от:</p>
+                    <ul class="list-disc pl-5 mt-2 space-y-1">
+                        <li>Застройщика (от 2,5% до 7%)</li>
+                        <li>Объекта недвижимости</li>
+                        <li>Суммы сделки (возможны бонусы за крупные покупки)</li>
+                        <li>Активных специальных предложений</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Technical Questions -->
+            <h2 class="text-2xl font-bold mt-8 mb-4" style="background: linear-gradient(135deg, #0088CC 0%, #006699 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">Работа сервиса</h2>
+            
+            <div class="bg-ton-light rounded-xl p-6 shadow-sm">
+                <button class="flex justify-between items-center w-full text-left" onclick="toggleFAQ(5)">
+                    <h3 class="text-lg font-medium">Нужно ли платить за ваш сервис?</h3>
+                    <i class="fas fa-chevron-down text-ton-blue transition-transform" id="faq-icon-5"></i>
+                </button>
+                <div class="mt-3 text-gray-600 hidden" id="faq-content-5">
+                    <p>Наш сервис абсолютно бесплатен для покупателей. Мы получаем комиссию от застройщиков только после успешного завершения сделки.</p>
+                </div>
+            </div>
+            
+            <div class="bg-ton-light rounded-xl p-6 shadow-sm">
+                <button class="flex justify-between items-center w-full text-left" onclick="toggleFAQ(6)">
+                    <h3 class="text-lg font-medium">Работаете ли вы по всей России?</h3>
+                    <i class="fas fa-chevron-down text-ton-blue transition-transform" id="faq-icon-6"></i>
+                </button>
+                <div class="mt-3 text-gray-600 hidden" id="faq-content-6">
+                    <p>Да, мы работаем со всеми крупными городами России, где представлены наши партнеры-застройщики. На текущий момент это более 30 городов, включая Москву, Санкт-Петербург, Казань, Сочи, Екатеринбург и другие.</p>
+                </div>
+            </div>
+            
+            <!-- Contact CTA -->
+            <div class="bg-gradient-to-r from-ton-blue to-ton-accent rounded-xl p-8 mt-8 text-white">
+                <h3 class="text-xl font-bold mb-4">Не нашли ответ на свой вопрос?</h3>
+                <p class="mb-6">Наша служба поддержки готова помочь вам с любым вопросом.</p>
+                <a class="px-6 py-3 bg-white text-ton-blue rounded-md hover:bg-opacity-90 transition-all font-medium inline-block" href="tel:+78001234567">
+                    <i class="fas fa-phone mr-2"></i> Позвонить нам
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// Calculator functionality
+function updateCalculator() {
+    const propertyPriceEl = document.getElementById('propertyPrice');
+    const downPaymentEl = document.getElementById('downPayment');
+    const loanTermEl = document.getElementById('loanTerm');
+    const interestRateEl = document.getElementById('interestRate');
+    const monthlyPaymentEl = document.getElementById('monthlyPayment');
+    const cashbackAmountEl = document.getElementById('cashbackAmount');
+    const overpaymentEl = document.getElementById('overpayment');
+
+    const propertyPriceRange = document.getElementById('propertyPriceRange');
+    const downPaymentRange = document.getElementById('downPaymentRange');
+    const loanTermRange = document.getElementById('loanTermRange');
+    const interestRateRange = document.getElementById('interestRateRange');
+
+    const propertyPrice = parseInt(propertyPriceRange.value);
+    const downPaymentPercent = parseInt(downPaymentRange.value);
+    const loanTermYears = parseInt(loanTermRange.value);
+    const interestRate = parseFloat(interestRateRange.value);
+
+    const downPaymentAmount = propertyPrice * downPaymentPercent / 100;
+    const loanAmount = propertyPrice - downPaymentAmount;
+    const monthlyRate = interestRate / 100 / 12;
+    const totalPayments = loanTermYears * 12;
+
+    // Calculate monthly payment
+    let monthlyPayment = 0;
+    if (monthlyRate > 0) {
+        monthlyPayment = loanAmount * monthlyRate * Math.pow(1 + monthlyRate, totalPayments) / (Math.pow(1 + monthlyRate, totalPayments) - 1);
+    } else {
+        monthlyPayment = loanAmount / totalPayments;
+    }
+
+    const totalPaid = monthlyPayment * totalPayments;
+    const overpayment = totalPaid - loanAmount;
+    const cashback = propertyPrice * 0.025; // 2.5% cashback
+
+    // Update UI
+    propertyPriceEl.textContent = formatNumber(propertyPrice) + ' ₽';
+    downPaymentEl.textContent = formatNumber(Math.round(downPaymentAmount)) + ' ₽ (' + downPaymentPercent + '%)';
+    loanTermEl.textContent = loanTermYears + ' лет';
+    interestRateEl.textContent = interestRate + '%';
+    monthlyPaymentEl.textContent = formatNumber(Math.round(monthlyPayment)) + ' ₽';
+    cashbackAmountEl.textContent = formatNumber(Math.round(cashback)) + ' ₽';
+    overpaymentEl.textContent = formatNumber(Math.round(overpayment)) + ' ₽';
+}
+
+function formatNumber(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+}
+
+// Initialize calculator
+document.addEventListener('DOMContentLoaded', function() {
+    updateCalculator();
+    
+    // Add event listeners
+    document.getElementById('propertyPriceRange').addEventListener('input', updateCalculator);
+    document.getElementById('downPaymentRange').addEventListener('input', updateCalculator);
+    document.getElementById('loanTermRange').addEventListener('input', updateCalculator);
+    document.getElementById('interestRateRange').addEventListener('input', updateCalculator);
+});
+
+// Modal functions - removed (using global function from base.html)
+
+// FAQ Toggle function
+function toggleFAQ(id) {
+    const content = document.getElementById(`faq-content-${id}`);
+    const icon = document.getElementById(`faq-icon-${id}`);
+    
+    if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        icon.style.transform = 'rotate(180deg)';
+    } else {
+        content.classList.add('hidden');
+        icon.style.transform = 'rotate(0deg)';
+    }
+}
+</script>
+
+<style>
+.slider::-webkit-slider-thumb {
+    appearance: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #3B82F6;
+    cursor: pointer;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.slider::-moz-range-thumb {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #3B82F6;
+    cursor: pointer;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+</style>
+{% endblock %}

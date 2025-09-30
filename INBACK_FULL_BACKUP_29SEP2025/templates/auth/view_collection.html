@@ -1,0 +1,326 @@
+{% extends "base.html" %}
+
+{% block title %}{{ collection.title }} - Подборка | InBack{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <nav class="flex items-center space-x-2 text-sm text-gray-500 mb-2">
+                        <a href="{{ url_for('dashboard') }}" class="hover:text-[#0088CC]">Кабинет</a>
+                        <i class="fas fa-chevron-right text-xs"></i>
+                        <a href="{{ url_for('client_collections') }}" class="hover:text-[#0088CC]">Подборки</a>
+                        <i class="fas fa-chevron-right text-xs"></i>
+                        <span class="text-gray-900">{{ collection.title }}</span>
+                    </nav>
+                    <h1 class="text-2xl font-bold text-gray-900">{{ collection.title }}</h1>
+                    {% if collection.description %}
+                    <p class="mt-2 text-gray-600">{{ collection.description }}</p>
+                    {% endif %}
+                </div>
+                <div class="text-right">
+                    <span class="inline-flex items-center px-3 py-1 text-sm font-medium rounded-full
+                        {% if collection.status == 'Отправлена' %}bg-gray-100 text-gray-700
+                        {% elif collection.status == 'Просмотрена' %}bg-gray-100 text-green-800
+                        {% else %}bg-gray-100 text-gray-800{% endif %}">
+                        {{ collection.status }}
+                    </span>
+                    <p class="text-sm text-gray-500 mt-1">
+                        от {{ collection.created_by.full_name }}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Collection Info -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-[#0088CC]">{{ collection.properties|length }}</div>
+                    <div class="text-sm text-gray-600">Объектов в подборке</div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-green-600">
+                        {{ "{:,}".format(collection.properties|sum(attribute='property_price')|int) if collection.properties else 0 }}₽
+                    </div>
+                    <div class="text-sm text-gray-600">Общая стоимость</div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-[#0088CC]">
+                        {{ "{:,}".format((collection.properties|sum(attribute='property_price') * 0.03)|int) if collection.properties else 0 }}₽
+                    </div>
+                    <div class="text-sm text-gray-600">Потенциальный кешбек</div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-gray-800">{{ collection.created_at.strftime('%d.%m') }}</div>
+                    <div class="text-sm text-gray-600">Дата создания</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Properties Grid -->
+        <div class="space-y-6">
+            {% for property in collection.properties %}
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
+                <div class="p-6">
+                    <div class="flex flex-col lg:flex-row lg:items-start gap-6">
+                        <!-- Property Image -->
+                        <div class="flex-shrink-0">
+                            <div class="w-full lg:w-64 h-48 bg-gradient-to-br from-blue-100 to-purple-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-building text-[#0088CC] text-4xl"></i>
+                            </div>
+                        </div>
+                        
+                        <!-- Property Details -->
+                        <div class="flex-1">
+                            <div class="flex items-start justify-between mb-4">
+                                <div>
+                                    <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ property.property_name }}</h3>
+                                    <p class="text-gray-600 mb-2">{{ property.complex_name }}</p>
+                                    <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                        <span><i class="fas fa-home mr-1"></i>{{ property.property_type }}</span>
+                                        {% if property.property_size %}
+                                        <span><i class="fas fa-expand-arrows-alt mr-1"></i>{{ property.property_size }} м²</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold text-gray-900 mb-1">
+                                        {{ "{:,}".format(property.property_price).replace(',', ' ') }} ₽
+                                    </div>
+                                    <div class="text-sm text-green-600 font-medium">
+                                        Кешбек: {{ "{:,}".format((property.property_price * 0.03)|int).replace(',', ' ') }} ₽
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {% if property.manager_note %}
+                            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-user-tie text-[#0088CC] mt-1"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <h4 class="text-sm font-medium text-gray-700">Комментарий менеджера:</h4>
+                                        <p class="text-sm text-[#006699] mt-1">{{ property.manager_note }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            
+                            <div class="flex items-center justify-between">
+                                <div class="flex space-x-3">
+                                    <button onclick="viewPropertyDetails('{{ property.property_id if property.property_id else loop.index }}')" class="bg-[#0088CC] hover:bg-[#006699] text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                                        <i class="fas fa-eye mr-2"></i>Подробнее
+                                    </button>
+                                    <button onclick="toggleFavorite('property', '{{ property.property_id if property.property_id else loop.index }}')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-2 rounded-lg font-medium transition-colors">
+                                        <i class="fas fa-heart mr-2"></i>В избранное
+                                    </button>
+                                </div>
+                                <button onclick="createApplicationFromProperty('{{ property.property_id if property.property_id else loop.index }}', '{{ property.property_name }}', '{{ property.complex_name }}', {{ property.property_price }})" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                                    <i class="fas fa-calculator mr-2"></i>Подать заявку
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Empty State -->
+        {% if not collection.properties %}
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-12">
+            <div class="text-center">
+                <div class="mx-auto h-24 w-24 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 flex items-center justify-center mb-6">
+                    <i class="fas fa-folder-open text-[#0088CC] text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Подборка пуста</h3>
+                <p class="text-gray-600 mb-6">В этой подборке пока нет объектов недвижимости</p>
+                <a href="{{ url_for('properties') }}" 
+                   class="bg-[#0088CC] hover:bg-[#006699] text-white px-6 py-3 rounded-lg font-medium transition-colors">
+                    <i class="fas fa-search mr-2"></i>Найти недвижимость
+                </a>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Action Bar -->
+        <div class="mt-8 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <img class="h-10 w-10 rounded-full" src="{{ collection.created_by.profile_image }}" alt="">
+                    <div>
+                        <p class="font-medium text-gray-900">{{ collection.created_by.full_name }}</p>
+                        <p class="text-sm text-gray-500">Ваш менеджер</p>
+                    </div>
+                </div>
+                <div class="flex space-x-3">
+                    <a href="tel:+7" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors">
+                        <i class="fas fa-phone mr-2"></i>Позвонить
+                    </a>
+                    <a href="{{ url_for('client_collections') }}" 
+                       class="bg-[#0088CC] hover:bg-[#006699] text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                        <i class="fas fa-arrow-left mr-2"></i>К подборкам
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Mark collection as viewed when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    fetch(`/collection/{{ collection.id }}/mark-viewed`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'same-origin'
+    });
+});
+
+function viewPropertyDetails(propertyId) {
+    // Redirect to property detail page
+    window.open(`/property/${propertyId}`, '_blank');
+}
+
+function toggleFavorite(type, id) {
+    fetch('/api/favorites', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            property_type: type,
+            property_id: id
+        }),
+        credentials: 'same-origin'
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            showNotification(result.message || 'Объект добавлен в избранное', 'success');
+        } else {
+            showNotification('Ошибка: ' + result.error, 'error');
+        }
+    })
+    .catch(error => {
+        showNotification('Ошибка при добавлении в избранное', 'error');
+    });
+}
+
+function createApplicationFromProperty(propertyId, propertyName, complexName, propertyPrice) {
+    const modal = document.createElement('div');
+    modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+    modal.innerHTML = `
+        <div class="bg-white rounded-xl p-6 w-full max-w-md m-4">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Подать заявку на кешбек</h3>
+            <div class="mb-4 p-4 bg-blue-50 rounded-lg">
+                <h4 class="font-medium text-blue-900">${propertyName}</h4>
+                <p class="text-[#006699] text-sm">${complexName}</p>
+                <p class="text-gray-700 font-semibold">${propertyPrice.toLocaleString()} ₽</p>
+            </div>
+            <form id="applicationForm">
+                <input type="hidden" name="property_id" value="${propertyId}">
+                <input type="hidden" name="property_name" value="${propertyName}">
+                <input type="hidden" name="complex_name" value="${complexName}">
+                <input type="hidden" name="property_price" value="${propertyPrice}">
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Застройщик</label>
+                    <input type="text" name="developer_name" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC]" required>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Тип</label>
+                        <select name="property_type" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC]" required>
+                            <option value="">Выберите</option>
+                            <option value="Студия">Студия</option>
+                            <option value="1-комнатная">1-комнатная</option>
+                            <option value="2-комнатная">2-комнатная</option>
+                            <option value="3-комнатная">3-комнатная</option>
+                            <option value="4-комнатная">4-комнатная</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Площадь (м²)</label>
+                        <input type="number" name="property_size" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC]" required>
+                    </div>
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button type="button" onclick="closeModal()" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">Отмена</button>
+                    <button type="submit" class="px-4 py-2 bg-[#0088CC] text-white rounded-lg hover:bg-[#006699]">Подать заявку</button>
+                </div>
+            </form>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    
+    document.getElementById('applicationForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData);
+        
+        // Calculate cashback (3%)
+        data.cashback_percent = 3.0;
+        data.cashback_amount = Math.round(data.property_price * 0.03);
+        
+        fetch('/api/cashback-application', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data),
+            credentials: 'same-origin'
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                closeModal();
+                showNotification('Заявка успешно подана', 'success');
+            } else {
+                showNotification('Ошибка: ' + result.error, 'error');
+            }
+        })
+        .catch(error => {
+            showNotification('Ошибка при подаче заявки', 'error');
+        });
+    });
+}
+
+function closeModal() {
+    const modals = document.querySelectorAll('.fixed.inset-0');
+    modals.forEach(modal => modal.remove());
+}
+
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg max-w-sm ${
+        type === 'success' ? 'bg-green-500 text-white' :
+        type === 'error' ? 'bg-red-500 text-white' :
+        type === 'warning' ? 'bg-yellow-500 text-white' :
+        'bg-blue-500 text-white'
+    }`;
+    notification.innerHTML = `
+        <div class="flex items-center justify-between">
+            <span>${message}</span>
+            <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-white hover:text-gray-200">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    `;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.remove();
+        }
+    }, 5000);
+}
+</script>
+{% endblock %}

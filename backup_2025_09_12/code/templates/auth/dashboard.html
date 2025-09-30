@@ -1,0 +1,3056 @@
+{% extends "base.html" %}
+
+{% block title %}Личный кабинет | InBack{% endblock %}
+
+{% block content %}
+<style>
+.content-section {
+    display: none;
+}
+
+.content-section.active {
+    display: block;
+}
+
+.tab-button.active {
+    color: #0088CC !important;
+    border-color: #0088CC !important;
+}
+
+.tab-button:hover {
+    color: #374151 !important;
+    border-color: #D1D5DB !important;
+}
+</style>
+
+<!-- Tab Navigation under main header -->
+<div class="bg-white border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="overflow-x-auto">
+            <nav class="flex space-x-8" aria-label="Tabs">
+                <a class="flex items-center px-1 py-4 text-sm font-medium border-b-2 border-[#0088CC] text-[#0088CC] whitespace-nowrap tab-button active" href="#" data-page="dashboard">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 2L3 7v11h3v-6h8v6h3V7l-7-5z"/>
+                    </svg>
+                    Главная
+                </a>
+                <a class="flex items-center px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap tab-button" href="#" data-page="cashback">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/>
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"/>
+                    </svg>
+                    Кешбек
+                    <span class="ml-2 bg-gradient-to-r from-[#0088CC] to-[#006699] text-white text-xs px-2 py-1 rounded-full font-medium">3</span>
+                </a>
+                <a class="flex items-center px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap tab-button" href="#" data-page="applications">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 0h8v12H6V4z" clip-rule="evenodd"/>
+                    </svg>
+                    Заявки
+                </a>
+                <a class="flex items-center px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap tab-button" href="#" data-page="favorites">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
+                    </svg>
+                    Избранное
+                </a>
+                <a class="flex items-center px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap tab-button" href="#" data-page="saved-searches">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+                    </svg>
+                    Сохраненные поиски
+                </a>
+                <a class="flex items-center px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap tab-button" href="#" data-page="recommendations">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                    </svg>
+                    Рекомендации
+                    <span class="ml-2 bg-gradient-to-r from-green-500 to-green-600 text-white text-xs px-2 py-1 rounded-full font-medium hidden" id="recommendations-count">0</span>
+                </a>
+                <a class="flex items-center px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap tab-button" href="#" data-page="comparison">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/>
+                    </svg>
+                    Сравнение
+                    <span class="ml-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs px-2 py-1 rounded-full font-medium" id="comparison-count">0</span>
+                </a>
+                {% if current_manager or (current_user.is_authenticated and current_user.role == 'manager') %}
+                <a class="flex items-center px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap tab-button" href="#" data-page="clients">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
+                    </svg>
+                    Клиенты
+                    <span class="ml-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs px-2 py-1 rounded-full font-medium" id="clients-count">0</span>
+                </a>
+                <a class="flex items-center px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap tab-button" href="#" data-page="data-management">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+                    </svg>
+                    Управление данными
+                    <span class="ml-2 bg-gradient-to-r from-purple-500 to-purple-600 text-white text-xs px-2 py-1 rounded-full font-medium">Excel</span>
+                </a>
+                {% endif %}
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content Area - Full Width -->
+<div class="bg-gradient-to-b from-white to-gray-50 min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Dashboard Section (Default) -->
+        <div class="content-section active" id="dashboard">
+            <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+                <div class="text-center bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-8 mb-8">
+                    <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-[#0088CC] to-[#006699] rounded-full mb-4">
+                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 2L3 7v11h3v-6h8v6h3V7l-7-5z"/>
+                        </svg>
+                    </div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-2">Добро пожаловать, {{ current_user.full_name }}!</h2>
+                    <p class="text-lg text-gray-600 mb-6">Ваш личный кабинет покупателя недвижимости</p>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                        <div class="bg-white rounded-lg p-4 shadow-sm">
+                            <div class="text-2xl font-bold text-[#0088CC]">195+</div>
+                            <div class="text-sm text-gray-600">Объектов</div>
+                        </div>
+                        <div class="bg-white rounded-lg p-4 shadow-sm">
+                            <div class="text-2xl font-bold text-green-600">до 10%</div>
+                            <div class="text-sm text-gray-600">Кешбека</div>
+                        </div>
+                        <div class="bg-white rounded-lg p-4 shadow-sm">
+                            <div class="text-2xl font-bold text-blue-600">30+</div>
+                            <div class="text-sm text-gray-600">ЖК</div>
+                        </div>
+                        <div class="bg-white rounded-lg p-4 shadow-sm">
+                            <div class="text-2xl font-bold text-purple-600">4</div>
+                            <div class="text-sm text-gray-600">Сохранено</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Cashback Checker -->
+            <div class="bg-gradient-to-br from-white to-blue-50 rounded-xl shadow-sm p-6 mb-6 border border-blue-100">
+                <div class="flex items-center space-x-3 mb-4">
+                    <div class="w-10 h-10 bg-gradient-to-br from-[#0088CC] to-[#006699] rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800">Узнать процент кешбека</h3>
+                        <p class="text-sm text-gray-600">Вставьте ссылку на объект недвижимости. Здесь же сможете увидеть его с кешбеком</p>
+                    </div>
+                </div>
+                
+                <div class="flex space-x-3">
+                    <div class="flex-1">
+                        <input 
+                            type="url" 
+                            id="cashbackUrlInput"
+                            placeholder="https://сайт.com/order/87"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-[#0088CC] transition-colors"
+                        >
+                    </div>
+                    <button 
+                        onclick="checkCashback()"
+                        class="px-6 py-3 bg-gradient-to-r from-[#0088CC] to-[#006699] text-white font-medium rounded-lg hover:from-[#006699] hover:to-[#004466] transition-all"
+                    >
+                        Узнать
+                    </button>
+                </div>
+                
+                <!-- Cashback Result -->
+                <div id="cashbackResult" class="mt-4 hidden">
+                    <div class="bg-white rounded-lg p-4 border border-gray-200">
+                        <div id="cashbackContent" class="text-sm text-gray-600"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <!-- Property Search -->
+                <div class="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-[#0088CC] rounded-lg flex items-center justify-center mr-4">
+                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900">Поиск недвижимости</h3>
+                            <p class="text-sm text-gray-600">Найти идеальный объект</p>
+                        </div>
+                    </div>
+                    <button onclick="window.location.href='/properties'" class="w-full bg-[#0088CC] text-white py-2 px-4 rounded-lg hover:bg-[#006699] transition-colors">
+                        Начать поиск
+                    </button>
+                </div>
+                
+                <!-- Cashback Calculator -->
+                <div class="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center mr-4">
+                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/>
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900">Калькулятор кешбека</h3>
+                            <p class="text-sm text-gray-600">Рассчитать возврат</p>
+                        </div>
+                    </div>
+                    <button onclick="document.querySelector('[data-page=cashback]').click()" class="w-full bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-colors">
+                        Рассчитать
+                    </button>
+                </div>
+                
+                <!-- Book Consultation -->
+                <div class="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-indigo-500 rounded-lg flex items-center justify-center mr-4">
+                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900">Консультация</h3>
+                            <p class="text-sm text-gray-600">Связаться с экспертом</p>
+                        </div>
+                    </div>
+                    <button onclick="openApplicationModal()" class="w-full bg-indigo-500 text-white py-2 px-4 rounded-lg hover:bg-indigo-600 transition-colors">
+                        Заказать звонок
+                    </button>
+                </div>
+            </div>
+            
+            <!-- How to Buy with Cashback Guide -->
+            <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-semibold text-gray-900">Как покупать с кешбеком</h3>
+                    <button class="text-gray-400 hover:text-gray-600" onclick="toggleGuide()">
+                        <span class="text-sm">Скрыть</span>
+                    </button>
+                </div>
+                
+                <div id="cashbackGuide" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Step 1 -->
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-[#0088CC] to-[#006699] rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">
+                            01
+                        </div>
+                        <h4 class="font-semibold text-gray-900 mb-2">Изучи ставки магазина</h4>
+                        <p class="text-sm text-gray-600">Это часть от суммы заказа, которая вернется кешбеком</p>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">
+                            02
+                        </div>
+                        <h4 class="font-semibold text-gray-900 mb-2">Изучи условия магазина</h4>
+                        <p class="text-sm text-gray-600">Это важно для засчитывания кешбека</p>
+                    </div>
+                    
+                    <!-- Step 3 -->
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">
+                            03
+                        </div>
+                        <h4 class="font-semibold text-gray-900 mb-2">Нажми "Купить с кешбеком"</h4>
+                        <p class="text-sm text-gray-600">Откроем сайт магазина и активируем кешбек</p>
+                    </div>
+                    
+                    <!-- Step 4 -->
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">
+                            04
+                        </div>
+                        <h4 class="font-semibold text-gray-900 mb-2">Покупай как обычно</h4>
+                        <p class="text-sm text-gray-600">Заказ отобразится в течение дня в Мой кешбек</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phone Binding Block -->
+            <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl shadow-sm p-6 mb-6 border border-blue-100">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-[#0088CC] to-[#006699] rounded-lg flex items-center justify-center">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800">Привяжите номер телефона</h3>
+                            <p class="text-sm text-gray-600">Для получения уведомлений о новых объектах и акциях</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        {% if current_user.phone and current_user.phone_verified %}
+                        <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
+                            ✓ Подтвержден
+                        </span>
+                        {% else %}
+                        <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">
+                            Не привязан
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                {% if not current_user.phone or not current_user.phone_verified %}
+                <div class="bg-white rounded-lg p-4 border border-gray-200">
+                    <div class="flex space-x-3">
+                        <div class="flex-1">
+                            <input 
+                                type="tel" 
+                                id="phoneInput"
+                                placeholder="+7 (___) ___-__-__"
+                                value="{{ current_user.phone or '' }}"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-[#0088CC] transition-colors"
+                            >
+                        </div>
+                        <button 
+                            onclick="bindPhone()"
+                            class="px-4 py-2 bg-gradient-to-r from-[#0088CC] to-[#006699] text-white font-medium rounded-lg hover:from-[#006699] hover:to-[#004466] transition-all"
+                        >
+                            Привязать
+                        </button>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">На указанный номер будет отправлен код подтверждения</p>
+                </div>
+                {% else %}
+                <div class="bg-white rounded-lg p-4 border border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                <svg class="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <span class="text-sm font-medium text-gray-900">{{ current_user.phone }}</span>
+                        </div>
+                        <button 
+                            onclick="changePhone()"
+                            class="text-sm text-[#0088CC] hover:text-[#006699] font-medium"
+                        >
+                            Изменить
+                        </button>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Recent Activity -->
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Последняя активность</h3>
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                        <div class="flex items-center">
+                            <div class="w-2 h-2 bg-[#0088CC] rounded-full mr-3"></div>
+                            <span class="text-sm text-gray-700">Просмотрены новостройки в Краснодаре</span>
+                        </div>
+                        <span class="text-xs text-gray-500">2 часа назад</span>
+                    </div>
+                    <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                        <div class="flex items-center">
+                            <div class="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                            <span class="text-sm text-gray-700">Сохранен поиск "Элитные квартиры"</span>
+                        </div>
+                        <span class="text-xs text-gray-500">1 день назад</span>
+                    </div>
+                    <div class="flex items-center justify-between py-3">
+                        <div class="flex items-center">
+                            <div class="w-2 h-2 bg-red-500 rounded-full mr-3"></div>
+                            <span class="text-sm text-gray-700">Добавлен объект в избранное</span>
+                        </div>
+                        <span class="text-xs text-gray-500">3 дня назад</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Cashback Section -->
+        <div class="content-section" id="cashback">
+            <!-- Hero Section -->
+            <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+                <div class="text-center bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-8 mb-8">
+                    <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-full mb-4">
+                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/>
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-2">Кешбек программа</h2>
+                    <p class="text-lg text-gray-600 mb-6">Получайте до 10% от стоимости квартиры</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                        <div class="bg-white rounded-lg p-4 shadow-sm">
+                            <div class="text-2xl font-bold text-green-600">до 500 000 ₽</div>
+                            <div class="text-sm text-gray-600">Максимальный кешбек</div>
+                        </div>
+                        <div class="bg-white rounded-lg p-4 shadow-sm">
+                            <div class="text-2xl font-bold text-blue-600">5-10%</div>
+                            <div class="text-sm text-gray-600">От стоимости</div>
+                        </div>
+                        <div class="bg-white rounded-lg p-4 shadow-sm">
+                            <div class="text-2xl font-bold text-purple-600">30 дней</div>
+                            <div class="text-sm text-gray-600">На выплату</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Cashback Calculator -->
+            <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+                <h3 class="text-xl font-semibold text-gray-800 mb-6">Калькулятор кешбека</h3>
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Жилой комплекс</label>
+                        <select id="cashback-complex" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent">
+                            <option value="">Выберите ЖК...</option>
+                        </select>
+                        <div class="mt-1 text-xs text-gray-500" id="complex-rate-info"></div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Стоимость квартиры (₽)</label>
+                        <input type="number" id="cashback-price" placeholder="3 500 000" 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent"
+                               min="1000000" max="50000000" step="100000">
+                        <div class="mt-1 text-xs text-gray-500">Минимальная стоимость: 1 000 000 ₽</div>
+                    </div>
+                    <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-6 text-center border border-green-200">
+                        <div class="text-3xl font-bold text-green-600 mb-2" id="cashback-result">Выберите ЖК</div>
+                        <div class="text-sm text-gray-600 mb-2" id="cashback-rate-display"></div>
+                        <div class="text-xs text-gray-500 mb-4" id="cashback-details">Заполните данные для расчета</div>
+                        <button id="apply-cashback-btn" 
+                                class="mt-4 bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                                disabled>
+                            Подать заявку на кешбек
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cashback Application Modal -->
+            <div id="cashback-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+                <div class="flex items-center justify-center min-h-screen p-4">
+                    <div class="bg-white rounded-xl p-6 w-full max-w-md">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-gray-900">Заявка на кешбек</h3>
+                            <button onclick="closeCashbackModal()" class="text-gray-400 hover:text-gray-600">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <div class="mb-4 p-4 bg-green-50 rounded-lg">
+                            <div class="text-sm text-gray-600 mb-2">Ваш кешбек:</div>
+                            <div class="text-2xl font-bold text-green-600" id="modal-cashback-amount">0 ₽</div>
+                            <div class="text-xs text-gray-500" id="modal-complex-info"></div>
+                        </div>
+
+                        <form id="cashback-application-form" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Имя *</label>
+                                <input type="text" id="cashback-name" required
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent"
+                                       value="{{ current_user.full_name if current_user.is_authenticated and current_user.full_name else '' }}">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Телефон *</label>
+                                <input type="tel" id="cashback-phone" required
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent"
+                                       value="{{ current_user.phone if current_user.is_authenticated and current_user.phone else '' }}">
+                            </div>
+                            <div class="flex space-x-3 pt-4">
+                                <button type="button" onclick="closeCashbackModal()" 
+                                        class="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">
+                                    Отмена
+                                </button>
+                                <button type="submit" 
+                                        class="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                                    Отправить
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Cashback History -->
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-6">История кешбека</h3>
+                <div class="space-y-4">
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="font-medium text-gray-900">Студия в ЖК «Аврора»</h4>
+                                <p class="text-sm text-gray-600 mt-1">Заявка подана 15.08.2025</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-lg font-bold text-green-600">+177 598 ₽</div>
+                                <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">В обработке</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center text-gray-500 py-4">
+                        <p class="text-sm">Дополнительные выплаты появятся здесь</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Applications Section -->
+        <div class="content-section" id="applications">
+            <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+                <div class="text-center bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-8 mb-8">
+                    <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full mb-4">
+                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 0h8v12H6V4z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-2">Мои заявки</h2>
+                    <p class="text-lg text-gray-600 mb-6">Отслеживайте статус ваших заявок</p>
+                    <div class="text-center">
+                        <div class="text-sm text-gray-500">У вас пока нет заявок</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Favorites Section -->
+        <div class="content-section" id="favorites">
+            <!-- Hero Section -->
+            <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+                <div class="text-center bg-gradient-to-br from-red-50 to-red-100 rounded-xl p-8 mb-8">
+                    <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-full mb-4">
+                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-2">Избранное</h2>
+                    <p class="text-lg text-gray-600 mb-6">Сохраненные объекты недвижимости</p>
+                    <div class="flex justify-center space-x-4">
+                        <span class="bg-white rounded-lg px-4 py-2 shadow-sm">
+                            <span class="text-2xl font-bold text-red-600" id="favorites-count">3</span>
+                            <span class="text-sm text-gray-600 block">Объектов</span>
+                        </span>
+                        <span class="bg-white rounded-lg px-4 py-2 shadow-sm">
+                            <span class="text-2xl font-bold text-blue-600" id="complex-favorites-count">2</span>
+                            <span class="text-sm text-gray-600 block">ЖК</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Favorites Content -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Property Favorites -->
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-xl font-semibold text-gray-800">Избранные объекты</h3>
+                        <button class="text-sm text-[#0088CC] hover:text-[#006699] font-medium" onclick="window.location.href='/properties'">
+                            Найти больше
+                        </button>
+                    </div>
+                    <div id="favorites-list" class="space-y-4">
+                        <!-- Favorites loading state -->
+                        <div id="favorites-loading" class="text-center py-8">
+                            <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#0088CC]"></div>
+                            <p class="mt-2 text-gray-600">Загрузка избранных объектов...</p>
+                        </div>
+                        <div id="favorites-empty" class="text-center py-8 hidden">
+                            <svg class="mx-auto h-16 w-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                            </svg>
+                            <p class="text-gray-600">Нет избранных объектов</p>
+                            <button class="mt-4 bg-[#0088CC] text-white px-4 py-2 rounded-lg hover:bg-[#006699] transition-colors" onclick="window.location.href='/properties'">
+                                Найти недвижимость
+                            </button>
+                        </div>
+                        
+
+                    </div>
+                </div>
+                
+                <!-- Complex Favorites -->
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-xl font-semibold text-gray-800">Избранные ЖК</h3>
+                        <button class="text-sm text-[#0088CC] hover:text-[#006699] font-medium" onclick="window.location.href='/complexes'">
+                            Все ЖК
+                        </button>
+                    </div>
+                    <div id="complex-favorites-list" class="space-y-4">
+                        <!-- Loading state -->
+                        <div id="complex-loading" class="text-center text-gray-500 py-4">
+                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-gray-400 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Загружаем избранные ЖК...
+                        </div>
+                        
+                        <!-- Empty state -->
+                        <div id="complex-empty" class="text-center text-gray-500 py-6 hidden">
+                            <svg class="w-12 h-12 mx-auto mb-3 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                            </svg>
+                            <p>У вас пока нет избранных ЖК</p>
+                            <button class="mt-2 text-sm text-[#0088CC] hover:text-[#006699]" onclick="window.location.href='/complexes'">
+                                Посмотреть все ЖК
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Saved Searches Section -->
+        <div class="content-section" id="saved-searches">
+            <!-- Hero Section -->
+            <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+                <div class="text-center bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-8 mb-8">
+                    <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full mb-4">
+                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-2">Сохраненные поиски</h2>
+                    <p class="text-lg text-gray-600 mb-6">Ваши настроенные фильтры поиска</p>
+                    <div class="flex justify-center space-x-4">
+                        <span class="bg-white rounded-lg px-4 py-2 shadow-sm">
+                            <span class="text-2xl font-bold text-purple-600" id="saved-searches-count">{{ (saved_searches|length) + (sent_searches|length) }}</span>
+                            <span class="text-sm text-gray-600 block">Поисков</span>
+                        </span>
+                        <button class="bg-[#0088CC] text-white px-6 py-2 rounded-lg hover:bg-[#006699] transition-colors" onclick="window.location.href='/properties'">
+                            Создать поиск
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Saved Searches Content -->
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-semibold text-gray-800">Мои поиски</h3>
+                    <button class="text-sm text-[#0088CC] hover:text-[#006699] font-medium save-search-btn">
+                        + Сохранить текущий поиск
+                    </button>
+                </div>
+                
+                <div id="saved-searches-list" class="space-y-4">
+                    {% for search in saved_searches %}
+                    <div class="border border-gray-200 rounded-lg p-4 hover:border-[#0088CC] transition-colors">
+                        <div class="flex items-center justify-between">
+                            <div class="flex-1">
+                                <h4 class="font-medium text-gray-900">{{ search.name or 'Сохраненный поиск' }}</h4>
+                                <p class="text-sm text-gray-600 mt-1">{{ search.description or 'Ваш настроенный поиск' }}</p>
+                                <div class="flex items-center space-x-4 mt-2">
+                                    <span class="text-xs text-gray-500">Создан: {{ search.created_at if search.created_at else 'Недавно' }}</span>
+                                    <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Активный</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <button class="apply-search-btn text-[#0088CC] hover:bg-blue-50 px-3 py-1 rounded text-sm font-medium" data-search-id="{{ search.id }}">
+                                    Применить
+                                </button>
+                                <button class="delete-search-btn text-red-600 hover:bg-red-50 px-3 py-1 rounded text-sm" data-search-id="{{ search.id }}">
+                                    ✕
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    
+                    {% if not saved_searches %}
+                    <div class="text-center text-gray-500 py-8">
+                        <svg class="w-12 h-12 mx-auto mb-3 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"/>
+                        </svg>
+                        <p>Нет сохраненных поисков</p>
+                        <p class="text-sm">Сохраняйте настройки фильтров для быстрого доступа</p>
+                        <button class="mt-4 bg-[#0088CC] text-white px-6 py-2 rounded-lg hover:bg-[#006699] transition-colors" onclick="window.location.href='/properties'">
+                            Создать поиск
+                        </button>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Manager Recommendations (sent searches) -->
+                <div id="manager-recommendations" class="mt-8 border-t pt-6">
+                    <h4 class="text-lg font-semibold text-gray-800 mb-4">Поиски от менеджеров</h4>
+                    <div id="sent-searches-list" class="space-y-4">
+                        {% for search in sent_searches %}
+                        <div class="border border-blue-200 rounded-lg p-4 bg-blue-50">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="bg-blue-500 text-white text-xs px-2 py-1 rounded-full">От менеджера</span>
+                                        <span class="text-sm text-gray-500">{{ search.sent_at.strftime('%d.%m.%Y') if search.sent_at else 'Недавно' }}</span>
+                                    </div>
+                                    <h5 class="font-medium text-gray-900 mb-1">{{ search.name }}</h5>
+                                    <p class="text-sm text-gray-600">{{ search.description or 'Персональный поиск от менеджера' }}</p>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="text-sm bg-[#0088CC] text-white px-3 py-1 rounded hover:bg-[#006699] transition-colors apply-search-btn" data-search-id="sent-{{ search.id }}">
+                                        Применить
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        
+                        {% if not sent_searches %}
+                        <div class="text-center text-gray-500 py-6" id="no-recommendations-message">
+                            <svg class="w-10 h-10 mx-auto mb-3 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                            </svg>
+                            <p class="text-sm">Поиски от менеджеров появятся здесь</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recommendations Section -->
+        <div class="content-section" id="recommendations">
+            <!-- Hero Section -->
+            <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+                <div class="text-center bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl p-8 mb-8">
+                    <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-full mb-4">
+                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                        </svg>
+                    </div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-2">Рекомендации</h2>
+                    <p class="text-lg text-gray-600 mb-6">Персональные предложения от менеджеров</p>
+                    <div class="flex justify-center space-x-4">
+                        <span class="bg-white rounded-lg px-4 py-2 shadow-sm">
+                            <span class="text-2xl font-bold text-yellow-600">{{ recommendations|selectattr('status', 'equalto', 'pending')|list|length }}</span>
+                            <span class="text-sm text-gray-600 block">Новых</span>
+                        </span>
+                        <span class="bg-white rounded-lg px-4 py-2 shadow-sm">
+                            <span class="text-2xl font-bold text-green-600">{{ recommendations|length }}</span>
+                            <span class="text-sm text-gray-600 block">Всего</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recommendations Content -->
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-semibold text-gray-800">Персональные рекомендации</h3>
+                    <div class="flex items-center space-x-3">
+                        <select id="categoryFilter" class="text-sm border border-gray-300 rounded-lg px-3 py-2 bg-white">
+                            <option value="">Все категории</option>
+                            {% set unique_categories = [] %}
+                            {% for rec in recommendations %}
+                                {% if rec.category and rec.category.id not in unique_categories %}
+                                    {% set _ = unique_categories.append(rec.category.id) %}
+                                    <option value="{{ rec.category.id }}">{{ rec.category.name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <button class="text-sm text-[#0088CC] hover:text-[#006699] font-medium">
+                            Настроить уведомления
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Manager Categories Overview -->
+                {% set manager_categories = {} %}
+                {% for rec in recommendations %}
+                    {% if rec.category %}
+                        {% set key = rec.category.id %}
+                        {% if key not in manager_categories %}
+                            {% set _ = manager_categories.update({key: {'category': rec.category, 'manager': rec.manager, 'count': 0, 'recommendations': []}}) %}
+                        {% endif %}
+                        {% set _ = manager_categories[key].update({'count': manager_categories[key]['count'] + 1}) %}
+                        {% set _ = manager_categories[key]['recommendations'].append(rec) %}
+                    {% endif %}
+                {% endfor %}
+                
+                {% if manager_categories %}
+                <div class="mb-6">
+                    <h4 class="text-lg font-medium text-gray-700 mb-3">Категории от менеджеров</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {% for category_id, cat_data in manager_categories.items() %}
+                        <div class="category-card bg-gradient-to-br from-white to-gray-50 border border-gray-200 rounded-lg p-4 hover:shadow-md transition-all cursor-pointer" 
+                             data-category-id="{{ cat_data.category.id }}"
+                             onclick="filterByCategory('{{ cat_data.category.id }}')">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-3 h-3 rounded-full bg-blue-500"></div>
+                                    <span class="text-xs text-gray-600">{{ cat_data.manager.first_name }}</span>
+                                </div>
+                                <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">{{ cat_data.count }}</span>
+                            </div>
+                            <h5 class="font-medium text-gray-900 text-sm mb-1">{{ cat_data.category.name }}</h5>
+                            <p class="text-xs text-gray-600">{{ cat_data.category.description or 'Рекомендации менеджера' }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                <div class="space-y-4" id="recommendationsList">
+                    {% for recommendation in recommendations | sort(attribute='created_at', reverse=True) %}
+                    <div class="recommendation-item border border-gray-200 rounded-xl p-6 hover:border-yellow-300 transition-all duration-200 {% if recommendation.status == 'pending' %}border-l-4 border-l-green-400 bg-green-50/30{% endif %}" 
+                         data-property-id="{{ recommendation.item_id if recommendation.recommendation_type == 'property' else '' }}"
+                         data-category-id="{{ recommendation.category.id if recommendation.category else '' }}">
+                        <!-- Header with Manager Info -->
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+                                    <span class="text-white font-bold text-sm">{{ recommendation.manager.first_name[:1] if recommendation.manager else 'М' }}</span>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">{{ recommendation.manager.first_name + ' ' + recommendation.manager.last_name if recommendation.manager else 'Менеджер' }}</p>
+                                    <p class="text-xs text-gray-500">{{ recommendation.sent_at.strftime('%d.%m.%Y в %H:%M') if recommendation.sent_at else recommendation.created_at.strftime('%d.%m.%Y в %H:%M') if recommendation.created_at else 'Недавно' }}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                {% if recommendation.status == 'pending' %}
+                                <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full font-medium">Новое</span>
+                                {% elif recommendation.status == 'viewed' %}
+                                <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full font-medium">Просмотрено</span>
+                                {% endif %}
+                                {% if recommendation.priority_level == 'high' %}
+                                <span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full font-medium">Приоритет</span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Category -->
+                        {% if recommendation.category %}
+                        <div class="mb-3">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                {{ recommendation.category.name }}
+                            </span>
+                        </div>
+                        {% endif %}
+
+                        <!-- Recommendation Content -->
+                        <div class="{% if recommendation.recommendation_type == 'property' %}grid grid-cols-1 lg:grid-cols-3 gap-4{% endif %}">
+                            <!-- Property Preview (if property recommendation) -->
+                            {% if recommendation.recommendation_type == 'property' %}
+                            <div class="lg:col-span-1">
+                                <div class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+                                    <div class="aspect-w-16 aspect-h-9 bg-gray-200">
+                                        {% if recommendation.property_details and recommendation.property_details.image %}
+                                        <img src="{{ recommendation.property_details.image }}" alt="{{ recommendation.item_name }}" class="w-full h-32 object-cover">
+                                        {% else %}
+                                        <div class="w-full h-32 bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center">
+                                            <svg class="w-8 h-8 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/>
+                                            </svg>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="p-3">
+                                        <h4 class="font-medium text-gray-900 text-sm mb-1">{{ recommendation.item_name }}</h4>
+                                        {% if recommendation.property_details %}
+                                        <div class="space-y-1">
+                                            {% if recommendation.property_details.price %}
+                                            <p class="text-sm font-semibold text-green-600">{{ "{:,}".format(recommendation.property_details.price|int) }} ₽</p>
+                                            {% endif %}
+                                            
+                                            <!-- Property Type & Rooms -->
+                                            {% if recommendation.property_details.rooms or recommendation.property_details.property_type %}
+                                            <div class="flex items-center space-x-2">
+                                                {% if recommendation.property_details.rooms %}
+                                                    {% if recommendation.property_details.rooms == '0' %}
+                                                    <span class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full font-medium">Студия</span>
+                                                    {% elif recommendation.property_details.rooms in ['1', '2', '3', '4', '5+'] %}
+                                                    <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full font-medium">{{ recommendation.property_details.rooms }}-комн</span>
+                                                    {% endif %}
+                                                {% endif %}
+                                                
+                                                {% if recommendation.property_details.property_type %}
+                                                    {% if recommendation.property_details.property_type == 'apartment' %}
+                                                    <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">Квартира</span>
+                                                    {% elif recommendation.property_details.property_type == 'townhouse' %}
+                                                    <span class="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded-full">Таунхаус</span>
+                                                    {% elif recommendation.property_details.property_type == 'house' %}
+                                                    <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">Дом</span>
+                                                    {% endif %}
+                                                {% endif %}
+                                            </div>
+                                            {% endif %}
+                                            
+                                            {% if recommendation.property_details.area %}
+                                            <p class="text-xs text-gray-500">{{ recommendation.property_details.area }} м²</p>
+                                            {% endif %}
+                                            
+                                            {% if recommendation.property_details.residential_complex %}
+                                            <p class="text-xs text-blue-600 font-medium">ЖК {{ recommendation.property_details.residential_complex }}</p>
+                                            {% endif %}
+                                            
+                                            {% if recommendation.property_details.district %}
+                                            <p class="text-xs text-gray-500">{{ recommendation.property_details.district }}</p>
+                                            {% endif %}
+                                        </div>
+                                        {% else %}
+                                        <p class="text-xs text-gray-500">ID: {{ recommendation.item_id }}</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            <!-- Main Content -->
+                            <div class="{% if recommendation.recommendation_type == 'property' %}lg:col-span-2{% endif %}">
+                                <div class="flex items-start justify-between mb-2">
+                                    <h3 class="text-lg font-semibold text-gray-900">{{ recommendation.title }}</h3>
+                                    {% if recommendation.property_details and recommendation.property_details.cashback_amount %}
+                                    <div class="ml-4 text-right">
+                                        <div class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-lg text-sm font-semibold">
+                                            Кешбек: {{ "{:,}".format(recommendation.property_details.cashback_amount|int) }} ₽
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <p class="text-gray-600 mb-3">{{ recommendation.description }}</p>
+                                
+                                <!-- Property Details Summary for property type recommendations -->
+                                {% if recommendation.recommendation_type == 'property' and recommendation.property_details %}
+                                <div class="bg-gray-50 rounded-lg p-3 mb-3">
+                                    <div class="grid grid-cols-2 gap-4 text-sm">
+                                        {% if recommendation.property_details.rooms %}
+                                        <div>
+                                            <span class="text-gray-500">Комнат:</span>
+                                            <span class="font-medium text-gray-900">
+                                                {% if recommendation.property_details.rooms == '0' %}Студия
+                                                {% else %}{{ recommendation.property_details.rooms }}{% endif %}
+                                            </span>
+                                        </div>
+                                        {% endif %}
+                                        
+                                        {% if recommendation.property_details.area %}
+                                        <div>
+                                            <span class="text-gray-500">Площадь:</span>
+                                            <span class="font-medium text-gray-900">{{ recommendation.property_details.area }} м²</span>
+                                        </div>
+                                        {% endif %}
+                                        
+                                        {% if recommendation.property_details.floor and recommendation.property_details.floors_total %}
+                                        <div>
+                                            <span class="text-gray-500">Этаж:</span>
+                                            <span class="font-medium text-gray-900">{{ recommendation.property_details.floor }} из {{ recommendation.property_details.floors_total }}</span>
+                                        </div>
+                                        {% endif %}
+                                        
+                                        {% if recommendation.property_details.residential_complex %}
+                                        <div>
+                                            <span class="text-gray-500">ЖК:</span>
+                                            <span class="font-medium text-blue-600">{{ recommendation.property_details.residential_complex }}</span>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% endif %}
+                                
+                                {% if recommendation.manager_notes %}
+                                <div class="bg-blue-50 border-l-4 border-blue-400 p-3 mb-3">
+                                    <p class="text-sm text-blue-800">
+                                        <span class="font-medium">Комментарий менеджера:</span>
+                                        {{ recommendation.manager_notes }}
+                                    </p>
+                                </div>
+                                {% endif %}
+
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-4">
+                                        {% if recommendation.recommendation_type == 'property' %}
+                                        <span class="text-xs text-green-600 bg-green-100 px-2 py-1 rounded">Объект недвижимости</span>
+                                        {% elif recommendation.recommendation_type == 'search' %}
+                                        <span class="text-xs text-blue-600 bg-blue-100 px-2 py-1 rounded">Персональный поиск</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors" onclick="viewRecommendation()">
+                                            Посмотреть
+                                        </button>
+                                        <button class="text-gray-400 hover:text-gray-600 p-2 rounded-lg hover:bg-gray-100 transition-colors" onclick="dismissRecommendation()" title="Скрыть рекомендацию">
+                                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    <!-- Sent Searches Section -->
+                    {% if sent_searches %}
+                    <div class="border-t border-gray-200 pt-6 mt-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Рекомендованные поиски</h3>
+                        {% for search in sent_searches | sort(attribute='created_at', reverse=True) %}
+                        <div class="border border-gray-200 rounded-xl p-4 mb-4 hover:border-blue-300 transition-colors">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center">
+                                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9 9a2 2 0 114 0 2 2 0 01-4 0z"/>
+                                            <path d="M9 9c0 5.5 3 7 3 7s3-1.5 3-7a3 3 0 10-6 0z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-medium text-gray-900">{{ search.name or 'Поиск от менеджера' }}</h4>
+                                        <p class="text-sm text-gray-600">{{ search.description or 'Персональный подбор недвижимости' }}</p>
+                                        <p class="text-xs text-gray-500">{{ search.sent_at.strftime('%d.%m.%Y в %H:%M') if search.sent_at else 'Недавно' }}</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    {% if search.status == 'sent' %}
+                                    <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Новый</span>
+                                    {% elif search.status == 'viewed' %}
+                                    <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Просмотрен</span>
+                                    {% endif %}
+                                    <button class="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded text-sm font-medium" onclick="applySearch()">
+                                        Применить
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    
+                    {% if not recommendations %}
+                    <div class="text-center text-gray-500 py-8">
+                        <svg class="w-12 h-12 mx-auto mb-3 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                        </svg>
+                        <p>Нет персональных рекомендаций</p>
+                        <p class="text-sm">Рекомендации от менеджеров появятся здесь</p>
+                    </div>
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Comparison Section -->
+        <div class="content-section" id="comparison">
+            <!-- Hero Section -->
+            <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+                <div class="text-center bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-xl p-8 mb-8">
+                    <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-full mb-4">
+                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-2">Сравнение</h2>
+                    <p class="text-lg text-gray-600 mb-6">Сравните выбранные объекты и ЖК</p>
+                    <div class="flex justify-center space-x-4">
+                        <span class="bg-white rounded-lg px-4 py-2 shadow-sm">
+                            <span class="text-2xl font-bold text-indigo-600" id="comparison-properties-count">2</span>
+                            <span class="text-sm text-gray-600 block">Объектов</span>
+                        </span>
+                        <span class="bg-white rounded-lg px-4 py-2 shadow-sm">
+                            <span class="text-2xl font-bold text-blue-600" id="comparison-complexes-count">1</span>
+                            <span class="text-sm text-gray-600 block">ЖК</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Comparison Content -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Properties Comparison -->
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-xl font-semibold text-gray-800">Сравнение объектов</h3>
+                        <button class="text-sm bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors" onclick="window.location.href='/comparison'">
+                            Детальное сравнение
+                        </button>
+                    </div>
+                    <div id="properties-comparison-list" class="space-y-3">
+                        <div class="text-center py-4 text-gray-500 text-sm">Загрузка объектов сравнения...</div>
+                    </div>
+                </div>
+                
+                <!-- Complexes Comparison -->
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-xl font-semibold text-gray-800">Сравнение ЖК</h3>
+                        <button class="text-sm bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors" onclick="window.location.href='/complex-comparison'">
+                            Детальное сравнение
+                        </button>
+                    </div>
+                    <div id="complexes-comparison-list" class="space-y-4">
+                        <!-- Complex Comparison Item -->
+                        <div class="border border-gray-200 rounded-lg p-3 bg-gray-50">
+                            <div class="flex items-center justify-between">
+                                <div class="flex-1">
+                                    <h5 class="font-medium text-gray-900 text-sm">ЖК «Эталон»</h5>
+                                    <p class="text-xs text-gray-600">от 3.1 млн ₽ • кешбек 5% • 15 объектов</p>
+                                </div>
+                                <button class="text-red-600 hover:text-red-800 text-xs" onclick="removeFromComparison('etalon', 'complex')">
+                                    ✕
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Hidden elements for comparison.js compatibility -->
+        <div class="hidden">
+            <div id="quickComparisonGrid"></div>
+            <div id="detailedComparisonContainer"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Data Management Section (Admins Only) -->
+<div class="content-section" id="data-management">
+    <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+        <div class="text-center bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-8 mb-8">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-600 to-purple-700 rounded-full mb-4">
+                <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+                </svg>
+            </div>
+            <h2 class="text-3xl font-bold text-gray-900 mb-2">Управление данными Excel</h2>
+            <p class="text-lg text-gray-600 mb-6">Автоматическая загрузка и обработка данных недвижимости</p>
+            
+            <!-- Status Cards -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                <div class="bg-white rounded-lg p-4 shadow-sm" id="data-stats-properties">
+                    <div class="text-2xl font-bold text-purple-600">...</div>
+                    <div class="text-sm text-gray-600">Квартир в БД</div>
+                </div>
+                <div class="bg-white rounded-lg p-4 shadow-sm" id="data-stats-complexes">
+                    <div class="text-2xl font-bold text-blue-600">...</div>
+                    <div class="text-sm text-gray-600">ЖК</div>
+                </div>
+                <div class="bg-white rounded-lg p-4 shadow-sm" id="data-stats-developers">
+                    <div class="text-2xl font-bold text-green-600">...</div>
+                    <div class="text-sm text-gray-600">Застройщиков</div>
+                </div>
+                <div class="bg-white rounded-lg p-4 shadow-sm" id="data-stats-columns">
+                    <div class="text-2xl font-bold text-orange-600">77</div>
+                    <div class="text-sm text-gray-600">Колонок Excel</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Upload Excel Form -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- File Upload Section -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                    <svg class="w-6 h-6 mr-2 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                    </svg>
+                    Загрузка Excel файла
+                </h3>
+                
+                <form id="excel-upload-form" enctype="multipart/form-data" class="space-y-4">
+                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-purple-400 transition-colors" id="upload-area">
+                        <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <div class="mt-4">
+                            <label for="excel-file" class="cursor-pointer">
+                                <span class="mt-2 block text-sm font-medium text-gray-900">
+                                    Перетащите Excel файл сюда или
+                                </span>
+                                <span class="text-purple-600 hover:text-purple-500">выберите файл</span>
+                            </label>
+                            <input type="file" id="excel-file" name="excel_file" accept=".xlsx,.xls" class="hidden">
+                        </div>
+                        <p class="mt-2 text-xs text-gray-500">Поддерживаются: .xlsx, .xls (до 50 МБ)</p>
+                    </div>
+                    
+                    <!-- Upload Options -->
+                    <div class="space-y-3">
+                        <label class="flex items-center">
+                            <input type="checkbox" id="replace-data" name="replace_data" class="rounded border-gray-300 text-purple-600 focus:ring-purple-500">
+                            <span class="ml-2 text-sm text-gray-700">Заменить существующие данные</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" id="auto-sync" name="auto_sync" checked class="rounded border-gray-300 text-purple-600 focus:ring-purple-500">
+                            <span class="ml-2 text-sm text-gray-700">Автоматически синхронизировать ЖК</span>
+                        </label>
+                    </div>
+                    
+                    <button type="submit" id="upload-btn" class="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white py-3 px-4 rounded-lg font-medium hover:from-purple-700 hover:to-purple-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span class="flex items-center justify-center">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Загрузить и обработать
+                        </span>
+                    </button>
+                </form>
+                
+                <!-- Progress Bar -->
+                <div id="upload-progress" class="hidden mt-4">
+                    <div class="flex justify-between text-sm text-gray-600 mb-1">
+                        <span>Загрузка...</span>
+                        <span id="progress-percent">0%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div id="progress-bar" class="bg-purple-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Testing & Validation Section -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                    <svg class="w-6 h-6 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    Тестирование и проверка
+                </h3>
+                
+                <div class="space-y-3">
+                    <button onclick="runFullSystemTest()" class="w-full bg-gradient-to-r from-green-600 to-green-700 text-white py-3 px-4 rounded-lg font-medium hover:from-green-700 hover:to-green-800 transition-all duration-200">
+                        <span class="flex items-center justify-center">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            Полная проверка системы
+                        </span>
+                    </button>
+                    
+                    <button onclick="testColumnMapping()" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-4 rounded-lg font-medium hover:from-blue-700 hover:to-blue-800 transition-all duration-200">
+                        <span class="flex items-center justify-center">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+                            </svg>
+                            Проверить 77 колонок
+                        </span>
+                    </button>
+                    
+                    <button onclick="testNewDataCreation()" class="w-full bg-gradient-to-r from-orange-600 to-orange-700 text-white py-3 px-4 rounded-lg font-medium hover:from-orange-700 hover:to-orange-800 transition-all duration-200">
+                        <span class="flex items-center justify-center">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                            </svg>
+                            Тест создания новых ЖК
+                        </span>
+                    </button>
+                    
+                    <button onclick="validateDataIntegrity()" class="w-full bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-3 px-4 rounded-lg font-medium hover:from-indigo-700 hover:to-indigo-800 transition-all duration-200">
+                        <span class="flex items-center justify-center">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            Проверить целостность данных
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Results Section -->
+        <div id="test-results" class="mt-8 bg-gray-50 rounded-xl p-6 hidden">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Результаты тестирования</h3>
+            <div id="test-output" class="bg-white rounded-lg p-4 border max-h-96 overflow-y-auto">
+                <pre class="text-sm text-gray-700 whitespace-pre-wrap" id="test-log"></pre>
+            </div>
+        </div>
+        
+        <!-- Upload Results -->
+        <div id="upload-results" class="mt-8 bg-gray-50 rounded-xl p-6 hidden">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Результаты загрузки</h3>
+            <div id="upload-output" class="bg-white rounded-lg p-4 border">
+                <div id="upload-log" class="text-sm text-gray-700"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Dashboard tab switching functionality
+(function() {
+    'use strict';
+    
+    function initializeDashboardTabs() {
+        console.log('Initializing dashboard tabs...');
+        
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const contentSections = document.querySelectorAll('.content-section');
+        
+        console.log('Found tab buttons:', tabButtons.length);
+        console.log('Found content sections:', contentSections.length);
+        
+        if (tabButtons.length === 0) {
+            console.warn('No tab buttons found');
+            return;
+        }
+        
+        tabButtons.forEach(function(button, index) {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Tab clicked:', this.dataset.page);
+                
+                // Remove active class from all buttons
+                tabButtons.forEach(function(btn) {
+                    btn.classList.remove('active');
+                    btn.classList.remove('border-[#0088CC]', 'text-[#0088CC]');
+                    btn.classList.add('border-transparent', 'text-gray-500');
+                });
+                
+                // Hide all content sections
+                contentSections.forEach(function(section) {
+                    section.classList.remove('active');
+                });
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                this.classList.remove('border-transparent', 'text-gray-500');
+                this.classList.add('border-[#0088CC]', 'text-[#0088CC]');
+                
+                // Show corresponding content section
+                const targetPage = this.dataset.page;
+                const targetSection = document.getElementById(targetPage);
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                    console.log('Activated section:', targetPage);
+                    
+                    // Load favorites when favorites section is activated
+                    if (targetPage === 'favorites') {
+                        console.log('Loading favorites list...');
+                        setTimeout(() => loadFavoritesList(), 100);
+                    }
+                    
+                    // Load comparison content when comparison section is activated
+                    if (targetPage === 'comparison') {
+                        console.log('Loading comparison content...');
+                        setTimeout(() => {
+                            loadComparisonContent();
+                            updateDashboardCounters();
+                        }, 100);
+                    }
+                } else {
+                    console.warn('Target section not found:', targetPage);
+                }
+            });
+        });
+        
+        console.log('Dashboard tabs initialized successfully');
+    }
+    
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeDashboardTabs);
+    } else {
+        initializeDashboardTabs();
+    }
+})();
+
+// Load favorites list for dashboard
+async function loadFavoritesList() {
+    console.log('loadFavoritesList called');
+    const favoritesContainer = document.getElementById('favorites-list');
+    const loadingElement = document.getElementById('favorites-loading');
+    const emptyElement = document.getElementById('favorites-empty');
+    
+    console.log('Elements found:', {
+        container: !!favoritesContainer,
+        loading: !!loadingElement, 
+        empty: !!emptyElement
+    });
+    
+    if (!favoritesContainer) {
+        console.error('Favorites container not found');
+        return;
+    }
+    
+    try {
+        if (loadingElement) loadingElement.classList.remove('hidden');
+        if (emptyElement) emptyElement.classList.add('hidden');
+        
+        console.log('Fetching favorites from API...');
+        const response = await fetch('/api/favorites/list', {
+            method: 'GET',
+            credentials: 'same-origin',  // Include cookies for authentication
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        console.log('Response received:', response.status, response.statusText);
+        const data = await response.json();
+        console.log('Data received:', data);
+        
+        if (data.success && data.favorites && data.favorites.length > 0) {
+            // Clear container except loading/empty states
+            const existingCards = favoritesContainer.querySelectorAll('.border');
+            existingCards.forEach(card => card.remove());
+            
+            // Add favorites
+            data.favorites.forEach((favorite, index) => {
+                const favoriteCard = createFavoriteCard(favorite, index === 0);
+                loadingElement.parentNode.insertBefore(favoriteCard, loadingElement);
+            });
+            
+            loadingElement.classList.add('hidden');
+            
+            // Update favorites counter after loading real data
+            const favCountElement = document.getElementById('favorites-count');
+            if (favCountElement) favCountElement.textContent = data.favorites.length;
+        } else {
+            // Show empty state
+            loadingElement.classList.add('hidden');
+            emptyElement.classList.remove('hidden');
+        }
+    } catch (error) {
+        console.error('Error loading favorites:', error);
+        loadingElement.classList.add('hidden');
+        emptyElement.classList.remove('hidden');
+    }
+}
+
+function createFavoriteCard(favorite, isNew = false) {
+    const priceFormatted = favorite.price ? favorite.price.toLocaleString('ru-RU') + ' ₽' : 'Цена уточняется';
+    const cashbackFormatted = favorite.cashback_amount ? '+' + favorite.cashback_amount.toLocaleString('ru-RU') + ' ₽' : '';
+    
+    const cardElement = document.createElement('div');
+    cardElement.className = `border border-gray-200 rounded-lg p-4 hover:border-red-300 transition-colors ${isNew ? 'border-l-4 border-l-green-400' : ''}`;
+    
+    cardElement.innerHTML = `
+        <div class="flex items-start space-x-4">
+            <img src="${favorite.image}" 
+                 alt="Квартира" class="w-16 h-12 object-cover rounded-lg">
+            <div class="flex-1">
+                <div class="flex items-center">
+                    <h4 class="font-medium text-gray-900 text-sm">${favorite.title} в ${favorite.complex}</h4>
+                    ${isNew ? '<span class="ml-2 bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Новое</span>' : ''}
+                </div>
+                <p class="text-xs text-gray-600 mt-1">${favorite.district} • Новостройка</p>
+                <p class="text-xs text-gray-500 mt-1">Добавлено: ${favorite.created_at || 'Недавно'}</p>
+                <div class="flex items-center justify-between mt-2">
+                    <div>
+                        <span class="text-sm font-bold text-gray-900">${priceFormatted}</span>
+                        ${cashbackFormatted ? `<span class="text-xs text-green-600 ml-1">${cashbackFormatted}</span>` : ''}
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button class="text-[#0088CC] hover:bg-blue-50 px-2 py-1 rounded text-xs" onclick="window.location.href='/object/${favorite.id}'">
+                            Смотреть
+                        </button>
+                        <button class="text-red-600 hover:bg-red-50 px-2 py-1 rounded text-xs" onclick="if(window.favoritesManager) window.favoritesManager.toggleFavorite(${favorite.id}, this.closest('.border'))">
+                            ♥
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    return cardElement;
+}
+</script>
+
+<!-- Dashboard JavaScript Modules -->
+<!-- favorites.js is loaded in base.html to avoid duplicate loading -->
+<script src="{{ url_for('static', filename='js/saved_searches.js') }}"></script>
+
+<script>
+// Dashboard initialization and counter updates
+(function() {
+    'use strict';
+    
+    function updateDashboardCounters() {
+        // Update favorites counters from API (real data) not localStorage
+        fetch('/api/user/favorites')
+            .then(response => response.json())
+            .then(data => {
+                const favoritesCount = data.favorites ? data.favorites.length : 0;
+                const favCountElement = document.getElementById('favorites-count');
+                if (favCountElement) favCountElement.textContent = favoritesCount;
+            })
+            .catch(error => {
+                console.log('Could not load favorites count');
+            });
+        
+        // Update complex favorites counters from localStorage
+        const complexFavorites = JSON.parse(localStorage.getItem('inback_favorite_complexes') || '[]');
+        const complexFavCountElement = document.getElementById('complex-favorites-count');
+        if (complexFavCountElement) complexFavCountElement.textContent = complexFavorites.length;
+        
+        // Update comparison counters
+        const comparisonProperties = JSON.parse(localStorage.getItem('comparison_properties') || '[]');
+        const comparisonComplexes = JSON.parse(localStorage.getItem('comparison_complexes') || '[]');
+        
+        const propCompCountElement = document.getElementById('comparison-properties-count');
+        const complexCompCountElement = document.getElementById('comparison-complexes-count');
+        
+        if (propCompCountElement) propCompCountElement.textContent = comparisonProperties.length;
+        if (complexCompCountElement) complexCompCountElement.textContent = comparisonComplexes.length;
+        
+        // Update saved searches counter
+        updateSavedSearchesCounter();
+    }
+    
+    function updateSavedSearchesCounter() {
+        // This will be updated by the SavedSearchesManager when it loads
+        fetch('/api/user/saved-searches/count')
+            .then(response => response.json())
+            .then(data => {
+                const savedSearchesCountElement = document.getElementById('saved-searches-count');
+                if (savedSearchesCountElement && data.success) {
+                    savedSearchesCountElement.textContent = data.count;
+                }
+            })
+            .catch(error => {
+                console.log('Could not load saved searches count');
+            });
+    }
+    
+    function loadFavoritesContent() {
+        if (!window.favoritesManager) return;
+        
+        const favoritesList = document.getElementById('favorites-list');
+        const complexFavoritesList = document.getElementById('complex-favorites-list');
+        
+        if (favoritesList && window.favoritesManager.favorites.length === 0) {
+            // Show empty state - already handled in HTML
+        }
+        
+        // Load complex favorites dynamically
+        loadComplexFavorites();
+    }
+    
+    async function loadComplexFavorites() {
+        const loadingElement = document.getElementById('complex-loading');
+        const emptyElement = document.getElementById('complex-empty');
+        const containerElement = document.getElementById('complex-favorites-list');
+        
+        if (!containerElement) return;
+        
+        try {
+            // Get favorite complexes from localStorage (same as favorites.js)
+            const favoriteComplexes = JSON.parse(localStorage.getItem('inback_favorite_complexes') || '[]');
+            
+            if (favoriteComplexes && favoriteComplexes.length > 0) {
+                console.log('Loading complexes for favorites:', favoriteComplexes);
+                
+                // Get residential complexes data from full API
+                const response = await fetch('/api/residential-complexes-full');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch complexes data');
+                }
+                
+                const complexesData = await response.json();
+                const allComplexes = complexesData.complexes || [];
+                console.log('Loaded complexes:', allComplexes.length);
+                
+                // Filter complexes to show only favorited ones - handle both old and new format
+                const favoritedComplexes = allComplexes.filter(complex => 
+                    favoriteComplexes.some(fav => {
+                        const id = typeof fav === 'object' ? fav.id : fav;
+                        return id == complex.id;
+                    })
+                );
+                
+                if (favoritedComplexes.length > 0) {
+                    let html = '';
+                    favoritedComplexes.forEach(complex => {
+                        const priceText = complex.price_from 
+                            ? `от ${(complex.price_from / 1000000).toFixed(1)} млн ₽`
+                            : 'Цена уточняется';
+                        
+                        const cashbackRate = complex.cashback_percent || 5;
+                        
+                        // Find timestamp for this complex
+                        const favoriteItem = favoriteComplexes.find(fav => {
+                            const id = typeof fav === 'object' ? fav.id : fav;
+                            return id == complex.id;
+                        });
+                        const addedAt = typeof favoriteItem === 'object' ? favoriteItem.addedAt : 'Недавно';
+                        
+                        html += `
+                            <div class="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition-colors">
+                                <div class="flex items-start space-x-4">
+                                    <img src="${complex.image || 'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&auto=format&fit=crop&w=80&h=60&q=80'}" 
+                                         alt="${complex.name}" class="w-16 h-12 object-cover rounded-lg">
+                                    <div class="flex-1">
+                                        <h4 class="font-medium text-gray-900 text-sm">${complex.name}</h4>
+                                        <p class="text-xs text-gray-600 mt-1">${complex.district || 'Район не указан'} • ${complex.apartments_count || 0} объектов</p>
+                                        <p class="text-xs text-gray-500 mt-1">Добавлено: ${addedAt}</p>
+                                        <div class="flex items-center justify-between mt-2">
+                                            <div>
+                                                <span class="text-sm font-bold text-gray-900">${priceText}</span>
+                                                <span class="text-xs text-green-600 ml-1">кешбек ${cashbackRate}%</span>
+                                            </div>
+                                            <div class="flex items-center space-x-2">
+                                                <button class="text-[#0088CC] hover:bg-blue-50 px-2 py-1 rounded text-xs" onclick="window.location.href='/residential-complex/${complex.id}'">
+                                                    Смотреть
+                                                </button>
+                                                <button class="text-red-600 hover:bg-red-50 px-2 py-1 rounded text-xs" onclick="if(window.favoritesManager) window.favoritesManager.toggleComplexFavorite('${complex.id}'); loadComplexFavorites();">
+                                                    ♥
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    containerElement.innerHTML = html;
+                } else {
+                    if (emptyElement) emptyElement.classList.remove('hidden');
+                }
+            } else {
+                if (emptyElement) emptyElement.classList.remove('hidden');
+            }
+            
+            if (loadingElement) loadingElement.classList.add('hidden');
+            
+        } catch (error) {
+            console.error('Error loading complex favorites:', error);
+            if (loadingElement) loadingElement.classList.add('hidden');
+            if (emptyElement) emptyElement.classList.remove('hidden');
+        }
+    }
+    
+    function loadComparisonContent() {
+        // Try to get from main comparison format first
+        let comparisonProperties = JSON.parse(localStorage.getItem('comparisons') || '[]');
+        
+        // Fallback to comparison-data format if comparisons is empty
+        if (comparisonProperties.length === 0) {
+            const comparisonData = JSON.parse(localStorage.getItem('comparison-data') || '{"properties": [], "complexes": []}');
+            comparisonProperties = comparisonData.properties || [];
+        }
+        
+        // Last fallback to old format
+        if (comparisonProperties.length === 0) {
+            comparisonProperties = JSON.parse(localStorage.getItem('comparison_properties') || '[]');
+        }
+        
+        const comparisonComplexes = JSON.parse(localStorage.getItem('comparison_complexes') || '[]');
+        
+        const propertiesComparisonList = document.getElementById('properties-comparison-list');
+        const complexesComparisonList = document.getElementById('complexes-comparison-list');
+        const quickComparisonGrid = document.getElementById('quickComparisonGrid');
+        const detailedComparisonContainer = document.getElementById('detailedComparisonContainer');
+        
+        console.log('Loading comparison content - properties:', comparisonProperties.length, 'complexes:', comparisonComplexes.length);
+        
+        // Handle quick comparison grid (for comparison.js compatibility)
+        if (quickComparisonGrid && detailedComparisonContainer) {
+            loadQuickComparisonContent(comparisonProperties, quickComparisonGrid, detailedComparisonContainer);
+        }
+        
+        // Properties comparison content with detailed cards
+        if (propertiesComparisonList && comparisonProperties.length > 0) {
+            loadPropertiesComparisonData(comparisonProperties, propertiesComparisonList);
+        }
+        
+        // Complexes comparison content
+        if (complexesComparisonList && comparisonComplexes.length > 0) {
+            loadComplexesComparisonData(comparisonComplexes, complexesComparisonList);
+        }
+    }
+    
+    // New function for quick comparison content
+    async function loadQuickComparisonContent(propertyIds, quickGrid, detailedContainer) {
+        if (propertyIds.length === 0) {
+            quickGrid.innerHTML = '<div class="col-span-full text-center py-8 text-gray-500">Объекты для сравнения не найдены<br><small class="text-xs mt-2">Добавьте объекты в сравнение на странице каталога</small></div>';
+            detailedContainer.innerHTML = '<div class="text-center py-8 text-gray-500">Объекты для сравнения не найдены</div>';
+            return;
+        }
+        
+        // Show loading state
+        quickGrid.innerHTML = '<div class="col-span-full text-center py-4 text-gray-500">Загружается...</div>';
+        
+        try {
+            // Load properties from API
+            const propertyPromises = propertyIds.map(async (propertyId) => {
+                try {
+                    console.log(`Loading property ${propertyId} from API...`);
+                    const response = await fetch(`/api/property/${propertyId}`);
+                    console.log(`Property ${propertyId} response status:`, response.status);
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log(`Property ${propertyId} data loaded:`, data.title || 'no title');
+                        // Wrap in expected format
+                        return {
+                            success: true,
+                            property: data
+                        };
+                    }
+                    console.warn(`Property ${propertyId} not found (${response.status})`);
+                    return null;
+                } catch (e) {
+                    console.error(`Error loading property ${propertyId}:`, e);
+                    return null;
+                }
+            });
+            
+            const properties = await Promise.all(propertyPromises);
+            const validProperties = properties.filter(p => p && p.success && p.property);
+            
+            console.log('Loaded valid properties for comparison:', validProperties.length, 'of', propertyIds.length);
+            
+            if (validProperties.length === 0) {
+                quickGrid.innerHTML = `
+                    <div class="col-span-full text-center py-8 text-gray-500">
+                        <p>Объекты не найдены</p>
+                        <small class="text-xs block mt-2">Возможно объекты были удалены или данные устарели</small>
+                        <button onclick="clearOldComparisonData()" class="mt-4 px-4 py-2 bg-red-500 text-white rounded text-sm hover:bg-red-600 transition-colors">
+                            Очистить старые данные
+                        </button>
+                    </div>
+                `;
+                detailedContainer.innerHTML = '<div class="text-center py-8 text-gray-500">Объекты не найдены</div>';
+                return;
+            }
+            
+            // Render quick comparison cards in complex-comparison style
+            quickGrid.innerHTML = validProperties.map(item => {
+                const property = item.property;
+                const cashback = Math.round(property.price * (property.cashback_percent || 2.5) / 100);
+                const complexName = (property.residential_complex || property.complex_name || 'Не указан')
+                    .replace(/^ЖК\s+ЖК\s+/, 'ЖК ')  // Remove duplicate "ЖК ЖК"
+                    .replace(/^ЖК\s+«?/, 'ЖК «')     // Normalize quotes
+                    .replace(/«?$/, '»');            // Ensure closing quote
+                
+                return `
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 relative hover:shadow-md transition-all duration-200">
+                        <button onclick="removeFromComparison('${property.id}')" 
+                                class="absolute top-3 right-3 w-8 h-8 bg-red-50 text-red-500 rounded-full flex items-center justify-center hover:bg-red-100 transition-colors text-sm font-medium">
+                            ×
+                        </button>
+                        
+                        <div class="mb-4">
+                            <img src="${property.image || '/static/images/no-image.jpg'}" 
+                                 alt="${property.title}"
+                                 class="w-full h-40 object-cover rounded-lg">
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <div>
+                                <h4 class="font-bold text-lg text-gray-900 leading-tight">${property.title}</h4>
+                                <p class="text-sm text-gray-600 mt-1">${complexName}</p>
+                            </div>
+                            
+                            <div class="space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm text-gray-600">Цена:</span>
+                                    <span class="font-bold text-lg text-[#0088CC]">${property.price?.toLocaleString() || 'По запросу'} ₽</span>
+                                </div>
+                                
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm text-gray-600">Площадь:</span>
+                                    <span class="font-medium text-gray-900">${property.area || 'Не указана'} м²</span>
+                                </div>
+                                
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm text-gray-600">Этаж:</span>
+                                    <span class="font-medium text-gray-900">${property.floor || 'Не указан'}${property.total_floors ? ' из ' + property.total_floors : ''}</span>
+                                </div>
+                                
+                                <div class="pt-2 border-t border-gray-100">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm text-gray-600">Кешбек:</span>
+                                        <span class="font-bold text-green-600">${cashback.toLocaleString()} ₽</span>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1">${(property.cashback_percent || 2.5)}% от стоимости</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            // Render detailed comparison (if function exists)
+            if (typeof renderDetailedComparison === 'function') {
+                detailedContainer.innerHTML = renderDetailedComparison(validProperties.map(item => item.property));
+            } else {
+                detailedContainer.innerHTML = '<div class="text-center py-8 text-gray-500">Детальное сравнение доступно</div>';
+            }
+            
+        } catch (error) {
+            console.error('Error loading quick comparison:', error);
+            quickGrid.innerHTML = '<div class="col-span-full text-center py-8 text-red-500">Ошибка загрузки</div>';
+        }
+    }
+    
+    // Load properties comparison data with real data from API
+    async function loadPropertiesComparisonData(propertyIds, container) {
+        if (propertyIds.length === 0) {
+            container.innerHTML = `
+                <div class="text-center py-8 text-gray-500">
+                    <p>Объекты для сравнения не найдены</p>
+                    <small class="text-xs mt-2">Добавьте объекты в сравнение на странице каталога</small>
+                </div>
+            `;
+            return;
+        }
+
+        try {
+            // Load properties from API
+            const propertyPromises = propertyIds.map(async (propertyId) => {
+                try {
+                    const response = await fetch(`/api/property/${propertyId}`);
+                    if (response.ok) {
+                        return await response.json();
+                    }
+                    return null;
+                } catch (e) {
+                    return null;
+                }
+            });
+            
+            const properties = await Promise.all(propertyPromises);
+            const validProperties = properties.filter(p => p !== null);
+            
+            let html = '';
+            
+            if (validProperties.length === 0) {
+                html = `
+                    <div class="text-center py-8 text-gray-500">
+                        <p>Объекты не найдены</p>
+                        <small class="text-xs block mt-2">Возможно объекты были удалены или данные устарели</small>
+                        <button onclick="clearOldComparisonData()" class="mt-4 px-4 py-2 bg-red-500 text-white rounded text-sm hover:bg-red-600 transition-colors">
+                            Очистить старые данные
+                        </button>
+                    </div>
+                `;
+            } else {
+                validProperties.forEach(property => {
+                    const priceFormatted = property.price ? (property.price / 1000000).toFixed(1) + ' млн ₽' : 'Цена по запросу';
+                    const cashbackAmount = property.cashback || 0;
+                    const roomsText = property.object_rooms ? `${property.object_rooms}-комн` : 'Студия';
+                    
+                    const complexName = (property.residential_complex || 'Без названия')
+                        .replace(/^ЖК\s+ЖК\s+/, 'ЖК ')  // Remove duplicate "ЖК ЖК"
+                        .replace(/^ЖК\s+«?/, 'ЖК «')     // Normalize quotes
+                        .replace(/«?$/, '»');            // Ensure closing quote
+
+                    html += `
+                        <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg bg-white hover:bg-gray-50 transition-colors">
+                            <div class="flex-1">
+                                <h5 class="font-semibold text-gray-900 text-sm">${roomsText}, ${complexName}</h5>
+                                <p class="text-xs text-gray-600 mt-1">${priceFormatted} • +${cashbackAmount.toLocaleString()} ₽ кешбек</p>
+                            </div>
+                            <button class="text-red-500 hover:text-red-700 text-sm px-2 py-1 rounded hover:bg-red-50 transition-colors" onclick="removeFromComparison(${property.id})">
+                                ✕
+                            </button>
+                        </div>
+                    `;
+                });
+            }
+            
+            container.innerHTML = html;
+            
+        } catch (error) {
+            console.error('Error loading properties comparison data:', error);
+            container.innerHTML = `
+                <div class="text-center py-8 text-gray-500">
+                    <p>Ошибка загрузки данных объектов</p>
+                    <p class="text-xs mt-2">${error.message}</p>
+                    <button onclick="clearOldComparisonData()" class="mt-3 px-4 py-2 bg-red-500 text-white rounded text-sm hover:bg-red-600">
+                        Очистить данные
+                    </button>
+                </div>
+            `;
+        }
+    }
+
+    // Load complexes comparison data with real data from database
+    async function loadComplexesComparisonData(complexIds, container) {
+        try {
+            let html = '';
+            
+            // Load each complex data from API
+            for (const complexId of complexIds) {
+                try {
+                    const response = await fetch(`/api/complex/${complexId}`);
+                    if (!response.ok) {
+                        console.error(`Failed to load complex ${complexId}: ${response.status}`);
+                        continue;
+                    }
+                    
+                    const complex = await response.json();
+                    const priceFrom = complex.price_from || 5000000;
+                    const cashbackPercent = complex.cashback_percent || 5;
+                    const cashback = Math.round(priceFrom * cashbackPercent / 100);
+                    
+                    html += `
+                        <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg bg-gray-50">
+                            <div class="flex-1">
+                                <h5 class="font-medium text-gray-900 text-sm">${complex.name}</h5>
+                                <p class="text-xs text-gray-600">от ${(priceFrom / 1000000).toFixed(1)} млн ₽ • +${cashback.toLocaleString()} ₽ кешбек (${cashbackPercent}%)</p>
+                            </div>
+                            <button class="text-red-600 hover:text-red-800 text-xs" onclick="removeFromComplexComparison(${complexId})">
+                                ✕
+                            </button>
+                        </div>
+                    `;
+                } catch (complexError) {
+                    console.error(`Error loading complex ${complexId}:`, complexError);
+                    html += `
+                        <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
+                            <span class="text-sm text-gray-700">ЖК #${complexId} (не найден)</span>
+                            <button class="text-red-500 hover:text-red-700 text-sm" onclick="removeFromComplexComparison(${complexId})">
+                                Удалить
+                            </button>
+                        </div>
+                    `;
+                }
+            }
+            container.innerHTML = html;
+        } catch (error) {
+            console.error('Error loading complexes comparison data:', error);
+            // Show error message
+            container.innerHTML = `
+                <div class="text-center py-8 text-gray-500">
+                    <p>Ошибка загрузки данных ЖК</p>
+                    <p class="text-xs mt-2">${error.message}</p>
+                    <button onclick="loadComparisonContent()" class="mt-3 px-4 py-2 bg-blue-500 text-white rounded text-sm hover:bg-blue-600">
+                        Повторить попытку
+                    </button>
+                </div>
+            `;
+        }
+    }
+    
+    // Global functions for removing items from comparison
+    window.removeFromComparison = function(propertyId) {
+        // Remove from comparison.js localStorage format
+        try {
+            const comparisons = JSON.parse(localStorage.getItem('comparisons') || '[]');
+            const newComparisons = comparisons.filter(id => id !== String(propertyId));
+            localStorage.setItem('comparisons', JSON.stringify(newComparisons));
+            console.log('Removed property', propertyId, 'from comparison');
+        } catch (e) {
+            console.error('Error removing from comparison:', e);
+        }
+        
+        // Also remove from old format
+        try {
+            const oldComparisons = JSON.parse(localStorage.getItem('comparison_properties') || '[]');
+            const newOldComparisons = oldComparisons.filter(id => id !== String(propertyId));
+            localStorage.setItem('comparison_properties', JSON.stringify(newOldComparisons));
+        } catch (e) {
+            console.error('Error removing from old comparison format:', e);
+        }
+        
+        // Update UI
+        updateDashboardCounters();
+        loadComparisonContent();
+        
+        // Update comparison manager if available
+        if (window.comparisonManager) {
+            window.comparisonManager.updateComparisonUI();
+        }
+    };
+    
+    window.removeFromComplexComparison = function(complexId) {
+        const complexes = JSON.parse(localStorage.getItem('comparison_complexes') || '[]');
+        const newComplexes = complexes.filter(id => id !== complexId.toString());
+        localStorage.setItem('comparison_complexes', JSON.stringify(newComplexes));
+        
+        // Reload comparison content
+        loadComparisonContent();
+        updateDashboardCounters();
+    };
+    
+    // Function to clear old comparison data
+    window.clearOldComparisonData = function() {
+        try {
+            localStorage.removeItem('comparisons');
+            localStorage.removeItem('comparison_properties');
+            localStorage.removeItem('comparison_complexes');
+            console.log('Cleared old comparison data from localStorage');
+            
+            // Reload comparison content and counters
+            updateDashboardCounters();
+            loadComparisonContent();
+            
+            // Show success message
+            alert('Старые данные сравнения очищены! Теперь вы можете добавлять объекты в сравнение с главной страницы каталога.');
+        } catch (e) {
+            console.error('Error clearing comparison data:', e);
+            alert('Ошибка при очистке данных');
+        }
+    };
+    
+    // Initialize dashboard content when everything is loaded
+    function initializeDashboard() {
+        updateDashboardCounters();
+        loadFavoritesContent();
+        loadComparisonContent();
+        initializeCashbackCalculator();
+        initializeSavedSearchActions();
+        
+        // Update counters periodically
+        setInterval(updateDashboardCounters, 5000);
+    }
+    
+    function initializeCashbackCalculator() {
+        const priceInput = document.getElementById('cashback-price');
+        const typeSelect = document.getElementById('cashback-type');
+        const resultElement = document.getElementById('cashback-result');
+        
+        if (!priceInput || !typeSelect || !resultElement) return;
+        
+        function calculateCashback() {
+            const price = parseFloat(priceInput.value) || 3500000;
+            const percentage = parseFloat(typeSelect.value) || 5;
+            const cashback = Math.round(price * percentage / 100);
+            
+            resultElement.textContent = cashback.toLocaleString('ru-RU') + ' ₽';
+        }
+        
+        priceInput.addEventListener('input', calculateCashback);
+        typeSelect.addEventListener('change', calculateCashback);
+        
+        // Initialize with default values
+        calculateCashback();
+    }
+    
+    function initializeSavedSearchActions() {
+        // Apply search buttons
+        document.querySelectorAll('.apply-search-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const searchId = this.dataset.searchId;
+                if (searchId) {
+                    window.location.href = `/properties?search_id=${searchId}`;
+                }
+            });
+        });
+        
+        // Delete search buttons
+        document.querySelectorAll('.delete-search-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const searchId = this.dataset.searchId;
+                if (searchId && confirm('Удалить этот сохраненный поиск?')) {
+                    fetch(`/api/searches/${searchId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            this.closest('.border').remove();
+                            updateDashboardCounters();
+                        } else {
+                            alert('Ошибка при удалении поиска');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Ошибка при удалении поиска');
+                    });
+                }
+            });
+        });
+    }
+    
+    window.viewRecommendation = function(recommendationId) {
+        // Mark recommendation as viewed first
+        fetch(`/api/recommendations/${recommendationId}/viewed`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Find the recommendation element to get property details
+                const recElement = document.querySelector(`[onclick="viewRecommendation(${recommendationId})"]`);
+                if (recElement) {
+                    const recCard = recElement.closest('.border');
+                    const propertyId = recCard.dataset.propertyId;
+                    if (propertyId && propertyId !== '') {
+                        // Navigate to property page
+                        window.location.href = `/object/${propertyId}`;
+                    } else {
+                        // For other recommendation types, just mark as viewed and refresh
+                        console.log('Рекомендация просмотрена');
+                        location.reload();
+                    }
+                } else {
+                    console.log('Рекомендация просмотрена');
+                    location.reload();
+                }
+            } else {
+                console.error('Ошибка при просмотре рекомендации');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+    
+    window.dismissRecommendation = function(recommendationId) {
+        if (confirm('Скрыть эту рекомендацию?')) {
+            fetch(`/api/recommendations/${recommendationId}/dismiss`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Ошибка при скрытии рекомендации');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Ошибка при скрытии рекомендации');
+            });
+        }
+    }
+    
+    window.applySearchRecommendation = function(searchId) {
+        // Mark search as viewed and redirect to properties with filters
+        fetch(`/api/recommendations/search_${searchId}/apply`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && data.redirect_url) {
+                window.location.href = data.redirect_url;
+            } else if (data.success) {
+                // Fallback to properties page
+                window.location.href = '/properties';
+            } else {
+                console.error('Ошибка при применении поиска');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+    
+    // Category filtering functions
+    window.filterByCategory = function(categoryId) {
+        const categoryFilter = document.getElementById('categoryFilter');
+        if (categoryFilter) {
+            categoryFilter.value = categoryId;
+            filterRecommendations();
+        }
+    }
+    
+    function filterRecommendations() {
+        const categoryFilter = document.getElementById('categoryFilter');
+        const selectedCategory = categoryFilter ? categoryFilter.value : '';
+        const recommendations = document.querySelectorAll('.recommendation-item');
+        const categoryCards = document.querySelectorAll('.category-card');
+        
+        // Update category cards highlighting
+        categoryCards.forEach(card => {
+            if (selectedCategory && card.dataset.categoryId === selectedCategory) {
+                card.classList.add('ring-2', 'ring-blue-500', 'bg-blue-50');
+            } else {
+                card.classList.remove('ring-2', 'ring-blue-500', 'bg-blue-50');
+            }
+        });
+        
+        // Filter recommendations
+        recommendations.forEach(rec => {
+            const recCategoryId = rec.dataset.categoryId;
+            
+            if (!selectedCategory || recCategoryId === selectedCategory) {
+                rec.style.display = 'block';
+            } else {
+                rec.style.display = 'none';
+            }
+        });
+        
+        // Update showing count
+        const visibleCount = document.querySelectorAll('.recommendation-item[style*="display: block"], .recommendation-item:not([style*="display: none"])').length;
+        console.log(`Показано рекомендаций: ${visibleCount}`);
+    }
+    
+    // Initialize category filter
+    document.addEventListener('DOMContentLoaded', function() {
+        const categoryFilter = document.getElementById('categoryFilter');
+        if (categoryFilter) {
+            categoryFilter.addEventListener('change', filterRecommendations);
+        }
+    });
+    
+    // Guide toggle function
+    window.toggleGuide = function() {
+        const guide = document.getElementById('cashbackGuide');
+        const button = event.target;
+        
+        if (guide.style.display === 'none') {
+            guide.style.display = 'grid';
+            button.textContent = 'Скрыть';
+        } else {
+            guide.style.display = 'none';
+            button.textContent = 'Показать';
+        }
+    }
+    
+    // Phone binding functions
+    window.bindPhone = function() {
+        const phoneInput = document.getElementById('phoneInput');
+        const phone = phoneInput.value.trim();
+        
+        if (!phone) {
+            alert('Введите номер телефона');
+            return;
+        }
+        
+        // Basic phone validation
+        const phonePattern = /^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
+        if (!phonePattern.test(phone.replace(/[\s\-\(\)]/g, ''))) {
+            alert('Введите корректный номер телефона');
+            return;
+        }
+        
+        // Send verification request
+        fetch('/api/bind-phone', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ phone: phone })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Код подтверждения отправлен на указанный номер');
+                // Show verification code input
+                showVerificationInput();
+            } else {
+                alert(data.error || 'Ошибка отправки кода');
+            }
+        })
+        .catch(error => {
+            alert('Ошибка сети. Попробуйте позже.');
+        });
+    }
+    
+    window.changePhone = function() {
+        if (confirm('Вы хотите изменить номер телефона?')) {
+            // Allow phone change
+            location.reload();
+        }
+    }
+    
+    function showVerificationInput() {
+        // This would show a verification code input modal
+        const code = prompt('Введите код подтверждения из SMS:');
+        if (code) {
+            verifyPhone(code);
+        }
+    }
+    
+    function verifyPhone(code) {
+        fetch('/api/verify-phone', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ code: code })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Номер телефона успешно подтвержден!');
+                location.reload();
+            } else {
+                alert(data.error || 'Неверный код');
+            }
+        });
+    }
+    
+    // Cashback checker function
+    window.checkCashback = function() {
+        const urlInput = document.getElementById('cashbackUrlInput');
+        const resultDiv = document.getElementById('cashbackResult');
+        const contentDiv = document.getElementById('cashbackContent');
+        
+        const url = urlInput.value.trim();
+        if (!url) {
+            alert('Пожалуйста, введите ссылку на объект');
+            return;
+        }
+        
+        // Show loading state
+        resultDiv.classList.remove('hidden');
+        contentDiv.innerHTML = '<div class="flex items-center space-x-2"><div class="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div><span>Проверяем кешбек...</span></div>';
+        
+        // Try to extract property ID from URL
+        let propertyId = null;
+        const urlPatterns = [
+            /\/order\/(\d+)/,
+            /\/property\/(\d+)/,
+            /\/object\/(\d+)/,
+            /id=(\d+)/,
+            /property_id=(\d+)/
+        ];
+        
+        for (const pattern of urlPatterns) {
+            const match = url.match(pattern);
+            if (match) {
+                propertyId = match[1];
+                break;
+            }
+        }
+        
+        if (propertyId) {
+            // Check if property exists in our system
+            fetch(`/api/property/${propertyId}/cashback`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        contentDiv.innerHTML = `
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-medium text-gray-900">${data.property_name}</span>
+                                    <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">${data.cashback_percent}% кешбек</span>
+                                </div>
+                                <div class="text-lg font-semibold text-green-600">Кешбек: ${data.cashback_amount.toLocaleString()} ₽</div>
+                                <div class="text-sm text-gray-600">Цена: ${data.property_price.toLocaleString()} ₽</div>
+                                <a href="/property/${propertyId}" class="inline-block mt-2 px-4 py-2 bg-[#0088CC] text-white rounded-lg hover:bg-[#006699] transition-colors">Посмотреть объект</a>
+                            </div>
+                        `;
+                    } else {
+                        contentDiv.innerHTML = `
+                            <div class="text-center py-4">
+                                <div class="text-gray-600 mb-2">Объект не найден в нашей базе</div>
+                                <div class="text-sm text-gray-500">Свяжитесь с менеджером для уточнения условий кешбека</div>
+                                <button onclick="openApplicationModal()" class="mt-2 px-4 py-2 bg-[#0088CC] text-white rounded-lg hover:bg-[#006699] transition-colors">Связаться с менеджером</button>
+                            </div>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    contentDiv.innerHTML = `
+                        <div class="text-center py-4">
+                            <div class="text-red-600 mb-2">Ошибка при проверке кешбека</div>
+                            <div class="text-sm text-gray-500">Попробуйте еще раз или свяжитесь с поддержкой</div>
+                        </div>
+                    `;
+                });
+        } else {
+            contentDiv.innerHTML = `
+                <div class="text-center py-4">
+                    <div class="text-yellow-600 mb-2">Не удалось определить ID объекта</div>
+                    <div class="text-sm text-gray-500">Проверьте формат ссылки или свяжитесь с менеджером</div>
+                    <button onclick="openApplicationModal()" class="mt-2 px-4 py-2 bg-[#0088CC] text-white rounded-lg hover:bg-[#006699] transition-colors">Связаться с менеджером</button>
+                </div>
+            `;
+        }
+    }
+    
+    // Cashback calculator functionality
+    let cashbackData = {
+        complexes: [],
+        selectedComplex: null,
+        currentPrice: 0,
+        currentCashback: 0
+    };
+
+    // Load residential complexes for cashback calculator
+    async function loadResidentialComplexes() {
+        try {
+            const response = await fetch('/api/residential-complexes');
+            const data = await response.json();
+            cashbackData.complexes = data.complexes || [];
+            
+            const select = document.getElementById('cashback-complex');
+            if (select) {
+                select.innerHTML = '<option value="">Выберите ЖК...</option>';
+                
+                cashbackData.complexes.forEach(complex => {
+                    const option = document.createElement('option');
+                    option.value = complex.id;
+                    option.textContent = `${complex.name} (${complex.cashback_rate}%)`;
+                    option.dataset.rate = complex.cashback_rate;
+                    option.dataset.name = complex.name;
+                    select.appendChild(option);
+                });
+            }
+        } catch (error) {
+            console.error('Error loading residential complexes:', error);
+        }
+    }
+
+    // Calculate cashback
+    async function calculateCashback() {
+        const complexSelect = document.getElementById('cashback-complex');
+        const priceInput = document.getElementById('cashback-price');
+        const resultDiv = document.getElementById('cashback-result');
+        const rateDisplay = document.getElementById('cashback-rate-display');
+        const detailsDiv = document.getElementById('cashback-details');
+        const applyBtn = document.getElementById('apply-cashback-btn');
+        
+        if (!complexSelect || !priceInput || !resultDiv) return;
+        
+        const complexId = complexSelect.value;
+        const price = parseFloat(priceInput.value);
+        
+        if (!complexId || !price || price < 1000000) {
+            resultDiv.textContent = complexId ? 'Введите стоимость' : 'Выберите ЖК';
+            if (rateDisplay) rateDisplay.textContent = '';
+            if (detailsDiv) detailsDiv.textContent = 'Заполните данные для расчета';
+            if (applyBtn) applyBtn.disabled = true;
+            return;
+        }
+
+        try {
+            const response = await fetch('/api/cashback/calculate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    price: price,
+                    complex_id: complexId
+                })
+            });
+
+            const data = await response.json();
+            
+            if (data.error) {
+                resultDiv.textContent = 'Ошибка расчета';
+                if (rateDisplay) rateDisplay.textContent = data.error;
+                if (applyBtn) applyBtn.disabled = true;
+                return;
+            }
+
+            // Update UI
+            resultDiv.textContent = `${data.formatted_amount} ₽`;
+            if (rateDisplay) rateDisplay.textContent = `Ставка: ${data.cashback_rate}%`;
+            
+            if (detailsDiv) {
+                if (data.cashback_amount >= 500000) {
+                    detailsDiv.textContent = 'Максимальный кешбек 500 000 ₽';
+                } else {
+                    detailsDiv.textContent = `${data.cashback_rate}% от ${parseInt(price).toLocaleString('ru-RU')} ₽`;
+                }
+            }
+            
+            // Store current calculation
+            cashbackData.currentPrice = price;
+            cashbackData.currentCashback = data.cashback_amount;
+            cashbackData.selectedComplex = {
+                id: complexId,
+                name: complexSelect.options[complexSelect.selectedIndex].dataset.name,
+                rate: data.cashback_rate
+            };
+            
+            if (applyBtn) applyBtn.disabled = false;
+            
+        } catch (error) {
+            console.error('Error calculating cashback:', error);
+            resultDiv.textContent = 'Ошибка сети';
+            if (applyBtn) applyBtn.disabled = true;
+        }
+    }
+
+    // Open cashback application modal
+    function openCashbackModal() {
+        if (!cashbackData.selectedComplex || !cashbackData.currentCashback) {
+            alert('Сначала рассчитайте кешбек');
+            return;
+        }
+        
+        // Update modal content
+        const amountEl = document.getElementById('modal-cashback-amount');
+        const infoEl = document.getElementById('modal-complex-info');
+        
+        if (amountEl) {
+            amountEl.textContent = `${parseInt(cashbackData.currentCashback).toLocaleString('ru-RU')} ₽`;
+        }
+        if (infoEl) {
+            infoEl.textContent = `${cashbackData.selectedComplex.name} • ${cashbackData.selectedComplex.rate}% • ${parseInt(cashbackData.currentPrice).toLocaleString('ru-RU')} ₽`;
+        }
+        
+        // Show modal
+        const modal = document.getElementById('cashback-modal');
+        if (modal) modal.classList.remove('hidden');
+    }
+
+    // Close cashback modal
+    function closeCashbackModal() {
+        const modal = document.getElementById('cashback-modal');
+        if (modal) modal.classList.add('hidden');
+    }
+
+    // Submit cashback application
+    async function submitCashbackApplication(event) {
+        event.preventDefault();
+        
+        const name = document.getElementById('cashback-name')?.value.trim();
+        const phone = document.getElementById('cashback-phone')?.value.trim();
+        
+        if (!name || !phone) {
+            alert('Заполните все обязательные поля');
+            return;
+        }
+        
+        try {
+            const response = await fetch('/api/cashback/apply', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    price: cashbackData.currentPrice,
+                    complex_id: cashbackData.selectedComplex.id,
+                    complex_name: cashbackData.selectedComplex.name,
+                    cashback_amount: cashbackData.currentCashback,
+                    name: name,
+                    phone: phone
+                })
+            });
+
+            const data = await response.json();
+            
+            if (data.success) {
+                alert(data.message);
+                closeCashbackModal();
+                // Reset form
+                const form = document.getElementById('cashback-application-form');
+                if (form) form.reset();
+            } else {
+                alert(data.error || 'Ошибка при отправке заявки');
+            }
+            
+        } catch (error) {
+            console.error('Error submitting application:', error);
+            alert('Ошибка сети. Попробуйте еще раз.');
+        }
+    }
+
+    // Global functions for cashback modal
+    window.openCashbackModal = openCashbackModal;
+    window.closeCashbackModal = closeCashbackModal;
+
+    // Initialize cashback calculator on dashboard load
+    function initializeCashbackCalculator() {
+        loadResidentialComplexes();
+        
+        // Event listeners
+        const complexSelect = document.getElementById('cashback-complex');
+        const priceInput = document.getElementById('cashback-price');
+        const applyBtn = document.getElementById('apply-cashback-btn');
+        const form = document.getElementById('cashback-application-form');
+        
+        if (complexSelect) {
+            complexSelect.addEventListener('change', function() {
+                calculateCashback();
+                const rateInfo = document.getElementById('complex-rate-info');
+                if (rateInfo) {
+                    if (this.value) {
+                        const rate = this.options[this.selectedIndex].dataset.rate;
+                        rateInfo.textContent = `Ставка кешбека: ${rate}%`;
+                    } else {
+                        rateInfo.textContent = '';
+                    }
+                }
+            });
+        }
+        
+        if (priceInput) {
+            priceInput.addEventListener('input', calculateCashback);
+        }
+        
+        if (applyBtn) {
+            applyBtn.addEventListener('click', openCashbackModal);
+        }
+        
+        if (form) {
+            form.addEventListener('submit', submitCashbackApplication);
+        }
+    }
+
+    // Wait for all modules to load
+    let checkModules = setInterval(function() {
+        if (window.favoritesManager && window.savedSearchesManager) {
+            clearInterval(checkModules);
+            initializeDashboard();
+            initializeCashbackCalculator();
+        }
+    }, 100);
+    
+    // Fallback initialization after 3 seconds
+    setTimeout(function() {
+        if (checkModules) {
+            clearInterval(checkModules);
+            initializeDashboard();
+            initializeCashbackCalculator();
+        }
+    }, 3000);
+    
+    // Initialize comparison system without overwriting user data
+    console.log('Initializing comparison system...');
+    const currentComparisons = JSON.parse(localStorage.getItem('comparisons') || '[]');
+    console.log('Current comparison IDs:', currentComparisons);
+    
+    // Update counters without overwriting user data
+    if (typeof updateDashboardCounters === 'function') {
+        updateDashboardCounters();
+    }
+})();
+
+// Load user data functions for dashboard
+window.loadUserRecommendations = async function() {
+    try {
+        const response = await fetch('/api/user/recommendations');
+        const data = await response.json();
+        
+        if (data.success) {
+            console.log('Loaded recommendations:', data.recommendations.length);
+            updateRecommendationsDisplay(data.recommendations);
+            
+            // Update recommendations count badge
+            const countBadge = document.getElementById('recommendations-count');
+            if (countBadge && data.recommendations.length > 0) {
+                countBadge.textContent = data.recommendations.length;
+                countBadge.classList.remove('hidden');
+            }
+        }
+    } catch (error) {
+        console.error('Error loading recommendations:', error);
+    }
+};
+
+window.loadUserCollections = async function() {
+    try {
+        const response = await fetch('/api/user/collections');
+        const data = await response.json();
+        
+        if (data.success) {
+            console.log('Loaded collections:', data.collections.length);
+            updateCollectionsDisplay(data.collections);
+        }
+    } catch (error) {
+        console.error('Error loading collections:', error);
+    }
+};
+
+window.loadUserSavedSearches = async function() {
+    try {
+        const response = await fetch('/api/user/saved-searches');
+        const data = await response.json();
+        
+        if (data.success) {
+            console.log('Loaded saved searches:', data.searches.length);
+            updateSavedSearchesDisplay(data.searches);
+        }
+    } catch (error) {
+        console.error('Error loading saved searches:', error);
+    }
+};
+
+function updateRecommendationsDisplay(recommendations) {
+    // Update recommendations section with dynamic data
+    const recommendationsSection = document.getElementById('recommendations');
+    if (!recommendationsSection) return;
+    
+    // Find the recommendations list container
+    const listContainer = recommendationsSection.querySelector('.space-y-4, .grid');
+    if (!listContainer) return;
+    
+    // Clear existing dynamic items
+    const existingItems = listContainer.querySelectorAll('.recommendation-item');
+    existingItems.forEach(item => item.remove());
+    
+    // Add new recommendations
+    recommendations.forEach(rec => {
+        const recElement = createRecommendationCard(rec);
+        listContainer.appendChild(recElement);
+    });
+    
+    if (recommendations.length === 0) {
+        listContainer.innerHTML = '<div class="text-center py-8 text-gray-500">Новых рекомендаций нет</div>';
+    }
+}
+
+function createRecommendationCard(rec) {
+    const div = document.createElement('div');
+    div.className = 'recommendation-item bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow';
+    div.setAttribute('data-category-id', rec.category_id || '');
+    
+    const statusClass = rec.status === 'sent' ? 'bg-blue-100 text-blue-800' : 
+                       rec.status === 'viewed' ? 'bg-green-100 text-green-800' : 
+                       'bg-gray-100 text-gray-800';
+    
+    div.innerHTML = `
+        <div class="flex justify-between items-start mb-4">
+            <div class="flex-1">
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">${rec.title}</h3>
+                <p class="text-gray-600 mb-3">${rec.description}</p>
+                <div class="flex items-center space-x-4 text-sm text-gray-500">
+                    <span>От: ${rec.manager_name || 'Менеджер'}</span>
+                    <span>${rec.created_at}</span>
+                </div>
+            </div>
+            <div class="flex flex-col items-end space-y-2">
+                <span class="px-3 py-1 ${statusClass} text-xs font-medium rounded-full">
+                    ${rec.status === 'sent' ? 'Отправлено' : rec.status === 'viewed' ? 'Просмотрено' : 'Новое'}
+                </span>
+            </div>
+        </div>
+        <div class="flex justify-between items-center">
+            <div class="space-x-3">
+                ${rec.recommendation_type === 'property' ? 
+                    `<button onclick="viewProperty(${rec.item_id})" class="px-4 py-2 bg-[#0088CC] text-white rounded-lg hover:bg-[#006699] transition-colors text-sm">
+                        Посмотреть объект
+                    </button>` :
+                    `<button onclick="applySearchRecommendation(${rec.item_id})" class="px-4 py-2 bg-[#0088CC] text-white rounded-lg hover:bg-[#006699] transition-colors text-sm">
+                        Применить поиск
+                    </button>`
+                }
+            </div>
+            <button onclick="hideRecommendation(${rec.id})" class="text-gray-400 hover:text-red-600 transition-colors" title="Скрыть">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    `;
+    
+    return div;
+}
+
+function updateCollectionsDisplay(collections) {
+    // Add collections display if there's a section for it
+    console.log('Collections loaded but no display section found yet');
+}
+
+function updateSavedSearchesDisplay(searches) {
+    // Update saved searches display
+    const savedSearchesSection = document.getElementById('saved-searches');
+    if (!savedSearchesSection) return;
+    
+    const searchesContainer = savedSearchesSection.querySelector('.space-y-4, .grid');
+    if (!searchesContainer) return;
+    
+    // Clear existing items
+    const existingItems = searchesContainer.querySelectorAll('.search-item');
+    existingItems.forEach(item => item.remove());
+    
+    // Add searches
+    searches.forEach(search => {
+        const searchElement = createSavedSearchCard(search);
+        searchesContainer.appendChild(searchElement);
+    });
+    
+    if (searches.length === 0) {
+        searchesContainer.innerHTML = '<div class="text-center py-8 text-gray-500">Сохраненных поисков нет</div>';
+    }
+}
+
+function createSavedSearchCard(search) {
+    const div = document.createElement('div');
+    div.className = 'search-item bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow';
+    
+    div.innerHTML = `
+        <div class="flex justify-between items-start">
+            <div class="flex-1">
+                <h3 class="font-semibold text-gray-900 mb-2">${search.name || 'Поиск'}</h3>
+                <div class="text-sm text-gray-600 space-y-1">
+                    ${search.filters ? Object.entries(search.filters).map(([key, value]) => 
+                        value ? `<div><span class="font-medium">${getFilterLabel(key)}:</span> ${value}</div>` : ''
+                    ).join('') : ''}
+                </div>
+                <div class="text-xs text-gray-400 mt-2">Создан: ${search.created_at}</div>
+            </div>
+            <div class="flex space-x-2">
+                <button onclick="applySavedSearch(${search.id})" class="px-3 py-1 bg-[#0088CC] text-white text-sm rounded hover:bg-[#006699] transition-colors">
+                    Применить
+                </button>
+                <button onclick="deleteSavedSearch(${search.id})" class="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 transition-colors">
+                    Удалить
+                </button>
+            </div>
+        </div>
+    `;
+    
+    return div;
+}
+
+function getFilterLabel(key) {
+    const labels = {
+        'district': 'Район',
+        'developer': 'Застройщик', 
+        'rooms': 'Комнаты',
+        'price_min': 'Цена от',
+        'price_max': 'Цена до',
+        'area_min': 'Площадь от',
+        'area_max': 'Площадь до'
+    };
+    return labels[key] || key;
+}
+
+// Load data when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    // Load user data after a short delay
+    setTimeout(() => {
+        if (typeof loadUserRecommendations === 'function') loadUserRecommendations();
+        if (typeof loadUserCollections === 'function') loadUserCollections(); 
+        if (typeof loadUserSavedSearches === 'function') loadUserSavedSearches();
+        
+        // Load data management stats if on that tab
+        if (document.getElementById('data-management')) {
+            loadDataStats();
+        }
+    }, 1500);
+});
+
+// ========== DATA MANAGEMENT FUNCTIONS ==========
+
+// Load current data statistics
+function loadDataStats() {
+    fetch('/admin/data-stats')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.querySelector('#data-stats-properties .text-2xl').textContent = data.properties;
+                document.querySelector('#data-stats-complexes .text-2xl').textContent = data.complexes;
+                document.querySelector('#data-stats-developers .text-2xl').textContent = data.developers;
+                document.querySelector('#data-stats-columns .text-2xl').textContent = data.columns;
+            }
+        })
+        .catch(error => console.error('Error loading stats:', error));
+}
+
+// Excel file upload functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const uploadForm = document.getElementById('excel-upload-form');
+    const fileInput = document.getElementById('excel-file');
+    const uploadArea = document.getElementById('upload-area');
+    const progressDiv = document.getElementById('upload-progress');
+    const progressBar = document.getElementById('progress-bar');
+    const progressPercent = document.getElementById('progress-percent');
+    const uploadBtn = document.getElementById('upload-btn');
+    
+    if (!uploadForm) return; // Not on data management page
+    
+    // Drag and drop functionality
+    uploadArea.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        uploadArea.classList.add('border-purple-400', 'bg-purple-50');
+    });
+    
+    uploadArea.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        uploadArea.classList.remove('border-purple-400', 'bg-purple-50');
+    });
+    
+    uploadArea.addEventListener('drop', function(e) {
+        e.preventDefault();
+        uploadArea.classList.remove('border-purple-400', 'bg-purple-50');
+        
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            fileInput.files = files;
+            uploadArea.querySelector('span').textContent = files[0].name;
+        }
+    });
+    
+    // File input change
+    fileInput.addEventListener('change', function(e) {
+        if (e.target.files.length > 0) {
+            uploadArea.querySelector('span').textContent = e.target.files[0].name;
+        }
+    });
+    
+    // Form submission
+    uploadForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        if (!fileInput.files.length) {
+            alert('Пожалуйста, выберите файл для загрузки');
+            return;
+        }
+        
+        const formData = new FormData();
+        formData.append('excel_file', fileInput.files[0]);
+        formData.append('replace_data', document.getElementById('replace-data').checked);
+        formData.append('auto_sync', document.getElementById('auto-sync').checked);
+        
+        // Show progress
+        progressDiv.classList.remove('hidden');
+        uploadBtn.disabled = true;
+        uploadBtn.querySelector('span').innerHTML = `
+            <svg class="w-5 h-5 mr-2 animate-spin" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M4 2a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2H4z"/>
+            </svg>
+            Обрабатывается...
+        `;
+        
+        // Simulate progress
+        let progress = 0;
+        const progressInterval = setInterval(() => {
+            progress += Math.random() * 20;
+            if (progress > 90) progress = 90;
+            progressBar.style.width = progress + '%';
+            progressPercent.textContent = Math.round(progress) + '%';
+        }, 500);
+        
+        fetch('/admin/upload-excel', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            clearInterval(progressInterval);
+            progressBar.style.width = '100%';
+            progressPercent.textContent = '100%';
+            
+            setTimeout(() => {
+                progressDiv.classList.add('hidden');
+                uploadBtn.disabled = false;
+                uploadBtn.querySelector('span').innerHTML = `
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                    </svg>
+                    Загрузить и обработать
+                `;
+                
+                // Show results
+                showUploadResults(data);
+                
+                // Reload stats
+                loadDataStats();
+                
+                // Reset form
+                uploadForm.reset();
+                uploadArea.querySelector('span').textContent = 'Перетащите Excel файл сюда или выберите файл';
+                
+            }, 1000);
+        })
+        .catch(error => {
+            clearInterval(progressInterval);
+            console.error('Upload error:', error);
+            
+            progressDiv.classList.add('hidden');
+            uploadBtn.disabled = false;
+            uploadBtn.querySelector('span').innerHTML = `
+                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                </svg>
+                Загрузить и обработать
+            `;
+            
+            showUploadResults({success: false, error: 'Ошибка загрузки файла'});
+        });
+    });
+});
+
+// Testing functions
+function runFullSystemTest() {
+    runTest('/admin/test-system', 'Полная проверка системы');
+}
+
+function testColumnMapping() {
+    runTest('/admin/test-columns', 'Проверка 77 колонок Excel');
+}
+
+function testNewDataCreation() {
+    runTest('/admin/test-new-data', 'Тест создания новых данных');
+}
+
+function validateDataIntegrity() {
+    runTest('/admin/test-system', 'Проверка целостности данных');
+}
+
+function runTest(endpoint, testName) {
+    const testResults = document.getElementById('test-results');
+    const testLog = document.getElementById('test-log');
+    
+    // Show test area
+    testResults.classList.remove('hidden');
+    testLog.textContent = `🔄 Запуск теста: ${testName}\n\nОжидайте результатов...`;
+    
+    // Scroll to results
+    testResults.scrollIntoView({ behavior: 'smooth' });
+    
+    fetch(endpoint, { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+            let result = `✅ ТЕСТ ЗАВЕРШЕН: ${testName}\n`;
+            result += `═════════════════════════════════════════\n\n`;
+            
+            if (data.success) {
+                result += `✅ РЕЗУЛЬТАТ: УСПЕШНО\n\n`;
+                result += `📋 ДЕТАЛИ:\n${data.output}`;
+            } else {
+                result += `❌ РЕЗУЛЬТАТ: ОШИБКА\n\n`;
+                result += `📋 ДЕТАЛИ:\n${data.error || data.output}`;
+            }
+            
+            testLog.textContent = result;
+            
+            // Reload stats after test
+            loadDataStats();
+        })
+        .catch(error => {
+            testLog.textContent = `❌ ОШИБКА ВЫПОЛНЕНИЯ ТЕСТА: ${testName}\n\nОшибка: ${error.message}`;
+        });
+}
+
+function showUploadResults(data) {
+    const uploadResults = document.getElementById('upload-results');
+    const uploadLog = document.getElementById('upload-log');
+    
+    uploadResults.classList.remove('hidden');
+    
+    if (data.success) {
+        uploadLog.innerHTML = `
+            <div class="flex items-center mb-3">
+                <svg class="w-6 h-6 text-green-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                <h4 class="text-lg font-semibold text-green-800">Файл успешно загружен!</h4>
+            </div>
+            <p class="text-gray-700">${data.message}</p>
+        `;
+    } else {
+        uploadLog.innerHTML = `
+            <div class="flex items-center mb-3">
+                <svg class="w-6 h-6 text-red-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                </svg>
+                <h4 class="text-lg font-semibold text-red-800">Ошибка загрузки</h4>
+            </div>
+            <p class="text-gray-700">${data.error}</p>
+        `;
+    }
+    
+    // Scroll to results
+    uploadResults.scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
+<!-- Load comparison functionality -->
+<script src="/static/js/comparison.js"></script>
+{% endblock %}

@@ -1,0 +1,266 @@
+{% extends "manager/base.html" %}
+
+{% block title %}Создать подборку - Менеджер | InBack{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">Создать подборку недвижимости</h1>
+                    <p class="mt-2 text-gray-600">Подберите идеальные варианты для вашего клиента</p>
+                </div>
+                <a href="{{ url_for('manager_dashboard') }}" 
+                   class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-colors">
+                    <i class="fas fa-arrow-left mr-2"></i>Назад в кабинет
+                </a>
+            </div>
+        </div>
+
+        <form id="collection-form" method="POST" class="space-y-8">
+            <!-- Basic Info -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6">Основная информация</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="md:col-span-2">
+                        <label for="title" class="block text-sm font-medium text-gray-700 mb-2">
+                            Название подборки <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" id="title" name="title" required
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent"
+                               placeholder="Например: Семейные квартиры в Центре">
+                    </div>
+                    
+                    <div class="md:col-span-2">
+                        <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Описание</label>
+                        <textarea id="description" name="description" rows="3"
+                                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent"
+                                  placeholder="Краткое описание подборки и критериев отбора"></textarea>
+                    </div>
+                    
+                    <div>
+                        <label for="assigned_to_user_id" class="block text-sm font-medium text-gray-700 mb-2">
+                            Клиент <span class="text-red-500">*</span>
+                        </label>
+                        <select id="assigned_to_user_id" name="assigned_to_user_id" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent">
+                            <option value="">Выберите клиента</option>
+                            {% for client in clients %}
+                            <option value="{{ client.id }}">{{ client.first_name }} {{ client.last_name }} ({{ client.email }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="tags" class="block text-sm font-medium text-gray-700 mb-2">Теги</label>
+                        <input type="text" id="tags" name="tags"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent"
+                               placeholder="семейная, премиум, инвестиция (через запятую)">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Property Search & Selection -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6">Выбор недвижимости</h2>
+                
+                <!-- Search Filters -->
+                <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Фильтры поиска</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Цена от</label>
+                            <input type="number" id="min_price" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded text-sm"
+                                   placeholder="0">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Цена до</label>
+                            <input type="number" id="max_price" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded text-sm"
+                                   placeholder="∞">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Комнат</label>
+                            <select id="rooms" class="w-full px-3 py-2 border border-gray-300 rounded text-sm">
+                                <option value="">Любое количество</option>
+                                <option value="1">1 комната</option>
+                                <option value="2">2 комнаты</option>
+                                <option value="3">3 комнаты</option>
+                                <option value="4">4+ комнат</option>
+                            </select>
+                        </div>
+                        <div>
+                            <button type="button" id="search-properties" 
+                                    class="w-full bg-[#059669] hover:bg-[#047857] text-white px-4 py-2 rounded font-medium mt-6">
+                                <i class="fas fa-search mr-2"></i>Найти
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search Results -->
+                <div id="search-results" class="mb-6">
+                    <div class="text-center py-8 text-gray-500">
+                        <i class="fas fa-search text-3xl mb-4"></i>
+                        <p>Используйте фильтры выше для поиска недвижимости</p>
+                    </div>
+                </div>
+
+                <!-- Selected Properties -->
+                <div id="selected-properties" class="border-t border-gray-200 pt-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Выбранная недвижимость</h3>
+                    <div id="selected-list" class="space-y-4">
+                        <div class="text-center py-8 text-gray-500">
+                            <i class="fas fa-plus-circle text-3xl mb-4"></i>
+                            <p>Недвижимость не выбрана. Найдите и добавьте объекты выше.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex items-center justify-between">
+                <div class="flex space-x-4">
+                    <button type="submit" name="action" value="save_draft"
+                            class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+                        <i class="fas fa-save mr-2"></i>Сохранить черновик
+                    </button>
+                    <button type="submit" name="action" value="send"
+                            class="bg-[#059669] hover:bg-[#047857] text-white px-6 py-3 rounded-lg font-medium transition-colors">
+                        <i class="fas fa-paper-plane mr-2"></i>Отправить клиенту
+                    </button>
+                </div>
+                <a href="{{ url_for('manager_dashboard') }}" 
+                   class="text-gray-600 hover:text-gray-800 font-medium">
+                    Отменить
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+let selectedProperties = [];
+
+document.getElementById('search-properties').addEventListener('click', async function() {
+    const minPrice = document.getElementById('min_price').value;
+    const maxPrice = document.getElementById('max_price').value;
+    const rooms = document.getElementById('rooms').value;
+    
+    const resultsDiv = document.getElementById('search-results');
+    resultsDiv.innerHTML = '<div class="text-center py-8"><i class="fas fa-spinner fa-spin text-2xl text-[#059669]"></i><p class="mt-2 text-gray-600">Поиск недвижимости...</p></div>';
+    
+    try {
+        const response = await fetch('/manager/search-properties', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                min_price: minPrice || null,
+                max_price: maxPrice || null,
+                rooms: rooms || null
+            })
+        });
+        
+        const data = await response.json();
+        displaySearchResults(data.properties || []);
+    } catch (error) {
+        resultsDiv.innerHTML = '<div class="text-center py-8 text-red-500"><i class="fas fa-exclamation-triangle text-2xl"></i><p class="mt-2">Ошибка поиска</p></div>';
+    }
+});
+
+function displaySearchResults(properties) {
+    const resultsDiv = document.getElementById('search-results');
+    
+    if (properties.length === 0) {
+        resultsDiv.innerHTML = '<div class="text-center py-8 text-gray-500"><i class="fas fa-home text-3xl mb-4"></i><p>Недвижимость не найдена. Попробуйте изменить фильтры.</p></div>';
+        return;
+    }
+    
+    let html = '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">';
+    
+    properties.forEach(property => {
+        const isSelected = selectedProperties.some(p => p.id === property.id);
+        html += `
+            <div class="border border-gray-200 rounded-lg p-4 ${isSelected ? 'bg-blue-50 border-blue-300' : 'bg-white'}">
+                <h4 class="font-medium text-gray-900 mb-2">${property.title}</h4>
+                <p class="text-sm text-gray-600 mb-2">${property.complex_name}</p>
+                <div class="flex justify-between items-center mb-3">
+                    <span class="text-lg font-bold text-gray-900">${property.price.toLocaleString()} ₽</span>
+                    <span class="text-sm text-gray-500">${property.size}м²</span>
+                </div>
+                <button type="button" onclick="toggleProperty(${JSON.stringify(property).replace(/"/g, '&quot;')})" 
+                        class="w-full py-2 px-4 rounded font-medium ${isSelected ? 'bg-red-600 hover:bg-red-700 text-white' : 'bg-[#059669] hover:bg-[#047857] text-white'}">
+                    ${isSelected ? 'Удалить' : 'Добавить'}
+                </button>
+            </div>
+        `;
+    });
+    
+    html += '</div>';
+    resultsDiv.innerHTML = html;
+}
+
+function toggleProperty(property) {
+    const index = selectedProperties.findIndex(p => p.id === property.id);
+    
+    if (index > -1) {
+        selectedProperties.splice(index, 1);
+    } else {
+        selectedProperties.push(property);
+    }
+    
+    updateSelectedProperties();
+    // Refresh search results to update button states
+    document.getElementById('search-properties').click();
+}
+
+function updateSelectedProperties() {
+    const selectedList = document.getElementById('selected-list');
+    
+    if (selectedProperties.length === 0) {
+        selectedList.innerHTML = '<div class="text-center py-8 text-gray-500"><i class="fas fa-plus-circle text-3xl mb-4"></i><p>Недвижимость не выбрана. Найдите и добавьте объекты выше.</p></div>';
+        return;
+    }
+    
+    let html = '';
+    selectedProperties.forEach((property, index) => {
+        html += `
+            <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg bg-white">
+                <div class="flex-1">
+                    <h4 class="font-medium text-gray-900">${property.title}</h4>
+                    <p class="text-sm text-gray-600">${property.complex_name}</p>
+                    <div class="mt-2">
+                        <span class="text-lg font-bold text-gray-900">${property.price.toLocaleString()} ₽</span>
+                        <span class="text-sm text-gray-500 ml-4">${property.size}м²</span>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <input type="hidden" name="property_ids[]" value="${property.id}">
+                    <input type="text" name="property_notes[]" placeholder="Комментарий к объекту..." 
+                           class="px-3 py-2 border border-gray-300 rounded text-sm w-64">
+                    <button type="button" onclick="removeProperty(${index})" 
+                            class="text-[#059669] hover:text-red-800 p-2">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+    });
+    
+    selectedList.innerHTML = html;
+}
+
+function removeProperty(index) {
+    selectedProperties.splice(index, 1);
+    updateSelectedProperties();
+    // Refresh search results to update button states
+    document.getElementById('search-properties').click();
+}
+</script>
+{% endblock %}

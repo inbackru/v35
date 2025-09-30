@@ -1,0 +1,368 @@
+<!-- Beautiful Filter Categories (Based on Screenshot) -->
+<div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+    <!-- Action Buttons -->
+    <div class="flex justify-between items-center mb-6">
+        <button id="clearAllFilters" class="text-gray-600 hover:text-gray-800 text-sm">
+            Сбросить всё
+        </button>
+        <button onclick="toggleAdvancedFilters()" class="text-gray-600 hover:text-gray-800 text-sm">
+            Свернуть
+        </button>
+    </div>
+    
+    <!-- Filter Categories -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        
+        <!-- Расположение Column -->
+        <div class="space-y-3">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Расположение</h3>
+            
+            <button class="filter-option-btn w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="district">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    <span class="text-gray-700">Регион</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">New</span>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="distance">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <span class="text-gray-700">До центра</span>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="registration">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    <span class="text-gray-700">Прописка</span>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="nearby">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                    </svg>
+                    <span class="text-gray-700">Места рядом (2 км)</span>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="windows">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    <span class="text-gray-700">Вид из окон</span>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="views">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                    </svg>
+                    <span class="text-gray-700">Видовые квартиры</span>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="sides">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                    </svg>
+                    <span class="text-gray-700">Стороны света</span>
+                </div>
+            </button>
+        </div>
+
+        <!-- Дом Column -->
+        <div class="space-y-3">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Дом</h3>
+            
+            <button class="filter-option-btn w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="type">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                    </svg>
+                    <span class="text-gray-700">Тип недвижимости • 4</span>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="class">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                    </svg>
+                    <span class="text-gray-700">Класс недвижимости</span>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="material">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                    </svg>
+                    <span class="text-gray-700">Материал стен</span>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="floors">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                    </svg>
+                    <span class="text-gray-700">Этажей в доме</span>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="view">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    <span class="text-gray-700">Вид из окна</span>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="apartments">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                    </svg>
+                    <span class="text-gray-700">Апартаменты</span>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="sell-start">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                    </svg>
+                    <span class="text-gray-700">Старт продаж</span>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="keys">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+                    </svg>
+                    <span class="text-gray-700">Ключи</span>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="parking">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                    </svg>
+                    <span class="text-gray-700">Паркинг</span>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="elevator">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                    </svg>
+                    <span class="text-gray-700">Лифт</span>
+                </div>
+            </button>
+        </div>
+
+        <!-- Квартира Column -->
+        <div class="space-y-3">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Квартира</h3>
+            
+            <button class="filter-option-btn w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="floor">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                    </svg>
+                    <span class="text-gray-700">Этаж</span>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="finishing">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                    </svg>
+                    <span class="text-gray-700">Отделка</span>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="s-suite">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4a1 1 0 011-1h4m-6 9v8a1 1 0 001 1h4m-6-9a8 8 0 0116 0M9 5a2 2 0 012-2h2a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V5z"/>
+                    </svg>
+                    <span class="text-gray-700">S приведенная</span>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="s-kitchen">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4a1 1 0 011-1h4m-6 9v8a1 1 0 001 1h4m-6-9a8 8 0 0116 0M9 5a2 2 0 012-2h2a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V5z"/>
+                    </svg>
+                    <span class="text-gray-700">S кухни</span>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="s-balcony">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4a1 1 0 011-1h4m-6 9v8a1 1 0 001 1h4m-6-9a8 8 0 0116 0M9 5a2 2 0 012-2h2a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V5z"/>
+                    </svg>
+                    <span class="text-gray-700">S балкона</span>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="s-loggia">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4a1 1 0 011-1h4m-6 9v8a1 1 0 001 1h4m-6-9a8 8 0 0116 0M9 5a2 2 0 012-2h2a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V5z"/>
+                    </svg>
+                    <span class="text-gray-700">S санузла</span>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="toilet-type">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4a1 1 0 011-1h4m-6 9v8a1 1 0 001 1h4m-6-9a8 8 0 0116 0M9 5a2 2 0 012-2h2a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V5z"/>
+                    </svg>
+                    <span class="text-gray-700">Санузел</span>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="ceiling-height">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/>
+                    </svg>
+                    <span class="text-gray-700">Высота потолков</span>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="balcony-type">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4a1 1 0 011-1h4m-6 9v8a1 1 0 001 1h4m-6-9a8 8 0 0116 0M9 5a2 2 0 012-2h2a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V5z"/>
+                    </svg>
+                    <span class="text-gray-700">Тип балкона</span>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="windows">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4a1 1 0 011-1h4m-6 9v8a1 1 0 001 1h4m-6-9a8 8 0 0116 0M9 5a2 2 0 012-2h2a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V5z"/>
+                    </svg>
+                    <span class="text-gray-700">Окна</span>
+                </div>
+            </button>
+        </div>
+
+        <!-- Оплата и документы Column -->
+        <div class="space-y-3">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Оплата и документы</h3>
+            
+            <button class="filter-option-btn w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="payment-methods">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                    </svg>
+                    <span class="text-gray-700">Способы оплаты</span>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="developer-pv">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    <span class="text-gray-700">ПВ от застройщика</span>
+                </div>
+                <div class="relative">
+                    <input type="checkbox" class="w-5 h-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"/>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="mortgage-types">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+                    </svg>
+                    <span class="text-gray-700">Виды ипотеки</span>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="banks">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                    </svg>
+                    <span class="text-gray-700">Банки</span>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="contract">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    <span class="text-gray-700">Договор</span>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="escrow">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                    </svg>
+                    <span class="text-gray-700">Эскроу</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">New</span>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="investment-growth">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                    </svg>
+                    <span class="text-gray-700">Инвестиционный рост цены</span>
+                </div>
+            </button>
+            
+            <button class="filter-option-btn w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" data-filter="show-reserved">
+                <div class="flex items-center gap-3">
+                    <span class="text-gray-700">Показать 1 295 броней</span>
+                </div>
+                <div class="relative">
+                    <input type="checkbox" class="w-5 h-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"/>
+                </div>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Bottom Action Button -->
+    <div class="mt-8 flex justify-end">
+        <button class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-lg font-medium text-lg">
+            70 207 квартир в 244 ЖК
+        </button>
+    </div>
+</div>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ street.name }} - новостройки с кэшбеком до 500 000 ₽ | InBack</title>
+    <meta name="description" content="Новостройки на улице {{ street.name }} в {{ street.district }}, Краснодар. Кэшбек до 500 000 рублей при покупке квартиры. Новые варианты от проверенных застройщиков.">
+    <meta name="keywords" content="{{ street.name }}, новостройки {{ street.name }}, квартиры {{ street.name }}, кэшбек {{ street.name }}, InBack">
+    
+    <!-- CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+    
+    <!-- Yandex Maps API -->
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey={{ yandex_api_key }}" type="text/javascript"></script>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    {% include 'header.html' %}
+
+    <!-- Breadcrumbs -->
+    <div class="container mx-auto px-4 py-3 text-sm">
+        <nav class="flex" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                <li class="inline-flex items-center">
+                    <a href="{{ url_for('index') }}" class="text-[#0088CC] hover:underline inline-flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+                        Главная
+                    </a>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                        <a href="{{ url_for('streets') }}" class="text-[#0088CC] hover:underline ml-1 md:ml-2">Улицы Краснодара</a>
+                    </div>
+                </li>
+                <li aria-current="page">
+                    <div class="flex items-center">
+                        <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                        <span class="text-gray-500 ml-1 md:ml-2">{{ street.name }}</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Hero Section -->
+        <div class="bg-white rounded-lg shadow-sm p-8 mb-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h1 class="text-4xl font-bold text-gray-800 mb-4">Новостройки на улице {{ street.name }}</h1>
+                    <p class="text-xl text-gray-600 mb-6">{{ street.name }}, Краснодар</p>
+                    
+                    
+                    <a href="{{ url_for('properties', street=street.name) }}" 
+                       class="inline-flex items-center px-6 py-3 bg-[#0088CC] text-white font-semibold rounded-lg hover:bg-[#006699] transition-colors">
+                        Смотреть все квартиры
+                        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+                
+                <!-- Yandex Map -->
+                <div class="h-80 rounded-lg overflow-hidden shadow-sm border">
+                    <div id="streetMap" class="w-full h-full bg-gray-100 flex items-center justify-center">
+                        <div class="text-center text-gray-600">
+                            <i class="fas fa-map-marker-alt text-4xl mb-2"></i>
+                            <p class="text-sm">{{ street.name }}</p>
+                            <p class="text-xs text-gray-500">{{ street.name }}, Краснодар</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEO Description -->
+        <section class="bg-white rounded-lg shadow-sm p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">О улице {{ street.name }}</h2>
+            
+            <div class="prose max-w-none text-gray-700">
+                <p class="text-lg mb-4">
+                    Купить квартиру в новостройке на улице {{ street.name }} в Краснодаре – это выгодное и надежное вложение. Мы предлагаем уникальную возможность получить кэшбек до 500 000 рублей при покупке недвижимости от застройщика.
+                </p>
+                
+                <p class="mb-4">
+                    Новостройки на {{ street.name }} в {{ street.district }} представлены современными жилыми комплексами от надежных застройщиков. Все квартиры продаются по ценам застройщиков без переплат, а вы получаете гарантированный кэшбек от InBack.
+                </p>
+                
+                <p class="mb-6">
+                    <strong>Почему стоит купить квартиру на {{ street.name }}:</strong> это перспективный район с развитой инфраструктурой, хорошей транспортной доступностью и высоким инвестиционным потенциалом. Кроме того, покупка новостройки дает возможность получить квартиру с современной планировкой и качественным ремонтом.
+                </p>
+
+                <h3 class="text-xl font-semibold mt-6 mb-4">Ключевые преимущества покупки квартиры на {{ street.name }}</h3>
+                <ul class="list-disc pl-6 space-y-3">
+                    <li><strong>Кэшбек до 500 000 рублей</strong> – официальная возможность сэкономить при покупке</li>
+                    <li><strong>Цены от застройщиков</strong> – никаких переплат и комиссий</li>
+                    <li><strong>Проверенные жК</strong> – только надежные застройщики Краснодара</li>
+                    <li><strong>Удобное расположение</strong> – район {{ street.district }} с развитой инфраструктурой</li>
+                    <li><strong>Полное оформление</strong> – помогаем с документами и регистрацией</li>
+                    <li><strong>Ипотека</strong> – помощь в оформлении льготных кредитов</li>
+                </ul>
+
+                <h3 class="text-xl font-semibold mt-6 mb-4">Инфраструктура и расположение</h3>
+                <p class="mb-4">
+                    Квартиры на {{ street.name }} в {{ street.district }} пользуются высоким спросом благодаря развитой социальной и транспортной инфраструктуре. Рядом находятся:
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <ul class="list-disc pl-6 space-y-2">
+                        <li><strong>Образование:</strong> школы, детские сады, вузы</li>
+                        <li><strong>Медицина:</strong> поликлиники, стоматологии</li>
+                        <li><strong>Торговля:</strong> супермаркеты, ТЦ, рынки</li>
+                    </ul>
+                    <ul class="list-disc pl-6 space-y-2">
+                        <li><strong>Отдых:</strong> парки, скверы, спорткомплексы</li>
+                        <li><strong>Транспорт:</strong> остановки, маршруты, магистрали</li>
+                        <li><strong>Работа:</strong> бизнес-центры, офисы</li>
+                    </ul>
+                </div>
+
+                <div class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-6 mt-6 border border-blue-200">
+                    <h4 class="text-lg font-semibold text-[#0088CC] mb-3">Кэшбек до 500 000 ₽ при покупке квартиры</h4>
+                    <p class="text-gray-700 mb-4">
+                        <strong>InBack.ru</strong> – официальный партнер застройщиков Краснодара. Мы возвращаем часть комиссии от застройщика напрямую покупателю. Кэшбек гарантирован договором.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <a href="{{ url_for('properties', street=street.name) }}" 
+                           class="inline-flex items-center justify-center px-4 py-2 bg-[#0088CC] text-white font-semibold rounded-lg hover:bg-[#006699] transition-colors">
+                            Посмотреть квартиры
+                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                        <a href="tel:+78612345678" 
+                           class="inline-flex items-center justify-center px-4 py-2 border-2 border-[#0088CC] text-[#0088CC] font-semibold rounded-lg hover:bg-[#0088CC] hover:text-white transition-colors">
+                            Получить консультацию
+                            <svg class="w-4 h-4 ml-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Properties Section -->
+        {% if properties %}
+        <section class="bg-white rounded-lg shadow-sm p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Доступные квартиры на {{ street.name }}</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for property in properties[:6] %}
+                <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
+                    <div class="h-48 bg-gray-200 relative">
+                        <img src="https://via.placeholder.com/400x300/f0f0f0/999999?text=Фото+квартиры" 
+                             alt="{{ property.complex_name }}" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute top-3 right-3 bg-green-500 text-white px-2 py-1 rounded text-sm font-semibold">
+                            {{ property.rooms }}-комн.
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-gray-800 mb-2">{{ property.complex_name }}</h3>
+                        <p class="text-sm text-gray-600 mb-3">{{ property.location }}</p>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-lg font-bold text-[#0088CC]">{{ "{:,}".format(property.price).replace(',', ' ') }} ₽</span>
+                            <span class="text-sm text-gray-500">{{ property.area }} м²</span>
+                        </div>
+                        <div class="text-sm text-green-600 font-semibold mb-3">
+                            Кэшбек: {{ "{:,}".format(property.price // 20).replace(',', ' ') }} ₽
+                        </div>
+                        <a href="{{ url_for('property_detail', property_id=property.id) }}" 
+                           class="block w-full text-center bg-[#0088CC] text-white py-2 rounded hover:bg-[#006699] transition-colors">
+                            Подробнее
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            {% if properties|length > 6 %}
+            <div class="text-center mt-6">
+                <a href="{{ url_for('properties', street=street.name) }}" 
+                   class="inline-flex items-center px-6 py-3 bg-[#0088CC] text-white font-semibold rounded-lg hover:bg-[#006699] transition-colors">
+                    Смотреть все {{ properties|length }} квартир
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+            {% endif %}
+        </section>
+        {% endif %}
+
+        <!-- Additional Info -->
+        <section class="bg-white rounded-lg shadow-sm p-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Почему стоит купить квартиру в Краснодаре</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 text-[#0088CC]">Инвестиционная привлекательность</h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li>• Рост цен на недвижимость 8-12% в год</li>
+                        <li>• Высокий спрос на аренду</li>
+                        <li>• Развивающаяся инфраструктура</li>
+                        <li>• Приток населения в регион</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 text-[#0088CC]">Качество жизни</h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li>• Мягкий климат и экология</li>
+                        <li>• Близость к морю (50 км)</li>
+                        <li>• Крупные парки и зоны отдыха</li>
+                        <li>• Развитая социальная сфера</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-8 p-6 bg-gray-50 rounded-lg">
+                <p class="text-gray-700 text-center">
+                    <strong>Купить квартиру на {{ street.name }}</strong> – это надежная инвестиция в будущее с гарантированным кэшбеком от InBack.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+
+    <!-- Yandex Maps Script -->
+    <script>
+        // Initialize Yandex Map
+        ymaps.ready(function() {
+            // Street coordinates (default to Krasnodar center if not available)
+            const lat = {% if coordinates and coordinates.lat %}{{ coordinates.lat }}{% else %}45.0355{% endif %};
+            const lng = {% if coordinates and coordinates.lng %}{{ coordinates.lng }}{% else %}38.9755{% endif %};
+            
+            // Create map
+            const streetMap = new ymaps.Map('streetMap', {
+                center: [lat, lng],
+                zoom: 15,
+                controls: ['zoomControl', 'fullscreenControl']
+            });
+            
+            // Add placemark for the street
+            const placemark = new ymaps.Placemark(
+                [lat, lng],
+                {
+                    balloonContent: `
+                        <div style="padding: 10px; text-align: center;">
+                            <h3 style="margin: 0 0 5px 0; font-weight: bold;">{{ street.name }}</h3>
+                            <p style="margin: 0 0 5px 0; color: #666;">{{ street.name }}, Краснодар</p>
+                            <p style="margin: 0; color: #0088CC; font-weight: bold;">Новостройки с кэшбеком</p>
+                        </div>
+                    `,
+                    hintContent: '{{ street.name }}'
+                },
+                {
+                    preset: 'islands#redDotIcon',
+                    iconColor: '#0088CC'
+                }
+            );
+            
+            streetMap.geoObjects.add(placemark);
+            
+            // Open balloon by default
+            placemark.balloon.open();
+        });
+    </script>
+</body>
+</html>

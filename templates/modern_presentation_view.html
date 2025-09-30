@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ presentation.title }} - Современная презентация недвижимости InBack</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Подборка недвижимости {{ presentation.title }} для {{ presentation.client_name or 'клиента' }} от агентства InBack - лучшие предложения с кешбеком">
+    <meta name="keywords" content="недвижимость, {{ presentation.complex_name or 'новостройки' }}, {{ presentation.developer_name or 'застройщик' }}, кешбек">
+    <meta property="og:title" content="{{ presentation.title }} - Презентация недвижимости">
+    <meta property="og:description" content="Эксклюзивная подборка недвижимости от InBack с выгодным кешбеком">
+    <meta property="og:type" content="website">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Leaflet CSS and JS for maps -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Custom Styles -->
+    <style>
+        :root {
+            --primary-gray: #6b7280;
+            --secondary-gray: #9ca3af;
+            --light-gray: #f3f4f6;
+            --dark-gray: #374151;
+            --accent-gray: #e5e7eb;
+        }
+        
+        body { font-family: 'Inter', sans-serif; }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+        
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+        
+        .card-shadow:hover {
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .property-card {
+            border: 1px solid var(--accent-gray);
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        
+        .price-badge {
+            background: linear-gradient(135deg, var(--dark-gray), var(--primary-gray));
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        /* Simple image hover effect */
+        .property-card img:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--accent-gray);
+        }
+        
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--accent-gray), transparent);
+        }
+        
+        /* Photo Slideshow Styles */
+        .photo-slider {
+            position: relative;
+            width: 100%;
+            height: 320px;
+            overflow: hidden;
+            border-radius: 12px 12px 0 0;
+        }
+        
+        .slides-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        
+        .slide.active {
+            opacity: 1;
+        }
+        
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            z-index: 10;
+        }
+        
+        .slider-nav:hover {
+            background: rgba(0, 0, 0, 0.7);
+        }
+        
+        .slider-nav.prev {
+            left: 12px;
+        }
+        
+        .slider-nav.next {
+            right: 12px;
+        }
+        
+        .slider-dots {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+        
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .dot.active {
+            background: white;
+        }
+        
+        .dot:hover {
+            background: rgba(255, 255, 255, 0.8);
+        }
+        
+        /* Photo Modal Styles */
+        .photo-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(5px);
+        }
+        
+        .photo-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .photo-modal-content {
+            position: relative;
+            max-width: 95%;
+            max-height: 95%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .photo-modal img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        
+        .photo-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 10000;
+            background: rgba(0, 0, 0, 0.5);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+        
+        .photo-modal-close:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+        
+        .photo-modal-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            font-size: 24px;
+            padding: 15px 20px;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+        
+        .photo-modal-nav:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+        
+        .photo-modal-nav.prev {
+            left: 30px;
+        }
+        
+        .photo-modal-nav.next {
+            right: 30px;
+        }
+        
+        .photo-modal-info {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+        }
+    </style>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        'neutral': {
+                            50: '#fafafa',
+                            100: '#f5f5f5',
+                            200: '#e5e5e5',
+                            300: '#d4d4d4',
+                            400: '#a3a3a3',
+                            500: '#737373',
+                            600: '#525252',
+                            700: '#404040',
+                            800: '#262626',
+                            900: '#171717',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-50 text-gray-800 leading-relaxed">
+    <!-- Header Section -->
+    <header class="gradient-bg">
+        <div class="max-w-6xl mx-auto px-4 py-12">
+            <!-- Agency Branding -->
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center mb-4">
+                    <div class="w-16 h-16 bg-gradient-to-r from-[#0088CC] to-[#006699] rounded-2xl flex items-center justify-center text-white font-bold text-xl mr-4">In</div>
+                    <span class="text-3xl font-bold bg-gradient-to-r from-[#0088CC] to-[#006699] bg-clip-text text-transparent">InBack</span>
+                </div>
+                <p class="text-sm text-gray-500 mt-2">Эксклюзивные предложения недвижимости с кешбеком</p>
+            </div>
+            
+            <!-- Presentation Title -->
+            <div class="text-center">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+                    {{ presentation.title }}
+                </h1>
+                {% if presentation.client_name %}
+                <p class="text-xl text-gray-600 mb-2">
+                    Персональная подборка для <span class="font-semibold">{{ presentation.client_name }}</span>
+                </p>
+                {% endif %}
+                {% if presentation.description and presentation.description != presentation.client_name %}
+                <p class="text-lg text-gray-500 max-w-2xl mx-auto">
+                    {{ presentation.description }}
+                </p>
+                {% endif %}
+            </div>
+            
+            <!-- Presentation Stats -->
+            <div class="stats-grid mt-8 max-w-3xl mx-auto">
+                <div class="stat-item">
+                    <div class="text-2xl font-bold text-gray-800">{{ presentation.total_objects }}</div>
+                    <div class="text-sm text-gray-600">Объектов</div>
+                </div>
+                <div class="stat-item">
+                    <div class="text-2xl font-bold text-gray-800">{{ presentation.total_complexes }}</div>
+                    <div class="text-sm text-gray-600">ЖК</div>
+                </div>
+                <div class="stat-item">
+                    <div class="text-2xl font-bold text-gray-800">{{ (presentation.properties|map(attribute='area')|sum)|round(1) }}</div>
+                    <div class="text-sm text-gray-600">м² общая</div>
+                </div>
+                <div class="stat-item">
+                    <div class="text-2xl font-bold text-gray-800">от {{ (presentation.properties|map(attribute='price')|min / 1000000)|round(1) }}М</div>
+                    <div class="text-sm text-gray-600">стоимость</div>
+                </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="mt-10 max-w-4xl mx-auto">
+                <!-- Download and Share Buttons -->
+                <div class="flex flex-col md:flex-row gap-6 justify-center items-center">
+                    <div id="downloadAllBtn" class="text-center">
+                        <button onclick="downloadAllPresentationPDF('{{ presentation.title }}')" 
+                                class="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-[#0088CC] to-[#006699] text-white font-semibold rounded-xl hover:from-[#006699] hover:to-[#004466] transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
+                            <i class="fas fa-download text-lg"></i>
+                            <span id="downloadBtnText">Скачать все квартиры в PDF</span>
+                        </button>
+                        <p class="text-sm text-gray-500 mt-3">
+                            <i class="fas fa-info-circle mr-1"></i>
+                            Будет создан ZIP архив с PDF файлами для каждой квартиры
+                        </p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button onclick="sharePresentation()" 
+                                class="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-blue-800 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
+                            <i class="fas fa-share-alt text-lg"></i>
+                            <span>Поделиться ссылкой</span>
+                        </button>
+                        <p class="text-sm text-gray-500 mt-3">
+                            <i class="fas fa-share mr-1"></i>
+                            Отправьте ссылку клиенту для просмотра
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Progress Container -->
+                <div id="progressContainer" class="hidden mt-6 bg-white rounded-xl p-6 shadow-lg border border-gray-200">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-gradient-to-r from-[#0088CC] to-[#006699] rounded-full flex items-center justify-center">
+                            <i id="progressIcon" class="fas fa-cog fa-spin text-white text-lg"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-lg font-semibold text-gray-800" id="progressMessage">Подготавливаем файлы...</h3>
+                                <span class="text-lg font-bold text-[#0088CC]" id="progressPercent">0%</span>
+                            </div>
+                            <p class="text-gray-600 text-sm" id="progressDetails"></p>
+                            <p class="text-gray-500 text-xs mt-1" id="progressStatus"></p>
+                        </div>
+                    </div>
+                    
+                    <!-- Progress Bar -->
+                    <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                        <div id="progressBar" class="h-full bg-gradient-to-r from-[#0088CC] to-[#006699] rounded-full transition-all duration-500 ease-out" 
+                             style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Manager Note for Presentation -->
+            {% if presentation and presentation.manager_note %}
+            <div class="mt-8 max-w-4xl mx-auto">
+                <div class="bg-gradient-to-r from-amber-50 to-yellow-50 border-l-4 border-amber-500 p-6 rounded-xl shadow-sm">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-comment-alt text-amber-600"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-amber-900">Комментарий менеджера</h3>
+                    </div>
+                    <p class="text-amber-800 leading-relaxed">{{ presentation.manager_note }}</p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 py-12">
+        
+        <!-- Residential Complexes Info Section -->
+        {% if presentation.complex_names %}
+        <section class="mb-16">
+            <div class="bg-white rounded-2xl card-shadow p-8">
+                <h2 class="text-3xl font-bold text-gray-800 text-center mb-8">
+                    <i class="fas fa-building-columns text-gray-600 mr-3"></i>
+                    Жилые комплексы в подборке
+                </h2>
+                
+                <div class="grid gap-8">
+                    {% for complex_name in presentation.complex_names %}
+                    {% set complex = presentation.all_complexes[complex_name] %}
+                    <div class="border border-gray-200 rounded-xl p-6 hover:border-gray-300 transition-colors">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">{{ complex.name }}</h3>
+                                <p class="text-gray-600 flex items-center">
+                                    <i class="fas fa-user-tie mr-2 text-gray-500"></i>
+                                    {{ complex.developer }}
+                                </p>
+                            </div>
+                            <div class="text-right text-sm text-gray-500">
+                                ЖК {{ loop.index }} из {{ presentation.total_complexes }}
+                            </div>
+                        </div>
+                        
+                        <!-- Complex Photos -->
+                        {% if complex.photos and complex.photos|length > 0 %}
+                        <div class="mt-6 mb-6">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                                <i class="fas fa-camera mr-2 text-gray-600"></i>
+                                Фотографии комплекса
+                            </h4>
+                            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                                {% for photo in complex.photos[:8] %}
+                                <div class="relative group cursor-pointer overflow-hidden rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-300 complex-photo-item" 
+                                     data-complex-name="{{ complex_name|e }}" data-photo-index="{{ loop.index0 }}">
+                                    <img src="{{ photo }}" 
+                                         alt="{{ complex.name }} - фото {{ loop.index }}"
+                                         class="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-300"
+                                         loading="lazy">
+                                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
+                                        <i class="fas fa-search-plus text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-2xl"></i>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% if complex.photos|length > 8 %}
+                            <div class="mt-3 text-center">
+                                <span class="text-sm text-gray-500">и еще {{ complex.photos|length - 8 }} фото</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                        
+                        <div class="grid md:grid-cols-2 gap-4 text-sm">
+                            {% if complex.address %}
+                            <div class="flex items-center text-gray-700">
+                                <i class="fas fa-map-marker-alt mr-2 text-gray-500"></i>
+                                <span>{{ complex.address }}</span>
+                            </div>
+                            {% endif %}
+                            
+                            {% if complex.end_year and complex.end_quarter %}
+                            {% set quarters = ['I', 'II', 'III', 'IV'] %}
+                            <div class="flex items-center text-gray-700">
+                                <i class="fas fa-calendar-check mr-2 text-gray-500"></i>
+                                <span>Сдача: {{ quarters[complex.end_quarter - 1] if complex.end_quarter <= 4 else 'IV' }} кв. {{ complex.end_year }} г.</span>
+                            </div>
+                            {% endif %}
+                            
+                            {% set complex_class = presentation.properties|selectattr('complex_name', 'equalto', complex.name)|map(attribute='housing_class')|list|unique|first %}
+                            <div class="flex items-center text-gray-700">
+                                <i class="fas fa-home mr-2 text-gray-500"></i>
+                                <span>Класс: {{ complex_class or 'Комфорт' }}</span>
+                            </div>
+                            
+                            <div class="flex items-center text-green-700">
+                                <i class="fas fa-coins mr-2 text-green-500"></i>
+                                <span>Кешбек: До 3%</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Interactive Map -->
+                        <div class="mt-6 border-t border-gray-100 pt-6">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-3 flex items-center">
+                                <i class="fas fa-map-marked-alt mr-2 text-gray-600"></i>
+                                Расположение на карте
+                            </h4>
+                            <div id="map-{{ loop.index }}" class="w-full h-64 rounded-lg border border-gray-200"></div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- Properties Grid Section -->
+        <section>
+            <h2 class="text-3xl font-bold text-gray-800 text-center mb-12">
+                <i class="fas fa-key text-gray-600 mr-3"></i>
+                Подобранные варианты
+            </h2>
+            
+            <div class="grid gap-8">
+                {% for property in presentation.properties %}
+                {% set outer_loop_index = loop.index0 %}
+                {% set outer_loop_index1 = loop.index %}
+                <article class="property-card card-shadow">
+                    <!-- Property Images Slideshow -->
+                    <div class="relative">
+                        {% if property.images and property.images|length > 0 %}
+                        <div class="photo-slider" data-property="{{ outer_loop_index }}">
+                            <!-- Slider Container -->
+                            <div class="slides-wrapper">
+                                <!-- Image Slides -->
+                                {% for image in property.images %}
+                                <div class="slide{% if loop.index0 == 0 %} active{% endif %}">
+                                    <img src="{{ image }}" 
+                                         alt="Квартира {{ outer_loop_index1 }} - фото {{ loop.index }}"
+                                         loading="lazy"
+                                         onclick="openPhotoModal({{ outer_loop_index }}, {{ loop.index0 }})"
+                                         style="cursor: pointer;">
+                                </div>
+                                {% endfor %}
+                            </div>
+                            
+                            <!-- Navigation arrows (only show if more than 1 image) -->
+                            {% if property.images|length > 1 %}
+                            <button class="slider-nav prev" onclick="changeSlide({{ outer_loop_index }}, -1)">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="slider-nav next" onclick="changeSlide({{ outer_loop_index }}, 1)">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                            
+                            <!-- Dots navigation -->
+                            <div class="slider-dots">
+                                {% for image in property.images %}
+                                <div class="dot{% if loop.index0 == 0 %} active{% endif %}" 
+                                     onclick="currentSlide({{ outer_loop_index }}, {{ loop.index0 }})"></div>
+                                {% endfor %}
+                            </div>
+                            
+                            <!-- Photo count indicator -->
+                            <div class="absolute bottom-4 left-4 bg-black bg-opacity-60 text-white px-3 py-1 rounded-full text-sm z-20">
+                                <i class="fas fa-images mr-1"></i>
+                                {{ property.images|length }} фото
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% else %}
+                        <div class="h-80 bg-gray-100 flex items-center justify-center rounded-t-lg">
+                            <i class="fas fa-image text-4xl text-gray-400"></i>
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Price Badge -->
+                        <div class="absolute top-4 right-4">
+                            <div class="price-badge text-white px-4 py-2 rounded-full">
+                                <span class="text-lg font-bold">
+                                    {{ "{:,.0f}".format(property.price|int).replace(',', ' ') }} ₽
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Property Type Badge -->
+                        <div class="absolute top-4 left-4">
+                            <div class="bg-white bg-opacity-90 px-3 py-1 rounded-full text-sm font-medium text-gray-700">
+                                {% if property.rooms == 0 %}Студия{% else %}{{ property.rooms }}-комн{% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Property Details -->
+                    <div class="p-6">
+                        <!-- Property Title -->
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">
+                            {% if property.rooms == 0 %}
+                                Студия {{ property.area }} м²
+                            {% else %}
+                                {{ property.rooms }}-комнатная квартира {{ property.area }} м²
+                            {% endif %}
+                        </h3>
+                        
+                        <!-- Key Features -->
+                        <div class="info-grid mb-6">
+                            <div class="text-center p-4 bg-gray-50 rounded-xl">
+                                <i class="fas fa-expand-arrows-alt text-gray-500 mb-2"></i>
+                                <div class="font-semibold text-gray-800">{{ property.area }} м²</div>
+                                <div class="text-sm text-gray-600">Площадь</div>
+                            </div>
+                            
+                            <div class="text-center p-4 bg-gray-50 rounded-xl">
+                                <i class="fas fa-stairs text-gray-500 mb-2"></i>
+                                <div class="font-semibold text-gray-800">{{ property.floor }} этаж</div>
+                                <div class="text-sm text-gray-600">Этаж</div>
+                            </div>
+                            
+                            <div class="text-center p-4 bg-gray-50 rounded-xl">
+                                <i class="fas fa-calculator text-gray-500 mb-2"></i>
+                                <div class="font-semibold text-gray-800">
+                                    {{ "{:,.0f}".format((property.price|int / property.area|float)|int).replace(',', ' ') }} ₽
+                                </div>
+                                <div class="text-sm text-gray-600">За м²</div>
+                            </div>
+                            
+                            {% set cashback = (property.price|int * 0.03)|int %}
+                            <div class="text-center p-4 bg-green-50 rounded-xl border border-green-200">
+                                <i class="fas fa-gift text-green-600 mb-2"></i>
+                                <div class="font-semibold text-green-800">
+                                    {{ "{:,.0f}".format(cashback).replace(',', ' ') }} ₽
+                                </div>
+                                <div class="text-sm text-green-600">Кешбек</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Additional Details -->
+                        <div class="border-t border-gray-200 pt-4">
+                            <div class="grid md:grid-cols-2 gap-4 text-sm mb-4">
+                                {% if property.address %}
+                                <div>
+                                    <span class="font-medium text-gray-700">Адрес:</span>
+                                    <span class="text-gray-600">{{ property.address }}</span>
+                                </div>
+                                {% endif %}
+                                
+                                <div>
+                                    <span class="font-medium text-gray-700">Этажность дома:</span>
+                                    <span class="text-gray-600">{{ property.total_floors }} этажей</span>
+                                </div>
+                                
+                                <div>
+                                    <span class="font-medium text-gray-700">Отделка:</span>
+                                    <span class="text-gray-600">{{ property.renovation_type }}</span>
+                                </div>
+                                
+                                <div>
+                                    <span class="font-medium text-gray-700">Класс жилья:</span>
+                                    <span class="text-gray-600">{{ property.housing_class }}</span>
+                                </div>
+                                
+                                <div>
+                                    <span class="font-medium text-gray-700">ID объекта:</span>
+                                    <span class="text-gray-600">{{ property.property_id }}</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Manager Comment for this Property -->
+                            {% if property.manager_note %}
+                            <div class="mt-4 p-4 bg-gradient-to-r from-cyan-50 to-blue-50 border-l-4 border-cyan-500 rounded-xl">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="w-8 h-8 bg-cyan-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-comment-dots text-cyan-600 text-sm"></i>
+                                    </div>
+                                    <h4 class="text-sm font-semibold text-cyan-900">Комментарий менеджера</h4>
+                                </div>
+                                <p class="text-sm text-cyan-800 leading-relaxed">{{ property.manager_note }}</p>
+                            </div>
+                            {% endif %}
+                            
+                            <!-- Action Buttons -->
+                            <div class="flex gap-3 mt-4">
+                                <button class="btn-primary flex-1 py-3 px-6 rounded-xl font-semibold text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center justify-center gap-2" 
+                                        onclick="openReservationModal({{ loop.index0 }}, '{{ property.property_id }}', '{{ property.complex_name }}')">
+                                    <i class="fas fa-calendar-check"></i>
+                                    <span>Забронировать</span>
+                                </button>
+                                
+                                <button class="btn-secondary py-3 px-6 rounded-xl font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 transition-all duration-300 border border-gray-300 hover:border-gray-400 flex items-center justify-center gap-2"
+                                        onclick="showPropertyDetails('{{ property.property_id }}')">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span>Подробнее</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Contact CTA Section -->
+        <section class="mt-16">
+            <div class="bg-gray-800 rounded-2xl text-white p-8 text-center">
+                <h2 class="text-3xl font-bold mb-4">Готовы обсудить детали?</h2>
+                <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+                    Свяжитесь с нами для получения дополнительной информации, 
+                    записи на просмотр или оформления сделки с максимальным кешбеком.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <a href="tel:+7" class="inline-flex items-center px-6 py-3 bg-white text-gray-800 rounded-xl font-semibold hover:bg-gray-100 transition-colors">
+                        <i class="fas fa-phone mr-2"></i>
+                        Позвонить сейчас
+                    </a>
+                    
+                    <a href="https://wa.me/" target="_blank" class="inline-flex items-center px-6 py-3 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition-colors">
+                        <i class="fab fa-whatsapp mr-2"></i>
+                        WhatsApp
+                    </a>
+                    
+                    <a href="https://t.me/" target="_blank" class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors">
+                        <i class="fab fa-telegram mr-2"></i>
+                        Telegram
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-8 mt-16">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <div class="flex items-center justify-center mb-4">
+                <div class="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center mr-3">
+                    <i class="fas fa-building text-white"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white">InBack Real Estate</h3>
+            </div>
+            
+            <p class="text-gray-400 mb-4">
+                Профессиональные услуги по подбору недвижимости с гарантированным кешбеком
+            </p>
+            
+            <div class="divider my-6"></div>
+            
+            <p class="text-sm text-gray-500">
+                © 2025 InBack Real Estate. Все права защищены.
+                <br>
+                Презентация создана {{ presentation.created_at.strftime('%d.%m.%Y') if presentation.created_at else 'сегодня' }}
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Image loading optimization
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('img[loading="lazy"]');
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        
+                        // Проверяем если изображение уже загружено
+                        if (img.complete && img.naturalWidth !== 0) {
+                            // Изображение уже загружено - делаем видимым
+                            img.style.opacity = '1';
+                            img.style.transition = 'opacity 0.3s ease';
+                        } else {
+                            // Изображение еще загружается
+                            img.style.opacity = '0.8';
+                            img.style.transition = 'opacity 0.3s ease';
+                            
+                            img.onload = () => {
+                                img.style.opacity = '1';
+                            };
+                        }
+                        
+                        observer.unobserve(img);
+                    }
+                });
+            });
+
+            images.forEach(img => imageObserver.observe(img));
+        });
+
+        // Photo slideshow functionality
+        let currentSlides = {};
+        
+        function changeSlide(propertyIndex, direction) {
+            const slider = document.querySelector(`.photo-slider[data-property="${propertyIndex}"]`);
+            if (!slider) return;
+            
+            const slides = slider.querySelectorAll('.slide');
+            const dots = slider.querySelectorAll('.dot');
+            
+            if (!slides.length || slides.length <= 1) return;
+            
+            // Initialize currentSlides if not exists
+            if (!currentSlides[propertyIndex]) {
+                currentSlides[propertyIndex] = 0;
+            }
+            
+            // Hide current slide
+            slides[currentSlides[propertyIndex]].classList.remove('active');
+            if (dots[currentSlides[propertyIndex]]) {
+                dots[currentSlides[propertyIndex]].classList.remove('active');
+            }
+            
+            // Calculate new index
+            currentSlides[propertyIndex] += direction;
+            if (currentSlides[propertyIndex] >= slides.length) {
+                currentSlides[propertyIndex] = 0;
+            } else if (currentSlides[propertyIndex] < 0) {
+                currentSlides[propertyIndex] = slides.length - 1;
+            }
+            
+            // Show new slide
+            slides[currentSlides[propertyIndex]].classList.add('active');
+            if (dots[currentSlides[propertyIndex]]) {
+                dots[currentSlides[propertyIndex]].classList.add('active');
+            }
+        }
+        
+        function currentSlide(propertyIndex, slideIndex) {
+            const slider = document.querySelector(`.photo-slider[data-property="${propertyIndex}"]`);
+            if (!slider) return;
+            
+            const slides = slider.querySelectorAll('.slide');
+            const dots = slider.querySelectorAll('.dot');
+            
+            if (!slides.length || slideIndex >= slides.length) return;
+            
+            // Hide all slides
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            // Show selected slide
+            slides[slideIndex].classList.add('active');
+            if (dots[slideIndex]) {
+                dots[slideIndex].classList.add('active');
+            }
+            
+            // Update current slide tracker
+            currentSlides[propertyIndex] = slideIndex;
+        }
+
+        // Maps initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            // Complex coordinates data from backend
+            const complexCoordinates = {
+                {% for complex_name, complex in presentation.all_complexes.items() %}
+                '{{ complex.name }}': {% if complex.lat and complex.lon %}[{{ complex.lat }}, {{ complex.lon }}]{% else %}null{% endif %}{% if not loop.last %},{% endif %}
+                {% endfor %}
+            };
+
+            // Initialize maps for each complex
+            {% for complex_name in presentation.complex_names %}
+            {% set complex = presentation.all_complexes[complex_name] %}
+            (function() {
+                const complexName = '{{ complex.name }}';
+                const mapId = 'map-{{ loop.index }}';
+                const mapElement = document.getElementById(mapId);
+                
+                if (mapElement && complexCoordinates[complexName]) {
+                    const coords = complexCoordinates[complexName];
+                    
+                    // Create map
+                    const map = L.map(mapId, {
+                        scrollWheelZoom: false,
+                        zoomControl: true,
+                        attributionControl: false
+                    }).setView(coords, 15);
+                    
+                    // Add tile layer
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        maxZoom: 18,
+                        attribution: '© OpenStreetMap contributors'
+                    }).addTo(map);
+                    
+                    // Create custom marker
+                    const markerIcon = L.divIcon({
+                        className: 'custom-marker',
+                        html: '<div class="w-8 h-8 bg-blue-600 rounded-full border-2 border-white shadow-lg flex items-center justify-center"><i class="fas fa-building text-white text-sm"></i></div>',
+                        iconSize: [32, 32],
+                        iconAnchor: [16, 16]
+                    });
+                    
+                    // Add marker
+                    const marker = L.marker(coords, { icon: markerIcon }).addTo(map);
+                    marker.bindPopup(`
+                        <div class="text-center p-2">
+                            <strong class="text-lg">${complexName}</strong><br>
+                            <span class="text-sm text-gray-600">{{ complex.developer or 'Застройщик' }}</span>
+                        </div>
+                    `);
+                    
+                    // Adjust map bounds slightly
+                    setTimeout(() => {
+                        map.invalidateSize();
+                    }, 100);
+                }
+            })();
+            {% endfor %}
+        });
+        
+        // Booking functionality
+        function openReservationModal(propertyIndex, propertyId, complexName) {
+            const property = {{ presentation.properties | tojson | safe }}[propertyIndex];
+            
+            // Create modal HTML
+            const modal = document.createElement('div');
+            modal.id = 'reservationModal';
+            modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50';
+            modal.innerHTML = `
+                <div class="bg-white rounded-2xl p-8 m-4 max-w-md w-full max-h-screen overflow-y-auto">
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-calendar-check text-2xl text-blue-600"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">Забронировать квартиру</h2>
+                        <p class="text-gray-600">
+                            ${property.rooms ? property.rooms + '-комнатная' : 'Студия'} ${property.area} м²
+                        </p>
+                        <p class="text-sm text-gray-500">${complexName}</p>
+                    </div>
+                    
+                    <form id="reservationForm" class="space-y-4">
+                        <input type="hidden" name="property_id" value="${propertyId}">
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Имя *</label>
+                            <input type="text" name="client_name" required 
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                   placeholder="Введите ваше имя">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Телефон *</label>
+                            <input type="tel" name="client_phone" required 
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                   placeholder="+7 (___) ___-__-__">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                            <input type="email" name="client_email"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                   placeholder="example@email.com">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Комментарий</label>
+                            <textarea name="comment" rows="3"
+                                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none"
+                                      placeholder="Дополнительная информация..."></textarea>
+                        </div>
+                        
+                        <div class="flex gap-3 pt-4">
+                            <button type="button" onclick="closeReservationModal()"
+                                    class="flex-1 py-3 px-4 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-colors">
+                                Отмена
+                            </button>
+                            <button type="submit"
+                                    class="flex-1 py-3 px-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl font-medium hover:from-blue-700 hover:to-blue-800 transition-all">
+                                Отправить заявку
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Handle form submission
+            document.getElementById('reservationForm').addEventListener('submit', handleReservationSubmit);
+            
+            // Close on background click
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeReservationModal();
+                }
+            });
+            
+            // Focus first input
+            setTimeout(() => {
+                modal.querySelector('input[name="client_name"]').focus();
+            }, 100);
+        }
+        
+        function closeReservationModal() {
+            const modal = document.getElementById('reservationModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+        
+        async function handleReservationSubmit(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            
+            // Show loading state
+            submitBtn.textContent = 'Отправка...';
+            submitBtn.disabled = true;
+            
+            try {
+                const formData = new FormData(form);
+                const data = {
+                    property_id: formData.get('property_id'),
+                    client_name: formData.get('client_name'),
+                    client_phone: formData.get('client_phone'),
+                    client_email: formData.get('client_email'),
+                    comment: formData.get('comment'),
+                    presentation_id: '{{ presentation.id }}'
+                };
+                
+                const response = await fetch('/api/booking', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                if (response.ok) {
+                    // Show success message
+                    const modal = document.getElementById('reservationModal');
+                    modal.innerHTML = `
+                        <div class="bg-white rounded-2xl p-8 m-4 max-w-md w-full text-center">
+                            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <i class="fas fa-check text-3xl text-green-600"></i>
+                            </div>
+                            <h2 class="text-2xl font-bold text-gray-800 mb-4">Заявка отправлена!</h2>
+                            <p class="text-gray-600 mb-6">
+                                Спасибо за ваш интерес! Наш менеджер свяжется с вами в ближайшее время.
+                            </p>
+                            <button onclick="closeReservationModal()"
+                                    class="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl font-medium hover:from-blue-700 hover:to-blue-800 transition-all">
+                                Закрыть
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    throw new Error('Ошибка отправки заявки');
+                }
+            } catch (error) {
+                alert('Произошла ошибка при отправке заявки. Пожалуйста, попробуйте еще раз.');
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        }
+        
+        function showPropertyDetails(propertyId) {
+            console.log('🔍 Opening property details for ID:', propertyId);
+            // Переход на страницу объекта недвижимости
+            window.open(`/object/${propertyId}`, '_blank');
+        }
+
+        // Download All PDF Function with Progress Bar and SSE
+        function downloadAllPresentationPDF(title) {
+            // Extract unique_id from current URL path
+            const pathParts = window.location.pathname.split('/');
+            const uniqueId = pathParts[pathParts.length - 1]; // Last part of URL is unique_id
+            
+            console.log(`🔥 Starting downloadAllPresentationPDF with progress for unique_id: ${uniqueId}`);
+            
+            const downloadBtn = document.getElementById('downloadAllBtn');
+            const downloadBtnText = document.getElementById('downloadBtnText');
+            const progressContainer = document.getElementById('progressContainer');
+            const progressBar = document.getElementById('progressBar');
+            const progressPercent = document.getElementById('progressPercent');
+            const progressMessage = document.getElementById('progressMessage');
+            const progressDetails = document.getElementById('progressDetails');
+            const progressStatus = document.getElementById('progressStatus');
+            const progressIcon = document.getElementById('progressIcon');
+            
+            const originalText = downloadBtnText.textContent;
+            
+            // Hide button and show progress bar
+            downloadBtn.style.display = 'none';
+            progressContainer.style.display = 'block';
+            progressContainer.classList.remove('hidden');
+            
+            // Reset progress bar state
+            progressBar.style.width = '0%';
+            progressPercent.textContent = '0%';
+            progressMessage.textContent = 'Подготавливаем файлы...';
+            progressDetails.textContent = '';
+            progressStatus.textContent = '';
+            progressIcon.className = 'fas fa-cog fa-spin text-white text-lg';
+            
+            // Start the actual download immediately (this will trigger progress updates)
+            const downloadFrame = document.createElement('iframe');
+            downloadFrame.style.display = 'none';
+            downloadFrame.src = `/presentation/view/${uniqueId}/download-all`;
+            document.body.appendChild(downloadFrame);
+            
+            // Small delay then start monitoring progress
+            setTimeout(() => {
+                // Connect to Server-Sent Events for progress updates
+                const eventSource = new EventSource(`/presentation/view/${uniqueId}/progress`);
+                
+                eventSource.onmessage = function(event) {
+                    try {
+                        const data = JSON.parse(event.data);
+                        console.log('📊 Progress update:', data);
+                        
+                        if (data.error) {
+                            console.error('❌ Error:', data.error);
+                            showProgressError(data.error);
+                            return;
+                        }
+                        
+                        // Update progress bar
+                        if (data.progress !== undefined) {
+                            progressBar.style.width = data.progress + '%';
+                            progressPercent.textContent = data.progress + '%';
+                        }
+                        
+                        // Update messages based on stage
+                        if (data.stage === 'starting') {
+                            progressMessage.textContent = data.message || 'Начинаем создание PDF файлов...';
+                            progressDetails.textContent = `Всего объектов: ${data.total}`;
+                            progressIcon.className = 'fas fa-cog fa-spin text-white text-lg';
+                        } else if (data.stage === 'processing') {
+                            progressMessage.textContent = data.message || `Создаю PDF ${data.current} из ${data.total}`;
+                            progressDetails.textContent = `Обрабатывается квартира ${data.current} из ${data.total}`;
+                            progressStatus.textContent = `${data.current}/${data.total}`;
+                            progressIcon.className = 'fas fa-file-pdf fa-spin text-white text-lg';
+                        } else if (data.stage === 'completing') {
+                            progressMessage.textContent = data.message || 'Создаю архив...';
+                            progressDetails.textContent = 'Упаковываю все файлы в ZIP архив';
+                            progressStatus.textContent = 'Финализация';
+                            progressIcon.className = 'fas fa-archive fa-pulse text-white text-lg';
+                        } else if (data.stage === 'complete') {
+                            progressMessage.textContent = data.message || 'Готово!';
+                            progressDetails.textContent = 'Файл загружается в ваш браузер';
+                            progressStatus.textContent = 'Завершено';
+                            progressIcon.className = 'fas fa-check-circle text-white text-lg';
+                            
+                            // Close the event source
+                            eventSource.close();
+                            
+                            // Hide progress bar after successful download
+                            setTimeout(() => {
+                                resetDownloadButton();
+                            }, 3000);
+                        }
+                    } catch (error) {
+                        console.error('❌ Error parsing progress data:', error);
+                        showProgressError('Ошибка обработки данных');
+                    }
+                };
+                
+                eventSource.onerror = function(error) {
+                    console.error('❌ SSE Error:', error);
+                    eventSource.close();
+                    showProgressError('Ошибка соединения с сервером');
+                };
+                
+                // Helper function to show error
+                function showProgressError(errorMessage) {
+                    progressMessage.textContent = 'Произошла ошибка';
+                    progressDetails.textContent = errorMessage;
+                    progressStatus.textContent = 'Ошибка';
+                    progressIcon.className = 'fas fa-exclamation-triangle text-white text-lg';
+                    progressBar.style.background = '#EF4444';
+                    
+                    // Reset after 5 seconds
+                    setTimeout(() => {
+                        resetDownloadButton();
+                    }, 5000);
+                }
+                
+                // Helper function to reset button state
+                function resetDownloadButton() {
+                    progressContainer.style.display = 'none';
+                    progressContainer.classList.add('hidden');
+                    downloadBtn.style.display = 'block';
+                    downloadBtn.style.opacity = '1';
+                    downloadBtn.style.cursor = 'pointer';
+                    downloadBtn.disabled = false;
+                    downloadBtnText.textContent = originalText;
+                    
+                    // Reset progress bar colors
+                    progressBar.style.background = '';
+                    progressBar.className = 'h-full bg-gradient-to-r from-[#0088CC] to-[#006699] rounded-full transition-all duration-500 ease-out';
+                }
+                
+            }, 500); // Close setTimeout - 500ms delay
+        }
+
+        // Share Presentation Function
+        function sharePresentation() {
+            const currentUrl = window.location.href;
+            
+            // Try to use Web Share API if available (mobile browsers)
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Презентация недвижимости InBack',
+                    text: 'Посмотрите подобранные для вас квартиры с выгодным кешбеком',
+                    url: currentUrl
+                }).then(() => {
+                    console.log('Successful share');
+                }).catch((error) => {
+                    console.log('Error sharing:', error);
+                    fallbackShare(currentUrl);
+                });
+            } else {
+                // Fallback: copy to clipboard
+                fallbackShare(currentUrl);
+            }
+        }
+        
+        function fallbackShare(url) {
+            // Copy to clipboard
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(url).then(() => {
+                    showShareSuccess('Ссылка скопирована в буфер обмена!');
+                }).catch(() => {
+                    showShareFallback(url);
+                });
+            } else {
+                showShareFallback(url);
+            }
+        }
+        
+        function showShareFallback(url) {
+            // Create modern modal with shareable link
+            const modal = document.createElement('div');
+            modal.innerHTML = `
+                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 20px;">
+                    <div style="background: white; padding: 32px; border-radius: 16px; max-width: 500px; width: 100%; box-shadow: 0 25px 50px rgba(0,0,0,0.25); border: 1px solid #e5e7eb;">
+                        <div style="text-align: center; margin-bottom: 24px;">
+                            <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #0088CC, #006699); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                                <i class="fas fa-share-alt" style="color: white; font-size: 24px;"></i>
+                            </div>
+                            <h3 style="margin: 0 0 8px 0; font-size: 24px; font-weight: 600; color: #1a1a1a;">Поделиться презентацией</h3>
+                            <p style="margin: 0; color: #666666; font-size: 16px;">Скопируйте ссылку и отправьте клиенту</p>
+                        </div>
+                        
+                        <div style="display: flex; gap: 12px; margin-bottom: 24px; padding: 16px; background: #f8fafc; border-radius: 12px; border: 1px solid #e5e7eb;">
+                            <input type="text" value="${url}" readonly style="flex: 1; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 14px; background: white; color: #374151; font-family: 'Inter', sans-serif;">
+                            <button onclick="copyUrlFromModal('${url}')" style="padding: 12px 20px; background: linear-gradient(135deg, #0088CC, #006699); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.2s; box-shadow: 0 4px 12px rgba(0, 136, 204, 0.25);" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                                <i class="fas fa-copy" style="margin-right: 8px;"></i>Копировать
+                            </button>
+                        </div>
+                        
+                        <button onclick="this.parentElement.parentElement.remove()" style="width: 100%; padding: 16px; background: #f3f4f6; color: #374151; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 16px; transition: all 0.2s;" onmouseover="this.style.background='#e5e7eb'" onmouseout="this.style.background='#f3f4f6'">
+                            Закрыть
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            
+            // Auto focus on input field
+            setTimeout(() => {
+                const input = modal.querySelector('input');
+                if (input) input.select();
+            }, 100);
+        }
+        
+        function copyUrlFromModal(url) {
+            navigator.clipboard.writeText(url).then(() => {
+                showShareSuccess('Ссылка скопирована в буфер обмена!');
+                // Close modal after a short delay
+                setTimeout(() => {
+                    const modal = document.querySelector('[style*="position: fixed"]');
+                    if (modal) modal.remove();
+                }, 1500);
+            }).catch(() => {
+                showShareSuccess('Не удалось скопировать. Выделите и скопируйте вручную.');
+            });
+        }
+        
+        function showShareSuccess(message) {
+            // Remove any existing toast
+            const existingToast = document.querySelector('.share-toast');
+            if (existingToast) existingToast.remove();
+            
+            // Show modern toast notification
+            const toast = document.createElement('div');
+            toast.className = 'share-toast';
+            toast.innerHTML = `
+                <div style="position: fixed; top: 24px; right: 24px; background: linear-gradient(135deg, #10B981, #059669); color: white; padding: 16px 24px; border-radius: 12px; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4); z-index: 10001; display: flex; align-items: center; gap: 12px; font-weight: 600; font-family: 'Inter', sans-serif; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); transform: translateX(400px); transition: transform 0.3s ease-out;">
+                    <div style="width: 32px; height: 32px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-check" style="font-size: 16px;"></i>
+                    </div>
+                    <span style="font-size: 15px;">${message}</span>
+                </div>
+            `;
+            document.body.appendChild(toast);
+            
+            // Animate in
+            setTimeout(() => {
+                const toastElement = toast.querySelector('div');
+                toastElement.style.transform = 'translateX(0)';
+            }, 10);
+            
+            // Animate out and remove after 3 seconds
+            setTimeout(() => {
+                const toastElement = toast.querySelector('div');
+                toastElement.style.transform = 'translateX(400px)';
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 3000);
+        }
+
+        // Photo Modal Functions
+        let currentModalImages = [];
+        let currentModalIndex = 0;
+        
+        function openPhotoModal(propertyIndex, slideIndex) {
+            const slider = document.querySelector(`.photo-slider[data-property="${propertyIndex}"]`);
+            if (!slider) return;
+            
+            const images = slider.querySelectorAll('.slide img');
+            currentModalImages = Array.from(images).map(img => ({
+                src: img.src,
+                alt: img.alt
+            }));
+            
+            currentModalIndex = slideIndex;
+            
+            const modal = document.getElementById('photoModal');
+            const modalImg = document.getElementById('modalPhoto');
+            const modalInfo = document.getElementById('modalInfo');
+            
+            modalImg.src = currentModalImages[currentModalIndex].src;
+            modalImg.alt = currentModalImages[currentModalIndex].alt;
+            modalInfo.textContent = `${currentModalIndex + 1} / ${currentModalImages.length}`;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closePhotoModal() {
+            const modal = document.getElementById('photoModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        function modalPrevPhoto() {
+            if (currentModalImages.length > 1) {
+                currentModalIndex = (currentModalIndex - 1 + currentModalImages.length) % currentModalImages.length;
+                updateModalPhoto();
+            }
+        }
+        
+        function modalNextPhoto() {
+            if (currentModalImages.length > 1) {
+                currentModalIndex = (currentModalIndex + 1) % currentModalImages.length;
+                updateModalPhoto();
+            }
+        }
+        
+        function updateModalPhoto() {
+            const modalImg = document.getElementById('modalPhoto');
+            const modalInfo = document.getElementById('modalInfo');
+            
+            modalImg.src = currentModalImages[currentModalIndex].src;
+            modalImg.alt = currentModalImages[currentModalIndex].alt;
+            modalInfo.textContent = `${currentModalIndex + 1} / ${currentModalImages.length}`;
+        }
+        
+        // Close modal on ESC key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closePhotoModal();
+            } else if (event.key === 'ArrowLeft') {
+                modalPrevPhoto();
+            } else if (event.key === 'ArrowRight') {
+                modalNextPhoto();
+            }
+        });
+        
+        // Close modal when clicking outside the image
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('photoModal');
+            if (event.target === modal) {
+                closePhotoModal();
+            }
+        });
+        
+        // Complex Photo Modal Functions
+        let allComplexPhotos = {};
+        
+        // Initialize complex photos data
+        {% for complex_name in presentation.complex_names %}
+        {% set complex = presentation.all_complexes[complex_name] %}
+        {% if complex.photos and complex.photos|length > 0 %}
+        allComplexPhotos[{{ complex_name|tojson }}] = [
+            {% for photo in complex.photos %}
+            {
+                src: {{ photo|tojson }},
+                alt: {{ (complex.name ~ ' - фото ' ~ loop.index)|tojson }}
+            }{% if not loop.last %},{% endif %}
+            {% endfor %}
+        ];
+        {% endif %}
+        {% endfor %}
+        
+        function openComplexPhotoModal(complexName, photoIndex) {
+            const complexPhotos = allComplexPhotos[complexName];
+            if (!complexPhotos || !complexPhotos.length) return;
+            
+            currentModalImages = complexPhotos;
+            currentModalIndex = photoIndex;
+            
+            const modal = document.getElementById('photoModal');
+            const modalImg = document.getElementById('modalPhoto');
+            const modalInfo = document.getElementById('modalInfo');
+            
+            modalImg.src = currentModalImages[currentModalIndex].src;
+            modalImg.alt = currentModalImages[currentModalIndex].alt;
+            modalInfo.textContent = `${currentModalIndex + 1} / ${currentModalImages.length}`;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Event Listeners for complex photos
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.complex-photo-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const complexName = this.getAttribute('data-complex-name');
+                    const photoIndex = parseInt(this.getAttribute('data-photo-index'));
+                    openComplexPhotoModal(complexName, photoIndex);
+                });
+            });
+        });
+        
+        // Performance monitoring
+        window.addEventListener('load', function() {
+            const loadTime = performance.timing.domContentLoadedEventEnd - performance.timing.navigationStart;
+            console.log('Modern Presentation Load Time:', loadTime + 'ms');
+        });
+    </script>
+    
+    <!-- Photo Modal -->
+    <div id="photoModal" class="photo-modal">
+        <div class="photo-modal-close" onclick="closePhotoModal()">&times;</div>
+        <div class="photo-modal-content">
+            <img id="modalPhoto" src="" alt="">
+            <button class="photo-modal-nav prev" onclick="modalPrevPhoto()">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="photo-modal-nav next" onclick="modalNextPhoto()">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+        <div id="modalInfo" class="photo-modal-info"></div>
+    </div>
+</body>
+</html>

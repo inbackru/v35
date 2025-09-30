@@ -1,0 +1,472 @@
+{% extends "base.html" %}
+
+{% block title %}InBack Журнал | Экспертные статьи о недвижимости{% endblock %}
+{% block description %}InBack Журнал - экспертные статьи об ипотеке, законах, инструкциях и аналитике в сфере недвижимости Краснодара{% endblock %}
+{% block keywords %}блог недвижимость, кэшбек квартиры, ипотека Краснодар, новостройки советы{% endblock %}
+
+{% block content %}
+<!-- Breadcrumbs -->
+<div class="container mx-auto px-4 py-3 text-sm">
+    <nav aria-label="Breadcrumb" class="flex">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+                <a class="text-[#0088CC] hover:underline inline-flex items-center" href="{{ url_for('index') }}">
+                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                    </svg>
+                    Главная
+                </a>
+            </li>
+            <li aria-current="page">
+                <div class="flex items-center">
+                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path clip-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" fill-rule="evenodd"></path>
+                    </svg>
+                    <span class="text-gray-500 ml-1 md:ml-2">InBack Журнал</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+</div>
+
+<!-- Hero Section with 3D Animation -->
+<section class="relative py-20 bg-gradient-to-b from-white to-gray-50 overflow-hidden">
+    <!-- 3D Background Elements -->
+    <div class="absolute inset-0 overflow-hidden">
+        <div class="floating-shape floating-shape-1"></div>
+        <div class="floating-shape floating-shape-2"></div>
+        <div class="floating-shape floating-shape-3"></div>
+        <div class="floating-shape floating-shape-4"></div>
+        <div class="floating-shape floating-shape-5"></div>
+        <div class="grid-overlay"></div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 text-center relative z-10">
+        <div class="hero-content">
+            <h1 class="text-5xl md:text-7xl font-bold text-gray-900 mb-6 hero-title">
+                <span class="inline-block transform-3d">InBack</span>
+                <span class="inline-block transform-3d hero-accent">Журнал</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-600 mb-10 max-w-4xl mx-auto leading-relaxed hero-subtitle">
+                Ипотека, законы, инструкции, аналитика и интересные материалы о недвижимости в Краснодаре
+            </p>
+        </div>
+        
+        <!-- Advanced Search -->
+        <div class="max-w-xl mx-auto">
+            <div class="relative">
+                <input type="text" 
+                       id="blog-search-input" 
+                       placeholder="Поиск по статьям..."
+                       value="{{ search_query or '' }}"
+                       class="w-full px-6 py-4 pr-14 text-gray-900 bg-white bg-opacity-90 backdrop-blur-md rounded-3xl border-0 shadow-2xl focus:ring-4 focus:ring-white focus:ring-opacity-50 focus:outline-none transition-all duration-300 placeholder-gray-500"
+                       autocomplete="off">
+                <button id="search-btn" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-[#0088CC] hover:bg-[#006699] text-white rounded-2xl flex items-center justify-center transition-all duration-200 hover:scale-105">
+                    <i class="fas fa-search text-sm"></i>
+                </button>
+                
+                <!-- Search Suggestions Dropdown -->
+                <div id="search-suggestions" class="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg shadow-lg border border-gray-200 hidden z-10">
+                    <!-- Dynamic suggestions will be inserted here -->
+                </div>
+                
+                <!-- Search Results Count -->
+                {% if search_query %}
+                <div class="absolute top-full left-0 right-0 mt-2 text-white text-sm text-center">
+                    <span class="bg-[#0088CC] bg-opacity-80 px-3 py-1 rounded-full">
+                        Найдено статей: {{ articles|length }}
+                    </span>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Quick Search Tags -->
+            <div class="flex flex-wrap justify-center gap-2 mt-4">
+                <button class="quick-search-tag px-3 py-1 text-sm bg-white bg-opacity-20 text-white rounded-full hover:bg-opacity-30 transition-all" data-query="кэшбек">
+                    кэшбек
+                </button>
+                <button class="quick-search-tag px-3 py-1 text-sm bg-white bg-opacity-20 text-white rounded-full hover:bg-opacity-30 transition-all" data-query="ипотека">
+                    ипотека
+                </button>
+                <button class="quick-search-tag px-3 py-1 text-sm bg-white bg-opacity-20 text-white rounded-full hover:bg-opacity-30 transition-all" data-query="новостройки">
+                    новостройки
+                </button>
+                <button class="quick-search-tag px-3 py-1 text-sm bg-white bg-opacity-20 text-white rounded-full hover:bg-opacity-30 transition-all" data-query="инвестиции">
+                    инвестиции
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Category Navigation -->
+<nav class="container mx-auto px-4 py-8">
+    <div class="flex flex-wrap justify-center gap-2">
+        <a href="/blog" class="bg-blue-500 text-white text-xs px-3 py-1 rounded-full hover:bg-blue-600 transition-colors">
+            Все
+        </a>
+        {% for category in all_categories %}
+        <a href="/blog/category/{{ category.slug }}" class="bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs px-3 py-1 rounded-full transition-colors">
+            {{ category.name }}
+        </a>
+        {% endfor %}
+    </div>
+</nav>
+
+<!-- Main Content with Dynamic Categories -->
+<div class="container mx-auto px-4 py-12">
+    {% if show_category_sections %}
+    <!-- Режим отображения по категориям (без фильтрации) -->
+    {% for item in categories_with_articles %}
+    {% set category = item.category %}
+    {% set category_articles = item.articles %}
+    <!-- {{ category.name }} Section -->
+    <section class="mb-16">
+        <div class="flex items-center justify-between mb-8">
+            <h2 class="text-3xl font-bold text-gray-900">{{ category.name }}</h2>
+            <a href="/blog/category/{{ category.slug }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                Показать все
+            </a>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for article in category_articles %}
+            <article class="group">
+                <a href="{{ article.url }}" class="block bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 h-full w-full cursor-pointer">
+                    <div class="aspect-[4/3] relative bg-cover bg-center" 
+                         style="background-image: url('{{ article.featured_image }}'); pointer-events: none;">
+                        <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+                        <div class="absolute top-4 left-4 w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-percentage text-white text-xl"></i>
+                        </div>
+                        <div class="absolute bottom-4 left-4 right-4 text-white z-10">
+                            <div class="text-xs opacity-80 mb-1">{{ article.published_at|russian_date if article.published_at else article.created_at|russian_date }}</div>
+                            <h3 class="text-lg font-bold line-clamp-2 group-hover:text-blue-200 transition-colors">
+                                {{ article.title }}
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="p-4" style="pointer-events: none;">
+                        <p class="text-sm text-gray-600 line-clamp-3 mb-3">
+                            {{ article.excerpt|striptags }}
+                        </p>
+                        <div class="text-xs text-gray-500">
+                            Читать {{ article.reading_time }} мин
+                        </div>
+                    </div>
+                </a>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+    {% endfor %}
+    {% else %}
+    <!-- Режим списка (с фильтрацией или поиском) -->
+    <div id="articles-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for article in articles %}
+        <article class="group">
+            <a href="{{ article.url }}" class="block bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 h-full w-full cursor-pointer">
+                <div class="aspect-[4/3] relative bg-cover bg-center" 
+                     style="background-image: url('{{ article.featured_image }}'); pointer-events: none;">
+                    <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+                    <div class="absolute top-4 left-4 w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-percentage text-white text-xl"></i>
+                    </div>
+                    <div class="absolute bottom-4 left-4 right-4 text-white z-10">
+                        <div class="text-xs opacity-80 mb-1">{{ article.published_at|russian_date if article.published_at else article.created_at|russian_date }}</div>
+                        <h3 class="text-lg font-bold line-clamp-2 group-hover:text-blue-200 transition-colors">
+                            {{ article.title }}
+                        </h3>
+                    </div>
+                </div>
+                <div class="p-4" style="pointer-events: none;">
+                    <p class="text-sm text-gray-600 line-clamp-3 mb-3">
+                        {{ article.excerpt|striptags }}
+                    </p>
+                    <div class="text-xs text-gray-500">
+                        Читать {{ article.reading_time }} мин
+                    </div>
+                </div>
+            </a>
+        </article>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const blogSearchInput = document.getElementById('blog-search-input');
+    const searchBtn = document.getElementById('search-btn');
+    const quickSearchTags = document.querySelectorAll('.quick-search-tag');
+    const articlesContainer = document.getElementById('articles-container');
+    
+    let searchTimeout;
+    let isSearching = false;
+    
+    // Функция для динамического поиска
+    async function performLiveSearch(query) {
+        try {
+            console.log('🔍 Live search triggered with query:', query);
+            console.log('📦 Articles container found:', !!articlesContainer);
+            
+            const trimmedQuery = query.trim();
+            
+            // Если мы на главной странице блога (без поиска), ничего не делаем
+            // Перенаправление будет обработано в обработчике кликов по тегам
+            if (!articlesContainer && trimmedQuery) {
+                console.log('🔄 No articles container found, search mode redirect handled by tag click');
+                return;
+            }
+            
+            isSearching = true;
+            
+            // Если поисковый запрос пустой, перезагружаем страницу для показа всех статей
+            if (!trimmedQuery) {
+                window.location.href = '/blog';
+                return;
+            }
+            
+            // Отправляем запрос к API
+            const url = `/api/blog/search?q=${encodeURIComponent(trimmedQuery)}`;
+            console.log('📡 Making API request to:', url);
+            
+            const response = await fetch(url);
+            const data = await response.json();
+            
+            console.log('📨 API response:', data);
+            
+            console.log('🔧 Processing API data:', data);
+            
+            if (data.articles && articlesContainer) {
+                console.log('✅ Calling updateArticlesDisplay');
+                updateArticlesDisplay(data.articles, trimmedQuery);
+            } else {
+                console.error('❌ Cannot update display:', {
+                    hasArticles: !!data.articles,
+                    hasContainer: !!articlesContainer
+                });
+            }
+            
+            isSearching = false;
+        } catch (error) {
+            console.error('❌ Ошибка поиска:', error);
+            isSearching = false;
+        }
+    }
+    
+    // Функция для обновления отображения статей
+    function updateArticlesDisplay(articles, query) {
+        console.log('🎨 updateArticlesDisplay called with:', {
+            articlesCount: articles.length,
+            query: query,
+            containerExists: !!articlesContainer
+        });
+        
+        if (!articlesContainer) {
+            console.error('❌ Articles container not found!');
+            return;
+        }
+        
+        if (articles.length === 0) {
+            articlesContainer.innerHTML = `
+                <div class="col-span-full text-center py-12">
+                    <div class="text-gray-400 text-6xl mb-4">📝</div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Статьи не найдены</h3>
+                    <p class="text-gray-600">По запросу "${query}" ничего не найдено. Попробуйте другие ключевые слова.</p>
+                </div>
+            `;
+            return;
+        }
+        
+        // Генерируем HTML для статей
+        let articlesHTML = '';
+        articles.forEach(article => {
+            articlesHTML += `
+                <article class="group">
+                    <a href="${article.url}" class="block bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 h-full w-full cursor-pointer">
+                        <div class="aspect-[4/3] relative bg-cover bg-center" 
+                             style="background-image: url('${article.featured_image}'); pointer-events: none;">
+                            <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+                            <div class="absolute top-4 left-4 w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-percentage text-white text-xl"></i>
+                            </div>
+                            <div class="absolute bottom-4 left-4 right-4 text-white z-10">
+                                <div class="text-xs opacity-80 mb-1">${formatDate(article.published_at || article.created_at)}</div>
+                                <h3 class="text-lg font-bold line-clamp-2 group-hover:text-blue-200 transition-colors">
+                                    ${highlightSearchTerm(article.title, query)}
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="p-4" style="pointer-events: none;">
+                            <p class="text-sm text-gray-600 line-clamp-3 mb-3">
+                                ${highlightSearchTerm(article.excerpt, query)}
+                            </p>
+                            <div class="text-xs text-gray-500">
+                                Читать ${article.reading_time || 5} мин
+                            </div>
+                        </div>
+                    </a>
+                </article>
+            `;
+        });
+        
+        articlesContainer.innerHTML = articlesHTML;
+    }
+    
+    // Функция для подсветки найденного текста
+    function highlightSearchTerm(text, term) {
+        if (!text || !term) return text || '';
+        const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+        return text.replace(regex, '<mark class="bg-yellow-200">$1</mark>');
+    }
+    
+    // Функция для форматирования даты
+    function formatDate(dateStr) {
+        if (!dateStr) return 'Недавно';
+        const date = new Date(dateStr);
+        return date.toLocaleDateString('ru-RU', { 
+            day: 'numeric', 
+            month: 'long', 
+            year: 'numeric' 
+        });
+    }
+    
+    // Функция для обычного поиска (Enter или кнопка)
+    function performBlogSearch(query) {
+        if (query.trim()) {
+            window.location.href = `/blog?search=${encodeURIComponent(query.trim())}`;
+        } else {
+            window.location.href = '/blog';
+        }
+    }
+    
+    // Live search при вводе текста
+    if (blogSearchInput) {
+        blogSearchInput.addEventListener('input', function(e) {
+            const query = e.target.value;
+            
+            // Сбрасываем активное состояние тегов при ручном вводе (если ввод не соответствует никому из тегов)
+            const matchingTag = Array.from(quickSearchTags).find(tag => tag.dataset.query === query);
+            if (!matchingTag) {
+                setActiveTag(null); // Сбросить все активные теги
+            } else {
+                setActiveTag(query); // Подсветить соответствующий тег
+            }
+            
+            // Очищаем предыдущий таймер
+            clearTimeout(searchTimeout);
+            
+            // Устанавливаем новый таймер для debounce (500ms)
+            searchTimeout = setTimeout(() => {
+                if (!isSearching) {
+                    performLiveSearch(query);
+                }
+            }, 500);
+        });
+    }
+    
+    // Handle search button click
+    if (searchBtn) {
+        searchBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (blogSearchInput) {
+                performBlogSearch(blogSearchInput.value);
+            }
+        });
+    }
+    
+    // Handle Enter key in search input
+    if (blogSearchInput) {
+        blogSearchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                performBlogSearch(this.value);
+            }
+        });
+    }
+    
+    // Функция для управления активным состоянием тегов
+    function setActiveTag(activeQuery) {
+        quickSearchTags.forEach(tag => {
+            const tagQuery = tag.dataset.query;
+            if (activeQuery && tagQuery === activeQuery) {
+                // Активный тег - синий фон
+                tag.classList.add('bg-blue-500', 'bg-opacity-100');
+                tag.classList.remove('bg-white', 'bg-opacity-20');
+                console.log('🏷️ Activated tag:', tagQuery);
+            } else {
+                // Неактивный тег - прозрачный белый фон
+                tag.classList.remove('bg-blue-500', 'bg-opacity-100');
+                tag.classList.add('bg-white', 'bg-opacity-20');
+            }
+        });
+        
+        if (!activeQuery) {
+            console.log('🏷️ All tags deactivated');
+        }
+    }
+    
+    // Проверяем URL при загрузке страницы для установки активного тега
+    function checkInitialActiveTag() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchQuery = urlParams.get('search');
+        if (searchQuery && blogSearchInput) {
+            blogSearchInput.value = searchQuery;
+            setActiveTag(searchQuery);
+        }
+    }
+    
+    // Handle quick search tags
+    console.log('🏷️ Found quick search tags:', quickSearchTags.length);
+    
+    quickSearchTags.forEach((tag, index) => {
+        console.log(`🏷️ Setting up tag ${index}:`, tag.dataset.query, 'Element:', tag);
+        console.log(`🏷️ Tag classes:`, tag.className);
+        
+        // Добавляем несколько слушателей для надежности
+        tag.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('🏷️ Quick tag clicked (click event):', this.dataset.query);
+            console.log('🏷️ Tag element:', this);
+            
+            const query = this.dataset.query;
+            
+            // Устанавливаем активное состояние НЕМЕДЛЕННО для визуальной обратной связи
+            setActiveTag(query);
+            
+            if (blogSearchInput) {
+                blogSearchInput.value = query;
+                console.log('🏷️ Starting live search for tag:', query);
+                
+                // Если мы на главной странице блога (без поиска), переходим в режим поиска
+                // но АКТИВНЫЙ ТЕГ уже сохранится через URL параметр
+                if (!articlesContainer) {
+                    console.log('🔄 Redirecting to search mode with active tag...');
+                    window.location.href = `/blog?search=${encodeURIComponent(query)}`;
+                    return;
+                }
+                
+                // Если уже в режиме поиска, просто ищем
+                performLiveSearch(query);
+            }
+        });
+        
+        // Дополнительная отладка
+        tag.addEventListener('mousedown', function(e) {
+            console.log('🏷️ Tag mousedown:', this.dataset.query);
+        });
+        
+        tag.addEventListener('mouseup', function(e) {
+            console.log('🏷️ Tag mouseup:', this.dataset.query);
+        });
+    });
+    
+    // Устанавливаем активный тег при загрузке страницы
+    checkInitialActiveTag();
+});
+</script>
+
+{% endblock %}

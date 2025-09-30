@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Район Панорама Краснодар - Новостройки с кешбеком до 500 000 ₽</title>
+    <meta name="description" content="Новостройки в районе Панорама Краснодара. Современный жилой район с панорамными видами на город. Кешбек до 500 000 ₽ при покупке квартиры. Цены от 120 000 ₽/м².">
+    <meta name="keywords" content="Панорама район Краснодар, новостройки Панорама, квартиры Панорама, кешбек новостройки, панорамные виды">
+    
+    <!-- Schema.org structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Place",
+        "name": "Район Панорама",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Краснодар",
+            "addressRegion": "Краснодарский край",
+            "addressCountry": "RU"
+        },
+        "description": "Район Панорама Краснодара - современный жилой район с панорамными видами на город"
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ton-blue': '#0088CC',
+                        'ton-accent': '#006699',
+                        'ton-light': '#E8F4FD'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(139, 69, 19, 0.15);
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    {% include 'header_updated.html' %}
+
+    <!-- Hero Section -->
+    <section class="relative bg-gradient-to-r from-purple-600 to-indigo-800 text-white py-16">
+        <div class="absolute inset-0 bg-black opacity-10"></div>
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-4xl mx-auto text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Район Панорама</h1>
+                <p class="text-lg md:text-xl mb-6">Современный жилой район с панорамными видами и кешбеком до 500 000 ₽</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <button class="bg-white text-gray-700 px-6 py-3 rounded-full font-bold hover:bg-gray-100 transition-all duration-300 flex items-center justify-center">
+                        <i class="fas fa-calculator mr-2"></i> Рассчитать кешбек
+                    </button>
+                    <button class="bg-transparent border-2 border-white px-6 py-3 rounded-full font-bold hover:bg-white hover:text-gray-700 transition-all duration-300 flex items-center justify-center">
+                        <i class="fas fa-list mr-2"></i> Новостройки района
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Breadcrumbs -->
+    <div class="container mx-auto px-4 py-4">
+        <nav class="flex" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                <li class="inline-flex items-center">
+                    <a href="{{ url_for('index') }}" class="text-ton-blue hover:text-ton-accent inline-flex items-center">
+                        <i class="fas fa-home mr-2"></i>
+                        Главная
+                    </a>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
+                        <a href="{{ url_for('districts') }}" class="text-ton-blue hover:text-ton-accent">Районы</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
+                        <span class="text-gray-500">Панорама</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Sidebar -->
+            <div class="lg:w-1/4">
+                <div class="bg-white rounded-lg shadow-md p-6 sticky top-4">
+                    <h2 class="text-xl font-bold mb-4 text-gray-800">Другие районы</h2>
+                    <div class="space-y-2 max-h-96 overflow-y-auto">
+                        <a href="{{ url_for('district_detail', district='tsentralnyy') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                            Центральный
+                        </a>
+                        <a href="{{ url_for('district_detail', district='festivalny') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                            Фестивальный
+                        </a>
+                        <a href="{{ url_for('district_detail', district='solnechny') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                            Солнечный
+                        </a>
+                        <a href="{{ url_for('district_detail', district='panorama') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors bg-gray-100 text-purple-800 font-semibold">
+                            Панорама
+                        </a>
+                        <a href="{{ url_for('district_detail', district='zapadny') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                            Западный
+                        </a>
+                        <a href="{{ url_for('district_detail', district='yablonovskiy') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                            Яблоновский
+                        </a>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+                        <h3 class="font-semibold text-gray-700 mb-2">Нужна помощь?</h3>
+                        <p class="text-sm text-gray-600 mb-3">Поможем выбрать лучшую новостройку</p>
+                        <button class="w-full bg-[#0088CC] text-white py-2 px-4 rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors">
+                            Получить консультацию
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="lg:w-3/4">
+                <!-- Featured District Info -->
+                <section class="bg-white rounded-lg shadow-md overflow-hidden mb-8">
+                    <div class="md:flex">
+                        <div class="md:w-1/3">
+                            <img src="https://via.placeholder.com/400x300?text=Панорама+район" alt="Панорама район Краснодара" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-6 md:w-2/3">
+                            <div class="flex justify-between items-start mb-4">
+                                <h2 class="text-2xl font-bold text-gray-800">Район Панорама</h2>
+                                <span class="bg-gray-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded">Панорамные виды</span>
+                            </div>
+                            
+                            <p class="text-gray-600 mb-4">
+                                Панорама - современный жилой район с уникальными панорамными видами на город. Район отличается современной архитектурой, качественной застройкой и развитой инфраструктурой. Популярен среди покупателей, ценящих красивые виды и комфорт.
+                            </p>
+
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                                <div class="flex items-center">
+                                    <i class="fas fa-eye text-purple-500 mr-2"></i>
+                                    <span class="text-gray-700">Панорамные виды на город</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-building text-purple-500 mr-2"></i>
+                                    <span class="text-gray-700">Современная архитектура</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-star text-purple-500 mr-2"></i>
+                                    <span class="text-gray-700">Высокое качество строительства</span>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <h3 class="font-semibold text-gray-800 mb-2">Средняя стоимость новостроек:</h3>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-[#0088CC] h-2.5 rounded-full" style="width: 85%"></div>
+                                </div>
+                                <div class="flex justify-between text-sm text-gray-600 mt-1">
+                                    <span>120 000 ₽/м²</span>
+                                    <span>180 000 ₽/м²</span>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
+                                <button class="bg-[#0088CC] text-white px-4 py-2 rounded-full font-medium hover:bg-purple-700 transition flex items-center justify-center">
+                                    <i class="fas fa-ruble-sign mr-2"></i> Рассчитать кешбек
+                                </button>
+                                <button class="border border-purple-600 text-[#0088CC] px-4 py-2 rounded-full font-medium hover:bg-gray-50 transition flex items-center justify-center">
+                                    <i class="fas fa-list mr-2"></i> Новостройки района
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Detailed District Description -->
+                <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Подробнее о районе Панорама</h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-3 text-gray-800">Инфраструктура района</h3>
+                            <ul class="space-y-2 text-gray-600">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-purple-500 mt-1 mr-2"></i>
+                                    <span>Современные школы и детские сады</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-purple-500 mt-1 mr-2"></i>
+                                    <span>Торговые центры и супермаркеты</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-purple-500 mt-1 mr-2"></i>
+                                    <span>Медицинские центры и аптеки</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-purple-500 mt-1 mr-2"></i>
+                                    <span>Кафе, рестораны и места отдыха</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h3 class="text-lg font-semibold mb-3 text-gray-800">Транспортная доступность</h3>
+                            <ul class="space-y-2 text-gray-600">
+                                <li class="flex items-start">
+                                    <i class="fas fa-bus text-purple-500 mt-1 mr-2"></i>
+                                    <span>Регулярное автобусное сообщение с центром</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-car text-purple-500 mt-1 mr-2"></i>
+                                    <span>Удобные подъезды и развязки</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-clock text-purple-500 mt-1 mr-2"></i>
+                                    <span>15-20 минут до центра города</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-50 p-4 rounded-lg mb-6">
+                        <h4 class="font-semibold text-gray-700 mb-2"><i class="fas fa-info-circle mr-2"></i>Границы района:</h4>
+                        <p class="text-gray-700">
+                            Район Панорама расположен в западной части Краснодара, на возвышенности, что обеспечивает прекрасные панорамные виды на город. Ограничен улицами Тургеневская с севера, проспектом Чекистов с востока.
+                        </p>
+                    </div>
+
+                    <h3 class="text-lg font-semibold mb-3 text-gray-800">Новостройки района</h3>
+                    <p class="text-gray-600 mb-4">
+                        Основные застройщики: "ЮгСтройИнвест", "СтройПроект", "Кубань-Девелопмент". Цены на квартиры начинаются от 120 000 ₽/м². В районе преобладают бизнес-класс и премиум новостройки с панорамным остеклением и современными планировками.
+                    </p>
+
+                    <div class="bg-gray-50 p-4 rounded-lg border border-purple-100">
+                        <h4 class="font-semibold text-purple-800 mb-2">Совет эксперта:</h4>
+                        <p class="text-gray-700">
+                            Район Панорама подходит для покупателей, которые ценят современную архитектуру, красивые виды и качественную застройку. Это престижное место с хорошим инвестиционным потенциалом.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    {% include 'footer.html' %}
+</body>
+</html>

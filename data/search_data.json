@@ -1,0 +1,211 @@
+{
+  "residential_complexes": [
+    {
+      "id": "garmonia",
+      "name": "ЖК «Гармония»",
+      "type": "residential_complex",
+      "district": "Центральный",
+      "street": "ул. Красная",
+      "developer": "СК Гармония-Строй",
+      "keywords": ["гармония", "центральный", "красная", "гармония-строй"],
+      "url": "residential_complexes/garmonia"
+    },
+    {
+      "id": "yuglife",
+      "name": "ЖК «ЮгЛайф»",
+      "type": "residential_complex", 
+      "district": "Западный",
+      "street": "ул. Героев Разведчиков",
+      "developer": "ЮгСтройИнвест",
+      "keywords": ["юглайф", "западный", "героев разведчиков", "югстройинвест"],
+      "url": "residential_complexes/yuglife"
+    },
+    {
+      "id": "solnechny",
+      "name": "ЖК «Солнечный»",
+      "type": "residential_complex",
+      "district": "Карасунский", 
+      "street": "ул. Солнечная",
+      "developer": "Краснодар-Строй",
+      "keywords": ["солнечный", "карасунский", "солнечная", "краснодар-строй"],
+      "url": "residential_complexes/solnechny"
+    },
+    {
+      "id": "panorama",
+      "name": "ЖК «Панорама»",
+      "type": "residential_complex",
+      "district": "Гидростроителей",
+      "street": "ул. Тургенева",
+      "developer": "ПанорамаДевелопмент",
+      "keywords": ["панорама", "гидростроителей", "тургенева", "панорамадевелопмент"],
+      "url": "residential_complexes/panorama"  
+    },
+    {
+      "id": "zeleny_gorod",
+      "name": "ЖК «Зеленый город»",
+      "type": "residential_complex",
+      "district": "Прикубанский",
+      "street": "ул. Зиповская",
+      "developer": "ЭкоСтрой",
+      "keywords": ["зеленый город", "прикубанский", "зиповская", "экострой"],
+      "url": "residential_complexes/zeleny_gorod"
+    },
+    {
+      "id": "festival",
+      "name": "ЖК «Фестиваль»",
+      "type": "residential_complex",
+      "district": "Фестивальный",
+      "street": "ул. Фестивальная",
+      "developer": "Фест-Строй",
+      "keywords": ["фестиваль", "фестивальный", "фестивальная", "фест-строй"],
+      "url": "residential_complexes/festival"
+    }
+  ],
+
+  "districts": [
+    {
+      "id": "tsentralnyy",
+      "name": "Центральный",
+      "type": "district",
+      "keywords": ["центральный", "центр", "красная", "советская"],
+      "url": "districts/tsentralnyy"
+    },
+    {
+      "id": "zapadny",
+      "name": "Западный", 
+      "type": "district",
+      "keywords": ["западный", "запад", "героев разведчиков", "уральская"],
+      "url": "districts/zapadny"
+    },
+    {
+      "id": "karasunsky",
+      "name": "Карасунский",
+      "type": "district", 
+      "keywords": ["карасунский", "карасун", "солнечная", "автолюбителей"],
+      "url": "districts/karasunsky"
+    },
+    {
+      "id": "gidrostroitelei",
+      "name": "Гидростроителей",
+      "type": "district",
+      "keywords": ["гидростроителей", "гидрострой", "тургенева", "северная"],
+      "url": "districts/gidrostroitelei"
+    },
+    {
+      "id": "prikubansky",
+      "name": "Прикубанский",
+      "type": "district",
+      "keywords": ["прикубанский", "прикубанка", "зиповская", "кубанская"],
+      "url": "districts/prikubansky"
+    },
+    {
+      "id": "festivalny",
+      "name": "Фестивальный",
+      "type": "district", 
+      "keywords": ["фестивальный", "фестиваль", "фестивальная", "дмитриевская"],
+      "url": "districts/festivalny"
+    },
+    {
+      "id": "pashkovsky",
+      "name": "Пашковский",
+      "type": "district",
+      "keywords": ["пашковский", "пашки", "аэропорт", "платановый"],
+      "url": "districts/pashkovsky"
+    },
+    {
+      "id": "yubileyny",
+      "name": "Юбилейный",
+      "type": "district",
+      "keywords": ["юбилейный", "микрорайон", "московская", "ставропольская"],
+      "url": "districts/yubileyny"
+    }
+  ],
+
+  "developers": [
+    {
+      "id": "garmonia_stroy",
+      "name": "СК Гармония-Строй",
+      "type": "developer",
+      "keywords": ["гармония-строй", "гармония", "ск гармония"],
+      "url": "developers/garmonia_stroy"
+    },
+    {
+      "id": "yugstroyinvest",
+      "name": "ЮгСтройИнвест",
+      "type": "developer",
+      "keywords": ["югстройинвест", "юг строй инвест", "юси"],
+      "url": "developers/yugstroyinvest"
+    },
+    {
+      "id": "krasnodar_stroy",
+      "name": "Краснодар-Строй",
+      "type": "developer",
+      "keywords": ["краснодар-строй", "краснодар строй", "кс"],
+      "url": "developers/krasnodar_stroy"
+    },
+    {
+      "id": "panorama_dev",
+      "name": "ПанорамаДевелопмент",
+      "type": "developer",
+      "keywords": ["панорамадевелопмент", "панорама девелопмент", "пд"],
+      "url": "developers/panorama_dev"
+    },
+    {
+      "id": "ekostroy",
+      "name": "ЭкоСтрой",
+      "type": "developer",
+      "keywords": ["экострой", "эко строй", "эко"],
+      "url": "developers/ekostroy"
+    },
+    {
+      "id": "fest_stroy",
+      "name": "Фест-Строй",
+      "type": "developer",
+      "keywords": ["фест-строй", "фест строй", "фестивальстрой"],
+      "url": "developers/fest_stroy"
+    }
+  ],
+
+  "streets": [
+    {
+      "id": "krasnaya",
+      "name": "ул. Красная",
+      "type": "street",
+      "district": "Центральный",
+      "keywords": ["красная", "красной", "ул красная"],
+      "url": "map?street=krasnaya"
+    },
+    {
+      "id": "geroev_razvedchikov",
+      "name": "ул. Героев Разведчиков",
+      "type": "street",
+      "district": "Западный",
+      "keywords": ["героев разведчиков", "разведчиков", "ул героев разведчиков"],
+      "url": "map?street=geroev_razvedchikov"
+    },
+    {
+      "id": "solnechnaya",
+      "name": "ул. Солнечная",
+      "type": "street",
+      "district": "Карасунский",
+      "keywords": ["солнечная", "солнечной", "ул солнечная"],
+      "url": "map?street=solnechnaya"
+    },
+    {
+      "id": "turgeneva",
+      "name": "ул. Тургенева",
+      "type": "street",
+      "district": "Гидростроителей",
+      "keywords": ["тургенева", "тургенев", "ул тургенева"],
+      "url": "map?street=turgeneva"
+    },
+    {
+      "id": "zipovskaya",
+      "name": "ул. Зиповская",
+      "type": "street",
+      "district": "Прикубанский",
+      "keywords": ["зиповская", "зиповской", "ул зиповская"],
+      "url": "map?street=zipovskaya"
+    }
+  ]
+}

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Личный кабинет | InBack{% endblock %}</title>
+    
+    <!-- Meta tags -->
+    <meta name="description" content="{% block description %}Личный кабинет покупателя недвижимости на платформе InBack{% endblock %}">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f8fafc;
+        }
+        
+        .dashboard-header {
+            background: linear-gradient(135deg, #0088CC 0%, #006699 100%);
+            box-shadow: 0 4px 20px rgba(0, 136, 204, 0.15);
+        }
+        
+        .sidebar-item.active {
+            background-color: #f0f9ff;
+            color: #0088CC;
+            border-right: 3px solid #0088CC;
+        }
+        
+        .sidebar-item:hover {
+            background-color: #f8fafc;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+    
+    {% block head %}{% endblock %}
+</head>
+<body class="bg-gray-50">
+    <!-- Dashboard Header -->
+    <header class="dashboard-header text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="{{ url_for('index') }}" class="flex items-center">
+                        <div class="w-8 h-8 bg-white rounded-lg flex items-center justify-center mr-3">
+                            <span class="text-[#0088CC] font-bold text-lg">IB</span>
+                        </div>
+                        <span class="text-xl font-bold">InBack</span>
+                    </a>
+                </div>
+                
+                <!-- User Menu -->
+                <div class="flex items-center space-x-4">
+                    <!-- Notifications -->
+                    <button class="relative p-2 hover:bg-white/10 rounded-lg transition-colors">
+                        <i class="fas fa-bell text-lg"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    
+                    <!-- User Avatar and Menu -->
+                    <div class="relative">
+                        <button class="flex items-center space-x-3 p-2 hover:bg-white/10 rounded-lg transition-colors">
+                            <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                                <i class="fas fa-user text-sm"></i>
+                            </div>
+                            <span class="font-medium">{{ current_user.name or current_user.email }}</span>
+                            <i class="fas fa-chevron-down text-sm"></i>
+                        </button>
+                        
+                        <!-- Dropdown Menu -->
+                        <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden">
+                            <a href="{{ url_for('dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-user mr-2"></i>Профиль
+                            </a>
+                            <a href="{{ url_for('dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-cog mr-2"></i>Настройки
+                            </a>
+                            <div class="border-t border-gray-100"></div>
+                            <a href="{{ url_for('logout') }}" class="block px-4 py-2 text-sm text-[#0088CC] hover:bg-gray-100">
+                                <i class="fas fa-sign-out-alt mr-2"></i>Выйти
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- JavaScript -->
+    <script>
+        // Toggle user menu dropdown
+        document.addEventListener('DOMContentLoaded', function() {
+            const userMenuButton = document.querySelector('button:has(.fa-chevron-down)');
+            const userMenuDropdown = document.querySelector('.absolute.right-0.mt-2');
+            
+            if (userMenuButton && userMenuDropdown) {
+                userMenuButton.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    userMenuDropdown.classList.toggle('hidden');
+                });
+                
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function() {
+                    userMenuDropdown.classList.add('hidden');
+                });
+            }
+        });
+    </script>
+    
+    {% block scripts %}{% endblock %}
+</body>
+</html>

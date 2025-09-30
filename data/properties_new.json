@@ -1,0 +1,1729 @@
+[
+  {
+    "id": 1,
+    "title": "1-комнатная квартира 42.5 м²",
+    "type": "1-комн",
+    "rooms": 1,
+    "area": 42.5,
+    "kitchen_area": 12.3,
+    "living_area": 18.5,
+    "price": 7055000,
+    "price_per_sqm": 166000,
+    "cashback_amount": 352750,
+    "cashback_percent": 5,
+    "floor": 18,
+    "total_floors": 25,
+    "building": "Корпус 1",
+    "apartment_number": "142",
+    "ceiling_height": 3.2,
+    "balcony": true,
+    "balcony_area": 6.2,
+    "windows_direction": "Юг-Запад",
+    "view": "Двор, город",
+    "status": "available",
+    "completion_date": "4 кв. 2024",
+    "finishing": "Чистовая",
+    "developer": "ГК «Инвестстройкуб»",
+    "complex_id": 1,
+    "complex_name": "ЖК «Первое место»",
+    "location": "ул. Уральская, 169",
+    "full_address": "Краснодар, Прикубанский округ, ул. Уральская, 169, корп. 1, кв. 142",
+    "district": "Прикубанский округ",
+    "coordinates": [
+      45.0355,
+      38.9753
+    ],
+    "image": "https://cdn.domclick.ru/resize/800x0/images/flats/10b/10bda24f-992f-48f3-a226-2c6a69a13a77.jpg",
+    "gallery": [
+      "https://cdn.domclick.ru/resize/800x0/images/flats/10b/10bda24f-992f-48f3-a226-2c6a69a13a77.jpg",
+      "https://cdn.domclick.ru/resize/800x0/images/flats/16e/16e887cc-303e-4925-9533-d08baa95aad7.jpg",
+      "https://cdn.domclick.ru/resize/800x0/images/flats/5f8/5f82c48f-0623-4ff3-876a-1d78433dc1a0.jpg",
+      "https://cdn.domclick.ru/resize/800x0/images/flats/c8f/c8f7c1e4-8c3f-4e0a-9c15-cb9b8c5c9a2a.jpg",
+      "https://cdn.domclick.ru/resize/800x0/images/flats/3a5/3a5b2c4e-7e9f-4e4f-9c15-cb9b8c5c9a2a.jpg"
+    ],
+    "layout_image": "https://cdn.domclick.ru/layouts/layout_142.jpg",
+    "description": "Просторная 1-комнатная квартира 42.5 м² в новом доме с чистовой отделкой. Расположена на 18 этаже 25-этажного дома. Квартира светлая с панорамными окнами и высокими потолками 3.2 метра.",
+    "detailed_description": "Планировка функциональная с кухней 12.3 м². Дом сдан и готов к заселению. На территории комплекса: детские площадки, зоны отдыха, подземный паркинг и собственная управляющая компания.",
+    "features": [
+      "Панорамные окна",
+      "Чистовая отделка",
+      "Высокие потолки",
+      "Балкон с видом на город",
+      "Подземный паркинг"
+    ],
+    "infrastructure": [
+      {
+        "name": "Детский сад",
+        "icon": "school",
+        "distance": "на территории"
+      },
+      {
+        "name": "Спортплощадка",
+        "icon": "basketball-ball",
+        "distance": "на территории"
+      },
+      {
+        "name": "Зеленый двор",
+        "icon": "leaf",
+        "distance": "на территории"
+      },
+      {
+        "name": "Торговые точки",
+        "icon": "store",
+        "distance": "на территории"
+      },
+      {
+        "name": "Детская площадка",
+        "icon": "child",
+        "distance": "на территории"
+      },
+      {
+        "name": "Паркинг",
+        "icon": "car",
+        "distance": "подземный"
+      }
+    ],
+    "nearby": "ТРК «Меридиан» (1.2 км), парк «Солнечный остров» (800 м)",
+    "transport": {
+      "metro": "Ближайшая станция метро: нет",
+      "bus_stops": "Остановка «Уральская» - 150 м",
+      "highways": "Выезд на КАД - 3 км"
+    },
+    "building_info": {
+      "type": "Монолит",
+      "class": "Комфорт",
+      "year": 2024,
+      "parking": "подземный",
+      "security": "видеонаблюдение",
+      "elevator": "2 пассажирских + 1 грузовой"
+    },
+    "finishing_options": [
+      {
+        "type": "Черновая отделка",
+        "description": "Стены и потолки подготовлены под финишную отделку",
+        "image": "https://cdn.domclick.ru/blog/2021/06/23/35/chernovaya-otdelka-novostroyki.jpg",
+        "price_modifier": -500000,
+        "features": {
+          "walls": "Штукатурка",
+          "floor": "Стяжка",
+          "bathroom": "Черновая"
+        }
+      },
+      {
+        "type": "Стандартная отделка",
+        "description": "Базовый вариант с качественными материалами",
+        "image": "https://cdn.domclick.ru/blog/2021/06/23/35/standartnaya-otdelka-novostroyki.jpg",
+        "price_modifier": 0,
+        "features": {
+          "walls": "Обои/краска",
+          "floor": "Ламинат",
+          "bathroom": "Кафель"
+        }
+      },
+      {
+        "type": "Премиум отделка",
+        "description": "Элитные материалы и дизайнерские решения",
+        "image": "https://cdn.domclick.ru/blog/2022/04/11/46/dizayn-interera-premium-klassa.jpg",
+        "price_modifier": 800000,
+        "features": {
+          "walls": "Декоративная штукатурка",
+          "floor": "Паркет/плитка",
+          "bathroom": "Мозаика"
+        }
+      }
+    ],
+    "mortgage": {
+      "min_rate": 5.7,
+      "monthly_payment_from": 45000,
+      "initial_payment_min": 1410000
+    },
+    "advantages": [
+      "Высокий этаж с отличными видами",
+      "Современная планировка и качественная отделка",
+      "Развитая инфраструктура комплекса",
+      "Удобная транспортная доступность"
+    ],
+    "residential_complex": "ЖК «Первое место»",
+    "residential_complex_id": 1,
+    "layout": "Стандартная планировка"
+  },
+  {
+    "id": 2,
+    "title": "2-комнатная квартира 65.8 м²",
+    "type": "2-комн",
+    "rooms": 2,
+    "area": 65.8,
+    "kitchen_area": 14.2,
+    "living_area": 35.4,
+    "price": 8950000,
+    "price_per_sqm": 136000,
+    "cashback_amount": 447500,
+    "cashback_percent": 5,
+    "floor": 12,
+    "total_floors": 21,
+    "building": "Корпус 2",
+    "apartment_number": "89",
+    "ceiling_height": 2.8,
+    "balcony": true,
+    "balcony_area": 8.5,
+    "windows_direction": "Север-Восток",
+    "view": "Парк, двор",
+    "status": "available",
+    "completion_date": "4 кв. 2024",
+    "finishing": "Под отделку",
+    "developer": "ГК «Инвестстройкуб»",
+    "complex_id": 1,
+    "complex_name": "ЖК «Первое место»",
+    "location": "ул. Уральская, 169",
+    "full_address": "Краснодар, Прикубанский округ, ул. Уральская, 169, корп. 2, кв. 89",
+    "district": "Прикубанский округ",
+    "coordinates": [
+      45.0355,
+      38.9753
+    ],
+    "image": "https://cdn.domclick.ru/resize/800x0/images/flats/2room/2room_65_modern.jpg",
+    "gallery": [
+      "https://cdn.domclick.ru/resize/800x0/images/flats/2room/2room_65_modern.jpg",
+      "https://cdn.domclick.ru/resize/800x0/images/flats/2room/kitchen_modern.jpg",
+      "https://cdn.domclick.ru/resize/800x0/images/flats/2room/living_room.jpg",
+      "https://cdn.domclick.ru/resize/800x0/images/flats/2room/bedroom.jpg"
+    ],
+    "layout_image": "https://cdn.domclick.ru/layouts/layout_89_2room.jpg",
+    "description": "Просторная 2-комнатная квартира 65.8 м² с отличной планировкой. Две изолированные спальни, просторная кухня-гостиная. Балкон с видом на парк.",
+    "detailed_description": "Квартира с евро-планировкой включает кухню-гостиную 14.2 м² и две спальные комнаты. Большой балкон 8.5 м² с видом на зеленую зону. Квартира передается под отделку.",
+    "features": [
+      "Две изолированные спальни",
+      "Кухня-гостиная",
+      "Большой балкон",
+      "Вид на парк",
+      "Евро-планировка"
+    ],
+    "infrastructure": [
+      {
+        "name": "Детский сад",
+        "icon": "school",
+        "distance": "на территории"
+      },
+      {
+        "name": "Спортплощадка",
+        "icon": "basketball-ball",
+        "distance": "на территории"
+      },
+      {
+        "name": "Зеленый двор",
+        "icon": "leaf",
+        "distance": "на территории"
+      },
+      {
+        "name": "Торговые точки",
+        "icon": "store",
+        "distance": "на территории"
+      },
+      {
+        "name": "Детская площадка",
+        "icon": "child",
+        "distance": "на территории"
+      },
+      {
+        "name": "Паркинг",
+        "icon": "car",
+        "distance": "подземный"
+      }
+    ],
+    "nearby": "ТРК «Меридиан» (1.2 км), парк «Солнечный остров» (800 м)",
+    "transport": {
+      "metro": "Ближайшая станция метро: нет",
+      "bus_stops": "Остановка «Уральская» - 150 м",
+      "highways": "Выезд на КАД - 3 км"
+    },
+    "building_info": {
+      "type": "Монолит",
+      "class": "Комфорт",
+      "year": 2024,
+      "parking": "подземный",
+      "security": "видеонаблюдение",
+      "elevator": "2 пассажирских + 1 грузовой"
+    },
+    "finishing_options": [
+      {
+        "type": "Черновая отделка",
+        "description": "Стены и потолки подготовлены под финишную отделку",
+        "price_modifier": -650000,
+        "features": {
+          "walls": "Штукатурка",
+          "floor": "Стяжка",
+          "bathroom": "Черновая"
+        }
+      },
+      {
+        "type": "Стандартная отделка",
+        "description": "Базовый вариант с качественными материалами",
+        "price_modifier": 0,
+        "features": {
+          "walls": "Обои/краска",
+          "floor": "Ламинат",
+          "bathroom": "Кафель"
+        }
+      },
+      {
+        "type": "Премиум отделка",
+        "description": "Элитные материалы и дизайнерские решения",
+        "price_modifier": 1200000,
+        "features": {
+          "walls": "Декоративная штукатурка",
+          "floor": "Паркет/плитка",
+          "bathroom": "Мозаика"
+        }
+      }
+    ],
+    "mortgage": {
+      "min_rate": 5.7,
+      "monthly_payment_from": 57000,
+      "initial_payment_min": 1790000
+    },
+    "advantages": [
+      "Отличная планировка с изолированными комнатами",
+      "Просторная кухня-гостиная для семейного отдыха",
+      "Балкон с зеленым видом на парк",
+      "Развитая инфраструктура для семей с детьми"
+    ],
+    "residential_complex": "ЖК «Первое место»",
+    "residential_complex_id": 1,
+    "layout": "Стандартная планировка"
+  },
+  {
+    "id": 3,
+    "title": "Студия 32 м²",
+    "type": "Студия",
+    "rooms": 0,
+    "area": 32,
+    "kitchen_area": 8.5,
+    "living_area": 20.5,
+    "price": 3900000,
+    "price_per_sqm": 121875,
+    "cashback_amount": 175500,
+    "cashback_percent": 4.5,
+    "floor": 8,
+    "total_floors": 24,
+    "building": "Корпус А",
+    "apartment_number": "205",
+    "ceiling_height": 2.8,
+    "balcony": true,
+    "balcony_area": 4.2,
+    "windows_direction": "Юг",
+    "view": "Город",
+    "status": "available",
+    "completion_date": "3 кв. 2024",
+    "finishing": "Чистовая",
+    "developer": "Группа компаний «Аквилон»",
+    "complex_id": 2,
+    "complex_name": "ЖК Вишневый Сад",
+    "location": "ул. Черкесов, д-н Центральный",
+    "full_address": "Краснодар, Центральный район, ул. Черкесов, корп. А, кв. 205",
+    "district": "Центральный",
+    "coordinates": [
+      45.0361,
+      38.9739
+    ],
+    "image": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "gallery": [
+      "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+    ],
+    "layout_image": "https://cdn.domclick.ru/layouts/studio_32.jpg",
+    "description": "Компактная студия 32 м² с чистовой отделкой в центре Краснодара. Функциональная планировка и панорамные окна на юг.",
+    "detailed_description": "Студия с открытой планировкой включает кухню-гостиную и спальную зону. Качественная чистовая отделка, встроенная техника. Балкон с видом на город.",
+    "features": [
+      "Открытая планировка",
+      "Чистовая отделка",
+      "Встроенная техника",
+      "Панорамные окна",
+      "Центральное расположение"
+    ],
+    "infrastructure": [
+      {
+        "name": "Детский сад",
+        "icon": "school",
+        "distance": "на территории"
+      },
+      {
+        "name": "Фитнес-центр",
+        "icon": "dumbbell",
+        "distance": "на территории"
+      },
+      {
+        "name": "Зеленый двор",
+        "icon": "leaf",
+        "distance": "на территории"
+      },
+      {
+        "name": "Кафе",
+        "icon": "coffee",
+        "distance": "на территории"
+      },
+      {
+        "name": "Детская площадка",
+        "icon": "child",
+        "distance": "на территории"
+      },
+      {
+        "name": "Паркинг",
+        "icon": "car",
+        "distance": "подземный + открытый"
+      }
+    ],
+    "nearby": "ТРЦ «Галерея Краснодар» (500 м), Городской сад (300 м)",
+    "transport": {
+      "metro": "Ближайшая станция метро: нет",
+      "bus_stops": "Остановка «Центральная» - 100 м",
+      "highways": "Выезд на КАД - 5 км"
+    },
+    "building_info": {
+      "type": "Монолит-кирпич",
+      "class": "Комфорт",
+      "year": 2024,
+      "parking": "подземный + открытый",
+      "security": "видеонаблюдение + охрана",
+      "elevator": "2 пассажирских"
+    },
+    "finishing_options": [
+      {
+        "type": "Черновая отделка",
+        "description": "Стены и потолки подготовлены под финишную отделку",
+        "price_modifier": -320000,
+        "features": {
+          "walls": "Штукатурка",
+          "floor": "Стяжка",
+          "bathroom": "Черновая"
+        }
+      },
+      {
+        "type": "Стандартная отделка",
+        "description": "Базовый вариант с качественными материалами",
+        "price_modifier": 0,
+        "features": {
+          "walls": "Обои/краска",
+          "floor": "Ламинат",
+          "bathroom": "Кафель"
+        }
+      },
+      {
+        "type": "Премиум отделка",
+        "description": "Элитные материалы и дизайнерские решения",
+        "price_modifier": 640000,
+        "features": {
+          "walls": "Декоративная штукатурка",
+          "floor": "Паркет/плитка",
+          "bathroom": "Мозаика"
+        }
+      }
+    ],
+    "mortgage": {
+      "min_rate": 6.2,
+      "monthly_payment_from": 26000,
+      "initial_payment_min": 780000
+    },
+    "advantages": [
+      "Компактное и эффективное использование пространства",
+      "Готовая к заселению с качественной отделкой",
+      "Центральное расположение с отличной доступностью",
+      "Подходит для молодых специалистов и инвестиций"
+    ],
+    "residential_complex": "ЖК Вишневый Сад",
+    "residential_complex_id": 2,
+    "layout": "Стандартная планировка"
+  },
+  {
+    "id": 4,
+    "title": "3-комнатная квартира 85.2 м²",
+    "type": "3-комн",
+    "rooms": 3,
+    "area": 85.2,
+    "kitchen_area": 16.8,
+    "living_area": 48.5,
+    "price": 11250000,
+    "price_per_sqm": 132000,
+    "cashback_amount": 585000,
+    "cashback_percent": 5.2,
+    "floor": 22,
+    "total_floors": 25,
+    "building": "Корпус 1",
+    "apartment_number": "301",
+    "ceiling_height": 3.0,
+    "balcony": true,
+    "balcony_area": 12.0,
+    "windows_direction": "Юго-Запад",
+    "view": "Панорама города",
+    "status": "available",
+    "completion_date": "2 кв. 2024",
+    "finishing": "Премиум",
+    "developer": "ГК «Флагман»",
+    "complex_id": 3,
+    "complex_name": "ЖК Гранд Люкс",
+    "location": "ул. Красных Партизан",
+    "full_address": "Краснодар, Центральный район, ул. Красных Партизан, корп. 1, кв. 301",
+    "district": "Центральный",
+    "coordinates": [
+      45.037,
+      38.9755
+    ],
+    "image": "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "gallery": [
+      "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+    ],
+    "layout_image": "https://cdn.domclick.ru/layouts/3room_85_luxury.jpg",
+    "description": "Премиальная 3-комнатная квартира 85.2 м² на высоком этаже с панорамными видами на город. Европейская планировка и премиум-отделка.",
+    "detailed_description": "Просторная квартира с тремя изолированными спальнями, большой кухней-гостиной и двумя санузлами. Премиальная отделка включает паркет, натуральный камень, встроенную технику премиум-класса.",
+    "features": [
+      "Три изолированные спальни",
+      "Панорамные виды на город",
+      "Премиум-отделка",
+      "Два санузла",
+      "Большая терраса",
+      "Встроенная техника"
+    ],
+    "infrastructure": [
+      {
+        "name": "Спа-центр",
+        "icon": "spa",
+        "distance": "на территории"
+      },
+      {
+        "name": "Детский клуб",
+        "icon": "school",
+        "distance": "на территории"
+      },
+      {
+        "name": "Ресторан",
+        "icon": "utensils",
+        "distance": "на территории"
+      },
+      {
+        "name": "Консьерж",
+        "icon": "concierge-bell",
+        "distance": "в доме"
+      },
+      {
+        "name": "Паркинг",
+        "icon": "car",
+        "distance": "подземный"
+      },
+      {
+        "name": "Охрана",
+        "icon": "shield-alt",
+        "distance": "круглосуточно"
+      }
+    ],
+    "nearby": "Театральная площадь (200 м), ул. Красная (300 м)",
+    "transport": {
+      "metro": "Ближайшая станция метро: нет",
+      "bus_stops": "Остановка «Театральная» - 50 м",
+      "highways": "Выезд на КАД - 4 км"
+    },
+    "building_info": {
+      "type": "Монолит",
+      "class": "Бизнес",
+      "year": 2024,
+      "parking": "подземный",
+      "security": "консьерж + видеонаблюдение",
+      "elevator": "3 пассажирских + 2 грузовых"
+    },
+    "finishing_options": [
+      {
+        "type": "Стандартная отделка",
+        "description": "Базовый вариант с качественными материалами",
+        "price_modifier": -1500000,
+        "features": {
+          "walls": "Обои/краска",
+          "floor": "Ламинат",
+          "bathroom": "Кафель"
+        }
+      },
+      {
+        "type": "Премиум отделка",
+        "description": "Элитные материалы и дизайнерские решения",
+        "price_modifier": 0,
+        "features": {
+          "walls": "Декоративная штукатурка",
+          "floor": "Паркет/плитка",
+          "bathroom": "Мозаика"
+        }
+      },
+      {
+        "type": "Эксклюзив отделка",
+        "description": "Индивидуальный дизайн-проект и эксклюзивные материалы",
+        "price_modifier": 2000000,
+        "features": {
+          "walls": "Натуральный камень/дерево",
+          "floor": "Паркет премиум/мрамор",
+          "bathroom": "Натуральный камень"
+        }
+      }
+    ],
+    "mortgage": {
+      "min_rate": 5.5,
+      "monthly_payment_from": 75000,
+      "initial_payment_min": 2250000
+    },
+    "advantages": [
+      "Эксклюзивные панорамные виды с высокого этажа",
+      "Премиальная отделка и европейская планировка",
+      "Консьерж-сервис и элитная инфраструктура",
+      "Престижное местоположение в историческом центре"
+    ],
+    "residential_complex": "ЖК Гранд Люкс",
+    "residential_complex_id": 3,
+    "layout": "Стандартная планировка"
+  },
+  {
+    "id": 5,
+    "title": "1-комнатная квартира 38.5 м²",
+    "type": "1-комн",
+    "rooms": 1,
+    "area": 38.5,
+    "kitchen_area": 9.2,
+    "living_area": 16.8,
+    "price": 3850000,
+    "price_per_sqm": 100000,
+    "cashback_amount": 146300,
+    "cashback_percent": 3.8,
+    "floor": 14,
+    "total_floors": 16,
+    "building": "Корпус B",
+    "apartment_number": "167",
+    "ceiling_height": 2.7,
+    "balcony": true,
+    "balcony_area": 5.5,
+    "windows_direction": "Восток",
+    "view": "Парк",
+    "status": "available",
+    "completion_date": "1 кв. 2025",
+    "finishing": "Под отделку",
+    "developer": "ГК «Юг-Инвест»",
+    "complex_id": 4,
+    "complex_name": "ЖК «Солнечный берег»",
+    "location": "ул. 40 лет Победы",
+    "full_address": "Краснодар, Прикубанский округ, ул. 40 лет Победы, корп. B, кв. 167",
+    "district": "Прикубанский",
+    "coordinates": [
+      45.0285,
+      38.9631
+    ],
+    "image": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "gallery": [
+      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+    ],
+    "layout_image": "https://cdn.domclick.ru/layouts/1room_38_family.jpg",
+    "description": "Уютная 1-комнатная квартира 38.5 м² в семейном комплексе. Отличная планировка и доступная цена в тихом районе.",
+    "detailed_description": "Квартира с функциональной планировкой включает кухню 9.2 м² и гостиную-спальню. Балкон с видом на парк. Дом в стадии завершения строительства.",
+    "features": [
+      "Функциональная планировка",
+      "Вид на парк",
+      "Тихий район",
+      "Доступная цена",
+      "Семейный комплекс"
+    ],
+    "infrastructure": [
+      {
+        "name": "Детский сад",
+        "icon": "school",
+        "distance": "на территории"
+      },
+      {
+        "name": "Спортплощадка",
+        "icon": "basketball-ball",
+        "distance": "на территории"
+      },
+      {
+        "name": "Зеленый двор",
+        "icon": "leaf",
+        "distance": "на территории"
+      },
+      {
+        "name": "Магазины",
+        "icon": "store",
+        "distance": "на территории"
+      },
+      {
+        "name": "Детская площадка",
+        "icon": "child",
+        "distance": "на территории"
+      },
+      {
+        "name": "Парковка",
+        "icon": "car",
+        "distance": "открытая"
+      }
+    ],
+    "nearby": "Парк Солнечный остров (300 м), школы (500 м), поликлиника (600 м)",
+    "transport": {
+      "metro": "Ближайшая станция метро: нет",
+      "bus_stops": "Остановка «40 лет Победы» - 200 м",
+      "highways": "Выезд на КАД - 8 км"
+    },
+    "building_info": {
+      "type": "Кирпич-монолит",
+      "class": "Комфорт",
+      "year": 2025,
+      "parking": "открытый",
+      "security": "видеонаблюдение",
+      "elevator": "1 пассажирский"
+    },
+    "finishing_options": [
+      {
+        "type": "Черновая отделка",
+        "description": "Стены и потолки подготовлены под финишную отделку",
+        "price_modifier": 0,
+        "features": {
+          "walls": "Штукатурка",
+          "floor": "Стяжка",
+          "bathroom": "Черновая"
+        }
+      },
+      {
+        "type": "Стандартная отделка",
+        "description": "Базовый вариант с качественными материалами",
+        "price_modifier": 385000,
+        "features": {
+          "walls": "Обои/краска",
+          "floor": "Ламинат",
+          "bathroom": "Кафель"
+        }
+      },
+      {
+        "type": "Улучшенная отделка",
+        "description": "Качественные материалы и современный дизайн",
+        "price_modifier": 770000,
+        "features": {
+          "walls": "Краска/обои премиум",
+          "floor": "Паркетная доска",
+          "bathroom": "Керамогранит"
+        }
+      }
+    ],
+    "mortgage": {
+      "min_rate": 6.8,
+      "monthly_payment_from": 28000,
+      "initial_payment_min": 770000
+    },
+    "advantages": [
+      "Доступная цена в развивающем районе",
+      "Семейная направленность комплекса",
+      "Близость к паркам и зеленым зонам",
+      "Развитая социальная инфраструктура"
+    ],
+    "residential_complex": "ЖК «Солнечный берег»",
+    "residential_complex_id": 4,
+    "layout": "Стандартная планировка"
+  },
+  {
+    "id": 9,
+    "title": "1-комнатная квартира 40.4 м²",
+    "type": "1-комн",
+    "rooms": 1,
+    "area": 40.4,
+    "kitchen_area": 12.3,
+    "living_area": 17.2,
+    "price": 7890000,
+    "price_per_sqm": 195297,
+    "cashback_amount": 394500,
+    "cashback_percent": 5,
+    "floor": 12,
+    "total_floors": 25,
+    "building": "Корпус 1",
+    "apartment_number": "101",
+    "ceiling_height": 3.2,
+    "balcony": true,
+    "balcony_area": 6.0,
+    "windows_direction": "Юг",
+    "view": "Двор, парк",
+    "status": "available",
+    "completion_date": "3 кв. 2024",
+    "finishing": "Черновая",
+    "developer": "ГК «Инвестстройкуб»",
+    "complex_id": 1,
+    "complex_name": "ЖК «Первое место»",
+    "location": "ул. Уральская, 169",
+    "full_address": "Краснодар, Прикубанский округ, ул. Уральская, 169, корп. 1, кв. 101",
+    "district": "Прикубанский округ",
+    "coordinates": [
+      45.0355,
+      38.9753
+    ],
+    "image": "https://cdn.domclick.ru/resize/800x0/images/flats/10b/10bda24f-992f-48f3-a226-2c6a69a13a77.jpg",
+    "gallery": [
+      "https://cdn.domclick.ru/resize/800x0/images/flats/10b/10bda24f-992f-48f3-a226-2c6a69a13a77.jpg",
+      "https://cdn.domclick.ru/resize/800x0/images/flats/16e/16e887cc-303e-4925-9533-d08baa95aad7.jpg",
+      "https://cdn.domclick.ru/resize/800x0/images/flats/5f8/5f82c48f-0623-4ff3-876a-1d78433dc1a0.jpg"
+    ],
+    "layout_image": "https://cdn.domclick.ru/layouts/layout_101.jpg",
+    "description": "Просторная 1-комнатная квартира 40.4 м² с панорамными окнами. Расположена на 12 этаже, отличные виды на двор и парк.",
+    "detailed_description": "Квартира светлая с большой кухней 12.3 м². Панорамные окна и высокие потолки 3.2 м. Дом сдан и готов к заселению. На территории комплекса: детские площадки, зоны отдыха, подземный паркинг.",
+    "features": [
+      "Панорамные окна",
+      "Черновая отделка",
+      "Высокие потолки",
+      "Большая кухня",
+      "Балкон с видом на парк"
+    ],
+    "infrastructure": [
+      {
+        "name": "Детский сад",
+        "icon": "school",
+        "distance": "на территории"
+      },
+      {
+        "name": "Спортплощадка",
+        "icon": "basketball-ball",
+        "distance": "на территории"
+      },
+      {
+        "name": "Зеленый двор",
+        "icon": "leaf",
+        "distance": "на территории"
+      },
+      {
+        "name": "Торговые точки",
+        "icon": "store",
+        "distance": "на территории"
+      },
+      {
+        "name": "Детская площадка",
+        "icon": "child",
+        "distance": "на территории"
+      },
+      {
+        "name": "Паркинг",
+        "icon": "car",
+        "distance": "подземный"
+      }
+    ],
+    "nearby": "ТРК «Меридиан» (1.2 км), парк «Солнечный остров» (800 м)",
+    "transport": {
+      "metro": "Ближайшая станция метро: нет",
+      "bus_stops": "Остановка «Уральская» - 150 м",
+      "highways": "Выезд на КАД - 3 км"
+    },
+    "building_info": {
+      "type": "Монолит",
+      "class": "Комфорт",
+      "year": 2024,
+      "parking": "подземный",
+      "security": "видеонаблюдение",
+      "elevator": "2 пассажирских + 1 грузовой"
+    },
+    "finishing_options": [
+      {
+        "type": "Черновая отделка",
+        "description": "Стены и потолки подготовлены под финишную отделку",
+        "image": "https://cdn.domclick.ru/blog/2021/06/23/35/chernovaya-otdelka-novostroyki.jpg",
+        "price_modifier": 0,
+        "features": {
+          "walls": "Штукатурка",
+          "floor": "Стяжка",
+          "bathroom": "Черновая"
+        }
+      },
+      {
+        "type": "Стандартная отделка",
+        "description": "Базовый вариант с качественными материалами",
+        "image": "https://cdn.domclick.ru/blog/2021/06/23/35/standartnaya-otdelka-novostroyki.jpg",
+        "price_modifier": 420000,
+        "features": {
+          "walls": "Обои/краска",
+          "floor": "Ламинат",
+          "bathroom": "Кафель"
+        }
+      },
+      {
+        "type": "Премиум отделка",
+        "description": "Элитные материалы и дизайнерские решения",
+        "image": "https://cdn.domclick.ru/blog/2022/04/11/46/dizayn-interera-premium-klassa.jpg",
+        "price_modifier": 890000,
+        "features": {
+          "walls": "Декоративная штукатурка",
+          "floor": "Паркет/плитка",
+          "bathroom": "Мозаика"
+        }
+      }
+    ],
+    "mortgage": {
+      "min_rate": 5.7,
+      "monthly_payment_from": 39600,
+      "initial_payment_min": 1578000
+    },
+    "advantages": [
+      "Отличная планировка с большой кухней",
+      "Панорамные виды на парк и двор",
+      "Возможность выбора варианта отделки",
+      "Готовый дом с развитой инфраструктурой"
+    ],
+    "residential_complex": "ЖК «Первое место»",
+    "residential_complex_id": 1,
+    "layout": "Стандартная планировка"
+  },
+  {
+    "id": 10,
+    "title": "1-комнатная квартира 41.2 м²",
+    "type": "1-комн",
+    "rooms": 1,
+    "area": 41.2,
+    "kitchen_area": 11.8,
+    "living_area": 18.0,
+    "price": 8120000,
+    "price_per_sqm": 197087,
+    "cashback_amount": 406000,
+    "cashback_percent": 5,
+    "floor": 15,
+    "total_floors": 25,
+    "building": "Корпус 1",
+    "apartment_number": "154",
+    "ceiling_height": 3.2,
+    "balcony": true,
+    "balcony_area": 5.4,
+    "windows_direction": "Запад",
+    "view": "Город",
+    "status": "available",
+    "completion_date": "3 кв. 2024",
+    "finishing": "Стандартная",
+    "developer": "ГК «Юг-Инвест»",
+    "complex_id": 1,
+    "complex_name": "ЖК «Первое место»",
+    "location": "ул. Уральская, 169",
+    "full_address": "Краснодар, Прикубанский округ, ул. Уральская, 169, корп. 1, кв. 154",
+    "district": "Прикубанский округ",
+    "coordinates": [
+      45.0355,
+      38.9753
+    ],
+    "image": "https://cdn.domclick.ru/complexes/112495_1558486/112495_a2352de7-20d6-4b6b-a2b8-b4bfe83b2b78.jpg",
+    "gallery": [
+      "https://cdn.domclick.ru/complexes/112495_1558486/112495_a2352de7-20d6-4b6b-a2b8-b4bfe83b2b78.jpg",
+      "https://cdn.domclick.ru/resize/800x0/images/flats/16e/16e887cc-303e-4925-9533-d08baa95aad7.jpg",
+      "https://cdn.domclick.ru/resize/800x0/images/flats/5f8/5f82c48f-0623-4ff3-876a-1d78433dc1a0.jpg"
+    ],
+    "layout_image": "https://cdn.domclick.ru/layouts/layout_154.jpg",
+    "description": "Светлая 1-комнатная квартира 41.2 м² со стандартной отделкой. Хорошие виды на город, удобная планировка.",
+    "detailed_description": "Квартира с готовой стандартной отделкой на 15 этаже. Большие окна на запад, качественные материалы отделки. Можно заселяться сразу после покупки.",
+    "features": [
+      "Готовая отделка",
+      "Виды на город",
+      "Качественные материалы",
+      "Готова к заселению",
+      "Удобная планировка"
+    ],
+    "infrastructure": [
+      {
+        "name": "Детский сад",
+        "icon": "school",
+        "distance": "на территории"
+      },
+      {
+        "name": "Спортплощадка",
+        "icon": "basketball-ball",
+        "distance": "на территории"
+      },
+      {
+        "name": "Зеленый двор",
+        "icon": "leaf",
+        "distance": "на территории"
+      },
+      {
+        "name": "Торговые точки",
+        "icon": "store",
+        "distance": "на территории"
+      },
+      {
+        "name": "Детская площадка",
+        "icon": "child",
+        "distance": "на территории"
+      },
+      {
+        "name": "Паркинг",
+        "icon": "car",
+        "distance": "подземный"
+      }
+    ],
+    "nearby": "ТРК «Меридиан» (1.2 км), парк «Солнечный остров» (800 м)",
+    "transport": {
+      "metro": "Ближайшая станция метро: нет",
+      "bus_stops": "Остановка «Уральская» - 150 м",
+      "highways": "Выезд на КАД - 3 км"
+    },
+    "building_info": {
+      "type": "Монолит",
+      "class": "Комфорт",
+      "year": 2024,
+      "parking": "подземный",
+      "security": "видеонаблюдение",
+      "elevator": "2 пассажирских + 1 грузовой"
+    },
+    "finishing_options": [
+      {
+        "type": "Черновая отделка",
+        "description": "Стены и потолки подготовлены под финишную отделку",
+        "image": "https://cdn.domclick.ru/blog/2021/06/23/35/chernovaya-otdelka-novostroyki.jpg",
+        "price_modifier": -450000,
+        "features": {
+          "walls": "Штукатурка",
+          "floor": "Стяжка",
+          "bathroom": "Черновая"
+        }
+      },
+      {
+        "type": "Стандартная отделка",
+        "description": "Базовый вариант с качественными материалами",
+        "image": "https://cdn.domclick.ru/blog/2021/06/23/35/standartnaya-otdelka-novostroyki.jpg",
+        "price_modifier": 0,
+        "features": {
+          "walls": "Обои/краска",
+          "floor": "Ламинат",
+          "bathroom": "Кафель"
+        }
+      },
+      {
+        "type": "Премиум отделка",
+        "description": "Элитные материалы и дизайнерские решения",
+        "image": "https://cdn.domclick.ru/blog/2022/04/11/46/dizayn-interera-premium-klassa.jpg",
+        "price_modifier": 750000,
+        "features": {
+          "walls": "Декоративная штукатурка",
+          "floor": "Паркет/плитка",
+          "bathroom": "Мозаика"
+        }
+      }
+    ],
+    "mortgage": {
+      "min_rate": 5.7,
+      "monthly_payment_from": 40800,
+      "initial_payment_min": 1624000
+    },
+    "advantages": [
+      "Квартира готова к заселению",
+      "Качественная стандартная отделка",
+      "Хорошие виды на город",
+      "Развитая инфраструктура комплекса"
+    ],
+    "residential_complex": "ЖК «Солнечный берег»",
+    "residential_complex_id": 4,
+    "layout": "Стандартная планировка"
+  },
+  {
+    "id": 201,
+    "title": "2-комнатная квартира 58.3 м²",
+    "type": "2-комн",
+    "rooms": 2,
+    "area": 58.3,
+    "kitchen_area": 15.2,
+    "living_area": 28.1,
+    "price": 7200000,
+    "price_per_sqm": 123500,
+    "cashback_amount": 561600,
+    "cashback_percent": 7.8,
+    "floor": 12,
+    "total_floors": 24,
+    "building": "Корпус А",
+    "apartment_number": "245",
+    "ceiling_height": 3.0,
+    "balcony": true,
+    "balcony_area": 8.5,
+    "windows_direction": "Юг-Восток",
+    "view": "Город, парк",
+    "status": "available",
+    "completion_date": "4 кв. 2025",
+    "finishing": "Стандартная",
+    "developer": "СК «Стройэксперт»",
+    "complex_id": 33,
+    "complex_name": "ЖК «Дар»",
+    "location": "ул. Тургенева, 205",
+    "full_address": "Краснодар, Центральный округ, ул. Тургенева, 205, корп. А, кв. 245",
+    "district": "Центральный округ",
+    "coordinates": [
+      45.0367,
+      38.9687
+    ],
+    "image": "https://via.placeholder.com/800x600/2B5CE6/FFFFFF?text=Квартира+в+ЖК+Дар",
+    "description": "Просторная 2-комнатная квартира в премиальном ЖК «Дар» от ДАРСТРОЙ в центре Краснодара.",
+    "features": [
+      "Центр города",
+      "Высокий кэшбек 7.8%",
+      "Бизнес-класс",
+      "Панорамные окна"
+    ],
+    "residential_complex": "ЖК «Гранд Вид»",
+    "residential_complex_id": 5,
+    "gallery": [],
+    "layout": "Стандартная планировка"
+  },
+  {
+    "id": 202,
+    "title": "1-комнатная квартира 38.9 м²",
+    "type": "1-комн",
+    "rooms": 1,
+    "area": 38.9,
+    "kitchen_area": 11.5,
+    "living_area": 18.2,
+    "price": 5900000,
+    "price_per_sqm": 151700,
+    "cashback_amount": 383500,
+    "cashback_percent": 6.5,
+    "floor": 8,
+    "total_floors": 16,
+    "building": "Корпус 1",
+    "apartment_number": "89",
+    "ceiling_height": 2.8,
+    "balcony": true,
+    "balcony_area": 5.2,
+    "windows_direction": "Восток",
+    "view": "Двор",
+    "status": "available",
+    "completion_date": "2 кв. 2026",
+    "finishing": "Предчистовая",
+    "developer": "СК «Стройэксперт»",
+    "complex_id": 34,
+    "complex_name": "ЖК «Дарский»",
+    "location": "ул. Красная, 88",
+    "full_address": "Краснодар, Центральный округ, ул. Красная, 88, корп. 1, кв. 89",
+    "district": "Центральный округ",
+    "coordinates": [
+      45.0389,
+      38.9756
+    ],
+    "image": "https://via.placeholder.com/800x600/1E40AF/FFFFFF?text=Квартира+в+ЖК+Дарский",
+    "description": "Компактная 1-комнатная квартира в ЖК «Дарский» в историческом центре Краснодара.",
+    "features": [
+      "Исторический центр",
+      "Комфорт-класс",
+      "Удобная планировка",
+      "Кэшбек 6.5%"
+    ],
+    "residential_complex": "ЖК «Гранд Вид»",
+    "residential_complex_id": 5,
+    "gallery": [],
+    "layout": "Стандартная планировка"
+  },
+  {
+    "id": 203,
+    "title": "3-комнатная квартира 75.6 м²",
+    "type": "3-комн",
+    "rooms": 3,
+    "area": 75.6,
+    "kitchen_area": 18.0,
+    "living_area": 42.3,
+    "price": 5200000,
+    "price_per_sqm": 68800,
+    "cashback_amount": 364000,
+    "cashback_percent": 7.0,
+    "floor": 15,
+    "total_floors": 20,
+    "building": "Корпус Б",
+    "apartment_number": "356",
+    "ceiling_height": 2.9,
+    "balcony": true,
+    "balcony_area": 12.4,
+    "windows_direction": "Запад-Север",
+    "view": "Город, река",
+    "status": "available",
+    "completion_date": "3 кв. 2026",
+    "finishing": "Стандартная",
+    "developer": "СК «Стройэксперт»",
+    "complex_id": 35,
+    "complex_name": "ЖК «Стройград»",
+    "location": "ул. Северная, 315",
+    "full_address": "Краснодар, Прикубанский округ, ул. Северная, 315, корп. Б, кв. 356",
+    "district": "Прикубанский округ",
+    "coordinates": [
+      45.0445,
+      38.9623
+    ],
+    "image": "https://via.placeholder.com/800x600/1D4ED8/FFFFFF?text=Квартира+в+ЖК+Стройград",
+    "description": "Просторная 3-комнатная квартира в современном районе ЖК «Стройград» от ДАРСТРОЙ.",
+    "features": [
+      "Большая площадь 75.6 м²",
+      "Современный район",
+      "Полная инфраструктура",
+      "Кэшбек 7.0%"
+    ],
+    "residential_complex": "ЖК «Гранд Вид»",
+    "residential_complex_id": 5,
+    "gallery": [],
+    "layout": "Стандартная планировка"
+  },
+  {
+    "id": 11,
+    "title": "Студия 28 м²",
+    "type": "Студия",
+    "rooms": 0,
+    "area": 28,
+    "kitchen_area": 8.0,
+    "living_area": 18.0,
+    "price": 3200000,
+    "price_per_sqm": 114286,
+    "cashback_amount": 112000,
+    "cashback_percent": 3.5,
+    "floor": 8,
+    "total_floors": 17,
+    "building": "Корпус A",
+    "apartment_number": "85",
+    "ceiling_height": 2.8,
+    "balcony": false,
+    "windows_direction": "Север",
+    "view": "Двор",
+    "status": "available",
+    "completion_date": "1 кв. 2025",
+    "finishing": "Под отделку",
+    "developer": "ГК «Юг-Инвест»",
+    "complex_id": 4,
+    "complex_name": "ЖК «Солнечный берег»",
+    "location": "ул. 40 лет Победы",
+    "full_address": "Краснодар, Прикубанский округ, ул. 40 лет Победы, корп. A, кв. 85",
+    "district": "Прикубанский",
+    "coordinates": [
+      45.0285,
+      38.9631
+    ],
+    "image": "https://via.placeholder.com/800x600/0088CC/FFFFFF?text=Студия+28+м²",
+    "gallery": [
+      "https://via.placeholder.com/800x600/0088CC/FFFFFF?text=Студия+28+м²",
+      "https://via.placeholder.com/800x600/006699/FFFFFF?text=Планировка+студии",
+      "https://via.placeholder.com/800x600/004477/FFFFFF?text=Вид+из+окна"
+    ],
+    "residential_complex": "ЖК «Солнечный берег»",
+    "residential_complex_id": 4,
+    "description": "Продается Студия 28 м² в ЖК «Солнечный берег». Отличная планировка, качественная отделка.",
+    "features": [
+      "Панорамные окна",
+      "Качественная отделка",
+      "Удобная планировка"
+    ],
+    "layout": "Стандартная планировка"
+  },
+  {
+    "id": 12,
+    "title": "2-комнатная квартира 58 м²",
+    "type": "2-комн",
+    "rooms": 2,
+    "area": 58,
+    "kitchen_area": 11.5,
+    "living_area": 28.0,
+    "price": 6380000,
+    "price_per_sqm": 110000,
+    "cashback_amount": 223300,
+    "cashback_percent": 3.5,
+    "floor": 14,
+    "total_floors": 17,
+    "building": "Корпус B",
+    "apartment_number": "142",
+    "ceiling_height": 2.8,
+    "balcony": true,
+    "balcony_area": 4.2,
+    "windows_direction": "Юг-Восток",
+    "view": "Парк, город",
+    "status": "available",
+    "completion_date": "1 кв. 2025",
+    "finishing": "Под отделку",
+    "developer": "ГК «Юг-Инвест»",
+    "complex_id": 4,
+    "complex_name": "ЖК «Солнечный берег»",
+    "location": "ул. 40 лет Победы",
+    "full_address": "Краснодар, Прикубанский округ, ул. 40 лет Победы, корп. B, кв. 142",
+    "district": "Прикубанский",
+    "coordinates": [
+      45.0285,
+      38.9631
+    ],
+    "image": "https://via.placeholder.com/800x600/0088CC/FFFFFF?text=2-комн+58+м²",
+    "gallery": [
+      "https://via.placeholder.com/800x600/0088CC/FFFFFF?text=2-комн+58+м²",
+      "https://via.placeholder.com/800x600/006699/FFFFFF?text=Гостиная",
+      "https://via.placeholder.com/800x600/004477/FFFFFF?text=Спальня"
+    ],
+    "residential_complex": "ЖК «Солнечный берег»",
+    "residential_complex_id": 4,
+    "description": "Продается 2-комнатная квартира 58 м² в ЖК «Солнечный берег». Отличная планировка, качественная отделка.",
+    "features": [
+      "Панорамные окна",
+      "Качественная отделка",
+      "Удобная планировка"
+    ],
+    "layout": "Стандартная планировка"
+  },
+  {
+    "id": 13,
+    "title": "3-комнатная квартира 78 м²",
+    "type": "3-комн",
+    "rooms": 3,
+    "area": 78,
+    "kitchen_area": 12.8,
+    "living_area": 42.0,
+    "price": 8580000,
+    "price_per_sqm": 110000,
+    "cashback_amount": 300300,
+    "cashback_percent": 3.5,
+    "floor": 10,
+    "total_floors": 17,
+    "building": "Корпус C",
+    "apartment_number": "103",
+    "ceiling_height": 2.8,
+    "balcony": true,
+    "balcony_area": 6.5,
+    "windows_direction": "Запад",
+    "view": "Город, река",
+    "status": "available",
+    "completion_date": "1 кв. 2025",
+    "finishing": "Под отделку",
+    "developer": "ГК «Юг-Инвест»",
+    "complex_id": 4,
+    "complex_name": "ЖК «Солнечный берег»",
+    "location": "ул. 40 лет Победы",
+    "full_address": "Краснодар, Прикубанский округ, ул. 40 лет Победы, корп. C, кв. 103",
+    "district": "Прикубанский",
+    "coordinates": [
+      45.0285,
+      38.9631
+    ],
+    "image": "https://via.placeholder.com/800x600/0088CC/FFFFFF?text=3-комн+78+м²",
+    "gallery": [
+      "https://via.placeholder.com/800x600/0088CC/FFFFFF?text=3-комн+78+м²",
+      "https://via.placeholder.com/800x600/006699/FFFFFF?text=Кухня-гостиная",
+      "https://via.placeholder.com/800x600/004477/FFFFFF?text=Мастер-спальня"
+    ],
+    "residential_complex": "ЖК «Солнечный берег»",
+    "residential_complex_id": 4,
+    "description": "Продается 3-комнатная квартира 78 м² в ЖК «Солнечный берег». Отличная планировка, качественная отделка.",
+    "features": [
+      "Панорамные окна",
+      "Качественная отделка",
+      "Удобная планировка"
+    ],
+    "layout": "Стандартная планировка"
+  },
+  {
+    "id": 14,
+    "title": "4-комнатная квартира 95 м²",
+    "type": "4-комн",
+    "rooms": 4,
+    "area": 95,
+    "kitchen_area": 15.2,
+    "living_area": 55.0,
+    "price": 10450000,
+    "price_per_sqm": 110000,
+    "cashback_percent": 3.5,
+    "cashback_amount": 365750,
+    "floor": 16,
+    "total_floors": 17,
+    "building": "Корпус A",
+    "apartment_number": "161",
+    "ceiling_height": 2.8,
+    "balcony": true,
+    "balcony_area": 8.0,
+    "windows_direction": "Юг-Запад",
+    "view": "Панорама города",
+    "status": "available",
+    "completion_date": "1 кв. 2025",
+    "finishing": "Под отделку",
+    "developer": "ГК «Юг-Инвест»",
+    "complex_id": 4,
+    "complex_name": "ЖК «Солнечный берег»",
+    "location": "ул. 40 лет Победы",
+    "full_address": "Краснодар, Прикубанский округ, ул. 40 лет Победы, корп. A, кв. 161",
+    "district": "Прикубанский",
+    "coordinates": [
+      45.0285,
+      38.9631
+    ],
+    "image": "https://via.placeholder.com/800x600/0088CC/FFFFFF?text=4-комн+95+м²",
+    "gallery": [
+      "https://via.placeholder.com/800x600/0088CC/FFFFFF?text=4-комн+95+м²",
+      "https://via.placeholder.com/800x600/006699/FFFFFF?text=Просторная+гостиная",
+      "https://via.placeholder.com/800x600/004477/FFFFFF?text=Панорамный+вид"
+    ],
+    "residential_complex": "ЖК «Солнечный берег»",
+    "residential_complex_id": 4,
+    "description": "Продается 4-комнатная квартира 95 м² в ЖК «Солнечный берег». Отличная планировка, качественная отделка.",
+    "features": [
+      "Панорамные окна",
+      "Качественная отделка",
+      "Удобная планировка"
+    ],
+    "layout": "Стандартная планировка"
+  },
+  {
+    "id": 204,
+    "rooms": 1,
+    "area": 42.5,
+    "price": 3200000,
+    "floor": 5,
+    "residential_complex": "ЖК «Первое место»",
+    "residential_complex_id": 1,
+    "developer": "ГК «Инвестстройкуб»",
+    "district": "Центральный",
+    "location": "Краснодар, ул. Красная, 10",
+    "description": "1-комнатная квартира в ЖК «Первое место»",
+    "image": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "features": [
+      "Чистовая отделка",
+      "Панорамные окна",
+      "Балкон"
+    ],
+    "coordinates": {
+      "lat": 45.0355,
+      "lng": 38.9753
+    },
+    "title": "1-комнатная квартира 42.5 м²",
+    "total_floors": 20,
+    "gallery": [],
+    "layout": "Стандартная планировка"
+  },
+  {
+    "id": 205,
+    "rooms": 2,
+    "area": 65.8,
+    "price": 4800000,
+    "floor": 8,
+    "residential_complex": "ЖК «Первое место»",
+    "residential_complex_id": 1,
+    "developer": "ГК «Инвестстройкуб»",
+    "district": "Центральный",
+    "location": "Краснодар, ул. Красная, 10",
+    "description": "2-комнатная квартира в ЖК «Первое место»",
+    "image": "https://images.unsplash.com/photo-1502672023488-70e25813eb80?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "features": [
+      "Чистовая отделка",
+      "Кухня-гостиная",
+      "Лоджия",
+      "Гардеробная"
+    ],
+    "coordinates": {
+      "lat": 45.0355,
+      "lng": 38.9753
+    },
+    "title": "2-комнатная квартира 65.8 м²",
+    "total_floors": 20,
+    "gallery": [],
+    "layout": "Стандартная планировка"
+  },
+  {
+    "id": 206,
+    "rooms": 3,
+    "area": 89.2,
+    "price": 6500000,
+    "floor": 12,
+    "residential_complex": "ЖК «Первое место»",
+    "residential_complex_id": 1,
+    "developer": "ГК «Инвестстройкуб»",
+    "district": "Центральный",
+    "location": "Краснодар, ул. Красная, 10",
+    "description": "3-комнатная квартира в ЖК «Первое место»",
+    "image": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "features": [
+      "Чистовая отделка",
+      "Просторная кухня",
+      "Два санузла",
+      "Большая лоджия"
+    ],
+    "coordinates": {
+      "lat": 45.0355,
+      "lng": 38.9753
+    },
+    "title": "3-комнатная квартира 89.2 м²",
+    "total_floors": 20,
+    "gallery": [],
+    "layout": "Стандартная планировка"
+  },
+  {
+    "id": 207,
+    "rooms": 1,
+    "area": 45.0,
+    "price": 4200000,
+    "floor": 6,
+    "residential_complex": "ЖК «Инвест Плаза»",
+    "residential_complex_id": 36,
+    "developer": "ГК «Инвестстройкуб»",
+    "district": "Центральный",
+    "location": "Краснодар, ул. Красная, 15",
+    "description": "1-комнатная квартира в ЖК «Инвест Плаза»",
+    "image": "https://images.unsplash.com/photo-1502672023488-70e25813eb80?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "features": [
+      "Премиум отделка",
+      "Витражные окна",
+      "Французский балкон"
+    ],
+    "coordinates": {
+      "lat": 45.0442,
+      "lng": 38.9769
+    },
+    "title": "1-комнатная квартира 45.0 м²",
+    "total_floors": 20,
+    "gallery": [],
+    "layout": "Стандартная планировка"
+  },
+  {
+    "id": 208,
+    "rooms": 2,
+    "area": 72.5,
+    "price": 6800000,
+    "floor": 10,
+    "residential_complex": "ЖК «Инвест Плаза»",
+    "residential_complex_id": 36,
+    "developer": "ГК «Инвестстройкуб»",
+    "district": "Центральный",
+    "location": "Краснодар, ул. Красная, 15",
+    "description": "2-комнатная квартира в ЖК «Инвест Плаза»",
+    "image": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "features": [
+      "Премиум отделка",
+      "Кухня-столовая",
+      "Гардеробная",
+      "Терраса"
+    ],
+    "coordinates": {
+      "lat": 45.0442,
+      "lng": 38.9769
+    },
+    "title": "2-комнатная квартира 72.5 м²",
+    "total_floors": 20,
+    "gallery": [],
+    "layout": "Стандартная планировка"
+  },
+  {
+    "id": 209,
+    "rooms": 0,
+    "area": 28.5,
+    "price": 2800000,
+    "floor": 3,
+    "residential_complex": "ЖК «Инвест Плаза»",
+    "residential_complex_id": 36,
+    "developer": "ГК «Инвестстройкуб»",
+    "district": "Центральный",
+    "location": "Краснодар, ул. Красная, 15",
+    "description": "Студия в ЖК «Инвест Плаза»",
+    "image": "https://images.unsplash.com/photo-1502672023488-70e25813eb80?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "features": [
+      "Студийная планировка",
+      "Высокие потолки",
+      "Панорамное окно"
+    ],
+    "coordinates": {
+      "lat": 45.0442,
+      "lng": 38.9769
+    },
+    "title": "Студия 28.5 м²",
+    "total_floors": 20,
+    "gallery": [],
+    "layout": "Стандартная планировка"
+  },
+  {
+    "id": 210,
+    "title": "1-комнатная квартира 42 м²",
+    "rooms": 1,
+    "area": 42.0,
+    "price": 4200000,
+    "floor": 5,
+    "total_floors": 18,
+    "residential_complex": "ЖК «Стройград»",
+    "residential_complex_id": 35,
+    "complex_id": 35,
+    "complex_name": "ЖК «Стройград»",
+    "cashback_percent": 3.5,
+    "district": "Центральный",
+    "coordinates": [
+      45.0355,
+      38.9753
+    ],
+    "developer": "ГК «Инвестстройкуб»",
+    "image": "https://via.placeholder.com/800x600/0088CC/FFFFFF?text=1-комнатная+квартира+42+м²",
+    "gallery": [],
+    "description": "Продается 1-комнатная квартира 42 м² в ЖК «Стройград». Отличная планировка, качественная отделка.",
+    "features": [
+      "Панорамные окна",
+      "Качественная отделка",
+      "Удобная планировка"
+    ],
+    "layout": "Стандартная планировка"
+  },
+  {
+    "id": 211,
+    "title": "2-комнатная квартира 65 м²",
+    "rooms": 2,
+    "area": 65.0,
+    "price": 6500000,
+    "floor": 10,
+    "total_floors": 18,
+    "residential_complex": "ЖК «Стройград»",
+    "residential_complex_id": 35,
+    "complex_id": 35,
+    "complex_name": "ЖК «Стройград»",
+    "cashback_percent": 3.5,
+    "district": "Центральный",
+    "coordinates": [
+      45.0356,
+      38.9754
+    ],
+    "developer": "ГК «Инвестстройкуб»",
+    "image": "https://via.placeholder.com/800x600/0088CC/FFFFFF?text=2-комнатная+квартира+65+м²",
+    "gallery": [],
+    "description": "Продается 2-комнатная квартира 65 м² в ЖК «Стройград». Отличная планировка, качественная отделка.",
+    "features": [
+      "Панорамные окна",
+      "Качественная отделка",
+      "Удобная планировка"
+    ],
+    "layout": "Стандартная планировка"
+  },
+  {
+    "id": 212,
+    "title": "1-комнатная квартира 45 м²",
+    "rooms": 1,
+    "area": 45.0,
+    "price": 8500000,
+    "floor": 12,
+    "total_floors": 22,
+    "residential_complex": "ЖК «Гарантия Prime»",
+    "residential_complex_id": 37,
+    "complex_id": 37,
+    "complex_name": "ЖК «Гарантия Prime»",
+    "developer": "Гарантия",
+    "district": "Центральный",
+    "cashback_percent": 4.5,
+    "coordinates": [
+      45.0392,
+      38.9769
+    ],
+    "description": "Стильная однокомнатная квартира в премиум-комплексе с панорамными окнами и качественной отделкой.",
+    "image": "https://via.placeholder.com/800x600/1565C0/FFFFFF?text=1-комн+45+м²",
+    "gallery": [],
+    "features": [
+      "Панорамные окна",
+      "Премиум отделка",
+      "Кондиционер",
+      "Теплый пол"
+    ],
+    "layout": "Европланировка с кухней-гостиной"
+  },
+  {
+    "id": 213,
+    "title": "2-комнатная квартира 72 м²",
+    "rooms": 2,
+    "area": 72.0,
+    "price": 12500000,
+    "floor": 15,
+    "total_floors": 22,
+    "residential_complex": "ЖК «Гарантия Prime»",
+    "residential_complex_id": 37,
+    "complex_id": 37,
+    "complex_name": "ЖК «Гарантия Prime»",
+    "developer": "Гарантия",
+    "district": "Центральный",
+    "cashback_percent": 4.5,
+    "coordinates": [
+      45.0393,
+      38.977
+    ],
+    "description": "Просторная двухкомнатная квартира с отдельной кухней и гостиной. Вид на центр города.",
+    "image": "https://via.placeholder.com/800x600/1565C0/FFFFFF?text=2-комн+72+м²",
+    "gallery": [],
+    "features": [
+      "Панорамные окна",
+      "Премиум отделка",
+      "Кондиционер",
+      "Теплый пол",
+      "Балкон"
+    ],
+    "layout": "Раздельные комнаты с просторной кухней"
+  },
+  {
+    "id": 214,
+    "title": "3-комнатная квартира 95 м²",
+    "rooms": 3,
+    "area": 95.0,
+    "price": 16800000,
+    "floor": 18,
+    "total_floors": 22,
+    "residential_complex": "ЖК «Гарантия Prime»",
+    "residential_complex_id": 37,
+    "complex_id": 37,
+    "complex_name": "ЖК «Гарантия Prime»",
+    "developer": "Гарантия",
+    "district": "Центральный",
+    "cashback_percent": 4.5,
+    "coordinates": [
+      45.0394,
+      38.9771
+    ],
+    "description": "Элитная трехкомнатная квартира с мастер-спальней и гардеробной. Панорамный вид на реку Кубань.",
+    "image": "https://via.placeholder.com/800x600/1565C0/FFFFFF?text=3-комн+95+м²",
+    "gallery": [],
+    "features": [
+      "Панорамные окна",
+      "Премиум отделка",
+      "Кондиционер",
+      "Теплый пол",
+      "Мастер-спальня",
+      "Гардеробная"
+    ],
+    "layout": "Мастер-спальня с гардеробной и ванной"
+  },
+  {
+    "id": 215,
+    "title": "Студия 38 м²",
+    "rooms": 0,
+    "area": 38.0,
+    "price": 6800000,
+    "floor": 8,
+    "total_floors": 22,
+    "residential_complex": "ЖК «Гарантия Prime»",
+    "residential_complex_id": 37,
+    "complex_id": 37,
+    "complex_name": "ЖК «Гарантия Prime»",
+    "developer": "Гарантия",
+    "district": "Центральный",
+    "cashback_percent": 4.5,
+    "coordinates": [
+      45.0395,
+      38.9772
+    ],
+    "description": "Компактная студия с высокими потолками и французскими окнами. Идеально для молодых профессионалов.",
+    "image": "https://via.placeholder.com/800x600/1565C0/FFFFFF?text=Студия+38+м²",
+    "gallery": [],
+    "features": [
+      "Французские окна",
+      "Высокие потолки",
+      "Премиум отделка",
+      "Кондиционер"
+    ],
+    "layout": "Открытая планировка с кухней-гостиной"
+  },
+  {
+    "id": 216,
+    "title": "4-комнатная квартира 125 м²",
+    "rooms": 4,
+    "area": 125.0,
+    "price": 22500000,
+    "floor": 20,
+    "total_floors": 22,
+    "residential_complex": "ЖК «Гарантия Prime»",
+    "residential_complex_id": 37,
+    "complex_id": 37,
+    "complex_name": "ЖК «Гарантия Prime»",
+    "developer": "Гарантия",
+    "district": "Центральный",
+    "cashback_percent": 4.5,
+    "coordinates": [
+      45.0396,
+      38.9773
+    ],
+    "description": "Роскошная четырехкомнатная квартира на высоком этаже с террасой и панорамным видом на город.",
+    "image": "https://via.placeholder.com/800x600/1565C0/FFFFFF?text=4-комн+125+м²",
+    "gallery": [],
+    "features": [
+      "Панорамные окна",
+      "Премиум отделка",
+      "Терраса",
+      "Мастер-спальня",
+      "Гардеробная",
+      "2 санузла"
+    ],
+    "layout": "Премиум планировка с террасой и мастер-зоной"
+  }
+]

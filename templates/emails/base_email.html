@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}InBack{% endblock %}</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f7;
+            color: #1d1d1f;
+            line-height: 1.6;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #0088CC 0%, #006699 100%);
+            padding: 32px 24px;
+            text-align: center;
+            color: white;
+        }
+        
+        .header .logo {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        
+        .header .tagline {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+        
+        .content {
+            padding: 40px 32px;
+        }
+        
+        .content h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0 0 24px 0;
+            color: #1d1d1f;
+        }
+        
+        .content h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 32px 0 16px 0;
+            color: #1d1d1f;
+        }
+        
+        .content p {
+            font-size: 16px;
+            margin: 0 0 16px 0;
+            color: #424245;
+        }
+        
+        .btn-primary {
+            display: inline-block;
+            background: linear-gradient(135deg, #0088CC 0%, #006699 100%);
+            color: white;
+            text-decoration: none;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            margin: 24px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 16px -4px rgba(0, 136, 204, 0.4);
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 1px solid #bae6fd;
+            border-radius: 8px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+        
+        .footer {
+            background-color: #f8f9fa;
+            padding: 32px 24px;
+            text-align: center;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .footer .brand {
+            font-weight: 600;
+            color: #0088CC;
+            margin-bottom: 16px;
+            font-size: 18px;
+        }
+        
+        .footer .contact {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+        
+        .footer .legal {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 16px;
+        }
+        
+        .social-links {
+            margin: 16px 0;
+        }
+        
+        .social-links a {
+            display: inline-block;
+            margin: 0 8px;
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 600px) {
+            .email-container {
+                margin: 0;
+                border-radius: 0;
+            }
+            
+            .content {
+                padding: 24px 20px;
+            }
+            
+            .header {
+                padding: 24px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">InBack</div>
+            <div class="tagline">Недвижимость с кэшбеком в Краснодаре</div>
+        </div>
+        
+        <!-- Content -->
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <div class="brand">InBack</div>
+            <div class="contact">Поддержка: support@inback.ru</div>
+            <div class="contact">Телефон: +7 (861) 200-00-00</div>
+            
+            <div class="social-links">
+                <a href="https://t.me/inback_krasnodar">Telegram</a>
+                <a href="https://wa.me/78612000000">WhatsApp</a>
+                <a href="https://vk.com/inback_krasnodar">VK</a>
+            </div>
+            
+            <div class="legal">
+                © 2025 InBack. Все права защищены.<br>
+                Это письмо отправлено автоматически, не отвечайте на него.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

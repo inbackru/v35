@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+
+{% block title %}Записаться к застройщику - InBack.ru{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto">
+        <div class="bg-white rounded-lg shadow-lg p-8">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-900 mb-2">Записаться к застройщику</h1>
+                <p class="text-gray-600">Запишитесь на встречу с застройщиком через нашего менеджера для получения кешбека</p>
+            </div>
+
+            {% if property_data %}
+            <div class="bg-blue-50 rounded-lg p-6 mb-6">
+                <h3 class="text-lg font-semibold text-blue-900 mb-2">Выбранная недвижимость</h3>
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <span class="text-[#006699] font-medium">Название:</span>
+                        <span class="text-blue-900">{{ property_data.title }}</span>
+                    </div>
+                    <div>
+                        <span class="text-[#006699] font-medium">Комплекс:</span>
+                        <span class="text-blue-900">{{ property_data.complex_name }}</span>
+                    </div>
+                    <div>
+                        <span class="text-[#006699] font-medium">Цена:</span>
+                        <span class="text-blue-900">{{ "{:,}".format(property_data.price).replace(",", " ") }} ₽</span>
+                    </div>
+                    <div>
+                        <span class="text-[#006699] font-medium">Кешбек:</span>
+                        <span class="text-green-600 font-semibold">{{ "{:,}".format(property_data.get('cashback', 0)).replace(",", " ") }} ₽</span>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <form method="POST" class="space-y-6">
+                {% if property_data %}
+                    <input type="hidden" name="property_id" value="{{ property_data.id }}">
+                    <input type="hidden" name="developer_name" value="{{ property_data.developer_name }}">
+                    <input type="hidden" name="complex_name" value="{{ property_data.complex_name }}">
+                {% else %}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="developer_name" class="block text-sm font-medium text-gray-700 mb-2">
+                                Застройщик <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="developer_name" name="developer_name" required
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent">
+                        </div>
+                        <div>
+                            <label for="complex_name" class="block text-sm font-medium text-gray-700 mb-2">
+                                Жилой комплекс <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="complex_name" name="complex_name" required
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent">
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="appointment_date" class="block text-sm font-medium text-gray-700 mb-2">
+                            Дата встречи <span class="text-red-500">*</span>
+                        </label>
+                        <input type="date" id="appointment_date" name="appointment_date" required
+                               min="{{ (moment() + timedelta(days=1)).strftime('%Y-%m-%d') if moment else '' }}"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent">
+                    </div>
+                    <div>
+                        <label for="appointment_time" class="block text-sm font-medium text-gray-700 mb-2">
+                            Время встречи <span class="text-red-500">*</span>
+                        </label>
+                        <select id="appointment_time" name="appointment_time" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent">
+                            <option value="">Выберите время</option>
+                            <option value="09:00">09:00</option>
+                            <option value="10:00">10:00</option>
+                            <option value="11:00">11:00</option>
+                            <option value="12:00">12:00</option>
+                            <option value="14:00">14:00</option>
+                            <option value="15:00">15:00</option>
+                            <option value="16:00">16:00</option>
+                            <option value="17:00">17:00</option>
+                            <option value="18:00">18:00</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="client_name" class="block text-sm font-medium text-gray-700 mb-2">
+                            Ваше имя <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" id="client_name" name="client_name" required
+                               value="{{ current_user.full_name if current_user.full_name else '' }}"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent">
+                    </div>
+                    <div>
+                        <label for="client_phone" class="block text-sm font-medium text-gray-700 mb-2">
+                            Телефон <span class="text-red-500">*</span>
+                        </label>
+                        <input type="tel" id="client_phone" name="client_phone" required
+                               value="{{ current_user.phone if current_user.phone else '' }}"
+                               placeholder="+7 (999) 123-45-67"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="notes" class="block text-sm font-medium text-gray-700 mb-2">
+                        Дополнительные пожелания
+                    </label>
+                    <textarea id="notes" name="notes" rows="4"
+                              placeholder="Укажите любые дополнительные пожелания к встрече..."
+                              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent"></textarea>
+                </div>
+
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                    <div class="flex items-start">
+                        <i class="fas fa-info-circle text-[#0088CC] mt-1 mr-3"></i>
+                        <div class="text-sm text-yellow-800">
+                            <p class="font-medium mb-1">Важная информация:</p>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Встреча с застройщиком проходит в присутствии нашего менеджера</li>
+                                <li>Кешбек выплачивается только при сопровождении InBack</li>
+                                <li>Менеджер свяжется с вами для подтверждения времени встречи</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex space-x-4">
+                    <button type="submit"
+                            class="flex-1 bg-[#0088CC] text-white py-3 px-6 rounded-lg font-medium hover:bg-[#006699] transition-colors">
+                        <i class="fas fa-calendar-plus mr-2"></i>
+                        Записаться на встречу
+                    </button>
+                    <a href="{{ url_for('dashboard') }}"
+                       class="flex-1 bg-gray-100 text-gray-700 py-3 px-6 rounded-lg font-medium text-center hover:bg-gray-200 transition-colors">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Отмена
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+// Set minimum date to tomorrow
+document.addEventListener('DOMContentLoaded', function() {
+    const dateInput = document.getElementById('appointment_date');
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    
+    const minDate = tomorrow.toISOString().split('T')[0];
+    dateInput.setAttribute('min', minDate);
+});
+
+// Phone number formatting
+document.getElementById('client_phone').addEventListener('input', function(e) {
+    let value = e.target.value.replace(/\D/g, '');
+    
+    if (value.length > 0) {
+        if (value.length <= 1) {
+            value = '+7 (' + value;
+        } else if (value.length <= 4) {
+            value = '+7 (' + value.substring(1);
+        } else if (value.length <= 7) {
+            value = '+7 (' + value.substring(1, 4) + ') ' + value.substring(4);
+        } else if (value.length <= 9) {
+            value = '+7 (' + value.substring(1, 4) + ') ' + value.substring(4, 7) + '-' + value.substring(7);
+        } else {
+            value = '+7 (' + value.substring(1, 4) + ') ' + value.substring(4, 7) + '-' + value.substring(7, 9) + '-' + value.substring(9, 11);
+        }
+    }
+    
+    e.target.value = value;
+});
+</script>
+{% endblock %}

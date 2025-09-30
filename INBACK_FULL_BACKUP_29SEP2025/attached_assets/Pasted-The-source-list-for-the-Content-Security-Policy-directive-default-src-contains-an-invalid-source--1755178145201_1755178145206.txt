@@ -1,0 +1,132 @@
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+11The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+11The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+v10:1 The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+v10:1 The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+v10:1 The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+stallwart.build.js:1 stallwart: failed ping 1
+_app-d44b75b765479f04.js:13 
+      /////////////////////
+   ///////////////////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////        Curious and driven?
+  ///////////////@@@@@@@///////        Work with us!
+  ///////////////@@@@@@@///////
+  ///////////////@@@@@@@///////        https://join.replit.com/hack.with.us
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@#//////////////
+   ///////////////////////////
+      /////////////////////
+      
+_app-d44b75b765479f04.js:13 [LaunchDarkly] LaunchDarkly client initialized
+framework-7939d1dbf2fad88c.js:1 Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+_ @ framework-7939d1dbf2fad88c.js:1
+framework-7939d1dbf2fad88c.js:1 Unrecognized feature: 'ambient-light-sensor'.
+_ @ framework-7939d1dbf2fad88c.js:1
+framework-7939d1dbf2fad88c.js:1 Unrecognized feature: 'battery'.
+_ @ framework-7939d1dbf2fad88c.js:1
+framework-7939d1dbf2fad88c.js:1 Unrecognized feature: 'execution-while-not-rendered'.
+_ @ framework-7939d1dbf2fad88c.js:1
+framework-7939d1dbf2fad88c.js:1 Unrecognized feature: 'execution-while-out-of-viewport'.
+_ @ framework-7939d1dbf2fad88c.js:1
+framework-7939d1dbf2fad88c.js:1 Unrecognized feature: 'layout-animations'.
+_ @ framework-7939d1dbf2fad88c.js:1
+framework-7939d1dbf2fad88c.js:1 Unrecognized feature: 'legacy-image-formats'.
+_ @ framework-7939d1dbf2fad88c.js:1
+framework-7939d1dbf2fad88c.js:1 Unrecognized feature: 'navigation-override'.
+_ @ framework-7939d1dbf2fad88c.js:1
+framework-7939d1dbf2fad88c.js:1 Unrecognized feature: 'oversized-images'.
+_ @ framework-7939d1dbf2fad88c.js:1
+framework-7939d1dbf2fad88c.js:1 Unrecognized feature: 'publickey-credentials'.
+_ @ framework-7939d1dbf2fad88c.js:1
+framework-7939d1dbf2fad88c.js:1 Unrecognized feature: 'speaker-selection'.
+_ @ framework-7939d1dbf2fad88c.js:1
+framework-7939d1dbf2fad88c.js:1 Unrecognized feature: 'unoptimized-images'.
+_ @ framework-7939d1dbf2fad88c.js:1
+framework-7939d1dbf2fad88c.js:1 Unrecognized feature: 'unsized-media'.
+_ @ framework-7939d1dbf2fad88c.js:1
+framework-7939d1dbf2fad88c.js:1 Unrecognized feature: 'pointer-lock'.
+_ @ framework-7939d1dbf2fad88c.js:1
+framework-7939d1dbf2fad88c.js:1 Allow attribute will take precedence over 'allowfullscreen'.
+_ @ framework-7939d1dbf2fad88c.js:1
+framework-7939d1dbf2fad88c.js:1 Allow attribute will take precedence over 'allowpaymentrequest'.
+_ @ framework-7939d1dbf2fad88c.js:1
+v10:1 Banner not shown: beforeinstallpromptevent.preventDefault() called. The page must call beforeinstallpromptevent.prompt() to show the banner.
+workspace_iframe.html:32 Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+workspace_iframe.html:32 Unrecognized feature: 'ambient-light-sensor'.
+workspace_iframe.html:32 Unrecognized feature: 'battery'.
+workspace_iframe.html:32 Unrecognized feature: 'execution-while-not-rendered'.
+workspace_iframe.html:32 Unrecognized feature: 'execution-while-out-of-viewport'.
+workspace_iframe.html:32 Unrecognized feature: 'layout-animations'.
+workspace_iframe.html:32 Unrecognized feature: 'legacy-image-formats'.
+workspace_iframe.html:32 Unrecognized feature: 'navigation-override'.
+workspace_iframe.html:32 Unrecognized feature: 'oversized-images'.
+workspace_iframe.html:32 Unrecognized feature: 'publickey-credentials'.
+workspace_iframe.html:32 Unrecognized feature: 'speaker-selection'.
+workspace_iframe.html:32 Unrecognized feature: 'unoptimized-images'.
+workspace_iframe.html:32 Unrecognized feature: 'unsized-media'.
+workspace_iframe.html:32 Allow attribute will take precedence over 'allowfullscreen'.
+workspace_iframe.html:32 Allow attribute will take precedence over 'allowpaymentrequest'.
+2Console.js:61 cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation
+Mt.forEach.n.<computed> @ Console.js:61
+Console.js:61 Header: openApplicationModal function defined
+79d69f48-0f1b-43cd-b…rf.replit.dev/:3225 Uncaught SyntaxError: Unexpected token '}'
+Console.js:61 DOM Helper initialized - safe DOM operations available
+Console.js:61 Fixing find button...
+Console.js:61 Found buttons: 2
+Console.js:61 Fixing button 0
+Console.js:61 Fixing button 1
+Console.js:61 Initializing search...
+Console.js:61 Elements found: true true
+Console.js:61 Initializing hero search...
+Console.js:61 Hero elements found: true true true
+Console.js:61 InBack form validation initialized
+Console.js:61 Performance optimizations initialized
+Console.js:61 Turbo loader initialized
+Console.js:61 Cache optimizer initialized
+Console.js:61 Image compressor initialized - WebP support: true
+Console.js:61 Initializing smart search...
+Console.js:61 Hero search initialized
+Console.js:61 Initializing search input: hero-search
+Console.js:61 Property search initialized with smart search
+2Console.js:61 Initializing search input: property-search
+Console.js:61 Old property search disabled, smart search enabled
+Console.js:61 Form validation initialized
+Console.js:61 Cache SW failed: [object DOMException]
+Console.js:61 Real favorites count from API: 7
+Console.js:61 Memory usage: [object Object]
+Console.js:61 cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation
+Mt.forEach.n.<computed> @ Console.js:61
+Console.js:61 Header: openApplicationModal function defined
+dashboard:4803 Uncaught SyntaxError: Unexpected token '}'
+Console.js:61 DOM Helper initialized - safe DOM operations available
+Console.js:61 InBack form validation initialized
+Console.js:61 Performance optimizations initialized
+Console.js:61 Turbo loader initialized
+Console.js:61 Cache optimizer initialized
+Console.js:61 Image compressor initialized - WebP support: true
+Console.js:61 Initializing dashboard tabs...
+Console.js:61 Found tab buttons: 7
+Console.js:61 Found content sections: 7
+Console.js:61 Dashboard tabs initialized successfully
+Console.js:61 Saved Searches Manager initialized safely
+Console.js:61 Initializing smart search...
+Console.js:61 Form validation initialized
+Console.js:61 Cache SW failed: SecurityError: Failed to register a ServiceWorker for scope ('https://79d69f48-0f1b-43cd-b88f-9469d14960c0-00-15axtlv0t7ab.worf.replit.dev/') with script ('https://79d69f48-0f1b-43cd-b88f-9469d14960c0-00-15axtlv0t7ab.worf.replit.dev/static/js/sw-cache.js'): The path of the provided scope ('/') is not under the max scope allowed ('/static/js/'). Adjust the scope, move the Service Worker script, or use the Service-Worker-Allowed HTTP header to allow the scope.
+Console.js:61 Real favorites count from API: 7
+Console.js:61 Tab clicked: favorites
+Console.js:61 Activated section: favorites
+Console.js:61 Loading favorites list...
+Console.js:61 loadFavoritesList called
+Console.js:61 Elements found: Object
+Console.js:61 Fetching favorites from API...
+Console.js:61 Response received: 200 OK
+Console.js:61 Data received: Object
+Console.js:61 Memory usage: Object
+Console.js:61 Memory usage: Object
+stallwart.build.js:1 stallwart: failed ping 1
+stallwart.build.js:1 stallwart: failed ping 2
+Console.js:61 Memory usage: {used: '18 MB', total: '20 MB', limit: '2071 MB'}
+Console.js:61 Memory usage: {used: '18 MB', total: '20 MB', limit: '2071 MB'}

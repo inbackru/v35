@@ -1,0 +1,388 @@
+{% extends "base.html" %}
+
+{% block title %}Сравнение ЖК | InBack{% endblock %}
+{% block description %}Сравнение выбранных жилых комплексов в Краснодаре{% endblock %}
+
+{% block content %}
+<!-- Breadcrumbs -->
+<div class="container mx-auto px-4 py-3 text-sm">
+    <nav aria-label="Breadcrumb" class="flex">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+                <a class="text-[#0088CC] hover:underline inline-flex items-center" href="{{ url_for('index') }}">
+                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                    </svg>
+                    Главная
+                </a>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path clip-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" fill-rule="evenodd"></path>
+                    </svg>
+                    <a href="{{ url_for('residential_complexes') }}" class="text-[#0088CC] hover:underline ml-1 md:ml-2">ЖК</a>
+                </div>
+            </li>
+            <li aria-current="page">
+                <div class="flex items-center">
+                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path clip-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" fill-rule="evenodd"></path>
+                    </svg>
+                    <span class="text-gray-500 ml-1 md:ml-2">Сравнение ЖК</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+</div>
+
+<!-- Main Content -->
+<div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-900">Сравнение ЖК</h1>
+        <div class="flex gap-4">
+            <button onclick="clearComplexComparison()" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                Очистить все
+            </button>
+            <a href="{{ url_for('residential_complexes') }}" class="px-4 py-2 bg-[#0088CC] text-white rounded-lg hover:bg-[#006699] transition-colors">
+                Добавить ЖК
+            </a>
+        </div>
+    </div>
+
+    <!-- Comparison Table Container -->
+    <div id="complex-comparison-container" class="bg-white border rounded-lg overflow-hidden">
+        <div id="empty-complex-comparison" class="text-center py-16">
+            <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">Нет ЖК для сравнения</h3>
+            <p class="text-gray-600 mb-6">Добавьте жилые комплексы для сравнения характеристик</p>
+            <a href="{{ url_for('residential_complexes') }}" class="inline-flex items-center px-6 py-3 bg-[#0088CC] text-white rounded-lg hover:bg-[#006699] transition-colors">
+                Перейти к ЖК
+            </a>
+        </div>
+
+        <!-- Comparison Table -->
+        <div id="complex-comparison-table" class="hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50 border-b">
+                        <tr>
+                            <th class="px-6 py-4 text-left text-sm font-medium text-gray-500 w-48">Характеристика</th>
+                            <th id="complex-header-1" class="px-6 py-4 text-center text-sm font-medium text-gray-500 min-w-80">ЖК 1</th>
+                            <th id="complex-header-2" class="px-6 py-4 text-center text-sm font-medium text-gray-500 min-w-80">ЖК 2</th>
+                            <th id="complex-header-3" class="px-6 py-4 text-center text-sm font-medium text-gray-500 min-w-80">ЖК 3</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200" id="complex-comparison-body">
+                        <!-- Images Row -->
+                        <tr>
+                            <td class="px-6 py-4 font-medium text-gray-900">Фото</td>
+                            <td id="complex-image-1" class="px-6 py-4 text-center"></td>
+                            <td id="complex-image-2" class="px-6 py-4 text-center"></td>
+                            <td id="complex-image-3" class="px-6 py-4 text-center"></td>
+                        </tr>
+                        <!-- Name Row -->
+                        <tr class="bg-gray-50">
+                            <td class="px-6 py-4 font-medium text-gray-900">Название ЖК</td>
+                            <td id="complex-name-1" class="px-6 py-4 text-center font-semibold"></td>
+                            <td id="complex-name-2" class="px-6 py-4 text-center font-semibold"></td>
+                            <td id="complex-name-3" class="px-6 py-4 text-center font-semibold"></td>
+                        </tr>
+                        <!-- Price Range -->
+                        <tr>
+                            <td class="px-6 py-4 font-medium text-gray-900">Цена от</td>
+                            <td id="complex-price-1" class="px-6 py-4 text-center text-lg font-bold text-[#0088CC]"></td>
+                            <td id="complex-price-2" class="px-6 py-4 text-center text-lg font-bold text-[#0088CC]"></td>
+                            <td id="complex-price-3" class="px-6 py-4 text-center text-lg font-bold text-[#0088CC]"></td>
+                        </tr>
+                        <!-- Cashback Row -->
+                        <tr class="bg-green-50">
+                            <td class="px-6 py-4 font-medium text-gray-900">Кэшбек</td>
+                            <td id="complex-cashback-1" class="px-6 py-4 text-center font-bold text-green-600"></td>
+                            <td id="complex-cashback-2" class="px-6 py-4 text-center font-bold text-green-600"></td>
+                            <td id="complex-cashback-3" class="px-6 py-4 text-center font-bold text-green-600"></td>
+                        </tr>
+                        <!-- District -->
+                        <tr>
+                            <td class="px-6 py-4 font-medium text-gray-900">Район</td>
+                            <td id="complex-district-1" class="px-6 py-4 text-center"></td>
+                            <td id="complex-district-2" class="px-6 py-4 text-center"></td>
+                            <td id="complex-district-3" class="px-6 py-4 text-center"></td>
+                        </tr>
+                        <!-- Developer -->
+                        <tr class="bg-gray-50">
+                            <td class="px-6 py-4 font-medium text-gray-900">Застройщик</td>
+                            <td id="complex-developer-1" class="px-6 py-4 text-center"></td>
+                            <td id="complex-developer-2" class="px-6 py-4 text-center"></td>
+                            <td id="complex-developer-3" class="px-6 py-4 text-center"></td>
+                        </tr>
+                        <!-- Apartment Count -->
+                        <tr>
+                            <td class="px-6 py-4 font-medium text-gray-900">Количество квартир</td>
+                            <td id="complex-apartments-1" class="px-6 py-4 text-center"></td>
+                            <td id="complex-apartments-2" class="px-6 py-4 text-center"></td>
+                            <td id="complex-apartments-3" class="px-6 py-4 text-center"></td>
+                        </tr>
+                        <!-- Status -->
+                        <tr class="bg-gray-50">
+                            <td class="px-6 py-4 font-medium text-gray-900">Статус</td>
+                            <td id="complex-status-1" class="px-6 py-4 text-center"></td>
+                            <td id="complex-status-2" class="px-6 py-4 text-center"></td>
+                            <td id="complex-status-3" class="px-6 py-4 text-center"></td>
+                        </tr>
+                        <!-- Completion Date -->
+                        <tr>
+                            <td class="px-6 py-4 font-medium text-gray-900">Срок сдачи</td>
+                            <td id="complex-completion-1" class="px-6 py-4 text-center"></td>
+                            <td id="complex-completion-2" class="px-6 py-4 text-center"></td>
+                            <td id="complex-completion-3" class="px-6 py-4 text-center"></td>
+                        </tr>
+                        <!-- Features -->
+                        <tr class="bg-gray-50">
+                            <td class="px-6 py-4 font-medium text-gray-900">Инфраструктура</td>
+                            <td id="complex-features-1" class="px-6 py-4 text-center"></td>
+                            <td id="complex-features-2" class="px-6 py-4 text-center"></td>
+                            <td id="complex-features-3" class="px-6 py-4 text-center"></td>
+                        </tr>
+                        <!-- Actions Row -->
+                        <tr>
+                            <td class="px-6 py-4 font-medium text-gray-900">Действия</td>
+                            <td id="complex-actions-1" class="px-6 py-4 text-center"></td>
+                            <td id="complex-actions-2" class="px-6 py-4 text-center"></td>
+                            <td id="complex-actions-3" class="px-6 py-4 text-center"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', async function() {
+    // Clean up old comparison data first
+    await cleanupOldComplexComparisonData();
+    loadComplexComparison();
+});
+
+// Function to cleanup old comparison data with invalid IDs
+async function cleanupOldComplexComparisonData() {
+    try {
+        const complexesItems = JSON.parse(localStorage.getItem('comparison_complexes') || '[]');
+        const validComplexes = [];
+        
+        // Check each complex ID
+        for (const complexId of complexesItems) {
+            try {
+                const response = await fetch(`/api/complex/${complexId}`);
+                if (response.ok) {
+                    validComplexes.push(complexId);
+                } else {
+                    console.log(`Removing invalid complex ID ${complexId} from comparison`);
+                }
+            } catch (error) {
+                console.log(`Removing invalid complex ID ${complexId} from comparison`);
+            }
+        }
+        
+        // Update localStorage with only valid IDs
+        if (validComplexes.length !== complexesItems.length) {
+            localStorage.setItem('comparison_complexes', JSON.stringify(validComplexes));
+            console.log('Cleaned up complex comparison data:', validComplexes);
+        }
+    } catch (error) {
+        console.error('Error cleaning up complex comparison data:', error);
+    }
+}
+
+function loadComplexComparison() {
+    const comparisonList = JSON.parse(localStorage.getItem('comparison_complexes') || '[]');
+    
+    if (comparisonList.length === 0) {
+        document.getElementById('empty-complex-comparison').classList.remove('hidden');
+        document.getElementById('complex-comparison-table').classList.add('hidden');
+        return;
+    }
+
+    document.getElementById('empty-complex-comparison').classList.add('hidden');
+    document.getElementById('complex-comparison-table').classList.remove('hidden');
+
+    // Hide unused columns
+    for (let i = comparisonList.length; i < 3; i++) {
+        const headerIndex = i + 1;
+        document.getElementById(`complex-header-${headerIndex}`).style.display = 'none';
+        
+        // Hide all cells in this column
+        const rows = ['image', 'name', 'price', 'cashback', 'district', 'developer', 'apartments', 'status', 'completion', 'features', 'actions'];
+        rows.forEach(row => {
+            const cell = document.getElementById(`complex-${row}-${headerIndex}`);
+            if (cell) cell.style.display = 'none';
+        });
+    }
+
+    // Fetch complex data and populate table
+    comparisonList.forEach((complexId, index) => {
+        fetchComplexData(complexId, index + 1);
+    });
+}
+
+async function fetchComplexData(complexId, columnIndex) {
+    try {
+        console.log(`Fetching complex data for ID: ${complexId}`);
+        
+        // Load from database API
+        const response = await fetch(`/api/complex/${complexId}`);
+        if (!response.ok) {
+            throw new Error(`Complex not found: ${response.status}`);
+        }
+        
+        const complex = await response.json();
+        if (!complex || complex.error) {
+            throw new Error('Complex not found');
+        }
+        
+        console.log('Fetched complex data:', complex);
+        populateComplexColumn(complex, columnIndex);
+        
+    } catch (error) {
+        console.warn('Error fetching complex data:', error);
+        populateComplexErrorColumn(complexId, columnIndex);
+    }
+}
+
+// Helper function to create SEO-friendly slug
+function createSlug(name) {
+    if (!name) return "unknown";
+    return name
+        .replace(/["\'"]/g, '')  // Remove quotes
+        .replace(/[^\w\s-]/g, '') // Remove special chars except spaces and hyphens
+        .replace(/[-\s]+/g, '-')  // Replace spaces/multiple hyphens with single hyphen
+        .toLowerCase()
+        .replace(/^-+|-+$/g, '');  // Trim hyphens
+}
+
+function populateComplexColumn(complex, columnIndex) {
+    // Show column header
+    document.getElementById(`complex-header-${columnIndex}`).style.display = 'table-cell';
+    
+    // Show all cells in this column
+    const rows = ['image', 'name', 'price', 'cashback', 'district', 'developer', 'apartments', 'status', 'completion', 'features', 'actions'];
+    rows.forEach(row => {
+        const cell = document.getElementById(`complex-${row}-${columnIndex}`);
+        if (cell) cell.style.display = 'table-cell';
+    });
+
+    // Populate data
+    document.getElementById(`complex-image-${columnIndex}`).innerHTML = `
+        <img src="${complex.image || '/static/images/placeholder.jpg'}" 
+             alt="${complex.name}" 
+             class="w-24 h-16 object-cover rounded mx-auto">
+    `;
+    
+    document.getElementById(`complex-name-${columnIndex}`).innerHTML = `
+        <a href="/zk/${createSlug(complex.name)}" class="text-[#0088CC] hover:text-gray-700 font-semibold">
+            ${complex.name}
+        </a>
+    `;
+    
+    document.getElementById(`complex-price-${columnIndex}`).textContent = 
+        `от ${parseFloat(complex.price_from || 0).toLocaleString('ru-RU')} ₽`;
+    
+    const cashback = complex.cashback_percent || 5;
+    document.getElementById(`complex-cashback-${columnIndex}`).textContent = 
+        `до ${cashback}%`;
+    
+    document.getElementById(`complex-district-${columnIndex}`).textContent = complex.district || '—';
+    document.getElementById(`complex-developer-${columnIndex}`).textContent = complex.developer || '—';
+    document.getElementById(`complex-apartments-${columnIndex}`).textContent = complex.apartments_count || complex.apartment_count || '—';
+    document.getElementById(`complex-status-${columnIndex}`).innerHTML = 
+        `<span class="px-2 py-1 text-xs rounded-full ${
+            complex.construction_status === 'Сдан' ? 'bg-gray-100 text-green-800' : 
+            complex.construction_status === 'Строится' ? 'bg-gray-100 text-yellow-800' : 
+            'bg-gray-100 text-gray-800'
+        }">${complex.construction_status || complex.status || 'Неизвестно'}</span>`;
+    
+    document.getElementById(`complex-completion-${columnIndex}`).textContent = complex.completion_date || '—';
+    
+    // Extract features from infrastructure array if available
+    let features = '—';
+    if (complex.infrastructure && Array.isArray(complex.infrastructure)) {
+        features = complex.infrastructure.slice(0, 3).map(item => item.name).join(', ');
+    } else if (complex.features && Array.isArray(complex.features)) {
+        features = complex.features.slice(0, 3).join(', ');
+    }
+    document.getElementById(`complex-features-${columnIndex}`).innerHTML = 
+        `<span class="text-sm">${features}</span>`;
+    
+    document.getElementById(`complex-actions-${columnIndex}`).innerHTML = `
+        <div class="flex flex-col gap-2">
+            <a href="${complex.detail_url || '/residential-complex/' + complex.id}" 
+               class="px-3 py-2 bg-[#0088CC] text-white rounded text-sm hover:bg-[#006699] transition-colors">
+                Подробнее
+            </a>
+            <button onclick="removeFromComplexComparison(${complex.id})" 
+                    class="px-3 py-2 text-[#0088CC] border border-red-300 rounded text-sm hover:bg-red-50 transition-colors">
+                Удалить
+            </button>
+        </div>
+    `;
+}
+
+function populateComplexErrorColumn(complexId, columnIndex) {
+    // Show column header
+    document.getElementById(`complex-header-${columnIndex}`).style.display = 'table-cell';
+    document.getElementById(`complex-header-${columnIndex}`).textContent = 'Ошибка загрузки';
+    
+    // Show all cells in this column
+    const rows = ['image', 'name', 'price', 'cashback', 'district', 'developer', 'apartments', 'status', 'completion', 'features', 'actions'];
+    rows.forEach(row => {
+        const cell = document.getElementById(`complex-${row}-${columnIndex}`);
+        if (cell) {
+            cell.style.display = 'table-cell';
+            if (row === 'name') {
+                cell.innerHTML = `<span class="text-[#0088CC]">ЖК не найден</span>`;
+            } else if (row === 'actions') {
+                cell.innerHTML = `
+                    <button onclick="removeFromComplexComparison(${complexId})" 
+                            class="px-3 py-2 text-[#0088CC] border border-red-300 rounded text-sm hover:bg-red-50 transition-colors">
+                        Удалить
+                    </button>
+                `;
+            } else {
+                cell.textContent = '—';
+            }
+        }
+    });
+}
+
+function removeFromComplexComparison(complexId) {
+    let comparisonList = JSON.parse(localStorage.getItem('complex_comparison') || '[]');
+    comparisonList = comparisonList.filter(id => id !== complexId);
+    localStorage.setItem('complex_comparison', JSON.stringify(comparisonList));
+    
+    // Reload comparison
+    loadComplexComparison();
+    
+    // Update buttons on other pages
+    if (window.updateComplexCompareButtons) {
+        window.updateComplexCompareButtons();
+    }
+}
+
+function clearComplexComparison() {
+    if (confirm('Вы уверены, что хотите очистить все ЖК из сравнения?')) {
+        localStorage.removeItem('comparison_complexes');
+        loadComplexComparison();
+        
+        // Update buttons on other pages
+        if (window.updateComplexCompareButtons) {
+            window.updateComplexCompareButtons();
+        }
+    }
+}
+</script>
+{% endblock %}

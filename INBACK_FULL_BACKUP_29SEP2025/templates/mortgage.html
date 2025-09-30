@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <!-- Social Meta Tags -->
+    <meta content="Кэшбек за новостройки в Краснодаре до 500 000 ₽ | inback" property="og:title"/>
+    <meta content="Вернём до 10% стоимости квартиры при покупке новостройки в Краснодаре. Бесплатная юридическая поддержка." property="og:description"/>
+    <meta content="website" property="og:type"/>
+    <meta content="https://inback.ru/" property="og:url"/>
+    <meta content="https://inback.ru/social-preview.jpg" property="og:image"/>
+    <meta content="inback" property="og:site_name"/>
+    <meta content="summary_large_image" name="twitter:card"/>
+    <title>Кэшбек за новостройки в Краснодаре до 500 000 ₽ | inback</title>
+    <meta content="Как получить кэшбек 2,5-10% за новостройку? Пошаговая инструкция работы сервиса Inback. Официальный возврат денег от застройщика при покупке квартиры в Краснодаре" name="description"/>
+    <meta content="как получить кэшбек за квартиру, кэшбек за новостройку, возврат денег за квартиру, система кэшбека inback, оформление кэшбека, этапы получения кэшбека" name="keywords"/>
+    <meta content="Как получить кэшбек 2,5-10% за новостройку? | Пошаговая инструкция" property="og:title"/>
+    <meta content="Узнайте, как работает система кэшбека Inback при покупке квартиры в новостройке. 4 простых шага для получения возврата денег от застройщика" property="og:description"/>
+    <link href="https://inback.ru/kak-eto-rabotaet" rel="canonical"/>
+    <meta content="index, follow" name="robots"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet"/>
+</head>
+<body class="min-h-screen bg-ton-light">
+    {% include 'header_updated.html' %}
+
+    <!-- Hero Section -->
+    <section class="relative py-20 overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-1 gradient-bg"></div>
+        <div class="absolute top-20 -left-20 w-40 h-40 rounded-full bg-ton-primary opacity-10"></div>
+        <div class="absolute bottom-20 -right-20 w-60 h-60 rounded-full bg-ton-secondary opacity-10"></div>
+        
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h1 class="text-5xl font-bold text-ton-dark mb-6">
+                    Ипотека для <span class="text-ton-primary">новостроек</span>
+                </h1>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Получите выгодную ипотеку на покупку квартиры в новостройке с кэшбеком до 500 000 ₽. 
+                    Профессиональная помощь в подборе программы и оформлении документов.
+                </p>
+            </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16">
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-ton-primary mb-2">от 5%</div>
+                    <div class="text-gray-600">Ставка годовых</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-ton-primary mb-2">30 лет</div>
+                    <div class="text-gray-600">Максимальный срок</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-ton-primary mb-2">до 30 млн ₽</div>
+                    <div class="text-gray-600">Сумма кредита</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-ton-primary mb-2">от 15%</div>
+                    <div class="text-gray-600">Первоначальный взнос</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mortgage Programs -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center text-ton-dark mb-12">
+                Ипотечные программы
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Family Mortgage -->
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition-shadow p-6">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-users text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-ton-dark mb-4">Семейная ипотека</h3>
+                    <p class="text-gray-600 mb-6">Льготная ставка 6% для семей с детьми. Сумма до 12 млн ₽, срок до 30 лет.</p>
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-gray-600">Ставка</span>
+                            <span class="font-bold text-ton-primary">от 6%</span>
+                        </div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-gray-600">Сумма</span>
+                            <span class="font-bold">до 12 млн ₽</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Первый взнос</span>
+                            <span class="font-bold">от 15%</span>
+                        </div>
+                    </div>
+                    <button class="w-full gradient-bg text-white py-3 rounded-lg font-medium hover:opacity-90 transition-opacity">
+                        Подробнее
+                    </button>
+                </div>
+
+                <!-- IT Mortgage -->
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition-shadow p-6">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-laptop-code text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-ton-dark mb-4">IT-ипотека</h3>
+                    <p class="text-gray-600 mb-6">Льготная ипотека для IT-специалистов под 5% годовых. Для разработчиков и аналитиков.</p>
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-gray-600">Ставка</span>
+                            <span class="font-bold text-ton-primary">от 5%</span>
+                        </div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-gray-600">Сумма</span>
+                            <span class="font-bold">до 18 млн ₽</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Первый взнос</span>
+                            <span class="font-bold">от 15%</span>
+                        </div>
+                    </div>
+                    <button class="w-full gradient-bg text-white py-3 rounded-lg font-medium hover:opacity-90 transition-opacity">
+                        Подробнее
+                    </button>
+                </div>
+
+                <!-- Military Mortgage -->
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition-shadow p-6">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-shield-alt text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-ton-dark mb-4">Военная ипотека</h3>
+                    <p class="text-gray-600 mb-6">Льготные условия для военнослужащих по программе НИС. Господдержка до 280 000 руб/год.</p>
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-gray-600">Ставка</span>
+                            <span class="font-bold text-ton-primary">от 5.8%</span>
+                        </div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-gray-600">Господдержка</span>
+                            <span class="font-bold">до 280 000 ₽/год</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Первый взнос</span>
+                            <span class="font-bold">от 15%</span>
+                        </div>
+                    </div>
+                    <button class="w-full gradient-bg text-white py-3 rounded-lg font-medium hover:opacity-90 transition-opacity">
+                        Подробнее
+                    </button>
+                </div>
+
+                <!-- Developer Mortgage -->
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition-shadow p-6">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-building text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-ton-dark mb-4">Ипотека от застройщика</h3>
+                    <p class="text-gray-600 mb-6">Ипотека напрямую от застройщика: ставка от 0% первые 2 года, без банковских комиссий.</p>
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-gray-600">Ставка</span>
+                            <span class="font-bold text-ton-primary">от 0%</span>
+                        </div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-gray-600">Сумма</span>
+                            <span class="font-bold">до 30 млн ₽</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Срок</span>
+                            <span class="font-bold">до 30 лет</span>
+                        </div>
+                    </div>
+                    <button class="w-full gradient-bg text-white py-3 rounded-lg font-medium hover:opacity-90 transition-opacity">
+                        Подробнее
+                    </button>
+                </div>
+
+                <!-- Maternal Capital -->
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition-shadow p-6">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-baby text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-ton-dark mb-4">Материнский капитал</h3>
+                    <p class="text-gray-600 mb-6">Используйте материнский капитал для покупки квартиры. Первый взнос от 0%.</p>
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-gray-600">Сумма маткапитала</span>
+                            <span class="font-bold text-ton-primary">586 946 ₽</span>
+                        </div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-gray-600">Ставка</span>
+                            <span class="font-bold">от 5.8%</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Первый взнос</span>
+                            <span class="font-bold">от 0%</span>
+                        </div>
+                    </div>
+                    <button class="w-full gradient-bg text-white py-3 rounded-lg font-medium hover:opacity-90 transition-opacity">
+                        Подробнее
+                    </button>
+                </div>
+
+                <!-- Standard Mortgage -->
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition-shadow p-6">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-home text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-ton-dark mb-4">Стандартная ипотека</h3>
+                    <p class="text-gray-600 mb-6">Классическая ипотека на новостройки с выгодными условиями и быстрым одобрением.</p>
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-gray-600">Ставка</span>
+                            <span class="font-bold text-ton-primary">от 8.5%</span>
+                        </div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-gray-600">Сумма</span>
+                            <span class="font-bold">до 30 млн ₽</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Первый взнос</span>
+                            <span class="font-bold">от 15%</span>
+                        </div>
+                    </div>
+                    <button class="w-full gradient-bg text-white py-3 rounded-lg font-medium hover:opacity-90 transition-opacity">
+                        Подробнее
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mortgage Calculator -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-4xl font-bold text-center text-ton-dark mb-12">
+                    Ипотечный калькулятор
+                </h2>
+                
+                <div class="bg-white rounded-2xl shadow-xl p-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div>
+                            <div class="mb-6">
+                                <label class="block text-gray-700 text-sm font-medium mb-2">
+                                    Стоимость квартиры
+                                </label>
+                                <div class="relative">
+                                    <input type="range" min="2000000" max="15000000" value="5000000" class="w-full" id="propertyPrice">
+                                    <div class="flex justify-between text-sm text-gray-500 mt-1">
+                                        <span>2 млн ₽</span>
+                                        <span>15 млн ₽</span>
+                                    </div>
+                                </div>
+                                <div class="text-center mt-2">
+                                    <span class="text-2xl font-bold text-ton-primary" id="priceValue">5 000 000 ₽</span>
+                                </div>
+                            </div>
+
+                            <div class="mb-6">
+                                <label class="block text-gray-700 text-sm font-medium mb-2">
+                                    Первоначальный взнос
+                                </label>
+                                <div class="relative">
+                                    <input type="range" min="15" max="50" value="20" class="w-full" id="downPayment">
+                                    <div class="flex justify-between text-sm text-gray-500 mt-1">
+                                        <span>15%</span>
+                                        <span>50%</span>
+                                    </div>
+                                </div>
+                                <div class="text-center mt-2">
+                                    <span class="text-xl font-bold" id="downPaymentValue">20% (1 000 000 ₽)</span>
+                                </div>
+                            </div>
+
+                            <div class="mb-6">
+                                <label class="block text-gray-700 text-sm font-medium mb-2">
+                                    Срок кредита
+                                </label>
+                                <div class="relative">
+                                    <input type="range" min="5" max="30" value="15" class="w-full" id="loanTerm">
+                                    <div class="flex justify-between text-sm text-gray-500 mt-1">
+                                        <span>5 лет</span>
+                                        <span>30 лет</span>
+                                    </div>
+                                </div>
+                                <div class="text-center mt-2">
+                                    <span class="text-xl font-bold" id="termValue">15 лет</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 rounded-xl p-6">
+                            <h3 class="text-xl font-bold text-ton-dark mb-6">Результат расчета</h3>
+                            
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600">Сумма кредита:</span>
+                                    <span class="font-bold text-lg" id="loanAmount">4 000 000 ₽</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600">Ежемесячный платеж:</span>
+                                    <span class="font-bold text-lg text-ton-primary" id="monthlyPayment">35 680 ₽</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600">Переплата:</span>
+                                    <span class="font-bold text-lg" id="overpayment">2 422 400 ₽</span>
+                                </div>
+                                <div class="flex justify-between items-center border-t pt-4">
+                                    <span class="text-gray-600">Кэшбек с InBack:</span>
+                                    <span class="font-bold text-lg text-green-600" id="cashback">250 000 ₽</span>
+                                </div>
+                            </div>
+
+                            <button class="w-full gradient-bg text-white py-3 rounded-lg font-medium hover:opacity-90 transition-opacity mt-6">
+                                Оставить заявку
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center text-ton-dark mb-12">
+                Преимущества работы с InBack
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="w-20 h-20 gradient-bg rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-handshake text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-ton-dark mb-4">Персональный менеджер</h3>
+                    <p class="text-gray-600">Личный эксперт сопроводит вас на каждом этапе покупки и поможет выбрать лучшую программу</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-20 h-20 gradient-bg rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-coins text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-ton-dark mb-4">Гарантированный кэшбек</h3>
+                    <p class="text-gray-600">Получите до 500 000 ₽ кэшбека за покупку квартиры через наш сервис</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-20 h-20 gradient-bg rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-clock text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-ton-dark mb-4">Быстрое одобрение</h3>
+                    <p class="text-gray-600">Подача заявки и получение одобрения ипотеки в течение 1-2 рабочих дней</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% include 'footer_original.html' %}
+
+    <script>
+        // Mortgage calculator functionality
+        const propertyPriceSlider = document.getElementById('propertyPrice');
+        const downPaymentSlider = document.getElementById('downPayment');
+        const loanTermSlider = document.getElementById('loanTerm');
+        
+        const priceValue = document.getElementById('priceValue');
+        const downPaymentValue = document.getElementById('downPaymentValue');
+        const termValue = document.getElementById('termValue');
+        const loanAmount = document.getElementById('loanAmount');
+        const monthlyPayment = document.getElementById('monthlyPayment');
+        const overpayment = document.getElementById('overpayment');
+        const cashback = document.getElementById('cashback');
+
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+        }
+
+        function calculateMortgage() {
+            const price = parseInt(propertyPriceSlider.value);
+            const downPaymentPercent = parseInt(downPaymentSlider.value);
+            const term = parseInt(loanTermSlider.value);
+            
+            const downPaymentAmount = Math.round(price * downPaymentPercent / 100);
+            const loanAmountValue = price - downPaymentAmount;
+            
+            // Annual interest rate (approximate)
+            const annualRate = 8.5 / 100;
+            const monthlyRate = annualRate / 12;
+            const numPayments = term * 12;
+            
+            // Monthly payment calculation
+            const monthlyPaymentValue = Math.round(
+                loanAmountValue * (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) /
+                (Math.pow(1 + monthlyRate, numPayments) - 1)
+            );
+            
+            const totalPayment = monthlyPaymentValue * numPayments;
+            const overpaymentValue = totalPayment - loanAmountValue;
+            
+            // Cashback calculation (5% of property price, max 500,000)
+            const cashbackValue = Math.min(Math.round(price * 0.05), 500000);
+            
+            // Update display
+            priceValue.textContent = formatNumber(price) + ' ₽';
+            downPaymentValue.textContent = `${downPaymentPercent}% (${formatNumber(downPaymentAmount)} ₽)`;
+            termValue.textContent = `${term} лет`;
+            loanAmount.textContent = formatNumber(loanAmountValue) + ' ₽';
+            monthlyPayment.textContent = formatNumber(monthlyPaymentValue) + ' ₽';
+            overpayment.textContent = formatNumber(overpaymentValue) + ' ₽';
+            cashback.textContent = formatNumber(cashbackValue) + ' ₽';
+        }
+
+        propertyPriceSlider.addEventListener('input', calculateMortgage);
+        downPaymentSlider.addEventListener('input', calculateMortgage);
+        loanTermSlider.addEventListener('input', calculateMortgage);
+
+        // Initial calculation
+        calculateMortgage();
+    </script>
+</body>
+</html>

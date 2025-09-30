@@ -1,0 +1,628 @@
+{% extends "base.html" %}
+
+{% block title %}Карьера - Работа в InBack{% endblock %}
+
+{% block meta %}
+<meta name="description" content="Станьте частью команды InBack. Открытые вакансии в сфере недвижимости и кешбека. Конкурентная зарплата, быстрый рост, комфортные условия работы.">
+<meta name="keywords" content="работа краснодар, вакансии недвижимость, карьера кешбек, менеджер по продажам, smm специалист, юрист по недвижимости">
+{% endblock %}
+
+{% block content %}
+<!-- Loading Animation -->
+<div class="loading-animation bg-gradient-to-b from-[#006699] to-[#0088CC]">
+    <div class="relative w-32 h-32">
+        <div class="absolute inset-0 rounded-full border-[10px] border-white/20 animate-ping"></div>
+        <div class="absolute inset-[15px] rounded-full border-[10px] border-white/30 animate-ping animation-delay-200"></div>
+        <div class="absolute inset-[30px] rounded-full border-[10px] border-white/40 animate-ping animation-delay-400"></div>
+        <div class="absolute inset-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white flex items-center justify-center">
+            <div class="w-8 h-8 rounded-full gradient-bg"></div>
+        </div>
+    </div>
+    <div class="mt-8 text-white text-xl font-semibold">Загружаем лучшие предложения...</div>
+</div>
+
+<!-- Breadcrumbs -->
+<div class="container mx-auto px-4 py-3 text-sm">
+    <nav aria-label="Breadcrumb" class="flex">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+                <a class="text-[#0088CC] hover:underline inline-flex items-center" href="{{ url_for('index') }}">
+                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewbox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+                    Главная
+                </a>
+            </li>
+            <li aria-current="page">
+                <div class="flex items-center">
+                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" fill-rule="evenodd"></path></svg>
+                    <span class="text-gray-500 ml-1 md:ml-2">Карьера</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+</div>
+
+<!-- Hero Section with 3D Career Elements -->
+<section class="py-20 md:py-32 bg-gradient-to-b from-white to-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+            <!-- Left Content -->
+            <div>
+                <h1 class="text-4xl md:text-5xl font-bold mb-6 text-gray-900">Станьте частью команды <span class="text-[#0088CC]">InBack</span></h1>
+                <p class="text-xl mb-8 text-gray-600">Мы растем и ищем талантливых специалистов для развития сервиса кэшбека за новостройки. Присоединяйтесь к нашей команде и развивайте карьеру в инновационной сфере!</p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-[#0088CC] to-[#006699] text-white rounded-lg hover:shadow-lg transition-all duration-200 transform hover:scale-[1.02] shadow-md font-medium text-center" href="#open-positions">
+                        Открытые вакансии
+                    </a>
+                    <a class="inline-flex items-center px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all duration-200 transform hover:scale-[1.02] font-medium text-center" href="#why-us">
+                        Почему мы?
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Right 3D Career Workspace -->
+            <div class="flex justify-center lg:justify-end">
+                <div class="relative">
+                    <!-- Interactive Career Workspace -->
+                    <div class="relative w-80 h-80">
+                        <!-- Floating Laptop -->
+                        <div class="absolute top-12 left-8 w-56 h-32 bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg shadow-2xl transform perspective-1000 rotate-y-12 hover:rotate-y-6 transition-transform duration-700" style="transform: rotateY(-15deg) rotateX(5deg);">
+                            <div class="relative h-full">
+                                <!-- Screen -->
+                                <div class="absolute inset-2 bg-gradient-to-br from-blue-400 to-blue-600 rounded-md overflow-hidden">
+                                    <!-- Code Lines Animation -->
+                                    <div class="p-2 space-y-1">
+                                        <div class="h-1 bg-white/60 rounded animate-pulse w-3/4"></div>
+                                        <div class="h-1 bg-green-400/80 rounded animate-pulse w-1/2" style="animation-delay: 0.5s"></div>
+                                        <div class="h-1 bg-yellow-400/80 rounded animate-pulse w-2/3" style="animation-delay: 1s"></div>
+                                        <div class="h-1 bg-white/40 rounded animate-pulse w-5/6" style="animation-delay: 1.5s"></div>
+                                    </div>
+                                </div>
+                                <!-- Keyboard -->
+                                <div class="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-52 h-4 bg-gray-700 rounded-sm"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Animated Job Cards Stack -->
+                        <div class="absolute top-4 right-4 w-36 h-44">
+                            <!-- Job Card 1 - Sales -->
+                            <div class="absolute inset-0 w-32 h-20 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl shadow-lg border border-blue-300 transform hover:scale-105 transition-all duration-500 animate-float" style="animation-delay: 0s; z-index: 3;">
+                                <div class="p-3">
+                                    <div class="text-xs font-bold text-blue-800">ПРОДАЖИ</div>
+                                    <div class="text-xs text-blue-600 mt-1">80k+</div>
+                                    <div class="w-6 h-6 bg-blue-500 rounded-full mt-2 flex items-center justify-center">
+                                        <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Job Card 2 - Marketing -->
+                            <div class="absolute top-6 left-4 w-32 h-20 bg-gradient-to-br from-green-100 to-green-200 rounded-xl shadow-lg border border-green-300 transform hover:scale-105 transition-all duration-500 animate-float" style="animation-delay: 1s; z-index: 2;">
+                                <div class="p-3">
+                                    <div class="text-xs font-bold text-green-800">МАРКЕТИНГ</div>
+                                    <div class="text-xs text-green-600 mt-1">90k+</div>
+                                    <div class="w-6 h-6 bg-green-500 rounded-full mt-2 flex items-center justify-center">
+                                        <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Job Card 3 - Legal -->
+                            <div class="absolute top-12 left-8 w-32 h-20 bg-gradient-to-br from-purple-100 to-purple-200 rounded-xl shadow-lg border border-purple-300 transform hover:scale-105 transition-all duration-500 animate-float" style="animation-delay: 2s; z-index: 1;">
+                                <div class="p-3">
+                                    <div class="text-xs font-bold text-purple-800">ЮРИСТЫ</div>
+                                    <div class="text-xs text-purple-600 mt-1">120k+</div>
+                                    <div class="w-6 h-6 bg-purple-500 rounded-full mt-2 flex items-center justify-center">
+                                        <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Interactive Coffee Cup -->
+                        <div class="absolute bottom-8 left-4 w-16 h-20 transform hover:scale-110 transition-transform duration-300">
+                            <div class="relative">
+                                <!-- Cup -->
+                                <div class="w-12 h-16 bg-gradient-to-b from-amber-100 to-amber-200 rounded-b-full border-2 border-amber-300 mx-auto">
+                                    <!-- Coffee -->
+                                    <div class="w-8 h-12 bg-gradient-to-b from-amber-800 to-amber-900 rounded-b-full mx-auto mt-1"></div>
+                                    <!-- Steam -->
+                                    <div class="absolute -top-2 left-1/2 transform -translate-x-1/2">
+                                        <div class="w-1 h-4 bg-white opacity-60 rounded-full animate-ping"></div>
+                                        <div class="w-1 h-3 bg-white opacity-40 rounded-full animate-ping absolute left-1" style="animation-delay: 0.5s"></div>
+                                        <div class="w-1 h-5 bg-white opacity-50 rounded-full animate-ping absolute -left-1" style="animation-delay: 1s"></div>
+                                    </div>
+                                </div>
+                                <!-- Handle -->
+                                <div class="absolute top-4 -right-1 w-3 h-6 border-2 border-amber-300 rounded-r-full"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Floating Success Medals -->
+                        <div class="absolute bottom-4 right-8 space-y-2">
+                            <div class="w-10 h-10 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-full shadow-lg animate-bounce flex items-center justify-center" style="animation-delay: 0s">
+                                <span class="text-yellow-800 font-bold text-xs">★</span>
+                            </div>
+                            <div class="w-8 h-8 bg-gradient-to-br from-silver to-gray-400 rounded-full shadow-lg animate-bounce flex items-center justify-center" style="animation-delay: 0.3s">
+                                <span class="text-gray-700 font-bold text-xs">★</span>
+                            </div>
+                            <div class="w-6 h-6 bg-gradient-to-br from-amber-600 to-amber-800 rounded-full shadow-lg animate-bounce flex items-center justify-center" style="animation-delay: 0.6s">
+                                <span class="text-amber-200 font-bold text-xs">★</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Orbiting Career Elements -->
+                        <div class="absolute inset-0 animate-spin-slow">
+                            <div class="absolute top-0 left-1/2 w-4 h-4 bg-blue-500 rounded-full opacity-30 transform -translate-x-1/2 animate-pulse"></div>
+                            <div class="absolute bottom-0 left-1/2 w-3 h-3 bg-green-500 rounded-full opacity-25 transform -translate-x-1/2 animate-pulse" style="animation-delay: 1s"></div>
+                            <div class="absolute left-0 top-1/2 w-5 h-5 bg-purple-500 rounded-full opacity-20 transform -translate-y-1/2 animate-pulse" style="animation-delay: 2s"></div>
+                            <div class="absolute right-0 top-1/2 w-2 h-2 bg-yellow-500 rounded-full opacity-35 transform -translate-y-1/2 animate-pulse" style="animation-delay: 3s"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Join Us Section -->
+<section class="py-16 bg-white" id="why-us">
+    <div class="container mx-auto px-4">
+        <div class="w-fit px-4 py-1 bg-black bg-opacity-5 rounded-full mb-6 mx-auto">
+            <span class="text-sm font-medium uppercase">Преимущества</span>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Почему стоит работать у нас?</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-gray-50 rounded-xl p-6">
+                <div class="w-12 h-12 rounded-full bg-[#0088CC] mb-4 flex items-center justify-center text-white text-xl">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2 text-gray-900">Быстрый рост</h3>
+                <p class="text-gray-600">Возможности для карьерного развития в быстрорастущей компании</p>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-6">
+                <div class="w-12 h-12 rounded-full bg-[#0088CC] mb-4 flex items-center justify-center text-white text-xl">
+                    <i class="fas fa-coins"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2 text-gray-900">Конкурентная оплата</h3>
+                <p class="text-gray-600">Высокие зарплаты и бонусы за результаты</p>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-6">
+                <div class="w-12 h-12 rounded-full bg-[#0088CC] mb-4 flex items-center justify-center text-white text-xl">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2 text-gray-900">Комфортные условия</h3>
+                <p class="text-gray-600">Гибкий график, современный офис и забота о сотрудниках</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Open Positions Section -->
+<section class="py-16 bg-gray-50" id="open-positions">
+    <div class="container mx-auto px-4">
+        <div class="w-fit px-4 py-1 bg-black bg-opacity-5 rounded-full mb-6 mx-auto">
+            <span class="text-sm font-medium uppercase">Вакансии</span>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Открытые вакансии</h2>
+        
+        <!-- Search and Filter Section -->
+        <div class="max-w-4xl mx-auto mb-12">
+            <div class="bg-white rounded-2xl p-8 shadow-sm">
+                <!-- Search Bar -->
+                <div class="mb-6">
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            id="job-search"
+                            placeholder="Поиск вакансий по названию, навыкам или описанию..." 
+                            class="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent text-gray-900 placeholder-gray-500"
+                        >
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Category Filters -->
+                <div class="flex flex-wrap gap-3">
+                    <button 
+                        onclick="filterByCategory('all')" 
+                        class="category-filter active px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 bg-[#0088CC] text-white"
+                        data-category="all"
+                    >
+                        <i class="fas fa-th-large mr-1"></i> Все вакансии
+                    </button>
+                    {% if categories %}
+                        {% for category in categories %}
+                        <button 
+                            onclick="filterByCategory('{{ category.slug }}')" 
+                            class="category-filter px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 bg-gray-100 text-gray-700 hover:bg-gray-200"
+                            data-category="{{ category.slug }}"
+                            style="border-left: 3px solid {{ category.color or '#0088CC' }};"
+                        >
+                            {% if category.icon %}<i class="{{ category.icon }} mr-1"></i>{% endif %}
+                            {{ category.name }} 
+                            {% if category.jobs_count > 0 %}
+                                <span class="ml-1 px-2 py-0.5 bg-{{ category.color or 'blue' }}-100 text-{{ category.color or 'blue' }}-600 rounded-full text-xs">
+                                    {{ category.jobs_count }}
+                                </span>
+                            {% endif %}
+                        </button>
+                        {% endfor %}
+                    {% else %}
+                        <!-- Fallback static categories if no dynamic categories available -->
+                        <button 
+                            onclick="filterByCategory('sales')" 
+                            class="category-filter px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 bg-gray-100 text-gray-700 hover:bg-gray-200"
+                            data-category="sales"
+                        >
+                            <i class="fas fa-handshake mr-1"></i> Продажи
+                        </button>
+                        <button 
+                            onclick="filterByCategory('marketing')" 
+                            class="category-filter px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 bg-gray-100 text-gray-700 hover:bg-gray-200"
+                            data-category="marketing"
+                        >
+                            <i class="fas fa-bullhorn mr-1"></i> Маркетинг
+                        </button>
+                        <button 
+                            onclick="filterByCategory('legal')" 
+                            class="category-filter px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 bg-gray-100 text-gray-700 hover:bg-gray-200"
+                            data-category="legal"
+                        >
+                            <i class="fas fa-gavel mr-1"></i> Юристы
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- Vacancies Container -->
+        <div id="vacancies-container">
+            
+            {% if jobs %}
+                {% for job in jobs %}
+                <div class="vacancy-card bg-white rounded-xl overflow-hidden shadow-sm mb-8 card-hover transition-all" 
+                     data-category="{{ job.category.slug if job.category else 'other' }}">
+                    <div class="p-6 md:p-8">
+                        
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                            <div>
+                                <h3 class="text-xl md:text-2xl font-bold mb-1">{{ job.title }}</h3>
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    {% if job.category %}
+                                    <span class="px-3 py-1 text-white rounded-full text-sm" 
+                                          style="background-color: {{ job.category.color or '#0088CC' }};">
+                                        {{ job.category.name }}
+                                    </span>
+                                    {% endif %}
+                                    {% if job.employment_type %}
+                                    <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
+                                        {% if job.employment_type == 'full_time' %}Полная занятость
+                                        {% elif job.employment_type == 'part_time' %}Частичная занятость
+                                        {% elif job.employment_type == 'contract' %}Договор подряда
+                                        {% elif job.employment_type == 'internship' %}Стажировка
+                                        {% else %}{{ job.employment_type }}
+                                        {% endif %}
+                                    </span>
+                                    {% endif %}
+                                    {% if job.experience_level %}
+                                    <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">{{ job.experience_level }}</span>
+                                    {% endif %}
+                                    {% if job.is_featured %}
+                                    <span class="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-sm">
+                                        <i class="fas fa-star mr-1"></i>Рекомендуемая
+                                    </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="text-[#0088CC] font-medium text-lg mb-3 md:mb-0 md:ml-4">
+                                {% if job.salary_min and job.salary_max %}
+                                    от {{ "{:,}".format(job.salary_min).replace(',', ' ') }} - {{ "{:,}".format(job.salary_max).replace(',', ' ') }} ₽
+                                {% elif job.salary_min %}
+                                    от {{ "{:,}".format(job.salary_min).replace(',', ' ') }} ₽
+                                {% else %}
+                                    Зарплата по договоренности
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <p class="text-gray-600 mb-4">{{ job.description|truncate(120) }}</p>
+                        
+                        <div class="flex flex-wrap justify-between items-center">
+                            <div class="flex items-center text-gray-500 text-sm mb-2 sm:mb-0">
+                                <i class="fas fa-map-marker-alt mr-1"></i> 
+                                {{ job.location or 'Краснодар' }}
+                                {% if job.is_remote %} / Удаленно{% endif %}
+                            </div>
+                            <a class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-[#0088CC] to-[#006699] text-white rounded-lg hover:shadow-lg transition-all duration-200 transform hover:scale-[1.02] text-sm font-medium" 
+                               href="{{ url_for('job_detail', job_slug=job.slug) }}">
+                                Подробнее
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+            
+            <!-- Static Vacancy Cards (fallback) -->
+            <!-- Vacancy 1 -->
+            <div class="vacancy-card bg-white rounded-xl overflow-hidden shadow-sm mb-8 card-hover transition-all" data-category="sales">
+                <div class="p-6 md:p-8">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                        <div>
+                            <h3 class="text-xl md:text-2xl font-bold mb-1">Менеджер по продажам</h3>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">Продажи</span>
+                                <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">Недвижимость</span>
+                                <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">Опыт от 1 года</span>
+                            </div>
+                        </div>
+                        <div class="text-[#0088CC] font-medium text-lg mb-3 md:mb-0 md:ml-4">от 80 000 ₽</div>
+                    </div>
+                    <p class="text-gray-600 mb-4">Работа с клиентами, консультации по кешбеку, сопровождение сделок</p>
+                    <div class="flex flex-wrap justify-between items-center">
+                        <div class="flex items-center text-gray-500 text-sm mb-2 sm:mb-0">
+                            <i class="fas fa-map-marker-alt mr-1"></i> Краснодар / Удаленно
+                        </div>
+                        <a class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-[#0088CC] to-[#006699] text-white rounded-lg hover:shadow-lg transition-all duration-200 transform hover:scale-[1.02] text-sm font-medium" href="{{ url_for('contacts') }}">Связаться с нами</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Vacancy 2 -->
+            <div class="vacancy-card bg-white rounded-xl overflow-hidden shadow-sm mb-8 card-hover transition-all" data-category="marketing">
+                <div class="p-6 md:p-8">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                        <div>
+                            <h3 class="text-xl md:text-2xl font-bold mb-1">SMM-специалист</h3>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm">Маркетинг</span>
+                                <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">Соцсети</span>
+                                <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">Опыт от 2 лет</span>
+                            </div>
+                        </div>
+                        <div class="text-[#0088CC] font-medium text-lg mb-3 md:mb-0 md:ml-4">от 90 000 ₽</div>
+                    </div>
+                    <p class="text-gray-600 mb-4">Развитие соцсетей компании, создание контента, работа с аудиторией</p>
+                    <div class="flex flex-wrap justify-between items-center">
+                        <div class="flex items-center text-gray-500 text-sm mb-2 sm:mb-0">
+                            <i class="fas fa-map-marker-alt mr-1"></i> Краснодар / Удаленно
+                        </div>
+                        <a class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-[#0088CC] to-[#006699] text-white rounded-lg hover:shadow-lg transition-all duration-200 transform hover:scale-[1.02] text-sm font-medium" href="{{ url_for('contacts') }}">Связаться с нами</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Vacancy 3 -->
+            <div class="vacancy-card bg-white rounded-xl overflow-hidden shadow-sm mb-8 card-hover transition-all" data-category="legal">
+                <div class="p-6 md:p-8">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                        <div>
+                            <h3 class="text-xl md:text-2xl font-bold mb-1">Юрист по недвижимости</h3>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">Право</span>
+                                <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">ДДУ</span>
+                                <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">Опыт от 3 лет</span>
+                            </div>
+                        </div>
+                        <div class="text-[#0088CC] font-medium text-lg mb-3 md:mb-0 md:ml-4">от 120 000 ₽</div>
+                    </div>
+                    <p class="text-gray-600 mb-4">Проверка документов застройщиков, консультации клиентов, юридическое сопровождение</p>
+                    <div class="flex flex-wrap justify-between items-center">
+                        <div class="flex items-center text-gray-500 text-sm mb-2 sm:mb-0">
+                            <i class="fas fa-map-marker-alt mr-1"></i> Краснодар
+                        </div>
+                        <a class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-[#0088CC] to-[#006699] text-white rounded-lg hover:shadow-lg transition-all duration-200 transform hover:scale-[1.02] text-sm font-medium" href="{{ url_for('contacts') }}">Связаться с нами</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Vacancy 4 -->
+            <div class="vacancy-card bg-white rounded-xl overflow-hidden shadow-sm mb-8 card-hover transition-all" data-category="marketing">
+                <div class="p-6 md:p-8">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                        <div>
+                            <h3 class="text-xl md:text-2xl font-bold mb-1">Контент-маркетолог</h3>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm">Маркетинг</span>
+                                <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">Контент</span>
+                                <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">Опыт от 2 лет</span>
+                            </div>
+                        </div>
+                        <div class="text-[#0088CC] font-medium text-lg mb-3 md:mb-0 md:ml-4">от 85 000 ₽</div>
+                    </div>
+                    <p class="text-gray-600 mb-4">Создание контента для блога, email-рассылок, социальных сетей</p>
+                    <div class="flex flex-wrap justify-between items-center">
+                        <div class="flex items-center text-gray-500 text-sm mb-2 sm:mb-0">
+                            <i class="fas fa-map-marker-alt mr-1"></i> Удаленно
+                        </div>
+                        <a class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-[#0088CC] to-[#006699] text-white rounded-lg hover:shadow-lg transition-all duration-200 transform hover:scale-[1.02] text-sm font-medium" href="{{ url_for('contacts') }}">Связаться с нами</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Vacancy 5 -->
+            <div class="vacancy-card bg-white rounded-xl overflow-hidden shadow-sm mb-8 card-hover transition-all" data-category="sales">
+                <div class="p-6 md:p-8">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                        <div>
+                            <h3 class="text-xl md:text-2xl font-bold mb-1">Ведущий менеджер продаж</h3>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">Продажи</span>
+                                <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">B2B</span>
+                                <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">Опыт от 3 лет</span>
+                            </div>
+                        </div>
+                        <div class="text-[#0088CC] font-medium text-lg mb-3 md:mb-0 md:ml-4">от 150 000 ₽</div>
+                    </div>
+                    <p class="text-gray-600 mb-4">Развитие партнерских отношений с застройщиками, ведение крупных сделок</p>
+                    <div class="flex flex-wrap justify-between items-center">
+                        <div class="flex items-center text-gray-500 text-sm mb-2 sm:mb-0">
+                            <i class="fas fa-map-marker-alt mr-1"></i> Краснодар
+                        </div>
+                        <a class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-[#0088CC] to-[#006699] text-white rounded-lg hover:shadow-lg transition-all duration-200 transform hover:scale-[1.02] text-sm font-medium" href="{{ url_for('contacts') }}">Связаться с нами</a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Apply Section -->
+<section class="py-16 bg-gradient-to-r from-[#0088CC] to-[#006699] text-white">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Отправьте свое резюме</h2>
+            <p class="text-xl mb-8 text-white opacity-90">Даже если не нашли подходящую вакансию - присылайте резюме, мы рассмотрим вас для будущих позиций</p>
+            <div class="mb-6">
+                <button onclick="openApplicationModal()" class="px-8 py-4 bg-white text-[#0088CC] font-semibold rounded-lg hover:bg-gray-100 transition-all duration-200 transform hover:scale-[1.02] mr-4">
+                    Записаться на собеседование
+                </button>
+            </div>
+            <form class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto" action="{{ url_for('contacts') }}" method="post">
+                <div class="relative w-full">
+                    <input class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" id="resume" type="file" name="resume"/>
+                    <label class="flex items-center justify-between px-6 py-3 rounded-md flex-grow bg-white bg-opacity-20 text-white border border-white border-opacity-30 hover:bg-opacity-30 transition-all cursor-pointer" for="resume">
+                        <span class="text-white">Выберите файл</span>
+                        <i class="fas fa-cloud-upload-alt ml-2 text-white"></i>
+                    </label>
+                </div>
+                <button class="inline-flex items-center px-6 py-3 bg-white text-[#0088CC] rounded-lg hover:bg-gray-50 transition-all duration-200 transform hover:scale-[1.02] font-medium" type="submit">Отправить</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+// Job Search and Filter Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('job-search');
+    const vacancyCards = document.querySelectorAll('.vacancy-card');
+    
+    // Search functionality
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            filterVacancies(searchTerm);
+        });
+    }
+    
+    function filterVacancies(searchTerm = '', category = 'all') {
+        vacancyCards.forEach(card => {
+            const title = card.querySelector('h3').textContent.toLowerCase();
+            const description = card.querySelector('p').textContent.toLowerCase();
+            const tags = Array.from(card.querySelectorAll('span')).map(span => span.textContent.toLowerCase()).join(' ');
+            
+            const matchesSearch = !searchTerm || 
+                title.includes(searchTerm) || 
+                description.includes(searchTerm) || 
+                tags.includes(searchTerm);
+            
+            const matchesCategory = category === 'all' || card.getAttribute('data-category') === category;
+            
+            if (matchesSearch && matchesCategory) {
+                card.style.display = 'block';
+                card.style.animation = 'fadeIn 0.3s ease-in-out';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+    
+    // Add CSS for fade animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* 3D Career Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
+        }
+        
+        @keyframes rotate-y-12 {
+            0% { transform: rotateY(-15deg) rotateX(5deg); }
+            50% { transform: rotateY(-12deg) rotateX(3deg); }
+            100% { transform: rotateY(-15deg) rotateX(5deg); }
+        }
+        
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .animate-spin-slow {
+            animation: spin-slow 20s linear infinite;
+        }
+        
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        
+        .rotate-y-12 {
+            transform: rotateY(-15deg) rotateX(5deg);
+            animation: rotate-y-12 4s ease-in-out infinite;
+        }
+    `;
+    document.head.appendChild(style);
+});
+
+// Category Filter Function
+function filterByCategory(category) {
+    const searchInput = document.getElementById('job-search');
+    const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+    
+    // Update active filter button
+    document.querySelectorAll('.category-filter').forEach(btn => {
+        btn.classList.remove('active', 'bg-[#0088CC]', 'text-white');
+        btn.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+    });
+    
+    const activeBtn = document.querySelector(`[data-category="${category}"]`);
+    if (activeBtn) {
+        activeBtn.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+        activeBtn.classList.add('active', 'bg-[#0088CC]', 'text-white');
+    }
+    
+    // Filter vacancies
+    const vacancyCards = document.querySelectorAll('.vacancy-card');
+    vacancyCards.forEach(card => {
+        const title = card.querySelector('h3').textContent.toLowerCase();
+        const description = card.querySelector('p').textContent.toLowerCase();
+        const tags = Array.from(card.querySelectorAll('span')).map(span => span.textContent.toLowerCase()).join(' ');
+        
+        const matchesSearch = !searchTerm || 
+            title.includes(searchTerm) || 
+            description.includes(searchTerm) || 
+            tags.includes(searchTerm);
+        
+        const matchesCategory = category === 'all' || card.getAttribute('data-category') === category;
+        
+        if (matchesSearch && matchesCategory) {
+            card.style.display = 'block';
+            card.style.animation = 'fadeIn 0.3s ease-in-out';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+</script>
+{% endblock %}

@@ -1,0 +1,2068 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+<style>
+/* Скрываем footer на странице карты ЖК */
+footer {
+    display: none !important;
+}
+
+/* Исправляем z-index для меню header */
+header nav .relative,
+header .dropdown,
+header .dropdown-menu,
+.mobile-menu {
+    z-index: 999998 !important;
+}
+
+/* Исправляем z-index для мобильного меню */
+.mobile-menu {
+    position: fixed !important;
+    z-index: 60000 !important;
+}
+
+/* ПРИНУДИТЕЛЬНЫЙ z-index поверх карты */
+.dropdown {
+    position: relative !important;
+    z-index: 2147483647 !important;
+}
+
+.dropdown-menu {
+    position: absolute !important;
+    z-index: 999999999 !important;
+    background: white !important;
+    border: 1px solid #d1d5db !important;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15) !important;
+    transform: translateZ(0) !important;
+    max-height: 300px;
+    overflow-y: auto;
+    top: 100%;
+    left: 0;
+}
+
+/* Leaflet карта имеет z-index около 1000, поднимаем все меню выше */
+nav, header {
+    z-index: 50000 !important;
+}
+
+/* Filter styles from properties page */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    min-width: 200px;
+    padding: 0.5rem;
+    margin-top: 0.25rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s ease;
+}
+
+.dropdown-menu.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.filter-option {
+    display: flex;
+    align-items: center;
+    padding: 0.375rem 0;
+    font-size: 0.875rem;
+    color: #374151;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.filter-option:hover {
+    color: #0088CC;
+}
+
+.filter-option input[type="checkbox"] {
+    margin-right: 0.5rem;
+    width: 16px;
+    height: 16px;
+    accent-color: #0088CC;
+}
+
+.complex-card {
+    transition: all 0.3s ease;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+    background: white;
+}
+
+.complex-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border-color: #0088CC;
+}
+
+.complex-image {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+}
+
+.complex-content {
+    padding: 16px;
+}
+
+.complex-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 8px;
+    line-height: 1.25;
+}
+
+.complex-info {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 12px;
+}
+
+.complex-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 8px;
+    background: #f9fafb;
+    border-radius: 8px;
+}
+
+.stat-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 2px;
+}
+
+.complex-price {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0088CC;
+    margin-bottom: 12px;
+}
+
+.view-details-btn {
+    width: 100%;
+    background: linear-gradient(to right, #006699, #0088CC);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.view-details-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+/* Enhanced marker styles for clustering */
+.custom-marker-cluster {
+    background: linear-gradient(135deg, #0088CC, #0066AA);
+    border: 3px solid white;
+    border-radius: 50%;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    line-height: 1;
+    box-shadow: 0 4px 12px rgba(0, 136, 204, 0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.custom-marker-cluster:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(0, 136, 204, 0.6);
+}
+
+.custom-marker-single {
+    background: #0088CC;
+    border: 2px solid white;
+    border-radius: 50%;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 136, 204, 0.3);
+    transition: transform 0.2s ease;
+}
+
+.custom-marker-single:hover {
+    transform: scale(1.05);
+}
+
+.custom-complex-marker {
+    background: none !important;
+    border: none !important;
+}
+
+.custom-complex-marker div {
+    animation: markerPulse 2s infinite;
+    white-space: nowrap;
+}
+
+@keyframes markerPulse {
+    0% { box-shadow: 0 0 0 0 rgba(0, 136, 204, 0.4); }
+    70% { box-shadow: 0 0 0 6px rgba(0, 136, 204, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 136, 204, 0); }
+}
+
+/* Компактный popup для всех устройств */
+.complex-popup {
+    max-width: 280px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.4;
+}
+
+.compact-popup {
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+}
+
+.popup-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.popup-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1f2937;
+    line-height: 1.3;
+    margin: 0;
+    padding-right: 8px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background: #10b981;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+.popup-info {
+    margin-bottom: 16px;
+}
+
+.info-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-right: 8px;
+    flex-shrink: 0;
+}
+
+.dot.blue { background: #3b82f6; }
+.dot.purple { background: #8b5cf6; }
+.dot.green { background: #10b981; }
+.dot.indigo { background: #6366f1; }
+.dot.orange { background: #f59e0b; }
+
+.label {
+    font-weight: 500;
+    color: #6b7280;
+    margin-right: 4px;
+    min-width: 70px;
+}
+
+.value, .count {
+    color: #374151;
+    font-weight: 400;
+}
+
+.status-badge {
+    background: #dcfce7;
+    color: #166534;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.price {
+    color: #4f46e5;
+    font-weight: 700;
+}
+
+.popup-footer {
+    margin-top: 16px;
+}
+
+.popup-button {
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+    padding: 10px 16px;
+    background: linear-gradient(135deg, #0088cc, #0066aa);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.popup-button:hover {
+    background: linear-gradient(135deg, #0099dd, #0077bb);
+    transform: translateY(-1px);
+    color: white;
+}
+
+.button-icon {
+    width: 14px;
+    height: 14px;
+    margin-right: 6px;
+}
+
+.leaflet-popup-content-wrapper {
+    border-radius: 12px !important;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15) !important;
+    border: none !important;
+    padding: 0 !important;
+    background: transparent !important;
+}
+
+.leaflet-popup-content {
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.4 !important;
+}
+
+.leaflet-popup-tip {
+    background: white !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* Кластеры - красивые прямоугольные */
+.marker-cluster {
+    border-radius: 12px;
+    text-align: center;
+    font-weight: bold;
+    border: 2px solid rgba(255,255,255,0.9);
+    box-shadow: 0 8px 25px rgba(0, 136, 204, 0.4), 0 2px 10px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    backdrop-filter: blur(10px);
+}
+
+.marker-cluster:hover {
+    transform: scale(1.15) translateY(-2px);
+    box-shadow: 0 12px 35px rgba(0, 136, 204, 0.6), 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.marker-cluster-small {
+    background: linear-gradient(135deg, #0088CC 0%, #006699 100%);
+    width: 48px;
+    height: 36px;
+}
+
+.marker-cluster-small div {
+    width: 48px;
+    height: 36px;
+    line-height: 32px;
+    color: white;
+    font-size: 13px;
+    border-radius: 12px;
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.marker-cluster-medium {
+    background: linear-gradient(135deg, #0099DD 0%, #0077AA 100%);
+    width: 56px;
+    height: 40px;
+}
+
+.marker-cluster-medium div {
+    width: 56px;
+    height: 40px;
+    line-height: 36px;
+    color: white;
+    font-size: 15px;
+    border-radius: 12px;
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.marker-cluster-large {
+    background: linear-gradient(135deg, #00AAEE 0%, #0088BB 100%);
+    width: 64px;
+    height: 44px;
+}
+
+.marker-cluster-large div {
+    width: 64px;
+    height: 44px;
+    line-height: 40px;
+    color: white;
+    font-size: 17px;
+    border-radius: 12px;
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+/* Hover эффекты для маркеров */
+.custom-complex-marker:hover > div {
+    transform: scale(1.05);
+    box-shadow: 0 8px 30px rgba(0, 136, 204, 0.7), 0 4px 15px rgba(0,0,0,0.2) !important;
+}
+
+/* Hover карточки с фото */
+.custom-tooltip {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.hover-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.1);
+    overflow: hidden;
+    width: 200px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.hover-image {
+    width: 100%;
+    height: 120px;
+    overflow: hidden;
+    position: relative;
+}
+
+.hover-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.hover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(0,0,0,0.4) 0%, rgba(0,136,204,0.6) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.hover-card:hover .hover-overlay {
+    opacity: 1;
+}
+
+.hover-card:hover .hover-image img {
+    transform: scale(1.08);
+}
+
+.hover-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 18px;
+    background: rgba(255,255,255,0.98);
+    color: #1f2937;
+    text-decoration: none;
+    border-radius: 25px;
+    font-size: 13px;
+    font-weight: 700;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    backdrop-filter: blur(12px);
+    transition: all 0.25s ease;
+    border: 2px solid rgba(255,255,255,0.8);
+    text-shadow: none;
+}
+
+.hover-button:hover {
+    background: white;
+    color: #111827;
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+    border: 2px solid white;
+}
+
+.hover-button-icon {
+    width: 14px;
+    height: 14px;
+    margin-right: 6px;
+}
+
+.hover-content {
+    padding: 12px;
+}
+
+.hover-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 8px 0;
+    line-height: 1.3;
+}
+
+.hover-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.hover-price-block {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.hover-price-label {
+    font-size: 10px;
+    font-weight: 500;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.hover-price {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0066aa;
+    line-height: 1.2;
+}
+
+.hover-status-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.hover-status {
+    font-size: 10px;
+    font-weight: 600;
+    color: #16a34a;
+    background: #dcfce7;
+    padding: 3px 8px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.hover-apartments {
+    font-size: 11px;
+    font-weight: 500;
+    color: #64748b;
+}
+
+/* Анимация появления hover карточки */
+.leaflet-tooltip {
+    animation: tooltipFadeIn 0.2s ease-out;
+}
+
+@keyframes tooltipFadeIn {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 0.95; transform: translateY(0); }
+}
+
+/* Выделение ЖК в списке */
+.complex-card.highlighted {
+    border: 2px solid #0088cc !important;
+    box-shadow: 0 8px 25px rgba(0, 136, 204, 0.3) !important;
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #f8faff 0%, #f0f8ff 100%) !important;
+}
+
+/* CSS стили для dropdown элементов фильтров */
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    font-size: 0.875rem;
+    color: #374151;
+}
+
+.dropdown-item:hover {
+    background-color: #f9fafb;
+    color: #111827;
+}
+
+.dropdown-item input[type="checkbox"] {
+    margin-right: 0.5rem;
+    accent-color: #0088CC;
+    width: 16px;
+    height: 16px;
+}
+
+.dropdown-btn {
+    background: transparent;
+    border: 1px solid #d1d5db;
+    color: #374151;
+    font-weight: 500;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dropdown-btn:hover {
+    background: rgba(0, 136, 204, 0.1);
+    border-color: #0088CC;
+}
+
+.dropdown-btn svg {
+    width: 12px;
+    height: 12px;
+    transition: transform 0.2s;
+}
+
+.dropdown-btn.open svg {
+    transform: rotate(180deg);
+}
+
+/* ПРИНУДИТЕЛЬНО белый текст в popup кнопке */
+.leaflet-tooltip-custom .hover-button,
+.leaflet-tooltip-custom .hover-button *,
+.hover-button,
+.hover-button * {
+    color: white !important;
+    text-decoration: none !important;
+}
+
+.leaflet-tooltip-custom .hover-button:hover,
+.leaflet-tooltip-custom .hover-button:focus,
+.leaflet-tooltip-custom .hover-button:active,
+.hover-button:hover,
+.hover-button:focus,
+.hover-button:active {
+    color: white !important;
+    opacity: 0.9;
+}
+
+/* Красивые стили для кнопок в карточках */  
+a.view-details-btn,
+button.view-details-btn {
+    color: white !important;
+    text-decoration: none !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+}
+
+/* Стили для кнопки карты */
+button.view-details-btn {
+    background: #f3f4f6 !important;
+    color: #374151 !important;
+}
+
+button.view-details-btn:hover {
+    background: #e5e7eb !important;
+    color: #111827 !important;
+}
+
+/* КОПИРУЕМ РАБОТАЮЩИЕ СТИЛИ С СТРАНИЦЫ /map */
+
+/* Ensure search section is above map */
+.bg-white.shadow-sm.sticky {
+    z-index: 10000 !important;
+}
+
+/* Dropdown positioning */
+.dropdown {
+    z-index: 99999;
+}
+
+.dropdown-menu {
+    z-index: 99999;
+}
+
+/* Make dropdown items clickable */
+.dropdown-item input[type="checkbox"] {
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.dropdown-item {
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+/* Ensure dropdown menu is interactive */
+.dropdown-menu {
+    pointer-events: auto;
+}
+</style>
+{% endblock %}
+
+{% block title %}Карта жилых комплексов InBack{% endblock %}
+
+{% block content %}
+<!-- Enhanced Search Section -->
+<div class="bg-white shadow-sm sticky top-0 z-30 relative">
+    <div class="container mx-auto px-4 py-4">
+        <!-- Smart Search Bar -->
+        <div class="bg-white rounded-lg shadow-md border border-gray-200 p-4 mb-4">
+            <div class="flex flex-col lg:flex-row gap-3 items-center">
+                <!-- Enhanced Search Input -->
+                <div class="flex-1 relative">
+                    <input type="text" 
+                           id="complexMapSearch"
+                           placeholder="Поиск ЖК по названию, застройщику, району..." 
+                           class="w-full pl-4 pr-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#0088CC] focus:border-blue-500 outline-none transition-all text-gray-700">
+                </div>
+                
+                <!-- Back Button -->
+                <a href="/residential-complexes" class="inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition">
+                    <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                    К списку ЖК
+                </a>
+            </div>
+        </div>
+        
+        <!-- Quick Filters -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-3">
+            <div class="flex items-center gap-3 text-sm">
+                <div class="text-gray-600 whitespace-nowrap font-medium">Быстрые фильтры</div>
+                
+                <!-- Полная система фильтрации как в /properties -->
+                <div class="flex flex-wrap gap-2">
+                    <!-- Room Type Filter -->
+                    <div class="dropdown" data-filter="rooms">
+                        <button class="dropdown-btn border border-gray-300 px-3 py-1.5 rounded text-sm hover:bg-gray-50 flex items-center gap-1" onclick="toggleDropdown('roomsDropdown')">
+                            <span id="roomsFilterText">Комнат</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div id="roomsDropdown" class="dropdown-menu">
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="студия" data-filter-type="rooms" class="mr-2" onchange="handleRoomFilterChange()"> Студия
+                            </label>
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="1-комн" data-filter-type="rooms" class="mr-2" onchange="handleRoomFilterChange()"> 1-комнатная
+                            </label>
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="2-комн" data-filter-type="rooms" class="mr-2" onchange="handleRoomFilterChange()"> 2-комнатная
+                            </label>
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="3-комн" data-filter-type="rooms" class="mr-2" onchange="handleRoomFilterChange()"> 3-комнатная
+                            </label>
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="4+-комн" data-filter-type="rooms" class="mr-2" onchange="handleRoomFilterChange()"> 4-комнатная
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Price Filter -->
+                    <div class="dropdown" data-filter="price">
+                        <button class="dropdown-btn border border-gray-300 px-3 py-1.5 rounded text-sm hover:bg-gray-50 flex items-center gap-1" onclick="toggleDropdown('priceDropdown')">
+                            <span id="priceFilterText">Цена</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div id="priceDropdown" class="dropdown-menu" style="min-width: 280px;">
+                            <div class="p-3">
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="text-xs text-gray-600 mb-1 block">От, млн ₽</label>
+                                        <input type="number" id="priceFrom" placeholder="1" min="0" step="0.1" class="w-full px-2 py-1 border border-gray-300 rounded text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="text-xs text-gray-600 mb-1 block">До, млн ₽</label>
+                                        <input type="number" id="priceTo" placeholder="20" min="0" step="0.1" class="w-full px-2 py-1 border border-gray-300 rounded text-sm">
+                                    </div>
+                                </div>
+                                <button onclick="applyPriceFilter()" class="w-full bg-[#0088CC] text-white py-2 rounded mt-3 text-sm hover:opacity-90">Применить</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- City Filter -->
+                    <div class="dropdown" data-filter="cities">
+                        <button class="dropdown-btn border border-gray-300 px-3 py-1.5 rounded text-sm hover:bg-gray-50 flex items-center gap-1" onclick="toggleDropdown('cityDropdown')">
+                            <span id="cityFilterText">Город</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div id="cityDropdown" class="dropdown-menu">
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="Сочи" data-filter-type="city" class="mr-2" onchange="handleCityFilterChange()"> Сочи
+                            </label>
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="Краснодар" data-filter-type="city" class="mr-2" onchange="handleCityFilterChange()"> Краснодар
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Developer Filter -->
+                    <div class="dropdown" data-filter="developers">
+                        <button class="dropdown-btn border border-gray-300 px-3 py-1.5 rounded text-sm hover:bg-gray-50 flex items-center gap-1" onclick="toggleDropdown('developerDropdown')">
+                            <span id="developerFilterText">Застройщик</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div id="developerDropdown" class="dropdown-menu">
+                            <!-- Будет заполнен динамически из данных комплексов -->
+                        </div>
+                    </div>
+                    
+                    <!-- Completion Date Filter -->
+                    <div class="dropdown" data-filter="completion">
+                        <button class="dropdown-btn border border-gray-300 px-3 py-1.5 rounded text-sm hover:bg-gray-50 flex items-center gap-1" onclick="toggleDropdown('completionDropdown')">
+                            <span id="completionFilterText">Сдача</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div id="completionDropdown" class="dropdown-menu">
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="Сдан" data-filter-type="completion" class="mr-2" onchange="handleCompletionFilterChange()"> Сдан
+                            </label>
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="2024" data-filter-type="completion" class="mr-2" onchange="handleCompletionFilterChange()"> 2024
+                            </label>
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="2025" data-filter-type="completion" class="mr-2" onchange="handleCompletionFilterChange()"> 2025
+                            </label>
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="2026" data-filter-type="completion" class="mr-2" onchange="handleCompletionFilterChange()"> 2026
+                            </label>
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="2028" data-filter-type="completion" class="mr-2" onchange="handleCompletionFilterChange()"> 2028
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Housing Class Filter -->
+                    <div class="dropdown" data-filter="housing_class">
+                        <button class="dropdown-btn border border-gray-300 px-3 py-1.5 rounded text-sm hover:bg-gray-50 flex items-center gap-1" onclick="toggleDropdown('housingClassDropdown')">
+                            <span id="housingClassFilterText">Класс жилья</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div id="housingClassDropdown" class="dropdown-menu">
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="Эконом" data-filter-type="housing_class" class="mr-2" onchange="handleHousingClassFilterChange()"> Эконом
+                            </label>
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="Комфорт" data-filter-type="housing_class" class="mr-2" onchange="handleHousingClassFilterChange()"> Комфорт
+                            </label>
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="Бизнес" data-filter-type="housing_class" class="mr-2" onchange="handleHousingClassFilterChange()"> Бизнес
+                            </label>
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="Премиум" data-filter-type="housing_class" class="mr-2" onchange="handleHousingClassFilterChange()"> Премиум
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Area Filter -->
+                    <div class="dropdown" data-filter="area">
+                        <button class="dropdown-btn border border-gray-300 px-3 py-1.5 rounded text-sm hover:bg-gray-50 flex items-center gap-1" onclick="toggleDropdown('areaDropdown')">
+                            <span id="areaFilterText">Площадь</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div id="areaDropdown" class="dropdown-menu" style="min-width: 280px;">
+                            <div class="p-3">
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="text-xs text-gray-600 mb-1 block">От, м²</label>
+                                        <input type="number" id="areaFrom" placeholder="20" min="0" step="1" class="w-full px-2 py-1 border border-gray-300 rounded text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="text-xs text-gray-600 mb-1 block">До, м²</label>
+                                        <input type="number" id="areaTo" placeholder="200" min="0" step="1" class="w-full px-2 py-1 border border-gray-300 rounded text-sm">
+                                    </div>
+                                </div>
+                                <button onclick="applyAreaFilter()" class="w-full bg-[#0088CC] text-white py-2 rounded mt-3 text-sm hover:opacity-90">Применить</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Floor Filter -->
+                    <div class="dropdown" data-filter="floor">
+                        <button class="dropdown-btn border border-gray-300 px-3 py-1.5 rounded text-sm hover:bg-gray-50 flex items-center gap-1" onclick="toggleDropdown('floorDropdown')">
+                            <span id="floorFilterText">Этаж</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div id="floorDropdown" class="dropdown-menu" style="min-width: 280px;">
+                            <div class="p-3">
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="text-xs text-gray-600 mb-1 block">От</label>
+                                        <input type="number" id="floorFrom" placeholder="1" min="1" step="1" class="w-full px-2 py-1 border border-gray-300 rounded text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="text-xs text-gray-600 mb-1 block">До</label>
+                                        <input type="number" id="floorTo" placeholder="25" min="1" step="1" class="w-full px-2 py-1 border border-gray-300 rounded text-sm">
+                                    </div>
+                                </div>
+                                <button onclick="applyFloorFilter()" class="w-full bg-[#0088CC] text-white py-2 rounded mt-3 text-sm hover:opacity-90">Применить</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Building Floors Filter -->
+                    <div class="dropdown" data-filter="building_floors">
+                        <button class="dropdown-btn border border-gray-300 px-3 py-1.5 rounded text-sm hover:bg-gray-50 flex items-center gap-1" onclick="toggleDropdown('buildingFloorsDropdown')">
+                            <span id="buildingFloorsFilterText">Этажность</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div id="buildingFloorsDropdown" class="dropdown-menu">
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="1-3" data-filter-type="building_floors" class="mr-2" onchange="handleBuildingFloorsFilterChange()"> 1-3 этажа
+                            </label>
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="4-9" data-filter-type="building_floors" class="mr-2" onchange="handleBuildingFloorsFilterChange()"> 4-9 этажей
+                            </label>
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="10-16" data-filter-type="building_floors" class="mr-2" onchange="handleBuildingFloorsFilterChange()"> 10-16 этажей
+                            </label>
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="17+" data-filter-type="building_floors" class="mr-2" onchange="handleBuildingFloorsFilterChange()"> 17+ этажей
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Search Button -->
+                    <button id="applyFiltersBtn" onclick="applyComplexFilters()" class="px-4 py-1.5 bg-gradient-to-r from-[#0088CC] to-[#006699] text-white font-medium rounded hover:from-[#006699] hover:to-[#004477] transition-all duration-300 shadow-sm hover:shadow-md whitespace-nowrap text-sm">
+                        <i class="fas fa-search mr-1"></i>
+                        Найти
+                    </button>
+                    
+                    <!-- Reset Button -->
+                    <button onclick="resetAllFilters()" class="px-3 py-1.5 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 transition-all whitespace-nowrap text-sm">
+                        Сбросить
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="flex flex-col lg:flex-row h-[calc(100vh-200px)]">
+    <!-- Complexes List -->
+    <div class="lg:w-[500px] xl:w-[600px] bg-white shadow-sm z-20 lg:overflow-y-auto lg:h-full">
+        <div class="bg-white rounded-lg shadow-sm p-4 mb-4">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="font-semibold text-lg"><span id="complexCount">{{ residential_complexes|length }}</span> жилых комплексов</h3>
+                <div class="flex items-center text-sm text-gray-500">
+                    <span class="mr-2">Сортировка:</span>
+                    <select id="sortSelect" class="font-medium text-[#0088CC] bg-transparent border-0 focus:outline-none cursor-pointer" onchange="applySorting()">
+                        <option value="name_asc">Название: А-Я</option>
+                        <option value="name_desc">Название: Я-А</option>
+                        <option value="price_asc">Цена: дешевле</option>
+                        <option value="price_desc">Цена: дороже</option>
+                        <option value="apartments_desc">Квартир: больше</option>
+                    </select>
+                </div>
+            </div>
+            <label class="flex items-center">
+                <input id="onlyCashbackList" class="rounded border-gray-300 text-[#0088CC] focus:ring-[#0088CC] mr-2" type="checkbox" onchange="applyFilters()"/>
+                <span>Только с кешбеком</span>
+            </label>
+        </div>
+
+        <!-- Complex Cards List -->
+        <div id="complexesList" class="grid grid-cols-1 lg:grid-cols-2 gap-4 px-4">
+            <!-- Cards will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Map -->
+    <div class="flex-1 relative h-full">
+        <div id="complexesMap" class="w-full h-full rounded-xl shadow-sm overflow-hidden"></div>
+    </div>
+</div>
+
+<script>
+// Глобальные переменные
+let map;
+let markers = [];
+let markerClusterGroup;
+let allComplexes = {{ residential_complexes|tojson }};
+let filteredComplexes = [...allComplexes];
+
+console.log('Loaded', allComplexes.length, 'residential complexes');
+console.log('First complex:', allComplexes[0]);
+
+// Глобальная защита от ошибок closest
+if (!Element.prototype.closest) {
+    Element.prototype.closest = function(s) {
+        var el = this;
+        do {
+            if (el.matches(s)) return el;
+            el = el.parentElement || el.parentNode;
+        } while (el !== null && el.nodeType === 1);
+        return null;
+    };
+}
+
+// Инициализация при загрузке
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOMContentLoaded fired');
+    initializeMap();
+    loadComplexes();
+    setupSearch();
+    
+    // Проверяем наличие dropdown элементов
+    console.log('developerDropdown:', document.getElementById('developerDropdown'));
+    console.log('districtDropdown:', document.getElementById('districtDropdown'));
+    console.log('statusDropdown:', document.getElementById('statusDropdown'));
+});
+
+function initializeMap() {
+    try {
+        console.log('Initializing map...');
+        // Проверяем что элемент карты существует
+        const mapElement = document.getElementById('complexesMap');
+        if (!mapElement) {
+            console.error('Map element not found!');
+            return;
+        }
+        
+        // Центр на область с данными (Сочи)
+        map = L.map('complexesMap').setView([43.6, 39.7], 10);
+        
+        // Добавляем тайлы OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        
+        // Создаем группу кластеров
+        markerClusterGroup = L.markerClusterGroup({
+            maxClusterRadius: 50, // Максимальный радиус кластера
+            disableClusteringAtZoom: 13, // При зуме 13+ показывать отдельные маркеры
+            spiderfyOnMaxZoom: true, // Разворачивать маркеры при максимальном зуме
+            showCoverageOnHover: false, // Не показывать область покрытия при наведении
+            zoomToBoundsOnClick: true, // Приближать к границам кластера при клике
+            iconCreateFunction: function(cluster) {
+                const childCount = cluster.getChildCount();
+                let className = 'marker-cluster ';
+                let size = [48, 36]; // Красивые размеры по умолчанию
+                
+                if (childCount < 3) {
+                    className += 'marker-cluster-small';
+                    size = [48, 36];
+                } else if (childCount < 6) {
+                    className += 'marker-cluster-medium';  
+                    size = [56, 40];
+                } else {
+                    className += 'marker-cluster-large';
+                    size = [64, 44];
+                }
+                
+                return new L.DivIcon({
+                    html: '<div><span>' + childCount + '</span></div>',
+                    className: className,
+                    iconSize: new L.Point(size[0], size[1])
+                });
+            }
+        });
+        
+        map.addLayer(markerClusterGroup);
+        
+        console.log('Map initialized successfully with clustering');
+    } catch (error) {
+        console.error('Error initializing map:', error);
+    }
+}
+
+function setupSearch() {
+    const searchInput = document.getElementById('complexMapSearch');
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            applyFilters();
+        });
+    }
+}
+
+function toggleDropdown(dropdownId) {
+    console.log('toggleDropdown called with:', dropdownId);
+    const dropdown = document.getElementById(dropdownId);
+    if (!dropdown) {
+        console.error('Dropdown not found:', dropdownId);
+        return;
+    }
+    
+    console.log('Dropdown found, toggling:', dropdown);
+    const allDropdowns = document.querySelectorAll('.dropdown-menu');
+    console.log('Found dropdowns:', allDropdowns.length);
+    
+    // Закрыть все другие дропдауны
+    allDropdowns.forEach(d => {
+        if (d && d.id !== dropdownId) {
+            d.classList.remove('open');
+        }
+    });
+    
+    // Переключить текущий дропдаун
+    dropdown.classList.toggle('open');
+    
+    // ПРИНУДИТЕЛЬНО устанавливаем максимальный z-index
+    if (dropdown.classList.contains('open')) {
+        dropdown.style.zIndex = '999999999';
+        dropdown.style.position = 'absolute';
+    }
+    
+    console.log('Dropdown classes after toggle:', dropdown.className);
+}
+
+// Закрыть дропдауны при клике вне их
+document.addEventListener('click', function(event) {
+    const isDropdownClick = event.target && event.target.closest ? event.target.closest('.dropdown') : null;
+    if (!isDropdownClick) {
+        document.querySelectorAll('.dropdown-menu').forEach(dropdown => {
+            dropdown.classList.remove('open');
+        });
+    }
+});
+
+function applyFilters() {
+    const searchTerm = document.getElementById('complexMapSearch').value.toLowerCase();
+    
+    // Получить выбранные фильтры
+    const selectedDevelopers = getSelectedValues('developerDropdown');
+    const selectedDistricts = getSelectedValues('districtDropdown');
+    const selectedStatuses = getSelectedValues('statusDropdown');
+    const onlyCashback = document.getElementById('onlyCashbackList').checked;
+    
+    filteredComplexes = allComplexes.filter(complex => {
+        // Поиск по тексту
+        if (searchTerm && 
+            !complex.name.toLowerCase().includes(searchTerm) && 
+            !complex.developer.toLowerCase().includes(searchTerm) &&
+            !complex.district.toLowerCase().includes(searchTerm)) {
+            return false;
+        }
+        
+        // Фильтр по застройщику
+        if (selectedDevelopers.length > 0 && !selectedDevelopers.includes(complex.developer)) {
+            return false;
+        }
+        
+        // Фильтр по району
+        if (selectedDistricts.length > 0 && !selectedDistricts.includes(complex.district)) {
+            return false;
+        }
+        
+        // Фильтр по статусу
+        if (selectedStatuses.length > 0 && !selectedStatuses.includes(complex.status)) {
+            return false;
+        }
+        
+        // Фильтр по кешбеку
+        if (onlyCashback && !complex.cashback_percent) {
+            return false;
+        }
+        
+        return true;
+    });
+    
+    updateMap();
+    updateComplexesList();
+}
+
+function getSelectedValues(dropdownId) {
+    const dropdown = document.getElementById(dropdownId);
+    const checkboxes = dropdown.querySelectorAll('input[type="checkbox"]:checked');
+    return Array.from(checkboxes).map(cb => cb.value);
+}
+
+function loadComplexes() {
+    console.log('Loading complexes on map...');
+    console.log('All complexes:', allComplexes);
+    console.log('Filtered complexes:', filteredComplexes);
+    updateMap();
+    updateComplexesList();
+}
+
+function updateMap() {
+    // Очистить существующие маркеры
+    markerClusterGroup.clearLayers();
+    markers = [];
+    
+    console.log('Adding', filteredComplexes.length, 'complexes to map');
+    
+    // Добавить маркеры для отфильтрованных комплексов
+    filteredComplexes.forEach((complex, index) => {
+        if (complex.coordinates && complex.coordinates.lat && complex.coordinates.lng) {
+            const lat = parseFloat(complex.coordinates.lat);
+            const lng = parseFloat(complex.coordinates.lng);
+            
+            if (!isNaN(lat) && !isNaN(lng)) {
+                // Красивый прямоугольный маркер с полным названием ЖК
+                const complexName = complex.name.replace('ЖК', '').replace(/"/g, '').trim();
+                const displayName = complexName.length > 18 ? complexName.substring(0, 18) + '...' : complexName;
+                
+                const markerIcon = L.divIcon({
+                    className: 'custom-complex-marker',
+                    html: `<div style="
+                        background: linear-gradient(135deg, #0088CC 0%, #0066AA 100%);
+                        border: 2px solid rgba(255,255,255,0.9);
+                        border-radius: 12px;
+                        color: white;
+                        font-weight: 700;
+                        font-size: 11px;
+                        text-align: center;
+                        line-height: 1.3;
+                        padding: 6px 12px;
+                        min-width: 120px;
+                        max-width: 160px;
+                        height: auto;
+                        min-height: 32px;
+                        box-shadow: 0 6px 20px rgba(0, 136, 204, 0.5), 0 2px 6px rgba(0,0,0,0.1);
+                        cursor: pointer;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+                        letter-spacing: 0.4px;
+                        text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+                        position: relative;
+                    ">${displayName}</div>`,
+                    iconSize: [null, null],
+                    iconAnchor: [60, 16],
+                    popupAnchor: [0, -20]
+                });
+                
+                const marker = L.marker([lat, lng], { icon: markerIcon });
+                
+                // Создаем красивую hover карточку с фото и кнопкой
+                const hoverTooltip = `
+                    <div class="hover-card">
+                        <div class="hover-image">
+                            <img src="${complex.main_image}" alt="${complex.name}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDIwMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xMDAgNjBMMTIwIDcwSDgwTDEwMCA2MFoiIGZpbGw9IiM5Q0EzQUYiLz4KPHRleHQgeD0iMTAwIiB5PSI5MCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2Mzc0M0EiPtCY0LfQvtCx0YDQsNC20LXQvdC40LU8L3RleHQ+Cjwvc3ZnPgo='">
+                            <div class="hover-overlay">
+                                <a href="/residential-complex/${encodeURIComponent(complex.name)}" class="hover-button" style="color: white !important; background: linear-gradient(135deg, #0088CC 0%, #006699 100%) !important;">
+                                    <svg class="hover-button-icon" fill="none" stroke="white" viewBox="0 0 24 24" style="color: white !important; stroke: white !important;">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" style="stroke: white !important;"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" style="stroke: white !important;"></path>
+                                    </svg>
+                                    <span style="color: white !important;">Смотреть ЖК</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="hover-content">
+                            <h4 class="hover-title">${complex.name}</h4>
+                            <div class="hover-info">
+                                <div class="hover-price-block">
+                                    <span class="hover-price-label">Цены от:</span>
+                                    <span class="hover-price">${complex.price_from ? complex.price_from.toLocaleString() + ' ₽' : 'По запросу'}</span>
+                                </div>
+                                <div class="hover-status-block">
+                                    <span class="hover-status">${complex.status}</span>
+                                    <span class="hover-apartments">${complex.apartments_count} квартир</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Привязываем hover tooltip с правильным позиционированием
+                marker.bindTooltip(hoverTooltip, {
+                    permanent: false,
+                    direction: 'right',
+                    offset: [15, 0],
+                    className: 'leaflet-tooltip-custom',
+                    opacity: 0.98,
+                    sticky: false
+                });
+                
+                // Добавляем обработчик клика для выделения в списке
+                marker.on('click', function() {
+                    highlightComplexInList(complex.name);
+                });
+                
+                // Добавляем маркер в группу кластеров вместо карты напрямую
+                markerClusterGroup.addLayer(marker);
+                
+                // Компактный popup для мобильных устройств
+                const popupContent = `
+                    <div class="complex-popup compact-popup">
+                        <div class="popup-header">
+                            <h3 class="popup-title">${complex.name}</h3>
+                            <div class="status-dot"></div>
+                        </div>
+                        
+                        <div class="popup-info">
+                            <div class="info-row">
+                                <span class="dot blue"></span>
+                                <span class="label">Застройщик:</span>
+                                <span class="value">${complex.developer || 'Не указан'}</span>
+                            </div>
+                            
+                            <div class="info-row">
+                                <span class="dot purple"></span>
+                                <span class="label">Район:</span>
+                                <span class="value">${complex.district || 'Не указан'}</span>
+                            </div>
+                            
+                            <div class="info-row">
+                                <span class="dot green"></span>
+                                <span class="label">Статус:</span>
+                                <span class="status-badge">${complex.status || 'Не указан'}</span>
+                            </div>
+                            
+                            ${complex.price_from ? `
+                                <div class="info-row price-row">
+                                    <span class="dot indigo"></span>
+                                    <span class="label">Цена от:</span>
+                                    <span class="price">${complex.price_from.toLocaleString()} ₽</span>
+                                </div>
+                            ` : ''}
+                            
+                            ${complex.apartments_count ? `
+                                <div class="info-row">
+                                    <span class="dot orange"></span>
+                                    <span class="label">Квартир:</span>
+                                    <span class="count">${complex.apartments_count}</span>
+                                </div>
+                            ` : ''}
+                        </div>
+                        
+                        <div class="popup-footer">
+                            <a href="${complex.url}" class="popup-button">
+                                <svg class="button-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                                </svg>
+                                Смотреть ЖК
+                            </a>
+                        </div>
+                    </div>
+                `;
+                
+                marker.bindPopup(popupContent);
+                markers.push(marker);
+            }
+        } else {
+            console.warn('Complex without coordinates:', complex.name);
+        }
+    });
+    
+    // Обновить счетчик
+    const countElement = document.getElementById('complexCount');
+    if (countElement) {
+        countElement.textContent = filteredComplexes.length;
+    }
+    
+    // Подогнать карту под все маркеры
+    if (markers.length > 0) {
+        const group = new L.featureGroup(markers);
+        map.fitBounds(group.getBounds().pad(0.1));
+    }
+}
+
+function updateComplexesList() {
+    const complexesListContainer = document.getElementById('complexesList');
+    if (!complexesListContainer) {
+        console.error('complexesList container not found!');
+        return;
+    }
+    
+    console.log('Updating complexes list with', filteredComplexes.length, 'complexes');
+    complexesListContainer.innerHTML = '';
+    
+    filteredComplexes.forEach((complex, index) => {
+        const complexCard = createComplexCard(complex);
+        complexesListContainer.appendChild(complexCard);
+        console.log('Added card for complex:', complex.name);
+    });
+    
+    console.log('Total cards added:', complexesListContainer.children.length);
+    
+    // Добавляем обработчики для новых карточек
+    updateCardEventHandlers();
+}
+
+function createComplexCard(complex) {
+    const card = document.createElement('div');
+    card.className = 'complex-card mb-4';
+    card.dataset.complexId = complex.id;
+    
+    // Формируем текст цены с диапазоном "от и до"
+    let priceText = 'Цена по запросу';
+    if (complex.price_from) {
+        if (complex.price_to && complex.price_to > complex.price_from) {
+            priceText = `${complex.price_from.toLocaleString()} - ${complex.price_to.toLocaleString()} ₽`;
+        } else {
+            priceText = `от ${complex.price_from.toLocaleString()} ₽`;
+        }
+    }
+    
+    const cashbackText = complex.cashback_percent ? 
+        `Кэшбэк ${complex.cashback_percent}%` : '';
+    
+    card.innerHTML = `
+        <div class="relative">
+            <img src="${complex.main_image}" alt="${complex.name}" class="complex-image" 
+                 onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDIwMCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMTUwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xMDAgNzVMMTIwIDkwSDgwTDEwMCA3NVoiIGZpbGw9IiM5Q0EzQUYiLz4KPHRleHQgeD0iMTAwIiB5PSIxMTAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjM2NzNBIj7QmNC30L7QsdGA0LDQttC10L3QuNC1PC90ZXh0Pgo8L3N2Zz4K'">
+            <div class="absolute inset-0 bg-black bg-opacity-20 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center cursor-pointer rounded-lg">
+                <span class="text-white text-sm font-medium">📸 Смотреть фото</span>
+            </div>
+        </div>
+        
+        <div class="complex-content">
+            <div class="flex justify-between items-start mb-2">
+                <h3 class="complex-title">${complex.name}</h3>
+                <span class="status-badge-small ${complex.status === 'Сдан' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'} px-2 py-1 rounded-full text-xs font-medium ml-2">
+                    ${complex.status === 'Сдан' ? 'Сдан' : 'Строится'}
+                </span>
+            </div>
+            <div class="complex-info">
+                <div class="text-sm text-gray-600 mb-1">
+                    <i class="fas fa-building mr-1"></i>${complex.developer}
+                </div>
+                <div class="text-sm text-gray-600 mb-1">
+                    <i class="fas fa-map-marker-alt mr-1"></i>${complex.address || complex.district}
+                </div>
+                <div class="text-sm text-gray-600">
+                    <i class="fas fa-calendar mr-1"></i>${complex.completion_date || complex.status}
+                </div>
+            </div>
+            
+            <div class="complex-stats">
+                <div class="stat-item">
+                    <div class="stat-value">${complex.apartments_count || 0}</div>
+                    <div class="stat-label">квартир</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">${complex.object_class || 'Не указан'}</div>
+                    <div class="stat-label">класс</div>
+                </div>
+            </div>
+            
+            <div class="complex-price">${priceText}</div>
+            
+            ${cashbackText ? `<div class="text-sm text-amber-600 font-medium mb-3">${cashbackText}</div>` : ''}
+            
+            <div class="flex flex-col gap-2 mt-3">
+                <button onclick="showComplexOnMap(${complex.id})" class="w-full px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition-all duration-200 flex items-center justify-center gap-1 text-sm">
+                    <i class="fas fa-map-marker-alt text-blue-600"></i>
+                    Показать на карте
+                </button>
+                <a href="/residential-complex/${encodeURIComponent(complex.name)}" class="w-full px-3 py-2 bg-gradient-to-r from-[#0088CC] to-[#006699] hover:from-[#006699] hover:to-[#004477] text-white font-medium rounded-lg transition-all duration-300 shadow-sm hover:shadow-md flex items-center justify-center gap-1 text-sm no-underline">
+                    <i class="fas fa-eye"></i>
+                    Смотреть ЖК
+                </a>
+            </div>
+        </div>
+    `;
+    
+    return card;
+}
+
+function showComplexOnMap(complexId) {
+    const complex = allComplexes.find(c => c.id === complexId);
+    if (complex && complex.coordinates) {
+        const lat = parseFloat(complex.coordinates.lat);
+        const lng = parseFloat(complex.coordinates.lng);
+        
+        if (!isNaN(lat) && !isNaN(lng)) {
+            map.setView([lat, lng], 15);
+            
+            // Найти и открыть popup маркера
+            const marker = markers.find(m => {
+                const markerPos = m.getLatLng();
+                return Math.abs(markerPos.lat - lat) < 0.001 && Math.abs(markerPos.lng - lng) < 0.001;
+            });
+            
+            if (marker) {
+                marker.openPopup();
+            }
+        }
+    }
+}
+
+function applySorting() {
+    const sortValue = document.getElementById('sortSelect')?.value;
+    if (!sortValue) return;
+    
+    filteredComplexes.sort((a, b) => {
+        switch (sortValue) {
+            case 'name_asc':
+                return a.name.localeCompare(b.name);
+            case 'name_desc':
+                return b.name.localeCompare(a.name);
+            case 'price_asc':
+                return (a.price_from || 0) - (b.price_from || 0);
+            case 'price_desc':
+                return (b.price_from || 0) - (a.price_from || 0);
+            case 'apartments_desc':
+                return (b.apartments_count || 0) - (a.apartments_count || 0);
+            default:
+                return 0;
+        }
+    });
+    
+    updateComplexesList();
+}
+
+// Функция для выделения ЖК в списке при клике на маркер
+function highlightComplexInList(complexName) {
+    // Убираем все предыдущие выделения
+    document.querySelectorAll('.complex-card').forEach(card => {
+        card.classList.remove('highlighted');
+    });
+    
+    // Находим и выделяем нужную карточку
+    document.querySelectorAll('.complex-card').forEach(card => {
+        const cardTitle = card.querySelector('h3');
+        if (cardTitle && cardTitle.textContent.trim() === complexName.trim()) {
+            card.classList.add('highlighted');
+            // Плавно прокручиваем к выделенной карточке
+            card.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center',
+                inline: 'nearest'
+            });
+        }
+    });
+}
+
+// Добавляем обработчики кликов на карточки в списке для подсветки маркеров
+document.addEventListener('DOMContentLoaded', function() {
+    // Обновляем обработчики после каждого обновления списка
+    setTimeout(() => {
+        updateCardEventHandlers();
+    }, 500);
+});
+
+function updateCardEventHandlers() {
+    document.querySelectorAll('.complex-card').forEach(card => {
+        // Убираем старые обработчики
+        card.removeEventListener('click', cardClickHandler);
+        // Добавляем новые
+        card.addEventListener('click', cardClickHandler);
+    });
+}
+
+function cardClickHandler(event) {
+    // Не обрабатываем клики по кнопкам
+    if ((event.target && event.target.closest && event.target.closest('.view-details-btn')) || 
+        (event.target && event.target.closest && event.target.closest('button'))) {
+        return;
+    }
+    
+    const titleElement = this.querySelector('h3');
+    if (titleElement) {
+        const complexName = titleElement.textContent.trim();
+        // Выделяем эту карточку
+        highlightComplexInList(complexName);
+        // Находим соответствующий маркер на карте и фокусируемся на нем
+        highlightMarkerOnMap(complexName);
+    }
+}
+
+// Функция для подсветки маркера на карте при клике на карточку
+function highlightMarkerOnMap(complexName) {
+    const complex = allComplexes.find(c => c.name === complexName);
+    if (complex && complex.coordinates) {
+        const lat = parseFloat(complex.coordinates.lat);
+        const lng = parseFloat(complex.coordinates.lng);
+        
+        if (!isNaN(lat) && !isNaN(lng)) {
+            // Перемещаем карту к маркеру
+            map.setView([lat, lng], 16, { 
+                animate: true, 
+                duration: 1.0 
+            });
+            
+            // Находим маркер и показываем его tooltip временно
+            setTimeout(() => {
+                const marker = markers.find(m => {
+                    const markerPos = m.getLatLng();
+                    return Math.abs(markerPos.lat - lat) < 0.001 && Math.abs(markerPos.lng - lng) < 0.001;
+                });
+                
+                if (marker) {
+                    // Временно показываем tooltip
+                    marker.openTooltip();
+                    // Скрываем через 3 секунды
+                    setTimeout(() => {
+                        marker.closeTooltip();
+                    }, 3000);
+                }
+            }, 1000);
+        }
+    }
+}
+
+// Переопределяем функцию updateComplexesList с поддержкой обработчиков
+
+// Расширенная фильтрация комплексов с поддержкой всех фильтров
+function applyComplexFilters() {
+    console.log('Applying complex filters...');
+    
+    // Получаем фильтры
+    const filters = {
+        rooms: [],
+        priceFrom: null,
+        priceTo: null,
+        cities: [],
+        developers: [],
+        completion: [],
+        housingClass: [],
+        areaFrom: null,
+        areaTo: null,
+        floorFrom: null,
+        floorTo: null,
+        buildingFloors: []
+    };
+    
+    // Собираем комнаты
+    document.querySelectorAll('input[data-filter-type="rooms"]:checked').forEach(checkbox => {
+        filters.rooms.push(checkbox.value);
+    });
+    
+    // Получаем цену
+    const priceFromInput = document.getElementById('priceFrom');
+    const priceToInput = document.getElementById('priceTo');
+    if (priceFromInput && priceFromInput.value) {
+        filters.priceFrom = parseFloat(priceFromInput.value) * 1000000; // млн в рубли
+    }
+    if (priceToInput && priceToInput.value) {
+        filters.priceTo = parseFloat(priceToInput.value) * 1000000; // млн в рубли
+    }
+    
+    // Собираем города
+    document.querySelectorAll('input[data-filter-type="city"]:checked').forEach(checkbox => {
+        filters.cities.push(checkbox.value);
+    });
+    
+    // Собираем застройщиков
+    document.querySelectorAll('input[data-filter-type="developer"]:checked').forEach(checkbox => {
+        filters.developers.push(checkbox.value);
+    });
+    
+    // Собираем годы сдачи
+    document.querySelectorAll('input[data-filter-type="completion"]:checked').forEach(checkbox => {
+        filters.completion.push(checkbox.value);
+    });
+    
+    // Собираем класс жилья
+    document.querySelectorAll('input[data-filter-type="housing_class"]:checked').forEach(checkbox => {
+        filters.housingClass.push(checkbox.value);
+    });
+    
+    // Получаем площадь
+    const areaFromInput = document.getElementById('areaFrom');
+    const areaToInput = document.getElementById('areaTo');
+    if (areaFromInput && areaFromInput.value) {
+        filters.areaFrom = parseFloat(areaFromInput.value);
+    }
+    if (areaToInput && areaToInput.value) {
+        filters.areaTo = parseFloat(areaToInput.value);
+    }
+    
+    // Получаем этаж
+    const floorFromInput = document.getElementById('floorFrom');
+    const floorToInput = document.getElementById('floorTo');
+    if (floorFromInput && floorFromInput.value) {
+        filters.floorFrom = parseInt(floorFromInput.value);
+    }
+    if (floorToInput && floorToInput.value) {
+        filters.floorTo = parseInt(floorToInput.value);
+    }
+    
+    // Собираем этажность
+    document.querySelectorAll('input[data-filter-type="building_floors"]:checked').forEach(checkbox => {
+        filters.buildingFloors.push(checkbox.value);
+    });
+    
+    console.log('Applied filters:', filters);
+    
+    // Фильтруем комплексы
+    filteredComplexes = allComplexes.filter(complex => {
+        // Фильтр по комнатам - для комплексов показываем все (комнаты актуальны для квартир)
+        // Этот фильтр будет работать когда добавим данные о квартирах в комплексах
+        
+        // Фильтр по застройщику
+        if (filters.developers.length > 0 && !filters.developers.includes(complex.developer)) {
+            return false;
+        }
+        
+        // Фильтр по городу (проверяем адрес)
+        if (filters.cities.length > 0) {
+            const hasMatchingCity = filters.cities.some(city => 
+                complex.address && complex.address.includes(city)
+            );
+            if (!hasMatchingCity) {
+                return false;
+            }
+        }
+        
+        // Фильтр по цене
+        if (filters.priceFrom && complex.price_from && complex.price_from < filters.priceFrom) {
+            return false;
+        }
+        if (filters.priceTo && complex.price_from && complex.price_from > filters.priceTo) {
+            return false;
+        }
+        
+        // Фильтр по году сдачи
+        if (filters.completion.length > 0) {
+            const hasMatchingYear = filters.completion.some(year => 
+                complex.completion_date && complex.completion_date.includes(year)
+            );
+            if (!hasMatchingYear) {
+                return false;
+            }
+        }
+        
+        // Фильтр по классу жилья
+        if (filters.housingClass.length > 0 && !filters.housingClass.includes(complex.object_class || complex.housing_class)) {
+            return false;
+        }
+        
+        // Фильтр по площади (для комплексов пока не реализован)
+        
+        // Фильтр по этажности
+        if (filters.buildingFloors.length > 0 && complex.max_floors) {
+            const maxFloors = parseInt(complex.max_floors);
+            const matchesRange = filters.buildingFloors.some(range => {
+                switch (range) {
+                    case '1-3': return maxFloors >= 1 && maxFloors <= 3;
+                    case '4-9': return maxFloors >= 4 && maxFloors <= 9;
+                    case '10-16': return maxFloors >= 10 && maxFloors <= 16;
+                    case '17+': return maxFloors >= 17;
+                    default: return false;
+                }
+            });
+            if (!matchesRange) {
+                return false;
+            }
+        }
+        
+        return true;
+    });
+    
+    console.log('Filtered to', filteredComplexes.length, 'complexes');
+    
+    // Обновляем карту и список
+    updateMap();
+    updateComplexesList();
+    updateFilterCounters();
+}
+
+// Функции обработки отдельных фильтров
+function handleRoomFilterChange() {
+    applyComplexFilters();
+}
+
+function handleCityFilterChange() {
+    applyComplexFilters();
+}
+
+function handleDeveloperFilterChange() {
+    applyComplexFilters();
+}
+
+function handleCompletionFilterChange() {
+    applyComplexFilters();
+}
+
+function handleHousingClassFilterChange() {
+    applyComplexFilters();
+}
+
+function handleBuildingFloorsFilterChange() {
+    applyComplexFilters();
+}
+
+function applyAreaFilter() {
+    applyComplexFilters();
+    document.getElementById('areaDropdown').classList.remove('open');
+}
+
+function applyFloorFilter() {
+    applyComplexFilters();
+    document.getElementById('floorDropdown').classList.remove('open');
+}
+
+function applyPriceFilter() {
+    applyComplexFilters();
+    // Закрываем dropdown
+    document.getElementById('priceDropdown').classList.remove('open');
+}
+
+function updateFilterCounters() {
+    // Обновляем текст кнопок фильтров с количеством выбранных элементов
+    const filterTypes = ['rooms', 'city', 'developer', 'completion', 'housing_class', 'building_floors'];
+    
+    filterTypes.forEach(filterType => {
+        const checked = document.querySelectorAll(`input[data-filter-type="${filterType}"]:checked`);
+        const button = document.querySelector(`#${filterType}FilterText`);
+        if (button) {
+            const baseText = {
+                'rooms': 'Комнат',
+                'city': 'Город', 
+                'developer': 'Застройщик',
+                'completion': 'Сдача',
+                'housing_class': 'Класс жилья',
+                'building_floors': 'Этажность'
+            }[filterType];
+            
+            if (checked.length > 0) {
+                button.textContent = `${baseText} (${checked.length})`;
+                button.parentElement.classList.add('bg-blue-100', 'text-blue-700');
+            } else {
+                button.textContent = baseText;
+                button.parentElement.classList.remove('bg-blue-100', 'text-blue-700');
+            }
+        }
+    });
+    
+    // Обновляем текст кнопки цены
+    const priceFrom = document.getElementById('priceFrom')?.value;
+    const priceTo = document.getElementById('priceTo')?.value;
+    const priceButton = document.querySelector('#priceFilterText');
+    if (priceButton) {
+        if (priceFrom || priceTo) {
+            const fromText = priceFrom ? `от ${priceFrom}` : '';
+            const toText = priceTo ? `до ${priceTo}` : '';
+            const connector = priceFrom && priceTo ? ' ' : '';
+            priceButton.textContent = `Цена (${fromText}${connector}${toText} млн)`;
+            priceButton.parentElement.classList.add('bg-blue-100', 'text-blue-700');
+        } else {
+            priceButton.textContent = 'Цена';
+            priceButton.parentElement.classList.remove('bg-blue-100', 'text-blue-700');
+        }
+    }
+}
+
+// Функция сброса всех фильтров
+function resetAllFilters() {
+    // Снимаем все чекбоксы
+    document.querySelectorAll('input[type="checkbox"][data-filter-type]').forEach(checkbox => {
+        checkbox.checked = false;
+    });
+    
+    // Очищаем поля цены
+    const priceFromInput = document.getElementById('priceFrom');
+    const priceToInput = document.getElementById('priceTo');
+    if (priceFromInput) priceFromInput.value = '';
+    if (priceToInput) priceToInput.value = '';
+    
+    // Очищаем поля площади
+    const areaFromInput = document.getElementById('areaFrom');
+    const areaToInput = document.getElementById('areaTo');
+    if (areaFromInput) areaFromInput.value = '';
+    if (areaToInput) areaToInput.value = '';
+    
+    // Очищаем поля этажа
+    const floorFromInput = document.getElementById('floorFrom');
+    const floorToInput = document.getElementById('floorTo');
+    if (floorFromInput) floorFromInput.value = '';
+    if (floorToInput) floorToInput.value = '';
+    
+    // Применяем фильтры (покажет все комплексы)
+    applyComplexFilters();
+}
+
+
+// ===== ИСПРАВЛЕНИЯ ФИЛЬТРОВ =====
+
+// Динамическое заполнение dropdown'ов из данных комплексов
+function populateDropdowns() {
+    if (!allComplexes || !allComplexes.length) return;
+    
+    // Заполняем dropdown застройщиков
+    const developers = [...new Set(allComplexes.map(c => c.developer).filter(d => d))].sort();
+    const developerDropdown = document.getElementById('developerDropdown');
+    if (developerDropdown) {
+        developerDropdown.innerHTML = developers.map(developer => `
+            <label class="dropdown-item">
+                <input type="checkbox" value="${developer}" data-filter-type="developer" class="mr-2" onchange="handleDeveloperFilterChange()"> ${developer}
+            </label>
+        `).join('');
+    }
+    
+    console.log('✅ Populated developers:', developers.length);
+}
+
+// Исправленная функция фильтрации
+function applyComplexFilters() {
+    console.log('Applying complex filters...');
+    
+    // Получаем все фильтры
+    const filters = {
+        rooms: Array.from(document.querySelectorAll('input[data-filter-type="rooms"]:checked')).map(cb => cb.value),
+        developers: Array.from(document.querySelectorAll('input[data-filter-type="developer"]:checked')).map(cb => cb.value),
+        completion: Array.from(document.querySelectorAll('input[data-filter-type="completion"]:checked')).map(cb => cb.value),
+        housingClass: Array.from(document.querySelectorAll('input[data-filter-type="housing_class"]:checked')).map(cb => cb.value),
+        priceFrom: parseFloat(document.getElementById('priceFrom')?.value) || null,
+        priceTo: parseFloat(document.getElementById('priceTo')?.value) || null,
+        areaFrom: parseFloat(document.getElementById('areaFrom')?.value) || null,
+        areaTo: parseFloat(document.getElementById('areaTo')?.value) || null,
+        floorFrom: parseFloat(document.getElementById('floorFrom')?.value) || null,
+        floorTo: parseFloat(document.getElementById('floorTo')?.value) || null,
+        buildingFloors: Array.from(document.querySelectorAll('input[data-filter-type="building_floors"]:checked')).map(cb => cb.value),
+    };
+
+    console.log('Applied filters:', filters);
+
+    // Начинаем с всех комплексов
+    let filtered = [...allComplexes];
+
+    // ✅ Фильтр по застройщику
+    if (filters.developers.length > 0) {
+        filtered = filtered.filter(complex => filters.developers.includes(complex.developer));
+    }
+
+    // ✅ Фильтр по цене (млн рублей)
+    if (filters.priceFrom) {
+        filtered = filtered.filter(complex => complex.price_from >= (filters.priceFrom * 1000000));
+    }
+    if (filters.priceTo) {
+        filtered = filtered.filter(complex => complex.price_from <= (filters.priceTo * 1000000));
+    }
+
+    // ✅ Фильтр по сдаче/статусу
+    if (filters.completion.length > 0) {
+        filtered = filtered.filter(complex => {
+            return filters.completion.some(filter => {
+                if (filter === 'Сдан') return complex.status === 'Сдан';
+                return complex.completion_date && complex.completion_date.includes(filter);
+            });
+        });
+    }
+
+    // ✅ Фильтр по комнатам (базовая логика - все комплексы считаем что имеют все типы)
+    if (filters.rooms.length > 0) {
+        // Для полной фильтрации нужны данные квартир из Excel
+        // Пока показываем все комплексы (предполагаем что в каждом есть разные типы)
+    }
+
+    // ✅ Фильтр по классу жилья
+    if (filters.housingClass.length > 0) {
+        filtered = filtered.filter(complex => 
+            filters.housingClass.some(hClass => 
+                complex.object_class && complex.object_class.toLowerCase().includes(hClass.toLowerCase())
+            )
+        );
+    }
+
+    // ✅ Фильтр по площади (пока базовая логика)
+    if (filters.areaFrom || filters.areaTo) {
+        // Для полноценной фильтрации по площади нужны данные квартир из Excel
+        // Пока оставляем все комплексы
+    }
+
+    // ✅ Фильтр по этажам/этажности
+    if (filters.floorFrom || filters.floorTo || filters.buildingFloors.length > 0) {
+        // Для полной фильтрации нужны данные этажности из базы
+        // Пока оставляем все комплексы
+    }
+
+    console.log('Filtered to', filtered.length, 'complexes');
+
+    // Обновляем отображение
+    filteredComplexes = filtered;
+    updateMap();
+    updateComplexesList();
+}
+
+// Исправляем загрузку данных
+document.addEventListener('DOMContentLoaded', function() {
+    // После загрузки комплексов вызываем populateDropdowns
+    const originalLoadComplexes = window.loadComplexes;
+    if (originalLoadComplexes) {
+        window.loadComplexes = function() {
+            originalLoadComplexes();
+            setTimeout(populateDropdowns, 100); // Небольшая задержка для загрузки данных
+        };
+    }
+    
+    // Также пробуем заполнить dropdown'ы через 2 секунды после загрузки страницы
+    setTimeout(() => {
+        if (allComplexes && allComplexes.length) {
+            populateDropdowns();
+        }
+    }, 2000);
+});
+
+</script>
+{% endblock %}

@@ -1,0 +1,246 @@
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+23The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+23The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+v11:1 The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+v11:1 The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+v11:1 The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+_app-15dea0b614f2a790.js:13 
+      /////////////////////
+   ///////////////////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////        Curious and driven?
+  ///////////////@@@@@@@///////        Work with us!
+  ///////////////@@@@@@@///////
+  ///////////////@@@@@@@///////        https://join.replit.com/hack.with.us
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@#//////////////
+   ///////////////////////////
+      /////////////////////
+      
+_app-15dea0b614f2a790.js:13 [LaunchDarkly] LaunchDarkly client initialized
+13Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+framework-a13a900cf5efc667.js:1 Unrecognized feature: 'ambient-light-sensor'.
+_ @ framework-a13a900cf5efc667.js:1
+framework-a13a900cf5efc667.js:1 Unrecognized feature: 'battery'.
+_ @ framework-a13a900cf5efc667.js:1
+framework-a13a900cf5efc667.js:1 Unrecognized feature: 'execution-while-not-rendered'.
+_ @ framework-a13a900cf5efc667.js:1
+framework-a13a900cf5efc667.js:1 Unrecognized feature: 'execution-while-out-of-viewport'.
+_ @ framework-a13a900cf5efc667.js:1
+framework-a13a900cf5efc667.js:1 Unrecognized feature: 'layout-animations'.
+_ @ framework-a13a900cf5efc667.js:1
+framework-a13a900cf5efc667.js:1 Unrecognized feature: 'legacy-image-formats'.
+_ @ framework-a13a900cf5efc667.js:1
+framework-a13a900cf5efc667.js:1 Unrecognized feature: 'navigation-override'.
+_ @ framework-a13a900cf5efc667.js:1
+framework-a13a900cf5efc667.js:1 Unrecognized feature: 'oversized-images'.
+_ @ framework-a13a900cf5efc667.js:1
+framework-a13a900cf5efc667.js:1 Unrecognized feature: 'publickey-credentials'.
+_ @ framework-a13a900cf5efc667.js:1
+framework-a13a900cf5efc667.js:1 Unrecognized feature: 'speaker-selection'.
+_ @ framework-a13a900cf5efc667.js:1
+framework-a13a900cf5efc667.js:1 Unrecognized feature: 'unoptimized-images'.
+_ @ framework-a13a900cf5efc667.js:1
+framework-a13a900cf5efc667.js:1 Unrecognized feature: 'unsized-media'.
+_ @ framework-a13a900cf5efc667.js:1
+framework-a13a900cf5efc667.js:1 Unrecognized feature: 'pointer-lock'.
+_ @ framework-a13a900cf5efc667.js:1
+framework-a13a900cf5efc667.js:1 Allow attribute will take precedence over 'allowfullscreen'.
+_ @ framework-a13a900cf5efc667.js:1
+framework-a13a900cf5efc667.js:1 Allow attribute will take precedence over 'allowpaymentrequest'.
+_ @ framework-a13a900cf5efc667.js:1
+v11:1 Banner not shown: beforeinstallpromptevent.preventDefault() called. The page must call beforeinstallpromptevent.prompt() to show the banner.
+_app-15dea0b614f2a790.js:13 Invalid href 'https://73d66734-0b0e-49a1-bbd2-7b2b35d52059-00-jejt3lm2jtvi.spock.replit.dev/login%3Fnext=https://73d66734-0b0e-49a1-bbd2-7b2b35d52059-00-jejt3lm2jtvi.spock.replit.dev/dashboard' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(анонимная) @ _app-15dea0b614f2a790.js:13
+r.stripe.com/b:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+r.stripe.com/b:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+Console.js:61 cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation
+Mt.forEach.n.<computed> @ Console.js:61
+Console.js:61 Header: openApplicationModal function defined
+Console.js:61 Initializing unified comparison data...
+Console.js:61 Current unified comparison data: [object Object]
+Console.js:61 Unified comparison data initialized: [object Object]
+73d66734-0b0e-49a1-b….dev/dashboard:3455 Uncaught SyntaxError: Unexpected token '}'
+Console.js:61 DOM Helper initialized - safe DOM operations available
+Console.js:61 InBack form validation initialized
+Console.js:61 Performance optimizations initialized
+Console.js:61 Turbo loader initialized
+Console.js:61 Cache optimizer initialized
+Console.js:61 Image compressor initialized - WebP support: true
+Console.js:61 Initializing dashboard tabs...
+Console.js:61 Found tab buttons: 7
+Console.js:61 Found content sections: 7
+Console.js:61 Dashboard tabs initialized successfully
+Console.js:61 Saved Searches Manager initialized safely
+Console.js:61 Initializing smart search...
+Console.js:61 Form validation initialized
+Console.js:61 Cache SW failed: [object DOMException]
+Console.js:61 Could not load favorites count
+Console.js:61 Real favorites count from API: 3
+Console.js:61 Tab clicked: comparison
+Console.js:61 Activated section: comparison
+Console.js:61 Loading comparison content...
+Console.js:61 === DASHBOARD COMPARISON LOADING ===
+Console.js:61 Raw comparison-data from localStorage: {"properties":["204","11","209"],"complexes":[]}
+Console.js:61 Dashboard comparison data from ComparisonManager: [object Object]
+Console.js:61 Dashboard properties in comparison: 204,11,209
+Console.js:61 Dashboard complexes in comparison: 
+Console.js:61 Properties count: 3
+Console.js:61 Complexes count: 0
+Console.js:61 Loading comparison content - properties: 3 complexes: 0
+Console.js:61 Loading property 204 from API...
+Console.js:61 Loading property 11 from API...
+Console.js:61 Loading property 209 from API...
+Console.js:61 No complexes found in comparison, showing empty message
+73d66734-0b0e-49a1-b….dev/dashboard:1674 Uncaught ReferenceError: updateDashboardCounters is not defined
+Console.js:61 Property 204 response status: 200
+Console.js:61 Property 204 data loaded: 1-комнатная квартира 42.5 м²
+Console.js:61 Property 11 response status: 200
+Console.js:61 Property 11 data loaded: Студия 28 м²
+Console.js:61 Property 209 response status: 200
+Console.js:61 Property 209 data loaded: Студия 28.5 м²
+Console.js:61 Loaded valid properties for comparison: 3 of 3
+Console.js:61 Dashboard loading complex favorites:
+Console.js:61 - Raw localStorage: [{"id":"1","addedAt":"16.08.2025, 16:32:54"},{"id":"2","addedAt":"16.08.2025, 16:32:56"},{"id":"3","addedAt":"16.08.2025, 16:32:57"}]
+Console.js:61 - Parsed favorites: [object Object],[object Object],[object Object]
+Console.js:61 - Favorites count: 3
+Console.js:61 Loading complexes for favorites: [object Object],[object Object],[object Object]
+Console.js:61 === DASHBOARD COMPARISON LOADING ===
+Console.js:61 Raw comparison-data from localStorage: {"properties":["204","11","209"],"complexes":[]}
+Console.js:61 Dashboard comparison data from ComparisonManager: [object Object]
+Console.js:61 Dashboard properties in comparison: 204,11,209
+Console.js:61 Dashboard complexes in comparison: 
+Console.js:61 Properties count: 3
+Console.js:61 Complexes count: 0
+Console.js:61 Loading comparison content - properties: 3 complexes: 0
+Console.js:61 Loading property 204 from API...
+Console.js:61 Loading property 11 from API...
+Console.js:61 Loading property 209 from API...
+Console.js:61 No complexes found in comparison, showing empty message
+Console.js:61 Property 204 response status: 200
+Console.js:61 Property 204 data loaded: 1-комнатная квартира 42.5 м²
+Console.js:61 Property 11 response status: 200
+Console.js:61 Property 11 data loaded: Студия 28 м²
+Console.js:61 Property 209 response status: 200
+Console.js:61 Property 209 data loaded: Студия 28.5 м²
+Console.js:61 Loaded valid properties for comparison: 3 of 3
+Console.js:61 Could not load favorites count
+Console.js:61 Loaded complexes: 37
+Console.js:61 Memory usage: [object Object]
+Console.js:61 Could not load favorites count
+Console.js:61 Memory usage: [object Object]
+Console.js:61 Could not load favorites count
+Console.js:61 cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation
+Mt.forEach.n.<computed> @ Console.js:61
+Console.js:61 Header: openApplicationModal function defined
+Console.js:61 Manager authenticated for complex recommendations: false
+residential-complexes:7865 Uncaught SyntaxError: Unexpected token '}'
+Console.js:61 DOM Helper initialized - safe DOM operations available
+Console.js:61 InBack form validation initialized
+Console.js:61 Performance optimizations initialized
+Console.js:61 CSS optimization: Found 5 stylesheets
+Console.js:61 Turbo loader initialized
+Console.js:61 Cache optimizer initialized
+Console.js:61 Image compressor initialized - WebP support: true
+Console.js:61 Complex functions initialized
+Console.js:61 Updating complex comparison counters: 0 complexes
+Console.js:61 Residential complexes page loaded
+Console.js:61 Updating complex comparison counters: 0 complexes
+Console.js:61 Complex functions integrated successfully
+Console.js:61 Initializing smart search...
+Console.js:61 Form validation initialized
+Console.js:61 Cache SW failed: SecurityError: Failed to register a ServiceWorker for scope ('https://73d66734-0b0e-49a1-bbd2-7b2b35d52059-00-jejt3lm2jtvi.spock.replit.dev/') with script ('https://73d66734-0b0e-49a1-bbd2-7b2b35d52059-00-jejt3lm2jtvi.spock.replit.dev/static/js/sw-cache.js'): The path of the provided scope ('/') is not under the max scope allowed ('/static/js/'). Adjust the scope, move the Service Worker script, or use the Service-Worker-Allowed HTTP header to allow the scope.
+2Console.js:61 Real favorites count from API: 3
+Console.js:61 Complex removed from comparison: 4
+Console.js:61 Complex removed from comparison: 5
+Console.js:61 Memory usage: Object
+Console.js:61 Complex removed from comparison: 6
+Console.js:61 Complex added to comparison: 1
+Console.js:61 Complex added to comparison: 2
+Console.js:61 Complex added to comparison: 3
+FFFFFF?text=%D0%96%D0%9A+%D0%97%D0%B5%D0%BB%D0%B5%D0%BD%D1%8B%D0%B9+%D0%BA%D0%B2%D0%B0%D1%80%D1%82%…:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%98%D0%B7%D1%83%D0%BC%D1%80%D1%83%D0%B4%D0%BD%D1%8B%D0%B9+%D0%B3%D0%BE%…:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+333333?text=%D0%96%D0%9A+%D0%9A%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%BB%D0%BB:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%9E%D0%BB%D0%B8%D0%BC%D0%BF:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%94%D0%B0%D1%80:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%94%D0%B0%D1%80%D1%81%D0%BA%D0%B8%D0%B9:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%A4%D0%BB%D0%BE%D1%80%D0%B0:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%9B%D0%B0%D0%B7%D1%83%D1%80%D0%BD%D1%8B%D0%B9+%D0%B1%D0%B5%D1%80%D0%B5%…:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%A2%D0%B8%D1%85%D0%B0%D1%8F+%D0%B3%D0%B0%D0%B2%D0%B0%D0%BD%D1%8C:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%A0%D1%83%D0%B1%D0%B8%D0%BD:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%90%D0%BB%D1%8B%D0%B5+%D0%BF%D0%B0%D1%80%D1%83%D1%81%D0%B0:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+Riverside:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%A1%D1%82%D1%80%D0%BE%D0%B9%D0%B3%D1%80%D0%B0%D0%B4:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%9C%D0%BE%D1%80%D1%81%D0%BA%D0%B0%D1%8F+%D0%B2%D0%BE%D0%BB%D0%BD%D0%B0:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%92%D0%BE%D1%81%D1%85%D0%BE%D0%B4:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%93%D0%B0%D1%80%D0%BC%D0%BE%D0%BD%D0%B8%D1%8F:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%9D%D0%BE%D0%B2%D1%8B%D0%B9+%D0%B3%D0%BE%D1%80%D0%B8%D0%B7%D0%BE%D0%BD%…:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%9B%D0%B5%D1%82%D0%BD%D0%B8%D0%B9+%D1%81%D0%B0%D0%B4:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%9C%D0%BB%D0%B5%D1%87%D0%BD%D1%8B%D0%B9+%D0%BF%D1%83%D1%82%D1%8C:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%A1%D0%B5%D0%B2%D0%B5%D1%80%D0%BD%D0%B0%D1%8F+%D0%B7%D0%B2%D0%B5%D0%B7%…:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%9A%D0%BE%D1%81%D0%BC%D0%BE%D1%81:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%97%D0%BE%D0%BB%D0%BE%D1%82%D1%8B%D0%B5+%D0%BA%D1%83%D0%BF%D0%BE%D0%BB%…:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%9F%D0%B0%D0%BD%D0%BE%D1%80%D0%B0%D0%BC%D0%B0:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%92%D0%B5%D1%81%D0%B5%D0%BD%D0%BD%D0%B8%D0%B9:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%91%D0%B5%D0%BB%D1%8B%D0%B5+%D0%BF%D0%B0%D1%80%D1%83%D1%81%D0%B0:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%92%D0%BE%D1%81%D1%85%D0%BE%D0%B4:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%AE%D0%B6%D0%BD%D1%8B%D0%B9+%D0%B1%D1%80%D0%B8%D0%B7:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%A1%D0%BE%D0%BB%D0%BD%D0%B5%D1%87%D0%BD%D1%8B%D0%B9+%D0%B1%D0%B5%D1%80%…:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%97%D0%B5%D0%BB%D0%B5%D0%BD%D1%8B%D0%B9+%D0%BA%D0%B2%D0%B0%D1%80%D1%82%…:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%A0%D0%B0%D0%B4%D1%83%D0%B6%D0%BD%D1%8B%D0%B9:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%92%D1%8B%D1%81%D0%BE%D1%82%D0%B0:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%94%D0%B8%D0%BD%D0%B0%D1%81%D1%82%D0%B8%D1%8F:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%93%D0%B0%D1%80%D0%BC%D0%BE%D0%BD%D0%B8%D1%8F:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%98%D0%B7%D1%83%D0%BC%D1%80%D1%83%D0%B4%D0%BD%D1%8B%D0%B9+%D0%B3%D0%BE%…:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+333333?text=%D0%96%D0%9A+%D0%9A%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%BB%D0%BB:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%A4%D0%BB%D0%BE%D1%80%D0%B0:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%94%D0%B0%D1%80%D1%81%D0%BA%D0%B8%D0%B9:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%94%D0%B0%D1%80:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%9E%D0%BB%D0%B8%D0%BC%D0%BF:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%9B%D0%B0%D0%B7%D1%83%D1%80%D0%BD%D1%8B%D0%B9+%D0%B1%D0%B5%D1%80%D0%B5%…:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%A2%D0%B8%D1%85%D0%B0%D1%8F+%D0%B3%D0%B0%D0%B2%D0%B0%D0%BD%D1%8C:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%90%D0%BB%D1%8B%D0%B5+%D0%BF%D0%B0%D1%80%D1%83%D1%81%D0%B0:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%A0%D1%83%D0%B1%D0%B8%D0%BD:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+Riverside:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%A1%D1%82%D1%80%D0%BE%D0%B9%D0%B3%D1%80%D0%B0%D0%B4:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%92%D0%BE%D1%81%D1%85%D0%BE%D0%B4:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%9C%D0%BE%D1%80%D1%81%D0%BA%D0%B0%D1%8F+%D0%B2%D0%BE%D0%BB%D0%BD%D0%B0:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%93%D0%B0%D1%80%D0%BC%D0%BE%D0%BD%D0%B8%D1%8F:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%9D%D0%BE%D0%B2%D1%8B%D0%B9+%D0%B3%D0%BE%D1%80%D0%B8%D0%B7%D0%BE%D0%BD%…:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%9C%D0%BB%D0%B5%D1%87%D0%BD%D1%8B%D0%B9+%D0%BF%D1%83%D1%82%D1%8C:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%9F%D0%B0%D0%BD%D0%BE%D1%80%D0%B0%D0%BC%D0%B0:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%9B%D0%B5%D1%82%D0%BD%D0%B8%D0%B9+%D1%81%D0%B0%D0%B4:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%97%D0%BE%D0%BB%D0%BE%D1%82%D1%8B%D0%B5+%D0%BA%D1%83%D0%BF%D0%BE%D0%BB%…:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%9A%D0%BE%D1%81%D0%BC%D0%BE%D1%81:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%A1%D0%B5%D0%B2%D0%B5%D1%80%D0%BD%D0%B0%D1%8F+%D0%B7%D0%B2%D0%B5%D0%B7%…:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%91%D0%B5%D0%BB%D1%8B%D0%B5+%D0%BF%D0%B0%D1%80%D1%83%D1%81%D0%B0:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%92%D0%B5%D1%81%D0%B5%D0%BD%D0%BD%D0%B8%D0%B9:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%92%D0%BE%D1%81%D1%85%D0%BE%D0%B4:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%97%D0%B5%D0%BB%D0%B5%D0%BD%D1%8B%D0%B9+%D0%BA%D0%B2%D0%B0%D1%80%D1%82%…:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%A1%D0%BE%D0%BB%D0%BD%D0%B5%D1%87%D0%BD%D1%8B%D0%B9+%D0%B1%D0%B5%D1%80%…:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%AE%D0%B6%D0%BD%D1%8B%D0%B9+%D0%B1%D1%80%D0%B8%D0%B7:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%92%D1%8B%D1%81%D0%BE%D1%82%D0%B0:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%94%D0%B8%D0%BD%D0%B0%D1%81%D1%82%D0%B8%D1%8F:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%A0%D0%B0%D0%B4%D1%83%D0%B6%D0%BD%D1%8B%D0%B9:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%93%D0%B0%D1%80%D0%BC%D0%BE%D0%BD%D0%B8%D1%8F:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%98%D0%B7%D1%83%D0%BC%D1%80%D1%83%D0%B4%D0%BD%D1%8B%D0%B9+%D0%B3%D0%BE%…:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+333333?text=%D0%96%D0%9A+%D0%9A%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%BB%D0%BB:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%A4%D0%BB%D0%BE%D1%80%D0%B0:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%94%D0%B0%D1%80:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%94%D0%B0%D1%80%D1%81%D0%BA%D0%B8%D0%B9:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%9E%D0%BB%D0%B8%D0%BC%D0%BF:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%9B%D0%B0%D0%B7%D1%83%D1%80%D0%BD%D1%8B%D0%B9+%D0%B1%D0%B5%D1%80%D0%B5%…:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%90%D0%BB%D1%8B%D0%B5+%D0%BF%D0%B0%D1%80%D1%83%D1%81%D0%B0:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%A2%D0%B8%D1%85%D0%B0%D1%8F+%D0%B3%D0%B0%D0%B2%D0%B0%D0%BD%D1%8C:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%A1%D1%82%D1%80%D0%BE%D0%B9%D0%B3%D1%80%D0%B0%D0%B4:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+Riverside:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%A0%D1%83%D0%B1%D0%B8%D0%BD:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%92%D0%BE%D1%81%D1%85%D0%BE%D0%B4:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%9C%D0%BE%D1%80%D1%81%D0%BA%D0%B0%D1%8F+%D0%B2%D0%BE%D0%BB%D0%BD%D0%B0:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%93%D0%B0%D1%80%D0%BC%D0%BE%D0%BD%D0%B8%D1%8F:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%9F%D0%B0%D0%BD%D0%BE%D1%80%D0%B0%D0%BC%D0%B0:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%9C%D0%BB%D0%B5%D1%87%D0%BD%D1%8B%D0%B9+%D0%BF%D1%83%D1%82%D1%8C:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%9D%D0%BE%D0%B2%D1%8B%D0%B9+%D0%B3%D0%BE%D1%80%D0%B8%D0%B7%D0%BE%D0%BD%…:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+FFFFFF?text=%D0%96%D0%9A+%D0%97%D0%BE%D0%BB%D0%BE%D1%82%D1%8B%D0%B5+%D0%BA%D1%83%D0%BF%D0%BE%D0%BB%…:1  Failed to load resource: net::ERR_NAME_NOT_RESOLVED

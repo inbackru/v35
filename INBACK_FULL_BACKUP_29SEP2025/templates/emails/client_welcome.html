@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добро пожаловать в InBack | Ваши данные для входа</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #f4f7fa;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            padding-bottom: 25px;
+            border-bottom: 3px solid #0088cc;
+            margin-bottom: 25px;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #0088cc;
+            margin-bottom: 10px;
+        }
+        .title {
+            font-size: 24px;
+            color: #2c3e50;
+            margin: 0 0 10px 0;
+        }
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        .credentials-box {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .credential-item {
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            border-left: 4px solid #0088cc;
+        }
+        .credential-label {
+            font-weight: bold;
+            color: #555;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .credential-value {
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            color: #0088cc;
+            background: #f0f0f0;
+            padding: 5px 10px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+        .login-button {
+            display: inline-block;
+            background: #0088cc;
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .login-button:hover {
+            background: #006ba3;
+        }
+        .content {
+            margin: 20px 0;
+        }
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        .features {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .features h3 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        .features ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .features li {
+            margin: 8px 0;
+            color: #555;
+        }
+        .important-note {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">InBack.ru</div>
+            <h1 class="title">Добро пожаловать!</h1>
+            <p class="subtitle">Ваш аккаунт создан и готов к использованию</p>
+        </div>
+
+        <div class="content">
+            <p>Здравствуйте, <strong>{{ user.full_name }}</strong>!</p>
+            
+            <p>{{ manager_name }} создал для вас аккаунт в системе InBack. Теперь вы можете:</p>
+            
+            <div class="features">
+                <h3>🏠 Возможности вашего аккаунта:</h3>
+                <ul>
+                    <li>Просматривать персональные рекомендации от менеджера</li>
+                    <li>Сохранять избранные объекты недвижимости</li>
+                    <li>Отслеживать статус ваших заявок</li>
+                    <li>Получать уведомления о новых предложениях</li>
+                    <li>Управлять настройками уведомлений</li>
+                    <li>Отслеживать кэшбек и бонусы</li>
+                </ul>
+            </div>
+
+            <div class="credentials-box">
+                <h3 style="color: #2c3e50; margin-top: 0;">🔑 Ваши данные для входа:</h3>
+                
+                <div class="credential-item">
+                    <span class="credential-label">Email для входа:</span>
+                    <span class="credential-value">{{ user.email }}</span>
+                </div>
+                
+                <div class="credential-item">
+                    <span class="credential-label">Временный пароль:</span>
+                    <span class="credential-value">{{ temp_password }}</span>
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <a href="{{ base_url }}/login" class="login-button">Войти в личный кабинет</a>
+                </div>
+            </div>
+
+            <div class="important-note">
+                <strong>⚠️ Важно:</strong> Рекомендуем сменить пароль после первого входа в систему. Это можно сделать в настройках профиля.
+            </div>
+
+            <p>Если у вас возникнут вопросы, обращайтесь к вашему менеджеру <strong>{{ manager_name }}</strong> или в службу поддержки InBack.</p>
+        </div>
+
+        <div class="footer">
+            <p>С уважением,<br>Команда InBack.ru</p>
+            <p>
+                <a href="{{ base_url }}">Главная</a> • 
+                <a href="{{ base_url }}/properties">Каталог</a> • 
+                <a href="{{ base_url }}/contacts">Контакты</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

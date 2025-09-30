@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ presentation.title }} - Презентация недвижимости InBack</title>
+    <meta name="description" content="Персональная подборка недвижимости в Краснодаре от InBack">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 font-sans">
+    
+    <!-- Header -->
+    <header class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 py-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="bg-blue-600 text-white p-3 rounded-lg">
+                        <i class="fas fa-building text-2xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">{{ presentation.title }}</h1>
+                        <p class="text-gray-600">Презентация от InBack</p>
+                    </div>
+                </div>
+                
+                <!-- Stats -->
+                <div class="flex items-center space-x-6 text-sm text-gray-600">
+                    <div class="text-center">
+                        <div class="font-bold text-blue-600">{{ properties|length }}</div>
+                        <div>Объектов</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="font-bold text-green-600">{{ presentation.view_count }}</div>
+                        <div>Просмотров</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Presentation Info -->
+            <div class="mt-6 bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+                {% if presentation.description %}
+                <p class="text-blue-800 mb-2">{{ presentation.description }}</p>
+                {% endif %}
+                
+                <div class="flex items-center justify-between text-sm text-blue-700">
+                    <div>
+                        {% if presentation.client_name %}
+                        <i class="fas fa-user mr-1"></i> {{ presentation.client_name }}
+                        {% endif %}
+                    </div>
+                    <div>
+                        <i class="fas fa-calendar mr-1"></i> {{ presentation.created_at.strftime('%d.%m.%Y') if presentation.created_at else '' }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Properties Grid -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for property in properties %}
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                <!-- Property Image -->
+                <div class="relative h-48 bg-gray-200">
+                    {% if property.property_info.get('Photo') %}
+                    <img src="{{ property.property_info['Photo'] }}" 
+                         alt="{{ property.name }}"
+                         class="w-full h-full object-cover">
+                    {% else %}
+                    <div class="w-full h-full bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center">
+                        <i class="fas fa-building text-blue-400 text-4xl"></i>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Property Type Badge -->
+                    <div class="absolute top-3 left-3 bg-blue-600 text-white text-xs px-2 py-1 rounded">
+                        {{ property.type or 'Квартира' }}
+                    </div>
+                    
+                    <!-- Price Badge -->
+                    <div class="absolute top-3 right-3 bg-green-600 text-white text-sm font-bold px-3 py-1 rounded">
+                        {{ "{:,.0f}".format(property.price or 0) }} ₽
+                    </div>
+                </div>
+                
+                <!-- Property Details -->
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">{{ property.name or 'Квартира' }}</h3>
+                    <p class="text-gray-600 mb-4">{{ property.complex_name or 'ЖК не указан' }}</p>
+                    
+                    <!-- Property Specs -->
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="flex items-center">
+                            <i class="fas fa-ruler-combined text-blue-500 mr-2"></i>
+                            <span>{{ property.size or 0 }} м²</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-map-marker-alt text-red-500 mr-2"></i>
+                            <span>{{ property.property_info.get('District', 'Адлер') }}</span>
+                        </div>
+                        {% if property.property_info.get('Floor') %}
+                        <div class="flex items-center">
+                            <i class="fas fa-layer-group text-orange-500 mr-2"></i>
+                            <span>{{ property.property_info['Floor'] }} этаж</span>
+                        </div>
+                        {% endif %}
+                        {% if property.property_info.get('Delivery') %}
+                        <div class="flex items-center">
+                            <i class="fas fa-calendar-check text-green-500 mr-2"></i>
+                            <span>{{ property.property_info['Delivery'] }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Manager Note -->
+                    {% if property.manager_note %}
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 mb-4">
+                        <p class="text-yellow-800 text-sm">
+                            <i class="fas fa-comment mr-2"></i>
+                            {{ property.manager_note }}
+                        </p>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex space-x-2">
+                        <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors">
+                            <i class="fas fa-phone mr-1"></i>
+                            Узнать больше
+                        </button>
+                        <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 p-2 rounded-lg transition-colors">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        {% if not properties %}
+        <div class="text-center py-12">
+            <i class="fas fa-home text-gray-400 text-6xl mb-4"></i>
+            <h3 class="text-xl font-semibold text-gray-600 mb-2">Презентация пуста</h3>
+            <p class="text-gray-500">Менеджер еще не добавил объекты в эту презентацию</p>
+        </div>
+        {% endif %}
+    </main>
+
+    <!-- Footer Contact -->
+    <footer class="bg-gray-900 text-white py-12 mt-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center">
+                <h3 class="text-2xl font-bold mb-4">Заинтересовались?</h3>
+                <p class="text-gray-300 mb-6">Свяжитесь с нашим менеджером для получения дополнительной информации</p>
+                
+                <!-- Manager Info -->
+                <div class="bg-gray-800 rounded-lg p-6 max-w-md mx-auto">
+                    <div class="flex items-center justify-center mb-4">
+                        <img src="{{ manager.profile_image }}" 
+                             alt="{{ manager.full_name }}"
+                             class="w-16 h-16 rounded-full mr-4">
+                        <div class="text-left">
+                            <h4 class="font-bold text-lg">{{ manager.full_name }}</h4>
+                            <p class="text-gray-400">{{ manager.position }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-center space-x-4">
+                        {% if manager.phone %}
+                        <a href="tel:{{ manager.phone }}" 
+                           class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                            <i class="fas fa-phone mr-1"></i>
+                            Позвонить
+                        </a>
+                        {% endif %}
+                        
+                        {% if manager and manager.phone %}
+                        <a href="https://wa.me/{{ manager.phone | replace('+','') | replace(' ','') | replace('(','') | replace(')','') | replace('-','') }}" 
+                           class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                           target="_blank">
+                            <i class="fab fa-whatsapp mr-1"></i>
+                            WhatsApp
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Company Info -->
+                <div class="mt-8 pt-8 border-t border-gray-700">
+                    <div class="flex items-center justify-center mb-4">
+                        <div class="bg-blue-600 text-white p-2 rounded-lg mr-3">
+                            <i class="fas fa-building text-xl"></i>
+                        </div>
+                        <span class="text-xl font-bold">InBack</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">Недвижимость с кэшбеком в Краснодаре</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Track view duration
+        let startTime = Date.now();
+        
+        window.addEventListener('beforeunload', function() {
+            let duration = Math.floor((Date.now() - startTime) / 1000);
+            if (duration > 5) { // Only track if user spent more than 5 seconds
+                navigator.sendBeacon('/api/presentation/{{ presentation.unique_url }}/track-duration', 
+                    JSON.stringify({duration: duration}));
+            }
+        });
+    </script>
+</body>
+</html>

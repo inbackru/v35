@@ -1,0 +1,354 @@
+{% extends "base.html" %}
+
+{% block title %}Центр уведомлений | Менеджер InBack{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="bg-white shadow-sm rounded-lg mb-6">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">Центр уведомлений</h1>
+                        <p class="text-gray-600 mt-1">Управление уведомлениями клиентов</p>
+                    </div>
+                    <div class="flex space-x-3">
+                        <button id="test-notifications" class="px-4 py-2 bg-[#059669] text-white rounded-md hover:bg-[#047857]">
+                            <i class="fas fa-paper-plane mr-2"></i>
+                            Тест уведомлений
+                        </button>
+                        <button id="notification-settings" class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700">
+                            <i class="fas fa-cog mr-2"></i>
+                            Настройки
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Notification Templates -->
+            <div class="lg:col-span-2">
+                <div class="bg-white shadow-sm rounded-lg p-6 mb-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-6">Шаблоны уведомлений</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Recommendation Template -->
+                        <div class="border border-gray-200 rounded-lg p-4 hover:border-blue-500 transition-colors cursor-pointer"
+                             onclick="selectTemplate('recommendation')">
+                            <div class="flex items-center mb-3">
+                                <div class="bg-gray-100 p-2 rounded-lg mr-3">
+                                    <i class="fas fa-home text-[#059669]"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium text-gray-900">Рекомендация объекта</h3>
+                                    <p class="text-sm text-gray-500">Уведомление о новой рекомендации</p>
+                                </div>
+                            </div>
+                            <div class="text-sm text-gray-600">
+                                <p>• Email с детальным описанием</p>
+                                <p>• Telegram с кратким обзором</p>
+                                <p>• WhatsApp с быстрыми ссылками</p>
+                            </div>
+                        </div>
+
+                        <!-- Saved Search Template -->
+                        <div class="border border-gray-200 rounded-lg p-4 hover:border-green-500 transition-colors cursor-pointer"
+                             onclick="selectTemplate('saved_search')">
+                            <div class="flex items-center mb-3">
+                                <div class="bg-gray-100 p-2 rounded-lg mr-3">
+                                    <i class="fas fa-search text-green-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium text-gray-900">Результаты поиска</h3>
+                                    <p class="text-sm text-gray-500">Новые объекты по критериям</p>
+                                </div>
+                            </div>
+                            <div class="text-sm text-gray-600">
+                                <p>• Список найденных объектов</p>
+                                <p>• Автоматическая отправка</p>
+                                <p>• Настраиваемая частота</p>
+                            </div>
+                        </div>
+
+                        <!-- Application Status Template -->
+                        <div class="border border-gray-200 rounded-lg p-4 hover:border-yellow-500 transition-colors cursor-pointer"
+                             onclick="selectTemplate('application')">
+                            <div class="flex items-center mb-3">
+                                <div class="bg-gray-100 p-2 rounded-lg mr-3">
+                                    <i class="fas fa-file-alt text-[#059669]"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium text-gray-900">Статус заявки</h3>
+                                    <p class="text-sm text-gray-500">Обновления по заявкам</p>
+                                </div>
+                            </div>
+                            <div class="text-sm text-gray-600">
+                                <p>• Изменение статуса</p>
+                                <p>• Документооборот</p>
+                                <p>• Следующие шаги</p>
+                            </div>
+                        </div>
+
+                        <!-- Cashback Template -->
+                        <div class="border border-gray-200 rounded-lg p-4 hover:border-purple-500 transition-colors cursor-pointer"
+                             onclick="selectTemplate('cashback')">
+                            <div class="flex items-center mb-3">
+                                <div class="bg-gray-100 p-2 rounded-lg mr-3">
+                                    <i class="fas fa-money-bill text-[#059669]"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium text-gray-900">Кешбек</h3>
+                                    <p class="text-sm text-gray-500">Уведомления о кешбеке</p>
+                                </div>
+                            </div>
+                            <div class="text-sm text-gray-600">
+                                <p>• Одобрение кешбека</p>
+                                <p>• Статус выплаты</p>
+                                <p>• Детали расчета</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notification Log -->
+                <div class="bg-white shadow-sm rounded-lg p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-6">История уведомлений</h2>
+                    
+                    <div id="notification-log" class="space-y-4">
+                        <!-- This will be populated by JavaScript -->
+                        <div class="text-center text-gray-500 py-8">
+                            <i class="fas fa-bell-slash text-4xl mb-4"></i>
+                            <p>История уведомлений будет отображаться здесь</p>
+                            <button class="mt-4 px-4 py-2 bg-[#059669] text-white rounded-md" onclick="loadNotificationHistory()">
+                                Загрузить историю
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                <!-- Stats Card -->
+                <div class="bg-white shadow-sm rounded-lg p-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Статистика</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Отправлено сегодня</span>
+                                <span class="font-medium" id="today-sent">0</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                                <div class="bg-[#059669] h-2 rounded-full" style="width: 0%" id="today-progress"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Успешная доставка</span>
+                                <span class="font-medium text-green-600" id="success-rate">0%</span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Активные клиенты</span>
+                                <span class="font-medium" id="active-clients">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Channel Status -->
+                <div class="bg-white shadow-sm rounded-lg p-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Статус каналов</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <i class="fas fa-envelope text-[#059669] mr-3"></i>
+                                <span class="text-sm text-gray-600">Email</span>
+                            </div>
+                            <span class="text-sm text-green-600">
+                                <i class="fas fa-check-circle mr-1"></i>Активен
+                            </span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <i class="fab fa-telegram text-blue-400 mr-3"></i>
+                                <span class="text-sm text-gray-600">Telegram</span>
+                            </div>
+                            <span class="text-sm text-gray-400">
+                                <i class="fas fa-times-circle mr-1"></i>Не настроен
+                            </span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <i class="fab fa-whatsapp text-[#059669] mr-3"></i>
+                                <span class="text-sm text-gray-600">WhatsApp</span>
+                            </div>
+                            <span class="text-sm text-gray-400">
+                                <i class="fas fa-times-circle mr-1"></i>Не настроен
+                            </span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <button class="w-full px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200">
+                            <i class="fas fa-cog mr-2"></i>
+                            Настроить каналы
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bg-white shadow-sm rounded-lg p-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Быстрые действия</h3>
+                    <div class="space-y-2">
+                        <button class="w-full px-4 py-2 bg-blue-50 text-[#006699] rounded-md hover:bg-gray-100 text-left">
+                            <i class="fas fa-paper-plane mr-2"></i>
+                            Отправить рекомендацию
+                        </button>
+                        <button class="w-full px-4 py-2 bg-green-50 text-green-700 rounded-md hover:bg-gray-100 text-left">
+                            <i class="fas fa-search mr-2"></i>
+                            Создать сохраненный поиск
+                        </button>
+                        <button class="w-full px-4 py-2 bg-yellow-50 text-yellow-700 rounded-md hover:bg-gray-100 text-left">
+                            <i class="fas fa-file-alt mr-2"></i>
+                            Обновить заявку
+                        </button>
+                        <button class="w-full px-4 py-2 bg-gray-50 text-gray-700 rounded-md hover:bg-gray-100 text-left">
+                            <i class="fas fa-money-bill mr-2"></i>
+                            Одобрить кешбек
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Test Notification Modal -->
+<div id="test-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white rounded-lg max-w-md w-full p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-medium">Тест уведомления</h3>
+                <button onclick="closeTestModal()" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Email получателя</label>
+                    <input type="email" id="test-email" class="w-full px-3 py-2 border border-gray-300 rounded-md" 
+                           placeholder="client@example.com">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Тип уведомления</label>
+                    <select id="test-type" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                        <option value="recommendation">Рекомендация</option>
+                        <option value="saved_search_results">Результаты поиска</option>
+                        <option value="welcome">Приветствие</option>
+                    </select>
+                </div>
+                
+                <div class="flex justify-end space-x-3">
+                    <button onclick="closeTestModal()" class="px-4 py-2 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50">
+                        Отмена
+                    </button>
+                    <button onclick="sendTestNotification()" class="px-4 py-2 bg-[#059669] text-white rounded-md hover:bg-[#047857]">
+                        Отправить
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    loadNotificationStats();
+    
+    document.getElementById('test-notifications').addEventListener('click', openTestModal);
+});
+
+function selectTemplate(type) {
+    console.log('Selected template:', type);
+    // Here you can add logic to show template details or configure
+}
+
+function loadNotificationStats() {
+    // Simulate loading stats - in real implementation, this would be an API call
+    setTimeout(() => {
+        document.getElementById('today-sent').textContent = '12';
+        document.getElementById('today-progress').style.width = '60%';
+        document.getElementById('success-rate').textContent = '98%';
+        document.getElementById('active-clients').textContent = '45';
+    }, 1000);
+}
+
+function loadNotificationHistory() {
+    const log = document.getElementById('notification-log');
+    
+    // Simulate loading history
+    log.innerHTML = `
+        <div class="border-l-4 border-blue-500 bg-blue-50 p-4">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="font-medium text-blue-900">Рекомендация отправлена</p>
+                    <p class="text-sm text-[#006699]">Клиент: client@example.com</p>
+                    <p class="text-xs text-[#059669]">2 минуты назад</p>
+                </div>
+                <span class="bg-gray-100 text-green-800 text-xs px-2 py-1 rounded">Доставлено</span>
+            </div>
+        </div>
+        <div class="border-l-4 border-green-500 bg-green-50 p-4">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="font-medium text-green-900">Результаты поиска отправлены</p>
+                    <p class="text-sm text-green-700">3 новых объекта по критериям</p>
+                    <p class="text-xs text-green-600">15 минут назад</p>
+                </div>
+                <span class="bg-gray-100 text-green-800 text-xs px-2 py-1 rounded">Доставлено</span>
+            </div>
+        </div>
+        <div class="border-l-4 border-yellow-500 bg-yellow-50 p-4">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="font-medium text-yellow-900">Статус заявки обновлен</p>
+                    <p class="text-sm text-yellow-700">Заявка #12345 одобрена</p>
+                    <p class="text-xs text-[#059669]">1 час назад</p>
+                </div>
+                <span class="bg-gray-100 text-green-800 text-xs px-2 py-1 rounded">Доставлено</span>
+            </div>
+        </div>
+    `;
+}
+
+function openTestModal() {
+    document.getElementById('test-modal').classList.remove('hidden');
+}
+
+function closeTestModal() {
+    document.getElementById('test-modal').classList.add('hidden');
+}
+
+function sendTestNotification() {
+    const email = document.getElementById('test-email').value;
+    const type = document.getElementById('test-type').value;
+    
+    if (!email) {
+        alert('Введите email получателя');
+        return;
+    }
+    
+    // Simulate sending notification
+    alert(`Тест уведомление типа "${type}" отправлено на ${email}`);
+    closeTestModal();
+    
+    // Add to history
+    loadNotificationHistory();
+}
+</script>
+{% endblock %}

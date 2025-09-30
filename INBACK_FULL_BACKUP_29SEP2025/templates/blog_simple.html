@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Блог - InBack.ru{% endblock %}
+{% block description %}Блог о недвижимости{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8">Блог</h1>
+    
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for article in articles %}
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="p-6">
+                <h3 class="text-lg font-semibold mb-2">{{ article.title }}</h3>
+                <p class="text-gray-600 mb-4">{{ article.excerpt|striptags if article.excerpt }}</p>
+                <div class="text-sm text-gray-500">
+                    <span>{{ article.category.name }}</span> •
+                    <span>{{ article.created_at.strftime('%d.%m.%Y') }}</span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Результаты поиска: {{ query }} | InBack</title>
+    <meta name="description" content="Результаты поиска по запросу '{{ query }}' - жилые комплексы, районы, застройщики в Краснодаре">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .result-card {
+            transition: all 0.3s ease;
+        }
+        .result-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    {% include 'header_updated.html' %}
+
+    <!-- Search Results Section -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <!-- Search Header -->
+                <div class="mb-8">
+                    <h1 class="text-3xl font-bold mb-2">
+                        {% if query %}
+                            Результаты поиска: "{{ query }}"
+                        {% else %}
+                            Поиск по объектам
+                        {% endif %}
+                    </h1>
+                    <p class="text-gray-600">
+                        {% if results %}
+                            Найдено результатов: {{ results|length }}
+                        {% else %}
+                            По вашему запросу ничего не найдено
+                        {% endif %}
+                    </p>
+                </div>
+
+                <!-- Search Form -->
+                <div class="bg-white rounded-lg shadow-sm border p-6 mb-8">
+                    <form action="{{ url_for('search_results') }}" method="GET" class="flex flex-col md:flex-row gap-4">
+                        <div class="flex-grow">
+                            <input type="text" 
+                                   name="q" 
+                                   value="{{ query }}"
+                                   placeholder="Поиск ЖК, района, улицы, застройщика" 
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-blue-500 outline-none">
+                        </div>
+                        <div>
+                            <select name="type" class="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-blue-500 outline-none">
+                                <option value="all" {% if search_type == 'all' %}selected{% endif %}>Все типы</option>
+                                <option value="residential_complex" {% if search_type == 'residential_complex' %}selected{% endif %}>ЖК</option>
+                                <option value="district" {% if search_type == 'district' %}selected{% endif %}>Районы</option>
+                                <option value="developer" {% if search_type == 'developer' %}selected{% endif %}>Застройщики</option>
+                                <option value="street" {% if search_type == 'street' %}selected{% endif %}>Улицы</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="bg-[#0088CC] text-white px-6 py-3 rounded-lg hover:bg-[#006699] transition">
+                            <i class="fas fa-search mr-2"></i>Найти
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Results -->
+                {% if results %}
+                <div class="space-y-4">
+                    {% for result in results %}
+                    <div class="result-card bg-white rounded-lg shadow-sm border p-6 hover:border-blue-200">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-grow">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <!-- Type Icon -->
+                                    {% if result.type == 'residential_complex' %}
+                                        <div class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
+                                            <i class="fas fa-building text-[#0088CC]"></i>
+                                        </div>
+                                        <span class="text-sm bg-gray-100 text-[#0088CC] px-2 py-1 rounded-full">ЖК</span>
+                                    {% elif result.type == 'district' %}
+                                        <div class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
+                                            <i class="fas fa-map-marker-alt text-green-600"></i>
+                                        </div>
+                                        <span class="text-sm bg-gray-100 text-green-600 px-2 py-1 rounded-full">Район</span>
+                                    {% elif result.type == 'developer' %}
+                                        <div class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
+                                            <i class="fas fa-hammer text-[#0088CC]"></i>
+                                        </div>
+                                        <span class="text-sm bg-gray-100 text-[#0088CC] px-2 py-1 rounded-full">Застройщик</span>
+                                    {% elif result.type == 'street' %}
+                                        <div class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
+                                            <i class="fas fa-road text-[#0088CC]"></i>
+                                        </div>
+                                        <span class="text-sm bg-gray-100 text-[#0088CC] px-2 py-1 rounded-full">Улица</span>
+                                    {% endif %}
+                                </div>
+                                
+                                <h3 class="text-xl font-semibold mb-2">{{ result.name }}</h3>
+                                
+                                <!-- Additional Info -->
+                                <div class="text-gray-600 text-sm space-y-1">
+                                    {% if result.district %}
+                                        <div><i class="fas fa-map-marker-alt mr-2"></i>{{ result.district }}</div>
+                                    {% endif %}
+                                    {% if result.developer %}
+                                        <div><i class="fas fa-hammer mr-2"></i>{{ result.developer }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <a href="{{ url_for('index') }}{{ result.url }}" 
+                               class="inline-flex items-center px-4 py-2 bg-[#0088CC] text-white rounded-lg hover:bg-[#006699] transition">
+                                Перейти
+                                <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <!-- No Results -->
+                <div class="text-center py-12">
+                    <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-search text-3xl text-gray-400"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Ничего не найдено</h3>
+                    <p class="text-gray-600 mb-6">Попробуйте изменить поисковый запрос или выберите другой тип объекта</p>
+                    
+                    <!-- Popular searches -->
+                    <div class="max-w-md mx-auto">
+                        <p class="text-sm text-gray-500 mb-4">Популярные запросы:</p>
+                        <div class="flex flex-wrap gap-2 justify-center">
+                            <a href="{{ url_for('search_results', q='Гармония') }}" class="text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-full transition">Гармония</a>
+                            <a href="{{ url_for('search_results', q='Центральный') }}" class="text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-full transition">Центральный</a>
+                            <a href="{{ url_for('search_results', q='Западный') }}" class="text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-full transition">Западный</a>
+                            <a href="{{ url_for('search_results', q='Красная') }}" class="text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-full transition">Красная</a>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Back to Search -->
+                <div class="text-center mt-12">
+                    <a href="{{ url_for('index') }}" class="inline-flex items-center text-[#0088CC] hover:underline">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Вернуться на главную
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% include 'footer.html' %}
+</body>
+</html>

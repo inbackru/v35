@@ -1,0 +1,550 @@
+{% extends "base.html" %}
+
+{% block title %}Личный кабинет | inback{% endblock %}
+
+{% block content %}
+<style>
+    .sidebar-item.active {
+        background-color: #f0f9ff;
+        color: #0088cc;
+        border-right: 3px solid #0088cc;
+    }
+    
+    .sidebar-item:hover {
+        background-color: #f8fafc;
+    }
+    
+    .notification-badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background: #ef4444;
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        font-size: 11px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .floating-card {
+        animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+    }
+    
+    .content-section {
+        display: none;
+    }
+    
+    .content-section.active {
+        display: block;
+    }
+</style>
+
+<div class="flex h-screen overflow-hidden bg-gray-50">
+    <!-- Sidebar -->
+    <div class="hidden md:flex md:flex-shrink-0">
+        <div class="flex flex-col w-64 bg-white border-r border-gray-200">
+            <div class="flex items-center justify-center h-16 px-4 bg-[#0088cc]">
+                <div class="flex items-center">
+                    <i class="fas fa-home text-white text-2xl mr-2"></i>
+                    <span class="text-white font-bold text-xl">inback</span>
+                </div>
+            </div>
+            
+            <div class="flex flex-col flex-grow px-4 py-4 overflow-y-auto">
+                <!-- User Profile -->
+                <div class="flex items-center mb-8">
+                    <div class="relative">
+                        <img alt="User profile" class="w-12 h-12 rounded-full" src="{{ current_user.profile_image }}"/>
+                        <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm font-medium text-gray-800">{{ current_user.full_name }}
+                            {% if current_user.is_demo %}
+                                <span class="inline-block ml-2 px-2 py-1 text-xs bg-gray-100 text-[#0088CC] rounded-full">ДЕМО</span>
+                            {% endif %}
+                        </p>
+                        <p class="text-xs text-gray-500">ID: {{ current_user.user_id }}</p>
+                    </div>
+                </div>
+                
+                <!-- Navigation -->
+                <nav class="flex-1 space-y-2">
+                    <a class="flex items-center px-4 py-2.5 text-sm font-medium sidebar-item active" href="#" data-page="dashboard">
+                        <i class="fas fa-tachometer-alt text-[#0088cc] mr-3 w-5 text-center"></i>
+                        <span>Главная</span>
+                    </a>
+                    <a class="flex items-center px-4 py-2.5 text-sm font-medium sidebar-item" href="#" data-page="manager">
+                        <i class="fas fa-user-tie text-[#0088cc] mr-3 w-5 text-center"></i>
+                        <span>Личный менеджер</span>
+                    </a>
+                    <a class="flex items-center px-4 py-2.5 text-sm font-medium sidebar-item" href="#" data-page="cashback">
+                        <i class="fas fa-coins text-[#0088cc] mr-3 w-5 text-center"></i>
+                        <span>Кешбек</span>
+                        <span class="ml-auto bg-[#0088cc] text-white text-xs px-2 py-1 rounded-full">3</span>
+                    </a>
+                    <a class="flex items-center px-4 py-2.5 text-sm font-medium sidebar-item" href="#" data-page="applications">
+                        <i class="fas fa-file-alt text-[#0088cc] mr-3 w-5 text-center"></i>
+                        <span>Заявки</span>
+                    </a>
+                    <a class="flex items-center px-4 py-2.5 text-sm font-medium sidebar-item" href="#" data-page="favorites">
+                        <i class="fas fa-heart text-[#0088cc] mr-3 w-5 text-center"></i>
+                        <span>Избранное</span>
+                    </a>
+                    <a class="flex items-center px-4 py-2.5 text-sm font-medium sidebar-item" href="#" data-page="collections">
+                        <i class="fas fa-list text-[#0088cc] mr-3 w-5 text-center"></i>
+                        <span>Подборки</span>
+                    </a>
+                    <a class="flex items-center px-4 py-2.5 text-sm font-medium sidebar-item" href="#" data-page="documents">
+                        <i class="fas fa-file-alt text-[#0088cc] mr-3 w-5 text-center"></i>
+                        <span>Документы</span>
+                        <span class="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">3</span>
+                    </a>
+                    <a class="flex items-center px-4 py-2.5 text-sm font-medium sidebar-item" href="#" data-page="settings">
+                        <i class="fas fa-cog text-[#0088cc] mr-3 w-5 text-center"></i>
+                        <span>Настройки</span>
+                    </a>
+                    <a class="flex items-center px-4 py-2.5 text-sm font-medium sidebar-item" href="#" data-page="cashback">
+                        <i class="fas fa-coins text-[#0088cc] mr-3 w-5 text-center"></i>
+                        <span>Кешбек</span>
+                        {% if current_user.cashback_records|length > 0 %}
+                        <span class="ml-auto bg-[#0088cc] text-white text-xs px-2 py-1 rounded-full">{{ current_user.cashback_records|length }}</span>
+                        {% endif %}
+                    </a>
+                    <a class="flex items-center px-4 py-2.5 text-sm font-medium sidebar-item" href="#" data-page="applications">
+                        <i class="fas fa-file-alt text-[#0088cc] mr-3 w-5 text-center"></i>
+                        <span>Заявки</span>
+                    </a>
+                    <a class="flex items-center px-4 py-2.5 text-sm font-medium sidebar-item" href="#" data-page="favorites">
+                        <i class="fas fa-heart text-[#0088cc] mr-3 w-5 text-center"></i>
+                        <span>Избранное</span>
+                    </a>
+                    <a class="flex items-center px-4 py-2.5 text-sm font-medium sidebar-item" href="#" data-page="settings">
+                        <i class="fas fa-cog text-[#0088cc] mr-3 w-5 text-center"></i>
+                        <span>Настройки</span>
+                    </a>
+                </nav>
+                
+                <!-- Support -->
+                <div class="mt-auto pt-4">
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <div class="flex items-center">
+                            <img alt="Manager profile" class="w-12 h-12 rounded-full" src="https://randomuser.me/api/portraits/women/44.jpg"/>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-gray-800">Анна Смирнова</p>
+                                <p class="text-xs text-gray-500">Ваш персональный менеджер</p>
+                                <p class="text-xs font-medium text-[#0088cc] mt-1">+7(861) 203-40-50</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-4 gap-2 mt-3">
+                            <a class="flex items-center justify-center bg-white hover:bg-gray-100 text-green-600 py-2 px-2 rounded-lg transition duration-200 border border-gray-200 hover:border-green-300 shadow-sm hover:shadow-md" href="https://wa.me/78612034050" target="_blank">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
+                            <a class="flex items-center justify-center bg-white hover:bg-gray-100 text-[#0088CC] py-2 px-2 rounded-lg transition duration-200 border border-gray-200 hover:border-blue-300 shadow-sm hover:shadow-md" href="https://t.me/inback_manager" target="_blank">
+                                <i class="fab fa-telegram-plane"></i>
+                            </a>
+                            <a class="flex items-center justify-center bg-white hover:bg-gray-100 text-red-500 py-2 px-2 rounded-lg transition duration-200 border border-gray-200 hover:border-red-300 shadow-sm hover:shadow-md" href="mailto:manager@inback.ru">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                            <button class="flex items-center justify-center bg-[#0088cc] hover:bg-[#006699] text-white py-2 px-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">
+                                <i class="fas fa-comment-dots"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="flex flex-col flex-1 overflow-hidden">
+        <!-- Mobile Header -->
+        <div class="md:hidden flex items-center justify-between px-4 py-3 bg-white border-b border-gray-200">
+            <button class="text-gray-800">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+            <div class="flex items-center">
+                <i class="fas fa-home text-[#0088cc] text-xl mr-2"></i>
+                <span class="text-gray-800 font-bold">inback</span>
+            </div>
+            <div class="relative">
+                <button class="focus:outline-none" id="notification-button-mobile">
+                    <i class="fas fa-bell text-xl text-gray-800"></i>
+                    <div class="notification-badge" id="notification-badge-mobile">3</div>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Desktop Header -->
+        <div class="hidden md:flex items-center justify-between px-6 py-4 bg-white border-b border-gray-200">
+            <div class="flex items-center space-x-6">
+                <h1 class="text-xl font-semibold text-gray-800">Добро пожаловать, {{ current_user.full_name.split(' ')[0] }}!</h1>
+                <a class="text-[#0088cc] hover:underline flex items-center text-sm" href="{{ url_for('index') }}">
+                    <i class="fas fa-arrow-left mr-1"></i> На главный сайт
+                </a>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <button class="focus:outline-none" id="notification-button">
+                        <i class="fas fa-bell text-xl text-[#0088cc] cursor-pointer"></i>
+                        <div class="notification-badge" id="notification-badge">3</div>
+                    </button>
+                    
+                    <div class="hidden absolute right-0 mt-2 w-72 bg-white rounded-lg shadow-lg z-50 overflow-hidden" id="notification-dropdown">
+                        <div class="px-4 py-3 border-b border-gray-200">
+                            <h3 class="text-sm font-medium text-gray-800">Уведомления</h3>
+                        </div>
+                        <div class="divide-y divide-gray-100 max-h-96 overflow-y-auto">
+                            <a class="flex px-4 py-3 hover:bg-gray-50" href="#">
+                                <div class="flex-shrink-0">
+                                    <div class="bg-gray-100 p-2 rounded-full">
+                                        <i class="fas fa-info-circle text-[#0088CC]"></i>
+                                    </div>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-gray-900">Добро пожаловать!</p>
+                                    <p class="text-sm text-gray-500">Ваш аккаунт успешно создан</p>
+                                    <p class="text-xs text-gray-400 mt-1">Только что</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative">
+                    <button class="flex items-center focus:outline-none" id="user-menu-button">
+                        <img alt="User profile" class="w-8 h-8 rounded-full" src="{{ current_user.profile_image }}"/>
+                        <span class="ml-2 text-sm font-medium text-gray-800">{{ current_user.full_name }}</span>
+                        <i class="fas fa-chevron-down ml-1 text-xs text-gray-500"></i>
+                    </button>
+                    
+                    <div class="hidden absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg py-2 z-50 overflow-hidden" id="user-menu">
+                        <a class="flex items-center px-4 py-3 text-sm font-medium text-gray-700 hover:bg-[#0088cc] hover:text-white transition duration-150 ease-in-out" href="#settings">
+                            <i class="fas fa-cog w-5 mr-3 text-gray-400"></i>
+                            <span>Настройки профиля</span>
+                        </a>
+                        <div class="border-t border-gray-100 my-1"></div>
+                        <a class="flex items-center px-4 py-3 text-sm font-medium text-[#0088CC] hover:bg-red-50 transition duration-150 ease-in-out" href="{{ url_for('logout') }}">
+                            <i class="fas fa-sign-out-alt w-5 mr-3 text-red-400"></i>
+                            <span>Выйти</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="flex-1 overflow-auto p-4 md:p-6" id="main-content">
+            <!-- Dashboard Content -->
+            <div id="dashboard-content">
+                <!-- Welcome Card -->
+                <div class="bg-gradient-to-r from-[#006699] to-[#0088CC] rounded-2xl p-6 text-white mb-8">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+                        <div class="mb-4 md:mb-0">
+                            <h2 class="text-2xl font-bold mb-2">Добро пожаловать в inback!</h2>
+                            <p class="opacity-90">Начните получать кешбек за покупку недвижимости уже сегодня.</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-3xl font-bold">{{ "%.0f"|format(current_user.get_total_cashback()) }} ₽</div>
+                            <div class="text-sm opacity-80">Общий кешбек</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-gray-100">
+                                <i class="fas fa-coins text-green-600 text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-500">Доступный кешбек</p>
+                                <p class="text-2xl font-bold text-green-600">{{ "%.0f"|format(current_user.get_pending_cashback()) }} ₽</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-gray-100">
+                                <i class="fas fa-file-alt text-[#0088CC] text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-500">Активные заявки</p>
+                                <p class="text-2xl font-bold text-[#0088CC]">{{ current_user.applications|length }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-gray-100">
+                                <i class="fas fa-heart text-[#0088CC] text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-500">Избранное</p>
+                                <p class="text-2xl font-bold text-[#0088CC]">{{ current_user.favorites|length }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+                    <h3 class="text-lg font-semibold mb-4">Быстрые действия</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <a href="{{ url_for('properties') }}" class="flex flex-col items-center p-4 rounded-lg border border-gray-200 hover:border-[#0088cc] hover:bg-blue-50 transition">
+                            <i class="fas fa-search text-2xl text-[#0088cc] mb-2"></i>
+                            <span class="text-sm font-medium">Найти квартиру</span>
+                        </a>
+                        <button class="flex flex-col items-center p-4 rounded-lg border border-gray-200 hover:border-[#0088cc] hover:bg-blue-50 transition" data-page="cashback">
+                            <i class="fas fa-plus text-2xl text-[#0088cc] mb-2"></i>
+                            <span class="text-sm font-medium">Подать заявку</span>
+                        </button>
+                        <a href="{{ url_for('ipoteka') }}" class="flex flex-col items-center p-4 rounded-lg border border-gray-200 hover:border-[#0088cc] hover:bg-blue-50 transition">
+                            <i class="fas fa-calculator text-2xl text-[#0088cc] mb-2"></i>
+                            <span class="text-sm font-medium">Ипотека</span>
+                        </a>
+                        <button class="flex flex-col items-center p-4 rounded-lg border border-gray-200 hover:border-[#0088cc] hover:bg-blue-50 transition" data-page="manager">
+                            <i class="fas fa-headset text-2xl text-[#0088cc] mb-2"></i>
+                            <span class="text-sm font-medium">Поддержка</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Recent Activity -->
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h3 class="text-lg font-semibold mb-4">Последняя активность</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-3">
+                            <div class="bg-gray-100 p-2 rounded-full">
+                                <i class="fas fa-user-plus text-[#0088CC] text-sm"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-gray-900">Аккаунт создан</p>
+                                <p class="text-sm text-gray-500">Добро пожаловать в inback!</p>
+                                <p class="text-xs text-gray-400 mt-1">{{ current_user.created_at.strftime('%d.%m.%Y в %H:%M') }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Other sections will be loaded here via JavaScript -->
+            <div id="dynamic-content" class="hidden"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Sidebar navigation
+    const sidebarItems = document.querySelectorAll('.sidebar-item');
+    const quickActions = document.querySelectorAll('[data-page]');
+    
+    function switchPage(page) {
+        // Remove active class from all sidebar items
+        sidebarItems.forEach(item => item.classList.remove('active'));
+        
+        // Add active class to clicked item
+        const activeItem = document.querySelector(`[data-page="${page}"]`);
+        if (activeItem && activeItem.classList.contains('sidebar-item')) {
+            activeItem.classList.add('active');
+        }
+        
+        // Load page content
+        loadPageContent(page);
+    }
+    
+    function loadPageContent(page) {
+        const dashboardContent = document.getElementById('dashboard-content');
+        const dynamicContent = document.getElementById('dynamic-content');
+        
+        if (page === 'dashboard') {
+            dashboardContent.classList.remove('hidden');
+            dynamicContent.classList.add('hidden');
+        } else {
+            dashboardContent.classList.add('hidden');
+            dynamicContent.classList.remove('hidden');
+            
+            // Load specific page content
+            dynamicContent.innerHTML = getPageContent(page);
+        }
+    }
+    
+    function getPageContent(page) {
+        const contents = {
+            'manager': `
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h2 class="text-2xl font-bold mb-6">Личный менеджер</h2>
+                    <div class="flex items-center mb-6">
+                        <img class="w-20 h-20 rounded-full" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Анна Смирнова">
+                        <div class="ml-6">
+                            <h3 class="text-xl font-semibold">Анна Смирнова</h3>
+                            <p class="text-gray-600">Ваш персональный менеджер</p>
+                            <p class="text-[#0088cc] font-medium">+7(861) 203-40-50</p>
+                            <p class="text-sm text-gray-500 mt-2">Эксперт по новостройкам Краснодара с опытом 5+ лет</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <a href="https://wa.me/78612034050" target="_blank" class="bg-green-500 hover:bg-green-600 text-white p-4 rounded-lg text-center transition">
+                            <i class="fab fa-whatsapp text-2xl mb-2 block"></i>
+                            <span class="text-sm">WhatsApp</span>
+                        </a>
+                        <a href="https://t.me/inback_manager" target="_blank" class="bg-blue-500 hover:bg-[#0088CC] text-white p-4 rounded-lg text-center transition">
+                            <i class="fab fa-telegram text-2xl mb-2 block"></i>
+                            <span class="text-sm">Telegram</span>
+                        </a>
+                        <a href="mailto:manager@inback.ru" class="bg-red-500 hover:bg-red-600 text-white p-4 rounded-lg text-center transition">
+                            <i class="fas fa-envelope text-2xl mb-2 block"></i>
+                            <span class="text-sm">Email</span>
+                        </a>
+                        <button class="bg-[#0088cc] hover:bg-[#006699] text-white p-4 rounded-lg text-center transition">
+                            <i class="fas fa-phone text-2xl mb-2 block"></i>
+                            <span class="text-sm">Звонок</span>
+                        </button>
+                    </div>
+                </div>
+            `,
+            'cashback': `
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h2 class="text-2xl font-bold mb-6">Ваш кешбек</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div class="bg-gray-50 rounded-lg p-5">
+                            <h3 class="font-semibold mb-4">Доступный кешбек</h3>
+                            <div class="text-3xl font-bold text-[#0088cc] mb-2">${{ current_user.get_pending_cashback() }} ₽</div>
+                            <p class="text-sm text-gray-600">Готов к выводу</p>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-5">
+                            <h3 class="font-semibold mb-4">Общий кешбек</h3>
+                            <div class="text-3xl font-bold text-green-600 mb-2">${{ current_user.get_total_cashback() }} ₽</div>
+                            <p class="text-sm text-gray-600">За все время</p>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-gray-600 mb-4">Пока у вас нет активных кешбек-заявок</p>
+                        <a href="${{ url_for('properties') }}" class="bg-[#0088cc] hover:bg-[#006699] text-white px-6 py-3 rounded-lg inline-block transition">
+                            Найти квартиру
+                        </a>
+                    </div>
+                </div>
+            `,
+            'applications': `
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h2 class="text-2xl font-bold mb-6">Мои заявки</h2>
+                    <div class="text-center py-8">
+                        <i class="fas fa-file-alt text-4xl text-gray-400 mb-4"></i>
+                        <p class="text-gray-600 mb-4">У вас пока нет заявок</p>
+                        <a href="${{ url_for('properties') }}" class="bg-[#0088cc] hover:bg-[#006699] text-white px-6 py-3 rounded-lg inline-block transition">
+                            Подать заявку
+                        </a>
+                    </div>
+                </div>
+            `,
+            'favorites': `
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h2 class="text-2xl font-bold mb-6">Избранное</h2>
+                    <div class="text-center py-8">
+                        <i class="fas fa-heart text-4xl text-gray-400 mb-4"></i>
+                        <p class="text-gray-600 mb-4">Вы пока не добавили квартиры в избранное</p>
+                        <a href="${{ url_for('properties') }}" class="bg-[#0088cc] hover:bg-[#006699] text-white px-6 py-3 rounded-lg inline-block transition">
+                            Найти квартиры
+                        </a>
+                    </div>
+                </div>
+            `,
+            'settings': `
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h2 class="text-2xl font-bold mb-6">Настройки профиля</h2>
+                    <form>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Полное имя</label>
+                                <input type="text" value="${{ current_user.full_name }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[#0088cc]">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                                <input type="email" value="${{ current_user.email }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[#0088cc]">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Телефон</label>
+                                <input type="tel" value="${{ current_user.phone or '' }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[#0088cc]">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">ID пользователя</label>
+                                <input type="text" value="${{ current_user.user_id }}" disabled class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100">
+                            </div>
+                        </div>
+                        <div class="mt-6">
+                            <button type="button" class="bg-[#0088cc] hover:bg-[#006699] text-white px-6 py-2 rounded-lg transition">
+                                Сохранить изменения
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `
+        };
+        
+        return contents[page] || '<div class="bg-white rounded-xl shadow-sm p-6"><p>Страница в разработке</p></div>';
+    }
+    
+    // Event listeners
+    sidebarItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            const page = this.getAttribute('data-page') || 'dashboard';
+            switchPage(page);
+        });
+    });
+    
+    quickActions.forEach(action => {
+        action.addEventListener('click', function(e) {
+            const page = this.getAttribute('data-page');
+            if (page) {
+                e.preventDefault();
+                switchPage(page);
+            }
+        });
+    });
+    
+    // Dropdown toggles
+    const notificationButton = document.getElementById('notification-button');
+    const notificationDropdown = document.getElementById('notification-dropdown');
+    const userMenuButton = document.getElementById('user-menu-button');
+    const userMenu = document.getElementById('user-menu');
+    
+    if (notificationButton && notificationDropdown) {
+        notificationButton.addEventListener('click', function() {
+            notificationDropdown.classList.toggle('hidden');
+            if (userMenu) userMenu.classList.add('hidden');
+        });
+    }
+    
+    if (userMenuButton && userMenu) {
+        userMenuButton.addEventListener('click', function() {
+            userMenu.classList.toggle('hidden');
+            if (notificationDropdown) notificationDropdown.classList.add('hidden');
+        });
+    }
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('#notification-button') && notificationDropdown) {
+            notificationDropdown.classList.add('hidden');
+        }
+        if (!e.target.closest('#user-menu-button') && userMenu) {
+            userMenu.classList.add('hidden');  
+        }
+    });
+});
+</script>
+{% endblock %}

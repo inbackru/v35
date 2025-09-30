@@ -1,0 +1,580 @@
+{% extends "manager/base.html" %}
+
+{% block title %}Кабинет менеджера | InBack{% endblock %}
+
+{% block content %}
+<style>
+.content-section {
+    display: none;
+}
+
+.content-section.active {
+    display: block;
+}
+
+.tab-button.active {
+    color: #0088CC !important;
+    border-color: #0088CC !important;
+}
+
+.tab-button:hover {
+    color: #374151 !important;
+    border-color: #D1D5DB !important;
+}
+</style>
+
+<!-- Tab Navigation under main header -->
+<div class="bg-white border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="overflow-x-auto">
+            <nav class="flex space-x-8" aria-label="Tabs">
+                <a class="flex items-center px-1 py-4 text-sm font-medium border-b-2 border-[#0088CC] text-[#0088CC] whitespace-nowrap tab-button active" href="#" data-page="dashboard">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 2L3 7v11h3v-6h8v6h3V7l-7-5z"/>
+                    </svg>
+                    Главная
+                </a>
+                <a class="flex items-center px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap tab-button" href="#" data-page="clients">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
+                    </svg>
+                    Клиенты
+                    <span class="ml-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs px-2 py-1 rounded-full font-medium" id="clients-count">1</span>
+                </a>
+                <a class="flex items-center px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap tab-button" href="#" data-page="presentations">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                    </svg>
+                    Презентации
+                    <span class="ml-2 bg-gradient-to-r from-purple-500 to-purple-600 text-white text-xs px-2 py-1 rounded-full font-medium" id="presentations-count">0</span>
+                </a>
+                <a class="flex items-center px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap tab-button" href="#" data-page="saved-searches">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+                    </svg>
+                    Сохранённые поиски
+                    <span class="ml-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white text-xs px-2 py-1 rounded-full font-medium" id="searches-count">0</span>
+                </a>
+                <a class="flex items-center px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap tab-button" href="#" data-page="favorites">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
+                    </svg>
+                    Избранное
+                    <span class="ml-2 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs px-2 py-1 rounded-full font-medium" id="favorites-count">8</span>
+                </a>
+                <a class="flex items-center px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap tab-button" href="#" data-page="comparison">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/>
+                    </svg>
+                    Сравнение
+                    <span class="ml-2 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white text-xs px-2 py-1 rounded-full font-medium" id="comparison-count">8</span>
+                </a>
+                <a class="flex items-center px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap tab-button" href="#" data-page="deals">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 108 0v-1a6 6 0 00-6-6H4a6 6 0 00-6 6v1a4 4 0 108 0z"/>
+                    </svg>
+                    🤝 СДЕЛКИ
+                    <span class="ml-2 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs px-2 py-1 rounded-full font-medium" id="deals-count">0</span>
+                </a>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div class="bg-gray-50 py-4">
+    <div class="max-w-7xl mx-auto px-4">
+        <!-- Main Dashboard Section -->
+        <div id="dashboard-section" class="content-section active">
+            <!-- Header -->
+            <div class="mb-6">
+                <h1 class="text-3xl font-bold text-gray-900">Добро пожаловать, {{ manager.first_name }}!</h1>
+                <p class="mt-2 text-gray-600">Управляйте клиентами и создавайте персональные подборки недвижимости</p>
+            </div>
+
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center">
+                    <div class="p-3 bg-gray-100 rounded-lg">
+                        <i class="fas fa-users text-[#059669]"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Активных клиентов</p>
+                        <p class="text-2xl font-bold text-gray-900">{{ manager.assigned_clients|length }}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center">
+                    <div class="p-3 bg-gray-100 rounded-lg">
+                        <i class="fas fa-folder text-green-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Подборок создано</p>
+                        <p class="text-2xl font-bold text-gray-900">{{ collections_count }}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center">
+                    <div class="p-3 bg-gray-100 rounded-lg">
+                        <i class="fas fa-paper-plane text-[#059669]"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Отправлено</p>
+                        <p class="text-2xl font-bold text-gray-900">{{ sent_collections_count }}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center">
+                    <div class="p-3 bg-gray-100 rounded-lg">
+                        <i class="fas fa-ruble-sign text-[#059669]"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Общий кешбек</p>
+                        <p class="text-2xl font-bold text-gray-900">850К ₽</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
+            <h2 class="text-xl font-semibold text-gray-900 mb-6">Быстрые действия</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <a href="{{ url_for('manager_create_collection') }}" 
+                   class="bg-[#059669] hover:bg-[#047857] text-white p-4 rounded-lg flex items-center transition-colors">
+                    <i class="fas fa-plus mr-3"></i>
+                    <span class="font-medium">Создать подборку</span>
+                </a>
+                <a href="{{ url_for('manager_collections') }}" 
+                   class="bg-green-600 hover:bg-green-700 text-white p-4 rounded-lg flex items-center transition-colors">
+                    <i class="fas fa-folder-open mr-3"></i>
+                    <span class="font-medium">Мои подборки</span>
+                </a>
+                <a href="{{ url_for('admin_blog_manager') }}" 
+                   class="bg-orange-600 hover:bg-orange-700 text-white p-4 rounded-lg flex items-center transition-colors">
+                    <i class="fas fa-newspaper mr-3"></i>
+                    <span class="font-medium">Управление блогом</span>
+                </a>
+                <a href="{{ url_for('manager_analytics') }}" 
+                   class="bg-[#059669] hover:bg-[#047857] text-white p-4 rounded-lg flex items-center transition-colors">
+                    <i class="fas fa-chart-bar mr-3"></i>
+                    <span class="font-medium">Аналитика</span>
+                </a>
+            </div>
+            
+            <!-- Data Import Actions -->
+            <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button onclick="importExcelData()" 
+                        class="bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-lg flex items-center transition-colors">
+                    <i class="fas fa-file-excel mr-3"></i>
+                    <span class="font-medium">Импорт Excel данных</span>
+                </button>
+                
+                <button onclick="runGPTVisionParser()" 
+                        class="bg-purple-600 hover:bg-purple-700 text-white p-4 rounded-lg flex items-center transition-colors">
+                    <i class="fas fa-robot mr-3"></i>
+                    <span class="font-medium">GPT Vision парсер</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- My Clients -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-semibold text-gray-900">Мои клиенты</h2>
+                <button onclick="openAddClientModal()" class="text-[#059669] hover:text-[#047857] text-sm font-medium">
+                    <i class="fas fa-plus mr-1"></i>Добавить клиента
+                </button>
+            </div>
+            
+            {% if manager.managed_users %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {% for client in manager.managed_users %}
+                <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                    <div class="flex items-center space-x-3 mb-3">
+                        <div class="w-10 h-10 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-full flex items-center justify-center">
+                            <span class="text-white font-medium text-sm">{{ client.first_name[0] }}{{ client.last_name[0] }}</span>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-900">{{ client.first_name }} {{ client.last_name }}</h3>
+                            <p class="text-sm text-gray-500">{{ client.email }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-2 text-sm text-gray-600 mb-4">
+                        <div class="flex items-center justify-between">
+                            <span>Подборок получено:</span>
+                            <span class="font-medium">{{ client.received_collections|length }}</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span>Заявок подано:</span>
+                            <span class="font-medium">{{ client.cashback_applications|length }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-2">
+                        <a href="{{ url_for('manager_create_collection') }}?client_id={{ client.id }}" 
+                           class="flex-1 bg-[#059669] hover:bg-[#047857] text-white px-3 py-2 rounded text-sm font-medium text-center transition-colors">
+                            Создать подборку
+                        </a>
+                        <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded text-sm font-medium transition-colors">
+                            <i class="fas fa-phone"></i>
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="text-center py-8">
+                <div class="mx-auto h-16 w-16 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 flex items-center justify-center mb-4">
+                    <i class="fas fa-users text-[#059669] text-xl"></i>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Клиентов пока нет</h3>
+                <p class="text-gray-600 mb-4">Добавьте первого клиента для работы с подборками</p>
+                <button class="bg-[#059669] hover:bg-[#047857] text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                    <i class="fas fa-plus mr-2"></i>Добавить клиента
+                </button>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Recent Collections -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-semibold text-gray-900">Последние подборки</h2>
+                <a href="{{ url_for('manager_collections') }}" class="text-[#059669] hover:text-[#047857] text-sm font-medium">
+                    Все подборки
+                </a>
+            </div>
+            
+            {% if recent_collections %}
+            <div class="space-y-4">
+                {% for collection in recent_collections %}
+                <div class="border border-gray-200 rounded-lg p-4 hover:shadow-sm transition-shadow">
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <h3 class="font-medium text-gray-900">{{ collection.title }}</h3>
+                                <span class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full
+                                    {% if collection.status == 'Отправлена' %}bg-gray-100 text-gray-700
+                                    {% elif collection.status == 'Просмотрена' %}bg-gray-100 text-green-800
+                                    {% else %}bg-gray-100 text-gray-800{% endif %}">
+                                    {{ collection.status }}
+                                </span>
+                            </div>
+                            <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                <span><i class="fas fa-user mr-1"></i>{{ collection.assigned_to.first_name }} {{ collection.assigned_to.last_name }}</span>
+                                <span><i class="fas fa-building mr-1"></i>{{ collection.properties|length }} объектов</span>
+                                <span><i class="fas fa-calendar mr-1"></i>{{ collection.created_at.strftime('%d.%m.%Y') }}</span>
+                            </div>
+                        </div>
+                        <div class="flex space-x-2 ml-4">
+                            {% if collection.status == 'Черновик' %}
+                            <button onclick="sendCollection({{ collection.id }})" 
+                                    class="bg-[#059669] hover:bg-[#047857] text-white px-3 py-1 rounded text-sm font-medium transition-colors">
+                                Отправить
+                            </button>
+                            {% endif %}
+                            <a href="#" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded text-sm font-medium transition-colors">
+                                Просмотр
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="text-center py-8">
+                <div class="mx-auto h-16 w-16 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 flex items-center justify-center mb-4">
+                    <i class="fas fa-folder text-[#059669] text-xl"></i>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Подборок пока нет</h3>
+                <p class="text-gray-600 mb-4">Создайте первую подборку для ваших клиентов</p>
+                <a href="{{ url_for('manager_create_collection') }}" 
+                   class="bg-[#059669] hover:bg-[#047857] text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                    <i class="fas fa-plus mr-2"></i>Создать подборку
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Add Client Modal -->
+<div id="addClientModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white rounded-lg max-w-md w-full p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-lg font-semibold text-gray-900">Добавить нового клиента</h3>
+                <button onclick="closeAddClientModal()" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="addClientForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Имя</label>
+                    <input type="text" name="first_name" required 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#059669] focus:border-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Фамилия</label>
+                    <input type="text" name="last_name" required 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#059669] focus:border-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input type="email" name="email" required 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#059669] focus:border-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Телефон</label>
+                    <input type="tel" name="phone" required 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#059669] focus:border-blue-500"
+                           placeholder="+7 (xxx) xxx-xx-xx">
+                </div>
+                
+                <div class="flex space-x-3 pt-4">
+                    <button type="button" onclick="closeAddClientModal()" 
+                            class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-lg font-medium transition-colors">
+                        Отмена
+                    </button>
+                    <button type="submit" 
+                            class="flex-1 bg-[#059669] hover:bg-[#047857] text-white py-2 px-4 rounded-lg font-medium transition-colors">
+                        Добавить клиента
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function sendCollection(collectionId) {
+    if (confirm('Отправить подборку клиенту?')) {
+        fetch(`/api/manager/collection/${collectionId}/send`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'same-origin'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Ошибка: ' + data.error);
+            }
+        })
+        .catch(error => {
+            alert('Ошибка при отправке подборки');
+        });
+    }
+}
+
+function openAddClientModal() {
+    document.getElementById('addClientModal').classList.remove('hidden');
+}
+
+function closeAddClientModal() {
+    document.getElementById('addClientModal').classList.add('hidden');
+    document.getElementById('addClientForm').reset();
+}
+
+// Handle add client form submission
+document.getElementById('addClientForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const data = {
+        first_name: formData.get('first_name'),
+        last_name: formData.get('last_name'),
+        email: formData.get('email'),
+        phone: formData.get('phone')
+    };
+    
+    fetch('/api/manager/add-client', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        credentials: 'same-origin'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            closeAddClientModal();
+            location.reload();
+        } else {
+            alert('Ошибка: ' + data.error);
+        }
+    })
+    .catch(error => {
+        alert('Ошибка при добавлении клиента');
+        console.warn('Error:', error);
+    });
+});
+
+// Import Excel data function
+function importExcelData() {
+    // Создаем скрытый input для выбора файла
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = '.xlsx,.xls';
+    fileInput.style.display = 'none';
+    
+    fileInput.onchange = function(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        
+        if (!confirm(`Загрузить файл "${file.name}"? Обработка может занять несколько минут для больших файлов.`)) {
+            return;
+        }
+        
+        const button = document.querySelector('button[onclick="importExcelData()"]');
+        const originalText = button.innerHTML;
+        button.innerHTML = '<i class="fas fa-cloud-upload-alt fa-spin mr-3"></i>Загрузка...';
+        button.disabled = true;
+        
+        // Создаем FormData для отправки файла
+        const formData = new FormData();
+        formData.append('excel_file', file);
+        
+        fetch('/admin/upload-excel', {
+            method: 'POST',
+            body: formData,
+            credentials: 'same-origin'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                if (data.background) {
+                    // Асинхронная обработка
+                    alert(`📤 ${data.message}`);
+                    
+                    // Запускаем проверку статуса
+                    const taskId = data.task_id;
+                    checkImportProgress(taskId);
+                } else {
+                    // Синхронная обработка (для маленьких файлов)
+                    alert(`✅ ${data.message}`);
+                    location.reload();
+                }
+            } else {
+                alert('❌ Ошибка загрузки: ' + data.error);
+            }
+        })
+        .catch(error => {
+            alert('❌ Ошибка запроса: ' + error.message);
+        })
+        .finally(() => {
+            button.innerHTML = originalText;
+            button.disabled = false;
+        });
+    };
+    
+    // Симулируем клик по input
+    document.body.appendChild(fileInput);
+    fileInput.click();
+    document.body.removeChild(fileInput);
+}
+
+// Функция проверки прогресса импорта
+function checkImportProgress(taskId, attempt = 1) {
+    const maxAttempts = 60; // Максимум 10 минут (каждые 10 секунд)
+    
+    fetch(`/admin/check-import-status/${taskId}`)
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const status = data.status;
+            
+            if (status.status === 'completed') {
+                alert(`✅ Импорт завершен!\n${status.message}\nВремя: ${status.elapsed_time}`);
+                location.reload();
+            } else if (status.status === 'error') {
+                alert(`❌ Ошибка импорта: ${status.message}`);
+            } else if (status.status === 'processing') {
+                // Продолжаем проверку, если не превышен лимит попыток
+                if (attempt < maxAttempts) {
+                    setTimeout(() => {
+                        checkImportProgress(taskId, attempt + 1);
+                    }, 10000); // Проверяем каждые 10 секунд
+                } else {
+                    alert('⏰ Время ожидания истекло. Проверьте результат импорта позже.');
+                }
+            }
+        } else {
+            alert('❌ Ошибка получения статуса: ' + data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Ошибка проверки статуса:', error);
+        if (attempt < maxAttempts) {
+            setTimeout(() => {
+                checkImportProgress(taskId, attempt + 1);
+            }, 10000);
+        }
+    });
+}
+
+// GPT Vision parser function
+function runGPTVisionParser() {
+    if (!confirm('Запустить GPT Vision парсер Domclick? Требуется OpenAI API ключ.')) {
+        return;
+    }
+    
+    const button = event.target;
+    const originalText = button.innerHTML;
+    button.innerHTML = '<i class="fas fa-robot fa-spin mr-3"></i>Парсинг...';
+    button.disabled = true;
+    
+    fetch('/admin/run-gpt-vision-parser', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'same-origin'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const parseResult = data.parsing_result;
+            const importResult = data.import_result;
+            
+            alert(`🤖 GPT Vision парсинг завершен!\n\n` +
+                  `📊 Найдено объектов: ${parseResult.properties_count}\n` +
+                  `📁 Excel файл: ${data.excel_file}\n\n` +
+                  `💾 Импорт в базу:\n` +
+                  `• Квартир: ${importResult.apartments_created}\n` +
+                  `• ЖК: ${importResult.complexes_created}\n` +
+                  `• Застройщиков: ${importResult.developers_created}`);
+                  
+            location.reload();
+        } else {
+            alert('❌ Ошибка парсера: ' + data.error);
+            
+            // Показываем подсказку если нет OpenAI ключа
+            if (data.error.includes('OpenAI') || data.error.includes('OPENAI_API_KEY')) {
+                alert('💡 Добавьте OPENAI_API_KEY в переменные среды для работы парсера');
+            }
+        }
+    })
+    .catch(error => {
+        alert('❌ Ошибка запроса: ' + error.message);
+    })
+    .finally(() => {
+        button.innerHTML = originalText;
+        button.disabled = false;
+    });
+}
+</script>
+{% endblock %}

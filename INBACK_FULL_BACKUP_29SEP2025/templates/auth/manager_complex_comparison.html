@@ -1,0 +1,412 @@
+{% extends "base.html" %}
+
+{% block title %}Сравнение ЖК | Панель менеджера{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+    <!-- Manager Header -->
+    <div class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between py-4">
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#0088CC] to-[#006699] flex items-center justify-center">
+                            <span class="text-white font-semibold">{{ current_manager.full_name[0] }}</span>
+                        </div>
+                        <div>
+                            <p class="text-lg font-semibold text-gray-900">{{ current_manager.full_name }}</p>
+                            <p class="text-sm text-gray-500">Сравнение жилых комплексов</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="{{ url_for('manager_dashboard') }}" class="text-gray-500 hover:text-gray-700 text-sm flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/>
+                        </svg>
+                        К панели
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Comparison Header -->
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">Сравнение ЖК</h1>
+                <p class="text-gray-600 mt-2">Сравнивайте характеристики жилых комплексов для клиентов</p>
+            </div>
+            <div class="flex gap-4">
+                <button onclick="clearComparison()" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                    Очистить все
+                </button>
+                <button onclick="exportComparison()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                    Экспорт в PDF
+                </button>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-2 bg-blue-100 rounded-lg">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">В сравнении</p>
+                        <p class="text-2xl font-semibold text-gray-900" id="comparison-count">0</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-2 bg-green-100 rounded-lg">
+                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Мин. цена</p>
+                        <p class="text-2xl font-semibold text-gray-900" id="min-price">-</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-2 bg-yellow-100 rounded-lg">
+                        <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Макс. цена</p>
+                        <p class="text-2xl font-semibold text-gray-900" id="max-price">-</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-2 bg-purple-100 rounded-lg">
+                        <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Районы</p>
+                        <p class="text-2xl font-semibold text-gray-900" id="districts-count">-</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparison Table Container -->
+        <div class="bg-white rounded-lg shadow overflow-hidden" id="comparison-container">
+            <div id="empty-comparison" class="text-center py-16">
+                <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Нет ЖК для сравнения</h3>
+                <p class="text-gray-600 mb-6">Добавьте жилые комплексы из избранного для сравнения характеристик</p>
+                <button onclick="loadFavoriteComplexes()" class="inline-flex items-center px-6 py-3 bg-[#0088CC] text-white rounded-lg hover:bg-[#006699] transition-colors">
+                    Загрузить из избранного
+                </button>
+            </div>
+
+            <!-- Comparison Table -->
+            <div id="comparison-table" class="hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50 border-b">
+                            <tr>
+                                <th class="px-6 py-4 text-left text-sm font-medium text-gray-500 w-48">Характеристика</th>
+                                <th class="px-6 py-4 text-center text-sm font-medium text-gray-500 min-w-80">ЖК 1</th>
+                                <th class="px-6 py-4 text-center text-sm font-medium text-gray-500 min-w-80">ЖК 2</th>
+                                <th class="px-6 py-4 text-center text-sm font-medium text-gray-500 min-w-80">ЖК 3</th>
+                                <th class="px-6 py-4 text-center text-sm font-medium text-gray-500 min-w-80">ЖК 4</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200" id="comparison-body">
+                            <!-- Dynamic content will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="px-6 py-4 bg-gray-50 border-t flex justify-between items-center">
+                    <div class="flex space-x-4">
+                        <button onclick="sendComparisonToClient()" class="px-4 py-2 bg-[#0088CC] text-white rounded-lg hover:bg-[#006699] transition-colors">
+                            Отправить клиенту
+                        </button>
+                        <button onclick="saveComparisonTemplate()" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                            Сохранить как шаблон
+                        </button>
+                        <button onclick="createPresentation()" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                            Создать презентацию
+                        </button>
+                    </div>
+                    <div class="text-sm text-gray-500">
+                        Последнее обновление: <span id="last-updated">сейчас</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let comparisonData = [];
+const maxComparisons = 4;
+
+// Initialize comparison from localStorage on page load
+document.addEventListener('DOMContentLoaded', function() {
+    loadComparisonFromStorage();
+    updateStats();
+});
+
+function loadComparisonFromStorage() {
+    const stored = localStorage.getItem('manager_complex_comparison');
+    if (stored) {
+        comparisonData = JSON.parse(stored);
+        renderComparison();
+    }
+}
+
+function saveComparisonToStorage() {
+    localStorage.setItem('manager_complex_comparison', JSON.stringify(comparisonData));
+}
+
+function addToComparison(complex) {
+    if (comparisonData.length >= maxComparisons) {
+        alert(`Максимум ${maxComparisons} ЖК для сравнения`);
+        return;
+    }
+    
+    // Check if complex already exists
+    const exists = comparisonData.some(c => c.complex_id === complex.complex_id);
+    if (exists) {
+        alert('ЖК уже добавлен в сравнение');
+        return;
+    }
+    
+    comparisonData.push(complex);
+    saveComparisonToStorage();
+    renderComparison();
+    updateStats();
+}
+
+function removeFromComparison(complexId) {
+    comparisonData = comparisonData.filter(c => c.complex_id !== complexId);
+    saveComparisonToStorage();
+    renderComparison();
+    updateStats();
+}
+
+function clearComparison() {
+    comparisonData = [];
+    saveComparisonToStorage();
+    renderComparison();
+    updateStats();
+}
+
+function renderComparison() {
+    const emptyDiv = document.getElementById('empty-comparison');
+    const tableDiv = document.getElementById('comparison-table');
+    const tbody = document.getElementById('comparison-body');
+    
+    if (comparisonData.length === 0) {
+        emptyDiv.classList.remove('hidden');
+        tableDiv.classList.add('hidden');
+        return;
+    }
+    
+    emptyDiv.classList.add('hidden');
+    tableDiv.classList.remove('hidden');
+    
+    // Clear existing content
+    tbody.innerHTML = '';
+    
+    // Add complex images row
+    const imageRow = createTableRow('Фото');
+    comparisonData.forEach((complex, index) => {
+        const cell = imageRow.children[index + 1];
+        if (complex.complex_image) {
+            cell.innerHTML = `
+                <div class="flex flex-col items-center space-y-2">
+                    <img src="${complex.complex_image}" alt="${complex.complex_name}" class="w-24 h-24 object-cover rounded-lg">
+                    <button onclick="removeFromComparison('${complex.complex_id}')" class="text-red-600 hover:text-red-800 text-sm">
+                        Удалить
+                    </button>
+                </div>
+            `;
+        }
+    });
+    tbody.appendChild(imageRow);
+    
+    // Add complex details rows
+    const rows = [
+        { key: 'complex_name', label: 'Название', className: 'font-semibold text-lg' },
+        { key: 'developer_name', label: 'Застройщик', className: 'text-gray-700' },
+        { key: 'complex_address', label: 'Адрес' },
+        { key: 'district', label: 'Район' },
+        { key: 'min_price', label: 'От', formatter: formatPrice, className: 'text-lg font-bold text-green-600' },
+        { key: 'max_price', label: 'До', formatter: formatPrice, className: 'text-lg font-bold text-red-600' },
+        { key: 'construction_status', label: 'Статус строительства' },
+        { key: 'completion_date', label: 'Срок сдачи' },
+        { key: 'total_buildings', label: 'Количество корпусов' },
+        { key: 'total_apartments', label: 'Общее количество квартир' },
+        { key: 'infrastructure', label: 'Инфраструктура' },
+        { key: 'parking', label: 'Паркинг' },
+        { key: 'security', label: 'Охрана и безопасность' },
+        { key: 'payment_options', label: 'Варианты оплаты' }
+    ];
+    
+    rows.forEach(rowData => {
+        const row = createTableRow(rowData.label);
+        comparisonData.forEach((complex, index) => {
+            const cell = row.children[index + 1];
+            let value = complex[rowData.key] || '-';
+            if (rowData.formatter && complex[rowData.key]) {
+                value = rowData.formatter(complex[rowData.key]);
+            }
+            // Handle array values (infrastructure, etc.)
+            if (Array.isArray(value)) {
+                value = value.join(', ') || '-';
+            }
+            cell.innerHTML = `<span class="${rowData.className || ''}">${value}</span>`;
+        });
+        tbody.appendChild(row);
+    });
+    
+    // Update last updated time
+    document.getElementById('last-updated').textContent = new Date().toLocaleTimeString('ru-RU');
+}
+
+function createTableRow(label) {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+        <td class="px-6 py-4 font-medium text-gray-900 bg-gray-50">${label}</td>
+        <td class="px-6 py-4 text-center"></td>
+        <td class="px-6 py-4 text-center"></td>
+        <td class="px-6 py-4 text-center"></td>
+        <td class="px-6 py-4 text-center"></td>
+    `;
+    return row;
+}
+
+function updateStats() {
+    const countEl = document.getElementById('comparison-count');
+    const minPriceEl = document.getElementById('min-price');
+    const maxPriceEl = document.getElementById('max-price');
+    const districtsEl = document.getElementById('districts-count');
+    
+    countEl.textContent = comparisonData.length;
+    
+    if (comparisonData.length > 0) {
+        // Calculate price range
+        const minPrices = comparisonData.filter(c => c.min_price).map(c => c.min_price);
+        const maxPrices = comparisonData.filter(c => c.max_price).map(c => c.max_price);
+        
+        const lowestPrice = minPrices.length > 0 ? Math.min(...minPrices) : 0;
+        const highestPrice = maxPrices.length > 0 ? Math.max(...maxPrices) : 0;
+        
+        minPriceEl.textContent = lowestPrice > 0 ? formatPrice(lowestPrice) : '-';
+        maxPriceEl.textContent = highestPrice > 0 ? formatPrice(highestPrice) : '-';
+        
+        // Count unique districts
+        const districts = comparisonData.filter(c => c.district).map(c => c.district);
+        const uniqueDistricts = [...new Set(districts)];
+        districtsEl.textContent = uniqueDistricts.length > 0 ? uniqueDistricts.length : '-';
+    } else {
+        minPriceEl.textContent = '-';
+        maxPriceEl.textContent = '-';
+        districtsEl.textContent = '-';
+    }
+}
+
+function formatPrice(price) {
+    return new Intl.NumberFormat('ru-RU', {
+        style: 'currency',
+        currency: 'RUB',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+    }).format(price);
+}
+
+function loadFavoriteComplexes() {
+    // This will be called via API
+    fetch('/api/manager/favorites-complexes')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Show modal with favorite complexes to select from
+                showFavoriteComplexesModal(data.complexes);
+            }
+        })
+        .catch(error => console.error('Error loading favorites:', error));
+}
+
+function showFavoriteComplexesModal(complexes) {
+    // Implementation for showing modal with favorite complexes
+    console.log('Showing favorite complexes:', complexes);
+}
+
+function sendComparisonToClient() {
+    if (comparisonData.length === 0) {
+        alert('Добавьте ЖК для сравнения');
+        return;
+    }
+    
+    // Implementation for sending comparison to client
+    console.log('Sending comparison to client:', comparisonData);
+    alert('Функция отправки клиенту будет реализована');
+}
+
+function saveComparisonTemplate() {
+    if (comparisonData.length === 0) {
+        alert('Добавьте ЖК для сравнения');
+        return;
+    }
+    
+    const templateName = prompt('Название шаблона:');
+    if (templateName) {
+        // Implementation for saving as template
+        console.log('Saving as template:', templateName, comparisonData);
+        alert('Шаблон сохранен');
+    }
+}
+
+function createPresentation() {
+    if (comparisonData.length === 0) {
+        alert('Добавьте ЖК для сравнения');
+        return;
+    }
+    
+    // Implementation for creating presentation from comparison
+    console.log('Creating presentation:', comparisonData);
+    alert('Создание презентации будет реализовано');
+}
+
+function exportComparison() {
+    if (comparisonData.length === 0) {
+        alert('Добавьте ЖК для сравнения');
+        return;
+    }
+    
+    // Implementation for PDF export
+    console.log('Exporting comparison:', comparisonData);
+    alert('Экспорт в PDF будет реализован');
+}
+</script>
+{% endblock %}

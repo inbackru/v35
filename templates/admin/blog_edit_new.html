@@ -1,0 +1,274 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Редактировать статью - InBack.ru{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-6">
+    <!-- Header -->
+    <div class="flex items-center mb-6">
+        <a href="{{ url_for('admin_blog_manager') }}" 
+           class="text-gray-600 hover:text-gray-900 mr-4">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <div class="flex-1">
+            <h1 class="text-3xl font-bold text-gray-900">Редактировать статью</h1>
+            <p class="text-gray-600 mt-2">{{ article.title }}</p>
+        </div>
+        {% if article.status == 'published' %}
+        <a href="{{ url_for('blog_article_new', slug=article.slug) }}" 
+           target="_blank"
+           class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors">
+            <i class="fas fa-external-link-alt mr-2"></i>Просмотр
+        </a>
+        {% endif %}
+    </div>
+
+    <form method="POST" class="space-y-6">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Main Content -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Title -->
+                <div class="bg-white rounded-lg shadow-sm border p-6">
+                    <label for="title" class="block text-sm font-medium text-gray-700 mb-2">
+                        Заголовок статьи <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text" 
+                           id="title" 
+                           name="title" 
+                           value="{{ article.title }}"
+                           required
+                           placeholder="Введите заголовок статьи..."
+                           class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent text-lg">
+                </div>
+
+                <!-- Excerpt -->
+                <div class="bg-white rounded-lg shadow-sm border p-6">
+                    <label for="excerpt" class="block text-sm font-medium text-gray-700 mb-2">
+                        Краткое описание
+                    </label>
+                    <textarea id="excerpt" 
+                              name="excerpt" 
+                              rows="3"
+                              placeholder="Краткое описание статьи для предварительного просмотра..."
+                              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent">{{ article.excerpt or '' }}</textarea>
+                    <p class="text-sm text-gray-500 mt-1">Оптимальная длина: 150-200 символов</p>
+                </div>
+
+                <!-- Content -->
+                <div class="bg-white rounded-lg shadow-sm border p-6">
+                    <label for="content" class="block text-sm font-medium text-gray-700 mb-2">
+                        Содержание статьи <span class="text-red-500">*</span>
+                    </label>
+                    <textarea id="content" 
+                              name="content" 
+                              required
+                              rows="20"
+                              placeholder="Введите содержание статьи..."
+                              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent font-mono text-sm">{{ article.content or '' }}</textarea>
+                    <div class="mt-2 text-sm text-gray-500">
+                        <p>Поддерживается HTML разметка. Основные теги:</p>
+                        <div class="mt-1 space-x-4">
+                            <code>&lt;h2&gt;&lt;h3&gt;</code> - заголовки
+                            <code>&lt;p&gt;</code> - абзацы
+                            <code>&lt;ul&gt;&lt;ol&gt;&lt;li&gt;</code> - списки
+                            <code>&lt;strong&gt;&lt;em&gt;</code> - выделение
+                            <code>&lt;a href=""&gt;</code> - ссылки
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                <!-- Article Info -->
+                <div class="bg-white rounded-lg shadow-sm border p-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Информация о статье</h3>
+                    
+                    <div class="space-y-3 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Создана:</span>
+                            <span class="text-gray-900">{{ article.created_at.strftime('%d.%m.%Y %H:%M') }}</span>
+                        </div>
+                        {% if article.updated_at and article.updated_at != article.created_at %}
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Обновлена:</span>
+                            <span class="text-gray-900">{{ article.updated_at.strftime('%d.%m.%Y %H:%M') }}</span>
+                        </div>
+                        {% endif %}
+                        {% if article.published_at %}
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Опубликована:</span>
+                            <span class="text-gray-900">{{ article.published_at.strftime('%d.%m.%Y %H:%M') }}</span>
+                        </div>
+                        {% endif %}
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Просмотры:</span>
+                            <span class="text-gray-900">{{ article.views_count }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Время чтения:</span>
+                            <span class="text-gray-900">{{ article.reading_time }} мин</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">URL:</span>
+                            <span class="text-gray-900 font-mono text-xs">{{ article.slug }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Publish Settings -->
+                <div class="bg-white rounded-lg shadow-sm border p-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Публикация</h3>
+                    
+                    <!-- Status -->
+                    <div class="mb-4">
+                        <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Статус</label>
+                        <select id="status" 
+                                name="status" 
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC]">
+                            <option value="draft" {% if article.status == 'draft' %}selected{% endif %}>Черновик</option>
+                            <option value="published" {% if article.status == 'published' %}selected{% endif %}>Опубликовано</option>
+                            <option value="archived" {% if article.status == 'archived' %}selected{% endif %}>В архиве</option>
+                        </select>
+                    </div>
+
+                    <!-- Category -->
+                    <div class="mb-4">
+                        <label for="category_id" class="block text-sm font-medium text-gray-700 mb-2">
+                            Категория <span class="text-red-500">*</span>
+                        </label>
+                        <select id="category_id" 
+                                name="category_id" 
+                                required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC]">
+                            <option value="">Выберите категорию</option>
+                            {% for category in categories %}
+                            <option value="{{ category.id }}" {% if article.category_id == category.id %}selected{% endif %}>
+                                {{ category.name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Featured -->
+                    <div class="mb-4">
+                        <label class="flex items-center">
+                            <input type="checkbox" 
+                                   name="is_featured" 
+                                   value="1"
+                                   {% if article.is_featured %}checked{% endif %}
+                                   class="rounded border-gray-300 text-[#1e40af] shadow-sm focus:border-blue-300 focus:ring focus:ring-offset-0 focus:ring-blue-200 focus:ring-opacity-50">
+                            <span class="ml-2 text-sm text-gray-700">Рекомендуемая статья</span>
+                        </label>
+                        <p class="text-xs text-gray-500 mt-1">Статья будет выделена на главной странице блога</p>
+                    </div>
+                </div>
+
+                <!-- SEO Settings -->
+                <div class="bg-white rounded-lg shadow-sm border p-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">SEO настройки</h3>
+                    
+                    <!-- Meta Title -->
+                    <div class="mb-4">
+                        <label for="meta_title" class="block text-sm font-medium text-gray-700 mb-2">Meta Title</label>
+                        <input type="text" 
+                               id="meta_title" 
+                               name="meta_title" 
+                               value="{{ article.meta_title or '' }}"
+                               placeholder="Заголовок для поисковых систем..."
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent">
+                        <p class="text-xs text-gray-500 mt-1">Оставьте пустым для автоматической генерации</p>
+                    </div>
+
+                    <!-- Meta Description -->
+                    <div class="mb-4">
+                        <label for="meta_description" class="block text-sm font-medium text-gray-700 mb-2">Meta Description</label>
+                        <textarea id="meta_description" 
+                                  name="meta_description" 
+                                  rows="3"
+                                  placeholder="Описание для поисковых систем..."
+                                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent">{{ article.meta_description or '' }}</textarea>
+                        <p class="text-xs text-gray-500 mt-1">Оптимальная длина: 120-160 символов</p>
+                    </div>
+
+                    <!-- Keywords -->
+                    <div>
+                        <label for="keywords" class="block text-sm font-medium text-gray-700 mb-2">Ключевые слова</label>
+                        <input type="text" 
+                               id="keywords" 
+                               name="keywords" 
+                               value="{{ article.keywords or '' }}"
+                               placeholder="недвижимость, краснодар, кэшбек..."
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent">
+                        <p class="text-xs text-gray-500 mt-1">Разделяйте запятыми</p>
+                    </div>
+                </div>
+
+                <!-- Featured Image -->
+                <div class="bg-white rounded-lg shadow-sm border p-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Изображение</h3>
+                    
+                    <div>
+                        <label for="featured_image" class="block text-sm font-medium text-gray-700 mb-2">URL изображения</label>
+                        <input type="url" 
+                               id="featured_image" 
+                               name="featured_image" 
+                               value="{{ article.featured_image or '' }}"
+                               placeholder="https://example.com/image.jpg"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent">
+                        <p class="text-xs text-gray-500 mt-1">Рекомендуемый размер: 1200x630 пикселей</p>
+                    </div>
+
+                    {% if article.featured_image %}
+                    <div class="mt-3">
+                        <img src="{{ article.featured_image }}" 
+                             alt="Featured image preview"
+                             class="w-full h-32 object-cover rounded-lg border"
+                             onerror="this.style.display='none'">
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex justify-between bg-white rounded-lg shadow-sm border p-6">
+            <div class="flex space-x-3">
+                <a href="{{ url_for('admin_blog_manager') }}" 
+                   class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
+                    <i class="fas fa-times mr-2"></i>Отменить
+                </a>
+                <form method="POST" 
+                      action="{{ url_for('admin_delete_new_article', article_id=article.id) }}" 
+                      class="inline-block"
+                      onsubmit="return confirm('Вы уверены, что хотите удалить эту статью? Это действие нельзя отменить.')">
+                    <button type="submit" 
+                            class="px-6 py-2 border border-red-300 rounded-lg text-red-700 hover:bg-red-50 transition-colors">
+                        <i class="fas fa-trash mr-2"></i>Удалить
+                    </button>
+                </form>
+            </div>
+            <div class="space-x-3">
+                <button type="submit" 
+                        class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
+                    <i class="fas fa-save mr-2"></i>Сохранить изменения
+                </button>
+                {% if article.status != 'published' %}
+                <button type="submit" 
+                        name="status" 
+                        value="published"
+                        class="px-6 py-2 bg-[#1e40af] hover:bg-[#1d4ed8] text-white rounded-lg transition-colors">
+                    <i class="fas fa-paper-plane mr-2"></i>Опубликовать
+                </button>
+                {% endif %}
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+// Auto-save draft functionality could go here
+// Character count indicators
+// Image preview functionality
+</script>
+{% endblock %}

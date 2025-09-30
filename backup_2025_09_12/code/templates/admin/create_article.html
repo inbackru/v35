@@ -1,0 +1,636 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ 'Редактировать' if article else 'Создать' }} статью - Админ панель | InBack{% endblock %}
+{% block page_title %}{{ 'Редактировать статью' if article else 'Новая статья' }}{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-6">
+    <!-- Page Header -->
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">{{ 'Редактировать статью' if article else 'Новая статья' }}</h1>
+            <p class="text-gray-600 mt-1">{{ 'Изменить существующую статью' if article else 'Создать новую статью для блога' }}</p>
+        </div>
+        <div class="flex space-x-3">
+            <a href="{{ url_for('admin_blog') }}" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg">
+                <i class="fas fa-arrow-left mr-2"></i>Назад к блогу
+            </a>
+        </div>
+    </div>
+
+    <!-- Article Form -->
+    <div class="bg-white rounded-lg shadow">
+        <form method="POST" class="p-6 space-y-6">
+            <!-- Title and Slug -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="title" class="block text-sm font-medium text-gray-700 mb-2">Заголовок статьи *</label>
+                    <input type="text" 
+                           name="title" 
+                           id="title" 
+                           required
+                           value="{{ article.title if article else '' }}"
+                           placeholder="Введите заголовок статьи..."
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500">
+                </div>
+                <div>
+                    <label for="slug" class="block text-sm font-medium text-gray-700 mb-2">URL адрес (slug)</label>
+                    <input type="text" 
+                           name="slug" 
+                           id="slug" 
+                           value="{{ article.slug if article else '' }}"
+                           placeholder="url-адрес-статьи"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500">
+                    <p class="text-xs text-gray-500 mt-1">Оставьте пустым для автоматической генерации</p>
+                </div>
+            </div>
+
+            <!-- Category and Status -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <label for="category_id" class="block text-sm font-medium text-gray-700 mb-2">Категория *</label>
+                    <div class="flex space-x-2">
+                        <select name="category_id" 
+                                id="category_id" 
+                                required
+                                class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500">
+                            <option value="">Выберите категорию</option>
+                            {% for category in categories %}
+                            <option value="{{ category.id }}" 
+                                    {% if article and article.category == category.name %}selected{% endif %}>
+                                {{ category.name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <button type="button" 
+                                onclick="toggleNewCategoryForm()"
+                                class="px-3 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg text-sm">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- New Category Form (Hidden) -->
+                    <div id="new-category-form" class="hidden mt-3 p-4 bg-gray-50 rounded-lg border">
+                        <h4 class="font-medium mb-3">Создать новую категорию</h4>
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Название категории</label>
+                                <input type="text" 
+                                       id="new-category-name"
+                                       placeholder="Например: Советы покупателям"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Описание</label>
+                                <input type="text" 
+                                       id="new-category-description"
+                                       placeholder="Краткое описание категории"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500">
+                            </div>
+                            <div class="flex space-x-2">
+                                <button type="button" 
+                                        onclick="createNewCategory()"
+                                        class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm">
+                                    <i class="fas fa-save mr-1"></i>Создать
+                                </button>
+                                <button type="button" 
+                                        onclick="toggleNewCategoryForm()"
+                                        class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md text-sm">
+                                    Отмена
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Статус</label>
+                    <select name="status" id="status" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500">
+                        <option value="published" {% if not article or article.status == 'published' %}selected{% endif %}>Опубликовано</option>
+                        <option value="draft" {% if article and article.status == 'draft' %}selected{% endif %}>Черновик</option>
+                        <option value="scheduled" {% if article and article.status == 'scheduled' %}selected{% endif %}>Запланировано</option>
+                    </select>
+                </div>
+                <div id="scheduled_for_container" class="{% if not article or article.status != 'scheduled' %}hidden{% endif %}">
+                    <label for="scheduled_for" class="block text-sm font-medium text-gray-700 mb-2">Дата публикации</label>
+                    <input type="datetime-local" 
+                           name="scheduled_for" 
+                           id="scheduled_for" 
+                           value="{{ article.scheduled_for.strftime('%Y-%m-%dT%H:%M') if article and article.scheduled_for else '' }}"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500">
+                </div>
+            </div>
+
+            <!-- Featured Image and Tags -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="featured_image" class="block text-sm font-medium text-gray-700 mb-2">Превью изображение статьи</label>
+                    
+                    <!-- Image Upload Section -->
+                    <div class="space-y-3">
+                        <!-- File Upload -->
+                        <div class="flex items-center space-x-3">
+                            <input type="file" 
+                                   id="featured-image-upload" 
+                                   accept="image/*"
+                                   class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-red-50 file:text-red-700 hover:file:bg-gray-100">
+                            <button type="button" 
+                                    onclick="uploadFeaturedImage()"
+                                    class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm">
+                                <i class="fas fa-upload mr-1"></i>Загрузить
+                            </button>
+                        </div>
+                        
+                        <!-- Upload Status -->
+                        <div id="featured-upload-status" class="text-sm"></div>
+                        
+                        <!-- URL Input (Alternative) -->
+                        <div class="relative">
+                            <input type="url" 
+                                   name="featured_image" 
+                                   id="featured_image" 
+                                   value="{{ article.featured_image if article else '' }}"
+                                   placeholder="Или введите URL изображения..."
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500">
+                        </div>
+                        
+                        <!-- Image Preview -->
+                        <div id="featured-image-preview" class="{% if not article or not article.featured_image %}hidden{% endif %}">
+                            <div class="relative inline-block">
+                                <img id="featured-preview-img" 
+                                     src="{{ article.featured_image if article else '' }}" 
+                                     alt="Превью" 
+                                     class="w-32 h-20 object-cover rounded-lg border">
+                                <button type="button" 
+                                        onclick="removeFeaturedImage()"
+                                        class="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="text-xs text-gray-500 mt-2">Это изображение будет отображаться как превью статьи в списке и как обложка</p>
+                </div>
+                <div>
+                    <label for="tags" class="block text-sm font-medium text-gray-700 mb-2">Теги</label>
+                    <input type="text" 
+                           name="tags" 
+                           id="tags" 
+                           value="{{ article.tags if article else '' }}"
+                           placeholder="недвижимость, краснодар, кешбек"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500">
+                    <p class="text-xs text-gray-500 mt-1">Теги через запятую</p>
+                </div>
+            </div>
+
+            <!-- Excerpt -->
+            <div>
+                <label for="excerpt" class="block text-sm font-medium text-gray-700 mb-2">Краткое описание</label>
+                <textarea name="excerpt" 
+                          id="excerpt" 
+                          rows="3"
+                          placeholder="Краткое описание статьи для превью..."
+                          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500">{{ article.excerpt if article else '' }}</textarea>
+                <p class="text-xs text-gray-500 mt-1">Описание будет показано в списке статей и превью</p>
+            </div>
+
+            <!-- Content -->
+            <div>
+                <label for="content" class="block text-sm font-medium text-gray-700 mb-2">Содержание статьи *</label>
+                <textarea name="content" 
+                          id="content" 
+                          rows="15" 
+                          required
+                          placeholder="Напишите содержание статьи..."
+                          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500">{{ article.content if article else '' }}</textarea>
+                <p class="text-xs text-gray-500 mt-1">Используйте встроенный редактор для форматирования</p>
+            </div>
+            
+            <!-- Image Upload Section -->
+            <div class="bg-gray-50 p-4 rounded-lg">
+                <h4 class="font-medium mb-3">Загрузка изображений</h4>
+                <div class="flex items-center space-x-4">
+                    <input type="file" 
+                           id="image-upload" 
+                           accept="image/*" 
+                           class="hidden">
+                    <button type="button" 
+                            onclick="document.getElementById('image-upload').click()" 
+                            class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm">
+                        <i class="fas fa-upload mr-2"></i>Выбрать изображение
+                    </button>
+                    <span id="upload-status" class="text-sm text-gray-600"></span>
+                </div>
+                <p class="text-xs text-gray-500 mt-2">Поддерживаются форматы: JPG, PNG, GIF (до 16 МБ)</p>
+            </div>
+
+            <!-- SEO Settings -->
+            <div class="border-t pt-6">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">SEO настройки</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label for="meta_title" class="block text-sm font-medium text-gray-700 mb-2">Meta Title</label>
+                        <input type="text" 
+                               name="meta_title" 
+                               id="meta_title" 
+                               value="{{ article.meta_title if article else '' }}"
+                               placeholder="SEO заголовок страницы..."
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500">
+                        <p class="text-xs text-gray-500 mt-1">Заголовок для поисковых систем (рекомендуется до 60 символов)</p>
+                    </div>
+                    <div>
+                        <label for="meta_description" class="block text-sm font-medium text-gray-700 mb-2">Meta Description</label>
+                        <textarea name="meta_description" 
+                                  id="meta_description" 
+                                  rows="2"
+                                  placeholder="Описание для поисковых систем..."
+                                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500">{{ article.meta_description if article else '' }}</textarea>
+                        <p class="text-xs text-gray-500 mt-1">Описание для поисковых систем (рекомендуется до 160 символов)</p>
+                    </div>
+                    <div>
+                        <label for="meta_keywords" class="block text-sm font-medium text-gray-700 mb-2">Meta Keywords</label>
+                        <input type="text" 
+                               name="meta_keywords" 
+                               id="meta_keywords" 
+                               value="{{ article.meta_keywords if article else '' }}"
+                               placeholder="ключевые, слова, через, запятую"
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500">
+                        <p class="text-xs text-gray-500 mt-1">Ключевые слова для поисковых систем</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="border-t pt-6">
+                <div class="flex justify-between">
+                    <div class="flex space-x-3">
+                        <button type="submit" name="action" value="save" 
+                                class="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-medium">
+                            <i class="fas fa-save mr-2"></i>{{ 'Обновить статью' if article else 'Создать статью' }}
+                        </button>
+                        
+                        {% if not article or article.status != 'published' %}
+                        <button type="submit" name="action" value="publish" 
+                                class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium">
+                            <i class="fas fa-upload mr-2"></i>{{ 'Обновить и опубликовать' if article else 'Создать и опубликовать' }}
+                        </button>
+                        {% endif %}
+                    </div>
+                    
+                    {% if article %}
+                    <div class="flex space-x-3">
+                        {% if article.status == 'published' %}
+                        <a href="{{ url_for('article_detail', slug=article.slug) }}" target="_blank"
+                           class="bg-[#1e40af] hover:bg-[#1d4ed8] text-white px-4 py-3 rounded-lg">
+                            <i class="fas fa-external-link-alt mr-2"></i>Посмотреть статью
+                        </a>
+                        {% endif %}
+                        
+                        <button type="button" 
+                                onclick="if(confirm('Удалить статью? Это действие необратимо!')) { window.location.href = '{{ url_for('admin_delete_article', article_id=article.id) }}'; }"
+                                class="bg-red-500 hover:bg-red-600 text-white px-4 py-3 rounded-lg">
+                            <i class="fas fa-trash mr-2"></i>Удалить
+                        </button>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- TinyMCE from JSDelivr CDN -->
+<script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js"></script>
+<script>
+tinymce.init({
+    selector: '#content',
+    height: 500,
+    menubar: true,
+    branding: false,
+    plugins: [
+        'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+        'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+        'insertdatetime', 'media', 'table', 'help', 'wordcount', 'paste'
+    ],
+    toolbar: 'undo redo | blocks | bold italic underline strikethrough | ' +
+             'alignleft aligncenter alignright alignjustify | ' +
+             'bullist numlist outdent indent | removeformat | ' +
+             'link image uploadimage media table | preview code fullscreen | help',
+    content_style: 'body { font-family: Inter, sans-serif; font-size: 16px; line-height: 1.6; }',
+    
+    // Image upload configuration
+    images_upload_url: '/admin/upload-image',
+    images_upload_handler: function (blobInfo, success, failure, progress) {
+        var xhr, formData;
+        xhr = new XMLHttpRequest();
+        xhr.withCredentials = false;
+        xhr.open('POST', '/admin/upload-image');
+        
+        xhr.upload.onprogress = function (e) {
+            progress(e.loaded / e.total * 100);
+        };
+        
+        xhr.onload = function() {
+            var json;
+            if (xhr.status === 403) {
+                failure('HTTP Error: ' + xhr.status, { remove: true });
+                return;
+            }
+            if (xhr.status < 200 || xhr.status >= 300) {
+                failure('HTTP Error: ' + xhr.status);
+                return;
+            }
+            json = JSON.parse(xhr.responseText);
+            if (!json || typeof json.url != 'string') {
+                failure('Invalid JSON: ' + xhr.responseText);
+                return;
+            }
+            success(json.url);
+        };
+        
+        xhr.onerror = function () {
+            failure('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
+        };
+        
+        formData = new FormData();
+        formData.append('file', blobInfo.blob(), blobInfo.filename());
+        xhr.send(formData);
+    },
+    
+    // Enhanced image handling
+    image_title: true,
+    image_description: false,
+    image_dimensions: false,
+    image_class_list: [
+        {title: 'Адаптивное изображение', value: 'img-responsive'},
+        {title: 'Изображение по центру', value: 'img-center'},
+        {title: 'Изображение слева', value: 'img-left'},
+        {title: 'Изображение справа', value: 'img-right'}
+    ],
+    
+    // Allow all HTML elements and attributes for better content flexibility
+    valid_elements: '*[*]',
+    extended_valid_elements: '*[*]',
+    
+    paste_as_text: false,
+    paste_word_valid_elements: 'b,strong,i,em,h1,h2,h3,h4,h5,h6,p,ol,ul,li,a,img,table,tr,td,th',
+    setup: function (editor) {
+        editor.on('change', function () {
+            editor.save();
+        });
+        
+        // Custom upload button
+        editor.ui.registry.addButton('uploadimage', {
+            text: 'Загрузить изображение',
+            icon: 'upload',
+            onAction: function() {
+                // Create file input
+                var input = document.createElement('input');
+                input.setAttribute('type', 'file');
+                input.setAttribute('accept', 'image/*');
+                
+                input.onchange = function() {
+                    var file = input.files[0];
+                    if (file) {
+                        var formData = new FormData();
+                        formData.append('file', file);
+                        
+                        // Show progress
+                        editor.setProgressState(true);
+                        
+                        fetch('/admin/upload-image', {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(result => {
+                            editor.setProgressState(false);
+                            if (result.success) {
+                                editor.insertContent('<img src="' + result.url + '" alt="' + file.name + '" style="max-width: 100%; height: auto;" />');
+                            } else {
+                                alert('Ошибка загрузки: ' + result.error);
+                            }
+                        })
+                        .catch(error => {
+                            editor.setProgressState(false);
+                            alert('Ошибка загрузки изображения');
+                        });
+                    }
+                };
+                
+                input.click();
+            }
+        });
+    }
+});
+
+// Image upload functionality via button
+document.getElementById('image-upload').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    const statusEl = document.getElementById('upload-status');
+    statusEl.textContent = 'Загрузка...';
+    statusEl.className = 'text-sm text-[#1e40af]';
+    
+    fetch('/admin/upload-image', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            statusEl.textContent = 'Изображение загружено!';
+            statusEl.className = 'text-sm text-green-600';
+            
+            // Insert image URL into TinyMCE
+            tinymce.get('content').insertContent(`<img src="${data.url}" alt="Изображение" style="max-width: 100%; height: auto;">`);
+            
+            setTimeout(() => {
+                statusEl.textContent = '';
+            }, 3000);
+        } else {
+            statusEl.textContent = 'Ошибка загрузки: ' + data.error;
+            statusEl.className = 'text-sm text-[#1e40af]';
+        }
+    })
+    .catch(error => {
+        statusEl.textContent = 'Ошибка загрузки изображения';
+        statusEl.className = 'text-sm text-[#1e40af]';
+    });
+});
+
+// Auto-generate slug from title with Russian transliteration
+document.getElementById('title').addEventListener('input', function() {
+    const title = this.value;
+    const slugField = document.getElementById('slug');
+    if (!slugField.value || slugField.dataset.autogenerated) {
+        const slug = title
+            .toLowerCase()
+            .replace(/[а-я]/g, function(match) {
+                const rusToEng = {
+                    'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'yo', 'ж': 'zh', 'з': 'z',
+                    'и': 'i', 'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r',
+                    'с': 's', 'т': 't', 'у': 'u', 'ф': 'f', 'х': 'h', 'ц': 'c', 'ч': 'ch', 'ш': 'sh', 'щ': 'sch',
+                    'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ю': 'yu', 'я': 'ya'
+                };
+                return rusToEng[match] || match;
+            })
+            .replace(/[^\w\s-]/g, '')
+            .replace(/[\s_-]+/g, '-')
+            .replace(/^-+|-+$/g, '');
+        slugField.value = slug;
+        slugField.dataset.autogenerated = 'true';
+    }
+});
+
+document.getElementById('slug').addEventListener('input', function() {
+    this.dataset.autogenerated = 'false';
+});
+
+// Category management functions
+function toggleNewCategoryForm() {
+    const form = document.getElementById('new-category-form');
+    form.classList.toggle('hidden');
+    
+    if (!form.classList.contains('hidden')) {
+        document.getElementById('new-category-name').focus();
+    } else {
+        // Clear form
+        document.getElementById('new-category-name').value = '';
+        document.getElementById('new-category-description').value = '';
+    }
+}
+
+function createNewCategory() {
+    const name = document.getElementById('new-category-name').value.trim();
+    const description = document.getElementById('new-category-description').value.trim();
+    
+    if (!name) {
+        alert('Введите название категории');
+        return;
+    }
+    
+    // Show loading
+    const createBtn = event.target;
+    const originalText = createBtn.innerHTML;
+    createBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i>Создание...';
+    createBtn.disabled = true;
+    
+    fetch('/admin/blog/categories/create', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            name: name,
+            description: description
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        createBtn.innerHTML = originalText;
+        createBtn.disabled = false;
+        
+        if (data.success) {
+            // Add new category to select
+            const select = document.getElementById('category_id');
+            const option = document.createElement('option');
+            option.value = data.category.id;
+            option.textContent = data.category.name;
+            option.selected = true;
+            select.appendChild(option);
+            
+            // Hide form
+            toggleNewCategoryForm();
+            
+            alert('Категория успешно создана!');
+        } else {
+            alert('Ошибка создания категории: ' + data.error);
+        }
+    })
+    .catch(error => {
+        createBtn.innerHTML = originalText;
+        createBtn.disabled = false;
+        alert('Ошибка создания категории');
+    });
+}
+
+// Featured Image Management
+function uploadFeaturedImage() {
+    const fileInput = document.getElementById('featured-image-upload');
+    const file = fileInput.files[0];
+    
+    if (!file) {
+        alert('Выберите файл для загрузки');
+        return;
+    }
+    
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    const statusEl = document.getElementById('featured-upload-status');
+    statusEl.textContent = 'Загрузка превью...';
+    statusEl.className = 'text-sm text-[#1e40af]';
+    
+    fetch('/admin/upload-image', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            statusEl.textContent = 'Превью загружено успешно!';
+            statusEl.className = 'text-sm text-green-600';
+            
+            // Set the URL in the input field
+            document.getElementById('featured_image').value = data.url;
+            
+            // Show preview
+            showFeaturedImagePreview(data.url);
+            
+            // Clear file input
+            fileInput.value = '';
+            
+            setTimeout(() => {
+                statusEl.textContent = '';
+            }, 3000);
+        } else {
+            statusEl.textContent = 'Ошибка загрузки: ' + data.error;
+            statusEl.className = 'text-sm text-[#1e40af]';
+        }
+    })
+    .catch(error => {
+        statusEl.textContent = 'Ошибка загрузки превью';
+        statusEl.className = 'text-sm text-[#1e40af]';
+    });
+}
+
+function showFeaturedImagePreview(url) {
+    const preview = document.getElementById('featured-image-preview');
+    const img = document.getElementById('featured-preview-img');
+    
+    img.src = url;
+    preview.classList.remove('hidden');
+}
+
+function removeFeaturedImage() {
+    document.getElementById('featured_image').value = '';
+    document.getElementById('featured-image-preview').classList.add('hidden');
+    document.getElementById('featured-image-upload').value = '';
+}
+
+// Show preview when URL is manually entered
+document.getElementById('featured_image').addEventListener('input', function() {
+    const url = this.value.trim();
+    if (url && (url.startsWith('http://') || url.startsWith('https://'))) {
+        showFeaturedImagePreview(url);
+    } else if (!url) {
+        document.getElementById('featured-image-preview').classList.add('hidden');
+    }
+});
+</script>
+{% endblock %}

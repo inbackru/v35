@@ -1,0 +1,51 @@
+Phone formatting setup for: phone
+Console.js:61 InBack form validation initialized
+Console.js:61 Form validation loaded in admin panel
+Console.js:61 Input event triggered, value: +7
+Console.js:61 Formatting phone, current value: +7
+Console.js:61 Extracted digits: 7
+Console.js:61 Final formatted value: +7
+Console.js:61 Input event triggered, value: +7
+Console.js:61 Formatting phone, current value: +7
+Console.js:61 Extracted digits: 7
+Console.js:61 Final formatted value: +7
+Console.js:61 Input event triggered, value: +7
+Console.js:61 Formatting phone, current value: +7
+Console.js:61 Extracted digits: 7
+Console.js:61 Final formatted value: +7
+Console.js:61 Input event triggered, value: +7
+Console.js:61 Formatting phone, current value: +7
+Console.js:61 Extracted digits: 7
+Console.js:61 Final formatted value: +7
+Console.js:61 Input event triggered, value: +7
+Console.js:61 Formatting phone, current value: +7
+Console.js:61 Extracted digits: 7
+Console.js:61 Final formatted value: +7
+Console.js:61 Input event triggered, value: +7
+Console.js:61 Formatting phone, current value: +7
+Console.js:61 Extracted digits: 7
+Console.js:61 Final formatted value: +7
+Console.js:61 Input event triggered, value: +7
+Console.js:61 Formatting phone, current value: +7
+Console.js:61 Extracted digits: 7
+Console.js:61 Final formatted value: +7
+Console.js:61 Input event triggered, value: +7
+Console.js:61 Formatting phone, current value: +7
+Console.js:61 Extracted digits: 7
+Console.js:61 Final formatted value: +7
+Console.js:61 Input event triggered, value: +7
+Console.js:61 Formatting phone, current value: +7
+Console.js:61 Extracted digits: 7
+Console.js:61 Final formatted value: +7
+Console.js:61 Input event triggered, value: +7
+Console.js:61 Formatting phone, current value: +7
+Console.js:61 Extracted digits: 7
+Console.js:61 Final formatted value: +7
+Console.js:61 Input event triggered, value: +7
+Console.js:61 Formatting phone, current value: +7
+Console.js:61 Extracted digits: 7
+Console.js:61 Final formatted value: +7
+Console.js:61 Input event triggered, value: +7
+Console.js:61 Formatting phone, current value: +7
+Console.js:61 Extracted digits: 7
+Console.js:61 Final formatted value: +7

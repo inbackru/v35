@@ -1,0 +1,317 @@
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+framework-9821d2411ada2ce8.js:1 Unrecognized feature: 'ambient-light-sensor'.
+_ @ framework-9821d2411ada2ce8.js:1
+framework-9821d2411ada2ce8.js:1 Unrecognized feature: 'battery'.
+_ @ framework-9821d2411ada2ce8.js:1
+framework-9821d2411ada2ce8.js:1 Unrecognized feature: 'execution-while-not-rendered'.
+_ @ framework-9821d2411ada2ce8.js:1
+framework-9821d2411ada2ce8.js:1 Unrecognized feature: 'execution-while-out-of-viewport'.
+_ @ framework-9821d2411ada2ce8.js:1
+framework-9821d2411ada2ce8.js:1 Unrecognized feature: 'layout-animations'.
+_ @ framework-9821d2411ada2ce8.js:1
+framework-9821d2411ada2ce8.js:1 Unrecognized feature: 'legacy-image-formats'.
+_ @ framework-9821d2411ada2ce8.js:1
+framework-9821d2411ada2ce8.js:1 Unrecognized feature: 'navigation-override'.
+_ @ framework-9821d2411ada2ce8.js:1
+framework-9821d2411ada2ce8.js:1 Unrecognized feature: 'oversized-images'.
+_ @ framework-9821d2411ada2ce8.js:1
+framework-9821d2411ada2ce8.js:1 Unrecognized feature: 'publickey-credentials'.
+_ @ framework-9821d2411ada2ce8.js:1
+framework-9821d2411ada2ce8.js:1 Unrecognized feature: 'speaker-selection'.
+_ @ framework-9821d2411ada2ce8.js:1
+framework-9821d2411ada2ce8.js:1 Unrecognized feature: 'unoptimized-images'.
+_ @ framework-9821d2411ada2ce8.js:1
+framework-9821d2411ada2ce8.js:1 Unrecognized feature: 'unsized-media'.
+_ @ framework-9821d2411ada2ce8.js:1
+framework-9821d2411ada2ce8.js:1 Unrecognized feature: 'pointer-lock'.
+_ @ framework-9821d2411ada2ce8.js:1
+framework-9821d2411ada2ce8.js:1 Allow attribute will take precedence over 'allowfullscreen'.
+_ @ framework-9821d2411ada2ce8.js:1
+framework-9821d2411ada2ce8.js:1 Allow attribute will take precedence over 'allowpaymentrequest'.
+_ @ framework-9821d2411ada2ce8.js:1
+/cdn-cgi/image/quality=80,metadata=copyright,format=auto/https://raw.githubusercontent.com/omkarcloud/botasaurus/master/images/deploy-node.gif:1  Failed to load resource: the server responded with a status of 403 ()
+/cdn-cgi/image/quality=80,metadata=copyright,format=auto/https://raw.githubusercontent.com/omkarcloud/botasaurus/master/images/deploy-node-vm.gif:1  Failed to load resource: the server responded with a status of 403 ()
+8WARNING: Too many active WebGL contexts. Oldest context will be lost.
+_app-ffda27d39e7445f5.js:13 webglcontextlost event received
+_app-ffda27d39e7445f5.js:13 webgl context not restored; firing onContextLoss
+(анонимная) @ _app-ffda27d39e7445f5.js:13
+stallwart.build.js:1 stallwart: failed ping 1
+stallwart.build.js:1 stallwart: failed ping 2
+stallwart.build.js:1 stallwart: failed ping 3
+stallwart.build.js:1 stallwart: failed ping 4
+stallwart.build.js:1 stallwart: failed ping 5
+stallwart.build.js:1 stallwart: session stalled
+2_app-ffda27d39e7445f5.js:13 webglcontextlost event received
+_app-ffda27d39e7445f5.js:13 webglcontextrestored event received
+(анонимная) @ _app-ffda27d39e7445f5.js:13
+48WebGL: INVALID_OPERATION: delete: object does not belong to this context
+_app-ffda27d39e7445f5.js:13 webglcontextrestored event received
+(анонимная) @ _app-ffda27d39e7445f5.js:13
+3_app-ffda27d39e7445f5.js:13 webglcontextlost event received
+_app-ffda27d39e7445f5.js:13 webgl context not restored; firing onContextLoss
+(анонимная) @ _app-ffda27d39e7445f5.js:13
+2_app-ffda27d39e7445f5.js:13 webglcontextlost event received
+4_app-ffda27d39e7445f5.js:13 webgl context not restored; firing onContextLoss
+(анонимная) @ _app-ffda27d39e7445f5.js:13
+91336eb5-fa71-4736-beeb-9c0cdd69cf67-00-idg5lhjbeq0a.janeway.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar5cd%3A:32 Unrecognized feature: 'ambient-light-sensor'.
+91336eb5-fa71-4736-beeb-9c0cdd69cf67-00-idg5lhjbeq0a.janeway.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar5cd%3A:32 Unrecognized feature: 'battery'.
+91336eb5-fa71-4736-beeb-9c0cdd69cf67-00-idg5lhjbeq0a.janeway.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar5cd%3A:32 Unrecognized feature: 'execution-while-not-rendered'.
+91336eb5-fa71-4736-beeb-9c0cdd69cf67-00-idg5lhjbeq0a.janeway.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar5cd%3A:32 Unrecognized feature: 'execution-while-out-of-viewport'.
+91336eb5-fa71-4736-beeb-9c0cdd69cf67-00-idg5lhjbeq0a.janeway.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar5cd%3A:32 Unrecognized feature: 'layout-animations'.
+91336eb5-fa71-4736-beeb-9c0cdd69cf67-00-idg5lhjbeq0a.janeway.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar5cd%3A:32 Unrecognized feature: 'legacy-image-formats'.
+91336eb5-fa71-4736-beeb-9c0cdd69cf67-00-idg5lhjbeq0a.janeway.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar5cd%3A:32 Unrecognized feature: 'navigation-override'.
+91336eb5-fa71-4736-beeb-9c0cdd69cf67-00-idg5lhjbeq0a.janeway.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar5cd%3A:32 Unrecognized feature: 'oversized-images'.
+91336eb5-fa71-4736-beeb-9c0cdd69cf67-00-idg5lhjbeq0a.janeway.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar5cd%3A:32 Unrecognized feature: 'publickey-credentials'.
+91336eb5-fa71-4736-beeb-9c0cdd69cf67-00-idg5lhjbeq0a.janeway.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar5cd%3A:32 Unrecognized feature: 'speaker-selection'.
+91336eb5-fa71-4736-beeb-9c0cdd69cf67-00-idg5lhjbeq0a.janeway.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar5cd%3A:32 Unrecognized feature: 'unoptimized-images'.
+91336eb5-fa71-4736-beeb-9c0cdd69cf67-00-idg5lhjbeq0a.janeway.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar5cd%3A:32 Unrecognized feature: 'unsized-media'.
+91336eb5-fa71-4736-beeb-9c0cdd69cf67-00-idg5lhjbeq0a.janeway.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar5cd%3A:32 Allow attribute will take precedence over 'allowfullscreen'.
+91336eb5-fa71-4736-beeb-9c0cdd69cf67-00-idg5lhjbeq0a.janeway.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar5cd%3A:32 Allow attribute will take precedence over 'allowpaymentrequest'.
+2eruda.js:2 cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation
+Mt.forEach.n.<computed> @ eruda.js:2
+eruda.js:2 Header: openApplicationModal function defined
+91336eb5-fa71-4736-beeb-9c0cdd69cf67-00-idg5lhjbeq0a.janeway.replit.dev/:3073 Uncaught SyntaxError: Unexpected token '}'
+eruda.js:2 DOM Helper initialized - safe DOM operations available
+eruda.js:2 InBack form validation initialized
+eruda.js:2 Performance optimizations initialized
+eruda.js:2 Turbo loader initialized
+eruda.js:2 Cache optimizer initialized
+eruda.js:2 Image compressor initialized - WebP support: true
+eruda.js:2 Initializing smart search...
+eruda.js:2 Hero search initialized
+eruda.js:2 Initializing search input: hero-search
+eruda.js:2 Property search initialized with smart search
+2eruda.js:2 Initializing search input: property-search
+eruda.js:2 Old property search disabled, smart search enabled
+eruda.js:2 Form validation initialized
+eruda.js:2 Fixing find button...
+eruda.js:2 Found buttons: 2
+eruda.js:2 Fixing button 0
+eruda.js:2 Fixing button 1
+eruda.js:2 Cache SW failed: [object DOMException]
+eruda.js:2 Initializing search...
+eruda.js:2 Elements found: true true
+eruda.js:2 Initializing hero search...
+eruda.js:2 Hero elements found: true true true
+eruda.js:2 Memory usage: [object Object]
+91336eb5-fa71-4736-beeb-9c0cdd69cf67-00-idg5lhjbeq0a.janeway.replit.dev/admin/None:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+eruda.js:2 cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation
+Mt.forEach.n.<computed> @ Console.js:61
+eruda.js:2 InBack form validation initialized
+eruda.js:2 Form validation loaded in admin panel
+91336eb5-fa71-4736-beeb-9c0cdd69cf67-00-idg5lhjbeq0a.janeway.replit.dev/admin/None:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+eruda.js:2 cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation
+Mt.forEach.n.<computed> @ Console.js:61
+91336eb5-fa71-4736-beeb-9c0cdd69cf67-00-idg5lhjbeq0a.janeway.replit.dev/admin/None:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+eruda.js:2 InBack form validation initialized
+eruda.js:2 Form validation loaded in admin panel
+eruda.js:2 cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation
+Mt.forEach.n.<computed> @ Console.js:61
+eruda.js:2 Phone formatting setup for: phone
+eruda.js:2 InBack form validation initialized
+eruda.js:2 Form validation loaded in admin panel
+eruda.js:2 Input event triggered, value: +7
+eruda.js:2 Formatting phone, current value: +7
+eruda.js:2 Extracted digits: 7
+eruda.js:2 Final formatted value: +7
+eruda.js:2 Input event triggered, value: +7
+eruda.js:2 Formatting phone, current value: +7
+eruda.js:2 Extracted digits: 7
+eruda.js:2 Final formatted value: +7
+eruda.js:2 Input event triggered, value: +7
+eruda.js:2 Formatting phone, current value: +7
+eruda.js:2 Extracted digits: 7
+eruda.js:2 Final formatted value: +7
+eruda.js:2 Input event triggered, value: +7
+eruda.js:2 Formatting phone, current value: +7
+eruda.js:2 Extracted digits: 7
+eruda.js:2 Final formatted value: +7
+eruda.js:2 Input event triggered, value: +7
+eruda.js:2 Formatting phone, current value: +7
+eruda.js:2 Extracted digits: 7
+eruda.js:2 Final formatted value: +7
+eruda.js:2 Input event triggered, value: +7
+eruda.js:2 Formatting phone, current value: +7
+eruda.js:2 Extracted digits: 7
+eruda.js:2 Final formatted value: +7
+eruda.js:2 Input event triggered, value: +7
+eruda.js:2 Formatting phone, current value: +7
+eruda.js:2 Extracted digits: 7
+eruda.js:2 Final formatted value: +7
+eruda.js:2 Input event triggered, value: +7
+eruda.js:2 Formatting phone, current value: +7
+eruda.js:2 Extracted digits: 7
+eruda.js:2 Final formatted value: +7
+eruda.js:2 Input event triggered, value: +7
+eruda.js:2 Formatting phone, current value: +7
+eruda.js:2 Extracted digits: 7
+eruda.js:2 Final formatted value: +7
+eruda.js:2 Input event triggered, value: +7
+eruda.js:2 Formatting phone, current value: +7
+eruda.js:2 Extracted digits: 7
+eruda.js:2 Final formatted value: +7
+eruda.js:2 Input event triggered, value: +7
+eruda.js:2 Formatting phone, current value: +7
+eruda.js:2 Extracted digits: 7
+eruda.js:2 Final formatted value: +7
+eruda.js:2 Input event triggered, value: +7
+eruda.js:2 Formatting phone, current value: +7
+eruda.js:2 Extracted digits: 7
+eruda.js:2 Final formatted value: +7
+workspace_iframe.html?initialPath=%2F&id=%3Ar5f1%3A:32 Unrecognized feature: 'ambient-light-sensor'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar5f1%3A:32 Unrecognized feature: 'battery'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar5f1%3A:32 Unrecognized feature: 'execution-while-not-rendered'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar5f1%3A:32 Unrecognized feature: 'execution-while-out-of-viewport'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar5f1%3A:32 Unrecognized feature: 'layout-animations'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar5f1%3A:32 Unrecognized feature: 'legacy-image-formats'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar5f1%3A:32 Unrecognized feature: 'navigation-override'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar5f1%3A:32 Unrecognized feature: 'oversized-images'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar5f1%3A:32 Unrecognized feature: 'publickey-credentials'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar5f1%3A:32 Unrecognized feature: 'speaker-selection'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar5f1%3A:32 Unrecognized feature: 'unoptimized-images'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar5f1%3A:32 Unrecognized feature: 'unsized-media'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar5f1%3A:32 Allow attribute will take precedence over 'allowfullscreen'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar5f1%3A:32 Allow attribute will take precedence over 'allowpaymentrequest'.
+eruda.js:2 cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation
+Mt.forEach.n.<computed> @ VM706 eruda.js:2
+(анонимная) @ VM726:64
+(анонимная) @ VM726:64
+eruda.js:2 cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation
+Mt.forEach.n.<computed> @ VM706 eruda.js:2
+(анонимная) @ VM727:64
+(анонимная) @ VM727:64
+eruda.js:2 Header: openApplicationModal function defined
+(индекс):3073 Uncaught SyntaxError: Unexpected token '}' (at (индекс):3073:9)
+eruda.js:2 DOM Helper initialized - safe DOM operations available
+eruda.js:2 Fixing find button...
+eruda.js:2 Found buttons: 2
+eruda.js:2 Fixing button 0
+eruda.js:2 Fixing button 1
+eruda.js:2 InBack form validation initialized
+eruda.js:2 Performance optimizations initialized
+eruda.js:2 Turbo loader initialized
+eruda.js:2 Cache optimizer initialized
+eruda.js:2 Image compressor initialized - WebP support: true
+eruda.js:2 Initializing smart search...
+eruda.js:2 Hero search initialized
+eruda.js:2 Initializing search input: hero-search
+eruda.js:2 Property search initialized with smart search
+eruda.js:2 Initializing search input: property-search
+eruda.js:2 Initializing search input: property-search
+eruda.js:2 Old property search disabled, smart search enabled
+eruda.js:2 Form validation initialized
+The path of the provided scope ('/') is not under the max scope allowed ('/static/js/'). Adjust the scope, move the Service Worker script, or use the Service-Worker-Allowed HTTP header to allow the scope.
+eruda.js:2 Cache SW failed: SecurityError: Failed to register a ServiceWorker for scope ('https://91336eb5-fa71-4736-beeb-9c0cdd69cf67-00-idg5lhjbeq0a.janeway.replit.dev/') with script ('https://91336eb5-fa71-4736-beeb-9c0cdd69cf67-00-idg5lhjbeq0a.janeway.replit.dev/static/js/sw-cache.js'): The path of the provided scope ('/') is not under the max scope allowed ('/static/js/'). Adjust the scope, move the Service Worker script, or use the Service-Worker-Allowed HTTP header to allow the scope.
+eruda.js:2 Initializing search...
+eruda.js:2 Elements found: true true
+eruda.js:2 Initializing hero search...
+eruda.js:2 Hero elements found: true true true
+eruda.js:2 Memory usage: {used: '32 MB', total: '59 MB', limit: '4096 MB'}
+dashboard:454  GET https://91336eb5-fa71-4736-beeb-9c0cdd69cf67-00-idg5lhjbeq0a.janeway.replit.dev/admin/None 404 (Not Found)
+eruda.js:2 cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation
+Mt.forEach.n.<computed> @ VM749 eruda.js:2
+(анонимная) @ VM768:64
+(анонимная) @ VM768:64
+eruda.js:2 InBack form validation initialized
+eruda.js:2 Form validation loaded in admin panel
+users:313  GET https://91336eb5-fa71-4736-beeb-9c0cdd69cf67-00-idg5lhjbeq0a.janeway.replit.dev/admin/None 404 (Not Found)
+eruda.js:2 cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation
+Mt.forEach.n.<computed> @ VM773 eruda.js:2
+(анонимная) @ VM791:64
+(анонимная) @ VM791:64
+users:1423  GET https://91336eb5-fa71-4736-beeb-9c0cdd69cf67-00-idg5lhjbeq0a.janeway.replit.dev/admin/None 404 (Not Found)
+eruda.js:2 InBack form validation initialized
+eruda.js:2 Form validation loaded in admin panel
+eruda.js:2 cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation
+Mt.forEach.n.<computed> @ Console.js:61
+(анонимная) @ (индекс):64
+(анонимная) @ (индекс):64
+eruda.js:2 Phone formatting setup for: phone
+eruda.js:2 InBack form validation initialized
+eruda.js:2 Form validation loaded in admin panel
+eruda.js:2 Input event triggered, value: 9
+eruda.js:2 Input allows typing: 9
+eruda.js:2 Input event triggered, value: 99
+eruda.js:2 Input allows typing: 99
+eruda.js:2 Input event triggered, value: 999
+eruda.js:2 Input allows typing: 999
+eruda.js:2 Input event triggered, value: 9999
+eruda.js:2 Input allows typing: 9999
+eruda.js:2 Input event triggered, value: 99999
+eruda.js:2 Input allows typing: 99999
+eruda.js:2 Input event triggered, value: 999999
+eruda.js:2 Input allows typing: 999999
+eruda.js:2 Input event triggered, value: 
+eruda.js:2 Input allows typing: 
+workspace_iframe.html?initialPath=%2F&id=%3Ar5ht%3A:32 Unrecognized feature: 'ambient-light-sensor'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar5ht%3A:32 Unrecognized feature: 'battery'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar5ht%3A:32 Unrecognized feature: 'execution-while-not-rendered'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar5ht%3A:32 Unrecognized feature: 'execution-while-out-of-viewport'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar5ht%3A:32 Unrecognized feature: 'layout-animations'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar5ht%3A:32 Unrecognized feature: 'legacy-image-formats'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar5ht%3A:32 Unrecognized feature: 'navigation-override'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar5ht%3A:32 Unrecognized feature: 'oversized-images'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar5ht%3A:32 Unrecognized feature: 'publickey-credentials'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar5ht%3A:32 Unrecognized feature: 'speaker-selection'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar5ht%3A:32 Unrecognized feature: 'unoptimized-images'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar5ht%3A:32 Unrecognized feature: 'unsized-media'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar5ht%3A:32 Allow attribute will take precedence over 'allowfullscreen'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar5ht%3A:32 Allow attribute will take precedence over 'allowpaymentrequest'.
+VM820 eruda.js:2 cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation
+Mt.forEach.n.<computed> @ VM820 eruda.js:2
+(анонимная) @ VM840:64
+(анонимная) @ VM840:64
+VM820 eruda.js:2 cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation
+Mt.forEach.n.<computed> @ VM820 eruda.js:2
+(анонимная) @ VM841:64
+(анонимная) @ VM841:64
+VM820 eruda.js:2 Header: openApplicationModal function defined
+VM851:45 Uncaught SyntaxError: Unexpected token '}' (at VM851:45:9)
+VM820 eruda.js:2 DOM Helper initialized - safe DOM operations available
+VM820 eruda.js:2 Fixing find button...
+VM820 eruda.js:2 Found buttons: 2
+VM820 eruda.js:2 Fixing button 0
+VM820 eruda.js:2 Fixing button 1
+VM820 eruda.js:2 InBack form validation initialized
+VM820 eruda.js:2 Performance optimizations initialized
+VM820 eruda.js:2 Turbo loader initialized
+VM820 eruda.js:2 Cache optimizer initialized
+VM820 eruda.js:2 Image compressor initialized - WebP support: true
+VM820 eruda.js:2 Initializing smart search...
+VM820 eruda.js:2 Hero search initialized
+VM820 eruda.js:2 Initializing search input: hero-search
+VM820 eruda.js:2 Property search initialized with smart search
+VM820 eruda.js:2 Initializing search input: property-search
+VM820 eruda.js:2 Initializing search input: property-search
+VM820 eruda.js:2 Old property search disabled, smart search enabled
+VM820 eruda.js:2 Form validation initialized
+The path of the provided scope ('/') is not under the max scope allowed ('/static/js/'). Adjust the scope, move the Service Worker script, or use the Service-Worker-Allowed HTTP header to allow the scope.
+VM820 eruda.js:2 Cache SW failed: SecurityError: Failed to register a ServiceWorker for scope ('https://91336eb5-fa71-4736-beeb-9c0cdd69cf67-00-idg5lhjbeq0a.janeway.replit.dev/') with script ('https://91336eb5-fa71-4736-beeb-9c0cdd69cf67-00-idg5lhjbeq0a.janeway.replit.dev/static/js/sw-cache.js'): The path of the provided scope ('/') is not under the max scope allowed ('/static/js/'). Adjust the scope, move the Service Worker script, or use the Service-Worker-Allowed HTTP header to allow the scope.
+VM820 eruda.js:2 Initializing search...
+VM820 eruda.js:2 Elements found: true true
+VM820 eruda.js:2 Initializing hero search...
+VM820 eruda.js:2 Hero elements found: true true true
+VM820 eruda.js:2 Memory usage: {used: '23 MB', total: '60 MB', limit: '4096 MB'}
+VM820 eruda.js:2 Memory usage: {used: '23 MB', total: '27 MB', limit: '4096 MB'}
+VM820 eruda.js:2 Memory usage: {used: '22 MB', total: '27 MB', limit: '4096 MB'}
+dashboard:454  GET https://91336eb5-fa71-4736-beeb-9c0cdd69cf67-00-idg5lhjbeq0a.janeway.replit.dev/admin/None 404 (Not Found)
+VM863 eruda.js:2 cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation
+Mt.forEach.n.<computed> @ VM863 eruda.js:2
+(анонимная) @ VM882:64
+(анонимная) @ VM882:64
+VM863 eruda.js:2 InBack form validation initialized
+VM863 eruda.js:2 Form validation loaded in admin panel
+users:313  GET https://91336eb5-fa71-4736-beeb-9c0cdd69cf67-00-idg5lhjbeq0a.janeway.replit.dev/admin/None 404 (Not Found)
+VM887 eruda.js:2 cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation
+Mt.forEach.n.<computed> @ VM887 eruda.js:2
+(анонимная) @ VM905:64
+(анонимная) @ VM905:64
+VM906 users:42  GET https://91336eb5-fa71-4736-beeb-9c0cdd69cf67-00-idg5lhjbeq0a.janeway.replit.dev/admin/None 404 (Not Found)
+VM887 eruda.js:2 InBack form validation initialized
+VM887 eruda.js:2 Form validation loaded in admin panel
+Console.js:61 cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation
+Mt.forEach.n.<computed> @ Console.js:61
+(анонимная) @ (индекс):64
+(анонимная) @ (индекс):64
+Console.js:61 InBack form validation initialized
+Console.js:61 Form validation loaded in admin panel

@@ -1,0 +1,441 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Создать статью - InBack.ru{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-6">
+    <!-- Header -->
+    <div class="mb-6">
+        <div class="flex items-center space-x-3 mb-2">
+            <a href="{{ url_for('admin_blog_management') }}" 
+               class="text-gray-600 hover:text-gray-900">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <h1 class="text-3xl font-bold text-gray-900">Создать новую статью</h1>
+        </div>
+        <p class="text-gray-600">Создайте новую статью для блога о недвижимости</p>
+    </div>
+
+    <!-- Form -->
+    <form method="POST" class="space-y-6">
+        <div class="grid lg:grid-cols-3 gap-6">
+            <!-- Main Content -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Basic Info Card -->
+                <div class="bg-white rounded-lg shadow-sm border p-6">
+                    <h2 class="text-lg font-semibold mb-4">Основная информация</h2>
+                    
+                    <!-- Title -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Заголовок статьи <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" 
+                               name="title" 
+                               required
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent"
+                               placeholder="Введите заголовок статьи">
+                    </div>
+                    
+                    <!-- Excerpt -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Краткое описание
+                        </label>
+                        <textarea name="excerpt" 
+                                  id="excerpt-editor"
+                                  rows="3"
+                                  class="tinymce-simple"
+                                  placeholder="Краткое описание статьи для превью"></textarea>
+                        <p class="text-xs text-gray-500 mt-1">Это описание будет показано в списке статей и социальных сетях</p>
+                    </div>
+                    
+                    <!-- Content -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Содержание статьи <span class="text-red-500">*</span>
+                        </label>
+                        <textarea name="content" 
+                                  id="content-editor"
+                                  rows="15"
+                                  required
+                                  class="tinymce-editor"
+                                  placeholder="Напишите содержание статьи..."></textarea>
+                        <p class="text-xs text-gray-500 mt-1">Используйте инструменты форматирования для создания профессиональной статьи</p>
+                    </div>
+                </div>
+
+                <!-- SEO Settings -->
+                <div class="bg-white rounded-lg shadow-sm border p-6">
+                    <h2 class="text-lg font-semibold mb-4">SEO настройки</h2>
+                    
+                    <!-- Meta Title -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            SEO заголовок
+                        </label>
+                        <input type="text" 
+                               name="meta_title"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent"
+                               placeholder="Оставьте пустым для использования основного заголовка">
+                    </div>
+                    
+                    <!-- Meta Description -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            SEO описание
+                        </label>
+                        <textarea name="meta_description" 
+                                  rows="3"
+                                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent"
+                                  placeholder="Описание для поисковых систем"></textarea>
+                    </div>
+                    
+                    <!-- Keywords -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Ключевые слова
+                        </label>
+                        <input type="text" 
+                               name="keywords"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent"
+                               placeholder="недвижимость, квартиры, краснодар">
+                        <p class="text-xs text-gray-500 mt-1">Разделяйте ключевые слова запятыми</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="lg:col-span-1 space-y-6">
+                <!-- Publishing Options -->
+                <div class="bg-white rounded-lg shadow-sm border p-6">
+                    <h3 class="text-lg font-semibold mb-4">Параметры публикации</h3>
+                    
+                    <!-- Category -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Категория <span class="text-red-500">*</span>
+                        </label>
+                        <select name="category_id" 
+                                required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC]">
+                            <option value="">Выберите категорию</option>
+                            {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <!-- Status -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Статус публикации
+                        </label>
+                        <select name="status" 
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC]">
+                            <option value="draft">Черновик</option>
+                            <option value="published">Опубликовать сейчас</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Featured -->
+                    <div class="mb-4">
+                        <label class="flex items-center">
+                            <input type="checkbox" 
+                                   name="is_featured"
+                                   class="rounded border-gray-300 text-[#1e40af] shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                            <span class="ml-2 text-sm text-gray-700">Рекомендуемая статья</span>
+                        </label>
+                        <p class="text-xs text-gray-500 mt-1">Статья будет показана в разделе рекомендованных</p>
+                    </div>
+                </div>
+
+                <!-- Featured Image -->
+                <div class="bg-white rounded-lg shadow-sm border p-6">
+                    <h3 class="text-lg font-semibold mb-4">Изображение статьи</h3>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            URL изображения
+                        </label>
+                        <div class="space-y-3">
+                            <input type="text" 
+                                   id="featured_image"
+                                   name="featured_image"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent"
+                                   placeholder="https://example.com/image.jpg или /uploads/filename.jpg">
+                            
+                            <div class="flex items-center space-x-2">
+                                <span class="text-sm text-gray-500">или</span>
+                                <input type="file" id="featured-image-file" accept="image/*" style="display: none;">
+                                <button type="button" 
+                                        id="upload-featured-image-btn"
+                                        class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-lg text-sm border transition-colors">
+                                    <i class="fas fa-upload mr-1"></i>Загрузить с компьютера
+                                </button>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">Оптимальный размер: 1200x630 пикселей</p>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="bg-white rounded-lg shadow-sm border p-6">
+                    <div class="space-y-3">
+                        <button type="submit" 
+                                class="w-full bg-[#1e40af] hover:bg-[#1d4ed8] text-white font-medium py-2 px-4 rounded-lg transition-colors">
+                            <i class="fas fa-save mr-2"></i>Создать статью
+                        </button>
+                        
+                        <a href="{{ url_for('admin_blog_management') }}" 
+                           class="w-full bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-lg transition-colors inline-flex items-center justify-center">
+                            <i class="fas fa-times mr-2"></i>Отменить
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- TinyMCE from JSDelivr CDN -->
+<script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js"></script>
+<script>
+tinymce.init({
+    selector: '#content-editor',
+    height: 500,
+    menubar: true,
+    branding: false,
+    plugins: [
+        'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+        'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+        'insertdatetime', 'media', 'table', 'help', 'wordcount', 'paste'
+    ],
+    toolbar: 'undo redo | blocks | bold italic underline strikethrough | ' +
+             'alignleft aligncenter alignright alignjustify | ' +
+             'bullist numlist outdent indent | removeformat | ' +
+             'link image uploadimage media table | preview code fullscreen | help',
+    content_style: 'body { font-family: Inter, sans-serif; font-size: 16px; line-height: 1.6; }',
+    
+    // Image upload configuration
+    images_upload_url: '{{ url_for("admin_upload_image") }}',
+    images_upload_handler: function (blobInfo, success, failure, progress) {
+        var xhr, formData;
+        xhr = new XMLHttpRequest();
+        xhr.withCredentials = false;
+        xhr.open('POST', '{{ url_for("admin_upload_image") }}');
+        
+        xhr.upload.onprogress = function (e) {
+            progress(e.loaded / e.total * 100);
+        };
+        
+        xhr.onload = function() {
+            var json;
+            if (xhr.status === 403) {
+                failure('HTTP Error: ' + xhr.status, { remove: true });
+                return;
+            }
+            if (xhr.status < 200 || xhr.status >= 300) {
+                failure('HTTP Error: ' + xhr.status);
+                return;
+            }
+            json = JSON.parse(xhr.responseText);
+            if (!json || typeof json.url != 'string') {
+                failure('Invalid JSON: ' + xhr.responseText);
+                return;
+            }
+            success(json.url);
+        };
+        
+        xhr.onerror = function () {
+            failure('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
+        };
+        
+        formData = new FormData();
+        formData.append('file', blobInfo.blob(), blobInfo.filename());
+        xhr.send(formData);
+    },
+    
+    // Enhanced image handling
+    image_title: true,
+    image_description: false,
+    image_dimensions: false,
+    image_class_list: [
+        {title: 'Адаптивное изображение', value: 'img-responsive'},
+        {title: 'Изображение по центру', value: 'img-center'},
+        {title: 'Изображение слева', value: 'img-left'},
+        {title: 'Изображение справа', value: 'img-right'}
+    ],
+    
+    // Allow all HTML elements and attributes for better content flexibility
+    valid_elements: '*[*]',
+    extended_valid_elements: '*[*]',
+    
+    paste_as_text: false,
+    setup: function (editor) {
+        editor.on('change', function () {
+            editor.save();
+        });
+        
+        // Custom upload button
+        editor.ui.registry.addButton('uploadimage', {
+            text: 'Загрузить изображение',
+            icon: 'upload',
+            onAction: function() {
+                // Create file input
+                var input = document.createElement('input');
+                input.setAttribute('type', 'file');
+                input.setAttribute('accept', 'image/*');
+                
+                input.onchange = function() {
+                    var file = input.files[0];
+                    if (file) {
+                        var formData = new FormData();
+                        formData.append('file', file);
+                        
+                        // Show progress
+                        editor.setProgressState(true);
+                        
+                        fetch('{{ url_for("admin_upload_image") }}', {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(result => {
+                            editor.setProgressState(false);
+                            if (result.success) {
+                                editor.insertContent('<img src="' + result.url + '" alt="' + file.name + '" style="max-width: 100%; height: auto;" />');
+                            } else {
+                                alert('Ошибка загрузки: ' + result.error);
+                            }
+                        })
+                        .catch(error => {
+                            editor.setProgressState(false);
+                            alert('Ошибка загрузки изображения');
+                        });
+                    }
+                };
+                
+                input.click();
+            }
+        });
+    }
+});
+
+// Featured image upload functionality
+document.getElementById('upload-featured-image-btn').addEventListener('click', function() {
+    document.getElementById('featured-image-file').click();
+});
+
+document.getElementById('featured-image-file').addEventListener('change', function() {
+    const file = this.files[0];
+    if (file) {
+        const formData = new FormData();
+        formData.append('file', file);
+        
+        // Show loading state
+        const btn = document.getElementById('upload-featured-image-btn');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i>Загружается...';
+        btn.disabled = true;
+        
+        fetch('{{ url_for("admin_upload_image") }}', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(result => {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            
+            if (result.success) {
+                // Set the URL in the input field
+                document.getElementById('featured_image').value = result.url;
+                alert('Изображение успешно загружено!');
+            } else {
+                alert('Ошибка загрузки: ' + result.error);
+            }
+        })
+        .catch(error => {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            alert('Ошибка загрузки изображения');
+        });
+    }
+});
+
+// Simple editor for excerpt
+tinymce.init({
+    selector: '#excerpt-editor',
+    height: 150,
+    menubar: false,
+    branding: false,
+    toolbar: 'bold italic underline | link | removeformat',
+    plugins: ['link'],
+    content_style: 'body { font-family: Inter, sans-serif; font-size: 14px; line-height: 1.5; }',
+    setup: function (editor) {
+        editor.on('change', function () {
+            editor.save();
+        });
+    }
+});
+
+// Featured image upload functionality
+document.getElementById('upload-featured-image-btn').addEventListener('click', function() {
+    document.getElementById('featured-image-file').click();
+});
+
+document.getElementById('featured-image-file').addEventListener('change', function() {
+    const file = this.files[0];
+    if (file) {
+        const formData = new FormData();
+        formData.append('file', file);
+        
+        // Show loading state
+        const btn = document.getElementById('upload-featured-image-btn');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i>Загружается...';
+        btn.disabled = true;
+        
+        fetch('{{ url_for("admin_upload_image") }}', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(result => {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            
+            if (result.success) {
+                // Set the URL in the input field
+                document.getElementById('featured_image').value = result.url;
+                alert('Изображение успешно загружено!');
+            } else {
+                alert('Ошибка загрузки: ' + result.error);
+            }
+        })
+        .catch(error => {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            alert('Ошибка загрузки изображения');
+        });
+    }
+});
+
+// Simple editor for excerpt  
+tinymce.init({
+    selector: '#excerpt-editor',
+    height: 150,
+    menubar: false,
+    branding: false,
+    toolbar: 'bold italic underline | link | removeformat',
+    plugins: ['link'],
+    content_style: 'body { font-family: Inter, sans-serif; font-size: 14px; line-height: 1.5; }',
+    setup: function (editor) {
+        editor.on('change', function () {
+            editor.save();
+        });
+    }
+});
+</script>
+{% endblock %}

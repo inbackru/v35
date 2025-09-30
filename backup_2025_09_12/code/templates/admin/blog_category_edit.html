@@ -1,0 +1,128 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Редактировать категорию - InBack.ru{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-6">
+    <!-- Header -->
+    <div class="mb-6">
+        <div class="flex items-center space-x-3 mb-2">
+            <a href="{{ url_for('admin_blog_categories_management') }}" 
+               class="text-gray-600 hover:text-gray-900">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <h1 class="text-3xl font-bold text-gray-900">Редактировать категорию</h1>
+        </div>
+        <p class="text-gray-600">Редактирование категории "{{ category.name }}"</p>
+    </div>
+
+    <!-- Form -->
+    <div class="max-w-2xl mx-auto">
+        <form method="POST" class="bg-white rounded-lg shadow-sm border p-6 space-y-6">
+            <!-- Name -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Название категории <span class="text-red-500">*</span>
+                </label>
+                <input type="text" 
+                       name="name" 
+                       value="{{ category.name }}"
+                       required
+                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent"
+                       placeholder="Введите название категории">
+            </div>
+
+            <!-- Description -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Описание
+                </label>
+                <textarea name="description" 
+                          rows="3"
+                          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent"
+                          placeholder="Краткое описание категории">{{ category.description or '' }}</textarea>
+            </div>
+
+            <!-- Color -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Цвет категории
+                </label>
+                <select name="color" 
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC]">
+                    <option value="blue" {% if category.color == 'blue' %}selected{% endif %}>Синий</option>
+                    <option value="green" {% if category.color == 'green' %}selected{% endif %}>Зеленый</option>
+                    <option value="red" {% if category.color == 'red' %}selected{% endif %}>Красный</option>
+                    <option value="yellow" {% if category.color == 'yellow' %}selected{% endif %}>Желтый</option>
+                    <option value="purple" {% if category.color == 'purple' %}selected{% endif %}>Фиолетовый</option>
+                    <option value="pink" {% if category.color == 'pink' %}selected{% endif %}>Розовый</option>
+                    <option value="indigo" {% if category.color == 'indigo' %}selected{% endif %}>Индиго</option>
+                    <option value="gray" {% if category.color == 'gray' %}selected{% endif %}>Серый</option>
+                </select>
+                <p class="text-xs text-gray-500 mt-1">Цвет будет использоваться для выделения категории</p>
+            </div>
+
+            <!-- Icon -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Иконка (FontAwesome)
+                </label>
+                <input type="text" 
+                       name="icon" 
+                       value="{{ category.icon or 'fas fa-folder' }}"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent"
+                       placeholder="fas fa-folder">
+                <p class="text-xs text-gray-500 mt-1">Используйте классы FontAwesome (например: fas fa-home, fas fa-star)</p>
+            </div>
+
+            <!-- Sort Order -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Порядок сортировки
+                </label>
+                <input type="number" 
+                       name="sort_order" 
+                       value="{{ category.sort_order or 0 }}"
+                       min="0"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent">
+                <p class="text-xs text-gray-500 mt-1">Меньшее число = выше в списке</p>
+            </div>
+
+            <!-- Active Status -->
+            <div>
+                <label class="flex items-center">
+                    <input type="checkbox" 
+                           name="is_active"
+                           {% if category.is_active %}checked{% endif %}
+                           class="rounded border-gray-300 text-[#1e40af] shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                    <span class="ml-2 text-sm text-gray-700">Активная категория</span>
+                </label>
+                <p class="text-xs text-gray-500 mt-1">Неактивные категории не отображаются при создании статей</p>
+            </div>
+
+            <!-- Statistics Info -->
+            {% if category.articles_count > 0 %}
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div class="flex items-center">
+                    <i class="fas fa-info-circle text-[#1e40af] mr-2"></i>
+                    <span class="text-gray-700 font-medium">В этой категории {{ category.articles_count }} статей</span>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Actions -->
+            <div class="flex space-x-4 pt-6">
+                <button type="submit" 
+                        class="flex-1 bg-[#1e40af] hover:bg-[#1d4ed8] text-white font-medium py-2 px-4 rounded-lg transition-colors">
+                    <i class="fas fa-save mr-2"></i>Сохранить изменения
+                </button>
+                
+                <a href="{{ url_for('admin_blog_categories_management') }}" 
+                   class="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-lg transition-colors text-center">
+                    <i class="fas fa-times mr-2"></i>Отменить
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

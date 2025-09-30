@@ -1,0 +1,305 @@
+{% extends "base.html" %}
+
+{% block title %}{% if property.title %}{{ property.title }}{% else %}{{ property.rooms }}-комнатная квартира {{ property.area }} м²{% endif %} - InBack.ru{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+.custom-property-marker {
+    background: transparent !important;
+    border: none !important;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Breadcrumbs -->
+<div class="container mx-auto px-4 py-3 text-sm">
+    <nav aria-label="Breadcrumb" class="flex">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+                <a class="text-[#0088CC] hover:underline inline-flex items-center" href="/">
+                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                    </svg>
+                    Главная
+                </a>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                    </svg>
+                    <a href="{{ url_for('properties') }}" class="text-[#0088CC] hover:underline ml-1 md:ml-2">Квартиры</a>
+                </div>
+            </li>
+            <li aria-current="page">
+                <div class="flex items-center">
+                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="text-gray-500 ml-1 md:ml-2">{% if property.title %}{{ property.title }}{% else %}{{ property.rooms }}-комнатная квартира{% endif %}</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+</div>
+
+<div class="max-w-6xl mx-auto px-4 py-8">
+    <!-- Кэшбек баннер -->
+    <div class="bg-gradient-to-r from-[#006699] to-[#0088CC] rounded-2xl p-6 text-white mb-8">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+            <div class="mb-4 md:mb-0">
+                <h2 class="text-2xl font-bold mb-2">Получите кэшбек при покупке этой квартиры!</h2>
+                <p class="opacity-90">Приобретая эту квартиру через наш сервис, вы получите кэшбек до {{ property.cashback_percent or 5 }}% от стоимости.</p>
+            </div>
+            <button onclick="openApplicationModal()" class="bg-white text-[#0088CC] hover:bg-opacity-90 font-semibold px-6 py-3 rounded-xl whitespace-nowrap transition-all">
+                Получить кэшбек
+            </button>
+        </div>
+    </div>
+
+    <!-- Основная карточка -->
+    <div class="bg-white rounded-2xl overflow-hidden shadow-lg mb-8">
+        <!-- Галерея -->
+        <div class="relative">
+            <!-- Favorite Heart Button -->
+            <div class="absolute top-4 right-4 z-20">
+                <div class="favorite-heart" data-property-id="{{ property.id }}" title="Добавить в избранное">
+                    <i class="fas fa-heart"></i>
+                </div>
+            </div>
+            
+            <div class="relative rounded-xl overflow-hidden h-64 md:h-80 bg-gradient-to-br from-blue-50 to-gray-100">
+                {% if property.gallery and property.gallery|length > 0 %}
+                <div class="h-full">
+                    <img alt="{{ property.title }}" class="w-full h-full object-cover" src="{{ property.gallery[0] }}"/>
+                    {% if property.gallery|length > 1 %}
+                    <div class="absolute bottom-4 right-4 bg-black bg-opacity-50 text-white px-3 py-1 rounded-lg text-sm">
+                        +{{ property.gallery|length - 1 }} фото
+                    </div>
+                    {% endif %}
+                </div>
+                {% else %}
+                <div class="h-full flex items-center justify-center text-gray-500">
+                    <div class="text-center">
+                        <i class="fas fa-home text-6xl mb-4 text-[#0088CC]"></i>
+                        <h3 class="text-xl font-semibold">{% if property.title %}{{ property.title }}{% else %}{{ property.rooms }}-комнатная квартира{% endif %}</h3>
+                        <p class="text-gray-400">{{ property.area }} м² • {{ property.residential_complex }}</p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Основной контент -->
+        <div class="p-6">
+            <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-6">
+                <!-- Левая колонка -->
+                <div class="flex-1">
+                    <!-- Заголовок и метки -->
+                    <div class="mb-4">
+                        <h1 class="text-2xl md:text-3xl font-bold mb-2">{% if property.title %}{{ property.title }}{% else %}{{ property.rooms }}-комнатная квартира {{ property.area }} м²{% endif %}</h1>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-gray-100 text-[#0088CC] px-3 py-1 rounded-full text-sm">Новостройка</span>
+                            <span class="bg-gray-100 text-green-700 px-3 py-1 rounded-full text-sm">{{ property.floor }}/{{ property.total_floors }} этаж</span>
+                            {% if property.balcony %}
+                            <span class="bg-gray-100 text-yellow-700 px-3 py-1 rounded-full text-sm">Балкон</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Адрес -->
+                    <div class="mb-6">
+                        <div class="flex items-center text-gray-600 mb-1">
+                            <i class="fas fa-map-marker-alt mr-2 text-[#0088CC]"></i>
+                            <span>{{ property.district }}, {{ property.residential_complex }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Характеристики -->
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+                        <div>
+                            <p class="text-gray-500 text-sm">Площадь</p>
+                            <p class="font-semibold">{{ property.area }} м²</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm">Этаж</p>
+                            <p class="font-semibold">{{ property.floor }} из {{ property.total_floors }}</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm">ЖК</p>
+                            <p class="font-semibold">{{ property.residential_complex }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Правая колонка (цена и кэшбек) -->
+                <div class="md:w-80 flex-shrink-0">
+                    <!-- Цена -->
+                    <div class="bg-gray-50 rounded-xl p-6 mb-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-bold">Стоимость квартиры</h3>
+                        </div>
+                        <div class="text-2xl font-bold mb-4 bg-gradient-to-r from-[#006699] to-[#0088CC] bg-clip-text text-transparent">{{ "{:,.0f}".format(property.price).replace(',', ' ') }} ₽</div>
+                        <div class="text-sm text-gray-500 mb-4">
+                            <div class="flex justify-between mb-1">
+                                <span>Цена за м²</span>
+                                <span class="font-medium">{{ "{:,.0f}".format(property.price / property.area).replace(',', ' ') }} ₽</span>
+                            </div>
+                        </div>
+                        <button onclick="openApplicationModal()" class="w-full bg-gradient-to-r from-[#006699] to-[#0088CC] hover:bg-opacity-90 text-white font-semibold py-3 px-4 rounded-xl transition-all mb-3">
+                            Забронировать квартиру
+                        </button>
+                        
+                        <!-- PDF и поделиться -->
+                        <div class="flex gap-2 mb-3">
+                            <a href="{{ url_for('property_pdf', property_id=property.id) }}" target="_blank" class="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-3 rounded-lg text-center text-sm transition-all">
+                                <i class="fas fa-file-pdf mr-1"></i>
+                                PDF
+                            </a>
+                            <button onclick="shareProperty()" class="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 px-3 rounded-lg text-sm transition-all">
+                                <i class="fas fa-share-alt mr-1"></i>
+                                Поделиться
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Кэшбек -->
+
+                    <div class="bg-blue-50 rounded-xl p-6 mb-6 border border-blue-100">
+                        <h3 class="font-bold text-lg mb-3 text-[#0088CC]">Ваш кэшбек</h3>
+                        <div class="flex items-end gap-2 mb-2">
+                            <span class="text-2xl font-bold text-[#0088CC]">{{ "{:,.0f}".format(property.cashback_amount).replace(',', ' ') }} ₽</span>
+                        </div>
+                        <div class="text-sm text-gray-500 mb-4">
+                            {{ property.cashback_percent or 5 }}% от стоимости квартиры
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4">
+                            При покупке этой квартиры через наш сервис вы получаете дополнительный кэшбек на карту после сделки.
+                        </p>
+                        <button onclick="openApplicationModal()" class="w-full bg-white hover:bg-gray-50 text-[#0088CC] font-semibold py-3 px-4 rounded-xl border border-[#0088CC] transition-all">
+                            Получить кэшбек
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Расположение на карте -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+        <h2 class="text-2xl font-bold mb-6">Расположение квартиры</h2>
+        <div class="mb-4">
+            <div class="flex items-center text-gray-600 mb-2">
+                <i class="fas fa-map-marker-alt mr-2 text-[#0088CC]"></i>
+                <span class="font-medium">{{ property.district }}, {{ property.residential_complex }}</span>
+            </div>
+        </div>
+        
+        <!-- Карта -->
+        <div id="property-map" class="w-full h-80 rounded-xl overflow-hidden mb-4"></div>
+    </div>
+
+    <!-- Застройщик -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+        <h2 class="text-2xl font-bold mb-6">Застройщик</h2>
+        <div class="flex items-start gap-6">
+            <div class="w-16 h-16 bg-gray-200 rounded-xl flex items-center justify-center">
+                <span class="text-lg font-bold text-[#0088CC]">{{ property.developer[:3].upper() }}</span>
+            </div>
+            <div class="flex-1">
+                <h3 class="text-xl font-semibold mb-2">{{ property.developer }}</h3>
+                <p class="text-gray-600 mb-4">Надежный застройщик с многолетним опытом строительства качественного жилья в Краснодаре.</p>
+                <div class="space-y-2 text-sm">
+                    <div>
+                        <span class="text-gray-500">Срок сдачи:</span>
+                        <span class="font-medium">{{ property.completion_date or "2025 год" }}</span>
+                    </div>
+                    {% if property.renovation %}
+                    <div>
+                        <span class="text-gray-500">Отделка:</span>
+                        <span class="font-medium">{{ property.renovation }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+    // Map initialization
+    var propertyLat = {% if property.coordinates %}{{ property.coordinates[0] }}{% else %}45.0355{% endif %};
+    var propertyLng = {% if property.coordinates %}{{ property.coordinates[1] }}{% else %}38.9753{% endif %};
+    
+    const map = L.map('property-map').setView([propertyLat, propertyLng], 15);
+    
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+    
+    // Custom property marker icon
+    const propertyIcon = L.divIcon({
+        className: 'custom-property-marker',
+        html: '<div class="w-8 h-8 bg-[#0088CC] border-2 border-white rounded-full shadow-lg flex items-center justify-center"><i class="fas fa-home text-white text-sm"></i></div>',
+        iconSize: [32, 32],
+        iconAnchor: [16, 16]
+    });
+    
+    // Add property marker
+    const propertyMarker = L.marker([propertyLat, propertyLng], { icon: propertyIcon })
+        .addTo(map)
+        .bindPopup(`
+            <div class="text-center p-2">
+                <div class="font-semibold text-[#0088CC] mb-1">{{ property.residential_complex }}</div>
+                <div class="text-sm text-gray-600 mb-2">{% if property.title %}{{ property.title }}{% else %}{{ property.rooms }}-комнатная квартира{% endif %}</div>
+                <div class="text-lg font-bold text-[#0088CC]">{{ "{:,.0f}".format(property.price).replace(',', ' ') }} ₽</div>
+                <div class="text-xs text-gray-500 mt-1">{{ "{:,.0f}".format(property.price / property.area).replace(',', ' ') }} ₽/м²</div>
+            </div>
+        `)
+        .openPopup();
+
+    // Share property function
+    function shareProperty() {
+        const url = window.location.href;
+        const title = document.title;
+        
+        if (navigator.share) {
+            navigator.share({
+                title: title,
+                url: url
+            }).catch(error => console.warn('Share error:', error));
+        } else if (navigator.clipboard) {
+            navigator.clipboard.writeText(url).then(() => {
+                alert('Ссылка скопирована в буфер обмена!');
+            }).catch(() => {
+                fallbackCopyTextToClipboard(url);
+            });
+        } else {
+            fallbackCopyTextToClipboard(url);
+        }
+    }
+
+    function fallbackCopyTextToClipboard(text) {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        
+        try {
+            document.execCommand('copy');
+            alert('Ссылка скопирована в буфер обмена!');
+        } catch (err) {
+            alert('Не удалось скопировать ссылку. URL: ' + text);
+        }
+        
+        document.body.removeChild(textArea);
+    }
+</script>
+{% endblock %}

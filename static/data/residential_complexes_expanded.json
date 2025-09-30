@@ -1,0 +1,1262 @@
+[
+  {
+    "id": 1,
+    "name": "ЖК «Первое место»",
+    "developer": "ГК «Инвестстройкуб»",
+    "developer_id": 1,
+    "location": "ул. Уральская, 169",
+    "full_address": "Краснодар, Прикубанский округ, ул. Уральская, 169",
+    "description": "Современный жилой комплекс бизнес-класса в Прикубанском округе",
+    "image": "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80",
+    "district": "Прикубанский округ",
+    "building_class": "бизнес",
+    "apartments_count": 456,
+    "buildings_count": 3,
+    "floors_min": 17,
+    "floors_max": 25,
+    "completion_date": "4 кв. 2024",
+    "price_from": 7055000,
+    "price_to": 15800000,
+    "coordinates": [
+      45.0355,
+      38.9753
+    ],
+    "status": "building",
+    "cashback_percent": 5.0,
+    "liters": [
+      {
+        "id": "A",
+        "name": "Литер А",
+        "floors": 25,
+        "apartments": 156,
+        "status": "building"
+      },
+      {
+        "id": "B",
+        "name": "Литер Б",
+        "floors": 22,
+        "apartments": 148,
+        "status": "building"
+      },
+      {
+        "id": "V",
+        "name": "Литер В",
+        "floors": 17,
+        "apartments": 152,
+        "status": "building"
+      }
+    ],
+    "apartment_types": [
+      {
+        "type": "Студии",
+        "area_from": 23,
+        "area_to": 35,
+        "price_from": 2300000,
+        "price_to": 3200000,
+        "count": 45,
+        "layouts": [
+          {
+            "area": 25,
+            "price": 2500000,
+            "floor_range": "3-25",
+            "available_liters": [
+              "A",
+              "B",
+              "V"
+            ],
+            "available_count": 12
+          },
+          {
+            "area": 30,
+            "price": 2850000,
+            "floor_range": "4-25",
+            "available_liters": [
+              "A",
+              "B"
+            ],
+            "available_count": 18
+          },
+          {
+            "area": 33,
+            "price": 3100000,
+            "floor_range": "5-22",
+            "available_liters": [
+              "B",
+              "V"
+            ],
+            "available_count": 15
+          }
+        ]
+      },
+      {
+        "type": "1-комнатные",
+        "area_from": 35,
+        "area_to": 43,
+        "price_from": 3500000,
+        "price_to": 4800000,
+        "count": 165,
+        "layouts": [
+          {
+            "area": 36,
+            "price": 3600000,
+            "floor_range": "2-25",
+            "available_liters": [
+              "A",
+              "B",
+              "V"
+            ],
+            "available_count": 58
+          },
+          {
+            "area": 39,
+            "price": 4200000,
+            "floor_range": "3-25",
+            "available_liters": [
+              "A",
+              "B",
+              "V"
+            ],
+            "available_count": 67
+          },
+          {
+            "area": 42,
+            "price": 4650000,
+            "floor_range": "4-22",
+            "available_liters": [
+              "A",
+              "B"
+            ],
+            "available_count": 40
+          }
+        ]
+      },
+      {
+        "type": "2-комнатные",
+        "area_from": 58,
+        "area_to": 72,
+        "price_from": 5800000,
+        "price_to": 8200000,
+        "count": 186,
+        "layouts": [
+          {
+            "area": 60,
+            "price": 6000000,
+            "floor_range": "2-25",
+            "available_liters": [
+              "A",
+              "B",
+              "V"
+            ],
+            "available_count": 72
+          },
+          {
+            "area": 65,
+            "price": 7150000,
+            "floor_range": "3-25",
+            "available_liters": [
+              "A",
+              "B",
+              "V"
+            ],
+            "available_count": 84
+          },
+          {
+            "area": 70,
+            "price": 7900000,
+            "floor_range": "5-22",
+            "available_liters": [
+              "A",
+              "B"
+            ],
+            "available_count": 30
+          }
+        ]
+      },
+      {
+        "type": "3-комнатные",
+        "area_from": 85,
+        "area_to": 105,
+        "price_from": 8500000,
+        "price_to": 12500000,
+        "count": 60,
+        "layouts": [
+          {
+            "area": 88,
+            "price": 9200000,
+            "floor_range": "3-25",
+            "available_liters": [
+              "A",
+              "B"
+            ],
+            "available_count": 35
+          },
+          {
+            "area": 95,
+            "price": 10800000,
+            "floor_range": "5-22",
+            "available_liters": [
+              "A",
+              "V"
+            ],
+            "available_count": 25
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "ЖК «Аврора»",
+    "developer": "Группа компаний «Аквилон»",
+    "location": "ул. Красная, 145",
+    "full_address": "Краснодар, Центральный округ, ул. Красная, 145",
+    "description": "Премиальный жилой комплекс в самом центре города",
+    "image": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80",
+    "district": "Центральный",
+    "building_class": "премиум",
+    "apartments_count": 324,
+    "buildings_count": 2,
+    "floors_min": 20,
+    "floors_max": 25,
+    "completion_date": "1 кв. 2025",
+    "price_from": 9750000,
+    "price_to": 25000000,
+    "coordinates": [
+      45.0448,
+      38.976
+    ],
+    "status": "building",
+    "cashback_percent": 6.5,
+    "liters": [
+      {
+        "id": "A",
+        "name": "Литер А",
+        "floors": 25,
+        "apartments": 162,
+        "status": "building"
+      },
+      {
+        "id": "B",
+        "name": "Литер Б",
+        "floors": 23,
+        "apartments": 162,
+        "status": "building"
+      }
+    ],
+    "apartment_types": [
+      {
+        "type": "1-комнатные",
+        "area_from": 38,
+        "area_to": 45,
+        "price_from": 4200000,
+        "price_to": 5800000,
+        "count": 94,
+        "layouts": [
+          {
+            "area": 40,
+            "price": 4500000,
+            "floor_range": "3-25",
+            "available_liters": [
+              "A",
+              "B"
+            ],
+            "available_count": 42
+          },
+          {
+            "area": 43,
+            "price": 5200000,
+            "floor_range": "5-25",
+            "available_liters": [
+              "A",
+              "B"
+            ],
+            "available_count": 52
+          }
+        ]
+      },
+      {
+        "type": "2-комнатные",
+        "area_from": 65,
+        "area_to": 78,
+        "price_from": 7200000,
+        "price_to": 9800000,
+        "count": 138,
+        "layouts": [
+          {
+            "area": 68,
+            "price": 7500000,
+            "floor_range": "2-25",
+            "available_liters": [
+              "A",
+              "B"
+            ],
+            "available_count": 68
+          },
+          {
+            "area": 72,
+            "price": 8400000,
+            "floor_range": "4-25",
+            "available_liters": [
+              "A",
+              "B"
+            ],
+            "available_count": 48
+          },
+          {
+            "area": 75,
+            "price": 9200000,
+            "floor_range": "6-23",
+            "available_liters": [
+              "A",
+              "B"
+            ],
+            "available_count": 22
+          }
+        ]
+      },
+      {
+        "type": "3-комнатные",
+        "area_from": 95,
+        "area_to": 125,
+        "price_from": 12500000,
+        "price_to": 18500000,
+        "count": 72,
+        "layouts": [
+          {
+            "area": 98,
+            "price": 13200000,
+            "floor_range": "4-25",
+            "available_liters": [
+              "A",
+              "B"
+            ],
+            "available_count": 36
+          },
+          {
+            "area": 115,
+            "price": 16800000,
+            "floor_range": "8-25",
+            "available_liters": [
+              "A"
+            ],
+            "available_count": 25
+          },
+          {
+            "area": 120,
+            "price": 18000000,
+            "floor_range": "10-23",
+            "available_liters": [
+              "B"
+            ],
+            "available_count": 11
+          }
+        ]
+      },
+      {
+        "type": "Пентхаусы",
+        "area_from": 150,
+        "area_to": 200,
+        "price_from": 22000000,
+        "price_to": 35000000,
+        "count": 20,
+        "layouts": [
+          {
+            "area": 165,
+            "price": 25000000,
+            "floor_range": "24-25",
+            "available_liters": [
+              "A",
+              "B"
+            ],
+            "available_count": 12
+          },
+          {
+            "area": 185,
+            "price": 32000000,
+            "floor_range": "25",
+            "available_liters": [
+              "A"
+            ],
+            "available_count": 5
+          },
+          {
+            "area": 195,
+            "price": 35000000,
+            "floor_range": "25",
+            "available_liters": [
+              "B"
+            ],
+            "available_count": 3
+          }
+        ]
+      }
+    ],
+    "developer_id": 8
+  },
+  {
+    "id": 3,
+    "name": "ЖК «Седьмое небо»",
+    "developer": "ГК «Флагман»",
+    "location": "ул. Тургенева, 234",
+    "full_address": "Краснодар, Западный округ, ул. Тургенева, 234",
+    "description": "Комфортный жилой комплекс с панорамными видами на город",
+    "image": "https://images.unsplash.com/photo-1571055107559-3e67626fa8be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80",
+    "district": "Западный",
+    "building_class": "комфорт",
+    "apartments_count": 512,
+    "buildings_count": 4,
+    "floors_min": 15,
+    "floors_max": 20,
+    "completion_date": "3 кв. 2025",
+    "price_from": 8500000,
+    "price_to": 18000000,
+    "coordinates": [
+      45.0298,
+      38.9426
+    ],
+    "status": "building",
+    "cashback_percent": 4.5,
+    "developer_id": 7
+  },
+  {
+    "id": 4,
+    "name": "ЖК «Солнечный берег»",
+    "developer": "ГК «Юг-Инвест»",
+    "location": "ул. Стасова, 175",
+    "full_address": "Краснодар, Карасунский округ, ул. Стасова, 175",
+    "description": "Современный жилой комплекс рядом с парком Солнечный остров",
+    "image": "https://via.placeholder.com/800x600/FF9800/FFFFFF?text=ЖК+Солнечный+берег",
+    "district": "Карасунский",
+    "building_class": "комфорт",
+    "apartments_count": 678,
+    "buildings_count": 5,
+    "floors_min": 12,
+    "floors_max": 18,
+    "completion_date": "2 кв. 2025",
+    "price_from": 6800000,
+    "price_to": 14500000,
+    "coordinates": [
+      45.0156,
+      38.9234
+    ],
+    "status": "building",
+    "cashback_percent": 4.0,
+    "developer_id": 6
+  },
+  {
+    "id": 5,
+    "name": "ЖК «Панорама»",
+    "developer": "СК «Стройэксперт»",
+    "location": "пр. Чекистов, 89",
+    "full_address": "Краснодар, Прикубанский округ, пр. Чекистов, 89",
+    "description": "Высотный комплекс с видом на реку Кубань",
+    "image": "https://via.placeholder.com/800x600/00BCD4/FFFFFF?text=ЖК+Панорама",
+    "district": "Прикубанский округ",
+    "building_class": "бизнес",
+    "apartments_count": 389,
+    "buildings_count": 2,
+    "floors_min": 22,
+    "floors_max": 28,
+    "completion_date": "1 кв. 2026",
+    "price_from": 11200000,
+    "price_to": 28000000,
+    "coordinates": [
+      45.0412,
+      38.9891
+    ],
+    "status": "building",
+    "cashback_percent": 5.5
+  },
+  {
+    "id": 6,
+    "name": "ЖК «Зеленый квартал»",
+    "developer": "ГК «ЭкоДом»",
+    "location": "ул. Героев-Разведчиков, 45",
+    "full_address": "Краснодар, Прикубанский округ, ул. Героев-Разведчиков, 45",
+    "description": "Экологичный жилой комплекс среди зеленых насаждений",
+    "image": "https://via.placeholder.com/800x600/4CAF50/FFFFFF?text=ЖК+Зеленый+квартал",
+    "district": "Прикубанский округ",
+    "building_class": "комфорт",
+    "apartments_count": 567,
+    "buildings_count": 4,
+    "floors_min": 14,
+    "floors_max": 17,
+    "completion_date": "4 кв. 2025",
+    "price_from": 7200000,
+    "price_to": 16800000,
+    "coordinates": [
+      45.0378,
+      38.9675
+    ],
+    "status": "building",
+    "cashback_percent": 4.2
+  },
+  {
+    "id": 7,
+    "name": "ЖК «Морская волна»",
+    "developer": "СК «Морстрой»",
+    "location": "ул. Дзержинского, 156",
+    "full_address": "Краснодар, Центральный округ, ул. Дзержинского, 156",
+    "description": "Жилой комплекс премиум-класса в историческом центре",
+    "image": "https://via.placeholder.com/800x600/3F51B5/FFFFFF?text=ЖК+Морская+волна",
+    "district": "Центральный",
+    "building_class": "премиум",
+    "apartments_count": 245,
+    "buildings_count": 1,
+    "floors_min": 24,
+    "floors_max": 24,
+    "completion_date": "3 кв. 2024",
+    "price_from": 14500000,
+    "price_to": 35000000,
+    "coordinates": [
+      45.0498,
+      38.9732
+    ],
+    "status": "completed",
+    "cashback_percent": 7.0
+  },
+  {
+    "id": 8,
+    "name": "ЖК «Весенний»",
+    "developer": "ГК «Стройальянс»",
+    "location": "ул. Северная, 67",
+    "full_address": "Краснодар, Западный округ, ул. Северная, 67",
+    "description": "Уютный жилой комплекс для молодых семей",
+    "image": "https://via.placeholder.com/800x600/8BC34A/FFFFFF?text=ЖК+Весенний",
+    "district": "Западный",
+    "building_class": "эконом",
+    "apartments_count": 456,
+    "buildings_count": 3,
+    "floors_min": 9,
+    "floors_max": 14,
+    "completion_date": "2 кв. 2025",
+    "price_from": 5800000,
+    "price_to": 12000000,
+    "coordinates": [
+      45.0267,
+      38.9398
+    ],
+    "status": "building",
+    "cashback_percent": 3.5
+  },
+  {
+    "id": 9,
+    "name": "ЖК «Высота»",
+    "developer": "ГК «Альтаир»",
+    "location": "пр. Писателя Знаменского, 23",
+    "full_address": "Краснодар, Карасунский округ, пр. Писателя Знаменского, 23",
+    "description": "Современный высотный комплекс с развитой инфраструктурой",
+    "image": "https://via.placeholder.com/800x600/607D8B/FFFFFF?text=ЖК+Высота",
+    "district": "Карасунский",
+    "building_class": "бизнес",
+    "apartments_count": 712,
+    "buildings_count": 3,
+    "floors_min": 18,
+    "floors_max": 25,
+    "completion_date": "1 кв. 2026",
+    "price_from": 8900000,
+    "price_to": 22000000,
+    "coordinates": [
+      45.0189,
+      38.9156
+    ],
+    "status": "building",
+    "cashback_percent": 5.2
+  },
+  {
+    "id": 10,
+    "name": "ЖК «Золотые купола»",
+    "developer": "ГК «Златоград»",
+    "location": "ул. Красных Партизан, 234",
+    "full_address": "Краснодар, Центральный округ, ул. Красных Партизан, 234",
+    "description": "Элитный жилой комплекс в центре города с уникальной архитектурой",
+    "image": "https://via.placeholder.com/800x600/FF6F00/FFFFFF?text=ЖК+Золотые+купола",
+    "district": "Центральный",
+    "building_class": "элитный",
+    "apartments_count": 156,
+    "buildings_count": 1,
+    "floors_min": 20,
+    "floors_max": 20,
+    "completion_date": "4 кв. 2024",
+    "price_from": 18000000,
+    "price_to": 45000000,
+    "coordinates": [
+      45.0467,
+      38.9801
+    ],
+    "status": "completed",
+    "cashback_percent": 8.0
+  },
+  {
+    "id": 11,
+    "name": "ЖК «Riverside»",
+    "developer": "ГК «Престиж»",
+    "location": "наб. Затона, 12",
+    "full_address": "Краснодар, Прикубанский округ, наб. Затона, 12",
+    "description": "Жилой комплекс на берегу реки с собственной набережной",
+    "image": "https://via.placeholder.com/800x600/00ACC1/FFFFFF?text=ЖК+Riverside",
+    "district": "Прикубанский округ",
+    "building_class": "премиум",
+    "apartments_count": 298,
+    "buildings_count": 2,
+    "floors_min": 16,
+    "floors_max": 22,
+    "completion_date": "3 кв. 2025",
+    "price_from": 12500000,
+    "price_to": 28500000,
+    "coordinates": [
+      45.0423,
+      38.9934
+    ],
+    "status": "building",
+    "cashback_percent": 6.8
+  },
+  {
+    "id": 12,
+    "name": "ЖК «Летний сад»",
+    "developer": "СК «Садовый»",
+    "location": "ул. Садовая, 89",
+    "full_address": "Краснодар, Западный округ, ул. Садовая, 89",
+    "description": "Малоэтажный комплекс с зелеными двориками",
+    "image": "https://via.placeholder.com/800x600/689F38/FFFFFF?text=ЖК+Летний+сад",
+    "district": "Западный",
+    "building_class": "комфорт",
+    "apartments_count": 234,
+    "buildings_count": 4,
+    "floors_min": 5,
+    "floors_max": 9,
+    "completion_date": "1 кв. 2025",
+    "price_from": 6200000,
+    "price_to": 13500000,
+    "coordinates": [
+      45.0312,
+      38.9445
+    ],
+    "status": "building",
+    "cashback_percent": 3.8
+  },
+  {
+    "id": 13,
+    "name": "ЖК «Северная звезда»",
+    "developer": "ГК «Полярис»",
+    "location": "ул. Северо-Кавказская, 145",
+    "full_address": "Краснодар, Карасунский округ, ул. Северо-Кавказская, 145",
+    "description": "Современный жилой комплекс с видом на город",
+    "image": "https://via.placeholder.com/800x600/5C6BC0/FFFFFF?text=ЖК+Северная+звезда",
+    "district": "Карасунский",
+    "building_class": "бизнес",
+    "apartments_count": 445,
+    "buildings_count": 2,
+    "floors_min": 19,
+    "floors_max": 25,
+    "completion_date": "2 кв. 2026",
+    "price_from": 9800000,
+    "price_to": 21500000,
+    "coordinates": [
+      45.0198,
+      38.9287
+    ],
+    "status": "building",
+    "cashback_percent": 5.1
+  },
+  {
+    "id": 14,
+    "name": "ЖК «Тихая гавань»",
+    "developer": "СК «Марин»",
+    "location": "ул. Портовая, 78",
+    "full_address": "Краснодар, Прикубанский округ, ул. Портовая, 78",
+    "description": "Уютный жилой комплекс в тихом районе города",
+    "image": "https://via.placeholder.com/800x600/26A69A/FFFFFF?text=ЖК+Тихая+гавань",
+    "district": "Прикубанский округ",
+    "building_class": "комфорт",
+    "apartments_count": 356,
+    "buildings_count": 3,
+    "floors_min": 12,
+    "floors_max": 16,
+    "completion_date": "4 кв. 2025",
+    "price_from": 7800000,
+    "price_to": 16200000,
+    "coordinates": [
+      45.0389,
+      38.9712
+    ],
+    "status": "building",
+    "cashback_percent": 4.3
+  },
+  {
+    "id": 15,
+    "name": "ЖК «Олимп»",
+    "developer": "ГК «Титан»",
+    "location": "пр. Чекистов, 203",
+    "full_address": "Краснодар, Центральный округ, пр. Чекистов, 203",
+    "description": "Монументальный жилой комплекс в центре города",
+    "image": "https://via.placeholder.com/800x600/8D6E63/FFFFFF?text=ЖК+Олимп",
+    "district": "Центральный",
+    "building_class": "бизнес",
+    "apartments_count": 578,
+    "buildings_count": 3,
+    "floors_min": 17,
+    "floors_max": 23,
+    "completion_date": "1 кв. 2026",
+    "price_from": 10500000,
+    "price_to": 24000000,
+    "coordinates": [
+      45.0456,
+      38.9723
+    ],
+    "status": "building",
+    "cashback_percent": 5.7
+  },
+  {
+    "id": 16,
+    "name": "ЖК «Радужный»",
+    "developer": "СК «Спектр»",
+    "location": "ул. Яна Полуяна, 67",
+    "full_address": "Краснодар, Западный округ, ул. Яна Полуяна, 67",
+    "description": "Яркий и современный жилой комплекс для активных людей",
+    "image": "https://via.placeholder.com/800x600/E91E63/FFFFFF?text=ЖК+Радужный",
+    "district": "Западный",
+    "building_class": "комфорт",
+    "apartments_count": 423,
+    "buildings_count": 3,
+    "floors_min": 14,
+    "floors_max": 18,
+    "completion_date": "3 кв. 2025",
+    "price_from": 7600000,
+    "price_to": 17200000,
+    "coordinates": [
+      45.0289,
+      38.9367
+    ],
+    "status": "building",
+    "cashback_percent": 4.1
+  },
+  {
+    "id": 17,
+    "name": "ЖК «Белые паруса»",
+    "developer": "ГК «Навигатор»",
+    "location": "ул. Морская, 134",
+    "full_address": "Краснодар, Карасунский округ, ул. Морская, 134",
+    "description": "Элегантный жилой комплекс с морской тематикой",
+    "image": "https://via.placeholder.com/800x600/B0BEC5/FFFFFF?text=ЖК+Белые+паруса",
+    "district": "Карасунский",
+    "building_class": "бизнес",
+    "apartments_count": 367,
+    "buildings_count": 2,
+    "floors_min": 20,
+    "floors_max": 24,
+    "completion_date": "4 кв. 2026",
+    "price_from": 11800000,
+    "price_to": 26500000,
+    "coordinates": [
+      45.0167,
+      38.9198
+    ],
+    "status": "building",
+    "cashback_percent": 5.9
+  },
+  {
+    "id": 18,
+    "name": "ЖК «Южный бриз»",
+    "developer": "СК «Бриз»",
+    "location": "ул. Южная, 45",
+    "full_address": "Краснодар, Прикубанский округ, ул. Южная, 45",
+    "description": "Комфортный жилой комплекс в развивающемся районе",
+    "image": "https://via.placeholder.com/800x600/FFCC02/FFFFFF?text=ЖК+Южный+бриз",
+    "district": "Прикубанский округ",
+    "building_class": "комфорт",
+    "apartments_count": 489,
+    "buildings_count": 4,
+    "floors_min": 11,
+    "floors_max": 15,
+    "completion_date": "2 кв. 2025",
+    "price_from": 6900000,
+    "price_to": 15100000,
+    "coordinates": [
+      45.0345,
+      38.9634
+    ],
+    "status": "building",
+    "cashback_percent": 4.0
+  },
+  {
+    "id": 19,
+    "name": "ЖК «Гармония»",
+    "developer": "ГК «Созвучие»",
+    "location": "ул. Мира, 189",
+    "full_address": "Краснодар, Центральный округ, ул. Мира, 189",
+    "description": "Сбалансированный жилой комплекс в центре города",
+    "image": "https://via.placeholder.com/800x600/7B1FA2/FFFFFF?text=ЖК+Гармония",
+    "district": "Центральный",
+    "building_class": "премиум",
+    "apartments_count": 278,
+    "buildings_count": 2,
+    "floors_min": 18,
+    "floors_max": 21,
+    "completion_date": "3 кв. 2024",
+    "price_from": 13200000,
+    "price_to": 29800000,
+    "coordinates": [
+      45.0489,
+      38.9745
+    ],
+    "status": "completed",
+    "cashback_percent": 6.3
+  },
+  {
+    "id": 20,
+    "name": "ЖК «Восход»",
+    "developer": "СК «Рассвет»",
+    "location": "ул. Восточная, 123",
+    "full_address": "Краснодар, Западный округ, ул. Восточная, 123",
+    "description": "Жилой комплекс для тех, кто ценит новое начало",
+    "image": "https://via.placeholder.com/800x600/FFC107/FFFFFF?text=ЖК+Восход",
+    "district": "Западный",
+    "building_class": "комфорт",
+    "apartments_count": 534,
+    "buildings_count": 4,
+    "floors_min": 13,
+    "floors_max": 17,
+    "completion_date": "1 кв. 2026",
+    "price_from": 7400000,
+    "price_to": 16800000,
+    "coordinates": [
+      45.0267,
+      38.9389
+    ],
+    "status": "building",
+    "cashback_percent": 4.4
+  },
+  {
+    "id": 21,
+    "name": "ЖК «Кристалл»",
+    "developer": "ГК «Кристалл-Строй»",
+    "location": "пр. Краснодарский, 67",
+    "full_address": "Краснодар, Карасунский округ, пр. Краснодарский, 67",
+    "description": "Прозрачная архитектура и кристально чистый воздух",
+    "image": "https://via.placeholder.com/800x600/E1F5FE/333333?text=ЖК+Кристалл",
+    "district": "Карасунский",
+    "building_class": "премиум",
+    "apartments_count": 234,
+    "buildings_count": 1,
+    "floors_min": 26,
+    "floors_max": 26,
+    "completion_date": "2 кв. 2026",
+    "price_from": 15600000,
+    "price_to": 38000000,
+    "coordinates": [
+      45.0178,
+      38.9245
+    ],
+    "status": "building",
+    "cashback_percent": 6.7
+  },
+  {
+    "id": 22,
+    "name": "ЖК «Изумрудный город»",
+    "developer": "ГК «Изумруд»",
+    "location": "ул. Зеленая, 56",
+    "full_address": "Краснодар, Прикубанский округ, ул. Зеленая, 56",
+    "description": "Зеленый оазис в городской среде",
+    "image": "https://via.placeholder.com/800x600/388E3C/FFFFFF?text=ЖК+Изумрудный+город",
+    "district": "Прикубанский округ",
+    "building_class": "бизнес",
+    "apartments_count": 678,
+    "buildings_count": 5,
+    "floors_min": 14,
+    "floors_max": 19,
+    "completion_date": "3 кв. 2025",
+    "price_from": 8700000,
+    "price_to": 19500000,
+    "coordinates": [
+      45.0356,
+      38.9689
+    ],
+    "status": "building",
+    "cashback_percent": 5.3
+  },
+  {
+    "id": 23,
+    "name": "ЖК «Космос»",
+    "developer": "СК «Орбита»",
+    "location": "пр. Космонавтов, 234",
+    "full_address": "Краснодар, Центральный округ, пр. Космонавтов, 234",
+    "description": "Футуристический жилой комплекс нового поколения",
+    "image": "https://via.placeholder.com/800x600/303F9F/FFFFFF?text=ЖК+Космос",
+    "district": "Центральный",
+    "building_class": "премиум",
+    "apartments_count": 412,
+    "buildings_count": 2,
+    "floors_min": 22,
+    "floors_max": 28,
+    "completion_date": "4 кв. 2026",
+    "price_from": 14800000,
+    "price_to": 32000000,
+    "coordinates": [
+      45.0445,
+      38.9756
+    ],
+    "status": "building",
+    "cashback_percent": 6.9
+  },
+  {
+    "id": 24,
+    "name": "ЖК «Рубин»",
+    "developer": "ГК «Самоцветы»",
+    "location": "ул. Рубиновая, 89",
+    "full_address": "Краснодар, Западный округ, ул. Рубиновая, 89",
+    "description": "Драгоценный жилой комплекс с яркой архитектурой",
+    "image": "https://via.placeholder.com/800x600/C62828/FFFFFF?text=ЖК+Рубин",
+    "district": "Западный",
+    "building_class": "бизнес",
+    "apartments_count": 345,
+    "buildings_count": 2,
+    "floors_min": 16,
+    "floors_max": 20,
+    "completion_date": "1 кв. 2025",
+    "price_from": 9200000,
+    "price_to": 20800000,
+    "coordinates": [
+      45.0298,
+      38.9423
+    ],
+    "status": "building",
+    "cashback_percent": 5.0
+  },
+  {
+    "id": 25,
+    "name": "ЖК «Лазурный берег»",
+    "developer": "СК «Лазурь»",
+    "location": "наб. Кубани, 145",
+    "full_address": "Краснодар, Карасунский округ, наб. Кубани, 145",
+    "description": "Прибрежный жилой комплекс с видом на воду",
+    "image": "https://via.placeholder.com/800x600/0288D1/FFFFFF?text=ЖК+Лазурный+берег",
+    "district": "Карасунский",
+    "building_class": "премиум",
+    "apartments_count": 289,
+    "buildings_count": 2,
+    "floors_min": 18,
+    "floors_max": 24,
+    "completion_date": "3 кв. 2025",
+    "price_from": 13800000,
+    "price_to": 31500000,
+    "coordinates": [
+      45.0189,
+      38.9267
+    ],
+    "status": "building",
+    "cashback_percent": 6.4
+  },
+  {
+    "id": 26,
+    "name": "ЖК «Флора»",
+    "developer": "ГК «Ботаника»",
+    "location": "ул. Ботаническая, 78",
+    "full_address": "Краснодар, Прикубанский округ, ул. Ботаническая, 78",
+    "description": "Жилой комплекс в окружении растений и цветов",
+    "image": "https://via.placeholder.com/800x600/8BC34A/FFFFFF?text=ЖК+Флора",
+    "district": "Прикубанский округ",
+    "building_class": "комфорт",
+    "apartments_count": 456,
+    "buildings_count": 3,
+    "floors_min": 10,
+    "floors_max": 14,
+    "completion_date": "2 кв. 2025",
+    "price_from": 6800000,
+    "price_to": 14200000,
+    "coordinates": [
+      45.0367,
+      38.9698
+    ],
+    "status": "building",
+    "cashback_percent": 3.9
+  },
+  {
+    "id": 27,
+    "name": "ЖК «Династия»",
+    "developer": "СК «Наследие»",
+    "location": "ул. Дворянская, 123",
+    "full_address": "Краснодар, Центральный округ, ул. Дворянская, 123",
+    "description": "Благородный жилой комплекс с классической архитектурой",
+    "image": "https://via.placeholder.com/800x600/795548/FFFFFF?text=ЖК+Династия",
+    "district": "Центральный",
+    "building_class": "элитный",
+    "apartments_count": 167,
+    "buildings_count": 1,
+    "floors_min": 15,
+    "floors_max": 15,
+    "completion_date": "4 кв. 2024",
+    "price_from": 22000000,
+    "price_to": 55000000,
+    "coordinates": [
+      45.0478,
+      38.9787
+    ],
+    "status": "completed",
+    "cashback_percent": 8.5
+  },
+  {
+    "id": 28,
+    "name": "ЖК «Новый горизонт»",
+    "developer": "ГК «Перспектива»",
+    "location": "пр. Строителей, 234",
+    "full_address": "Краснодар, Западный округ, пр. Строителей, 234",
+    "description": "Инновационный жилой комплекс будущего",
+    "image": "https://via.placeholder.com/800x600/37474F/FFFFFF?text=ЖК+Новый+горизонт",
+    "district": "Западный",
+    "building_class": "бизнес",
+    "apartments_count": 623,
+    "buildings_count": 4,
+    "floors_min": 15,
+    "floors_max": 21,
+    "completion_date": "1 кв. 2027",
+    "price_from": 8900000,
+    "price_to": 20500000,
+    "coordinates": [
+      45.0312,
+      38.9456
+    ],
+    "status": "building",
+    "cashback_percent": 5.4
+  },
+  {
+    "id": 29,
+    "name": "ЖК «Алые паруса»",
+    "developer": "СК «Алый»",
+    "location": "ул. Парусная, 67",
+    "full_address": "Краснодар, Карасунский округ, ул. Парусная, 67",
+    "description": "Романтичный жилой комплекс с видом на закат",
+    "image": "https://via.placeholder.com/800x600/D32F2F/FFFFFF?text=ЖК+Алые+паруса",
+    "district": "Карасунский",
+    "building_class": "комфорт",
+    "apartments_count": 398,
+    "buildings_count": 3,
+    "floors_min": 12,
+    "floors_max": 17,
+    "completion_date": "3 кв. 2025",
+    "price_from": 7300000,
+    "price_to": 15900000,
+    "coordinates": [
+      45.0198,
+      38.9234
+    ],
+    "status": "building",
+    "cashback_percent": 4.2
+  },
+  {
+    "id": 30,
+    "name": "ЖК «Млечный путь»",
+    "developer": "ГК «Галактика»",
+    "location": "ул. Звездная, 145",
+    "full_address": "Краснодар, Прикубанский округ, ул. Звездная, 145",
+    "description": "Космический жилой комплекс среди звезд города",
+    "image": "https://via.placeholder.com/800x600/1A237E/FFFFFF?text=ЖК+Млечный+путь",
+    "district": "Прикубанский округ",
+    "building_class": "премиум",
+    "apartments_count": 445,
+    "buildings_count": 2,
+    "floors_min": 20,
+    "floors_max": 30,
+    "completion_date": "2 кв. 2027",
+    "price_from": 16200000,
+    "price_to": 42000000,
+    "coordinates": [
+      45.0389,
+      38.9723
+    ],
+    "status": "building",
+    "cashback_percent": 7.2
+  },
+  {
+    "id": 31,
+    "name": "ЖК «Восход»",
+    "developer": "ГК ССК",
+    "location": "ул. Красная, 45",
+    "full_address": "Краснодар, Центральный округ, ул. Красная, 45",
+    "description": "Современный жилой комплекс от ГК ССК в центре города",
+    "image": "https://via.placeholder.com/800x600/0088CC/FFFFFF?text=ЖК+Восход",
+    "district": "Центральный округ",
+    "building_class": "комфорт",
+    "apartments_count": 280,
+    "buildings_count": 2,
+    "floors_min": 16,
+    "floors_max": 22,
+    "completion_date": "3 кв. 2025",
+    "price_from": 6500000,
+    "price_to": 12800000,
+    "coordinates": [
+      45.0395,
+      38.9785
+    ],
+    "status": "building",
+    "cashback_percent": 6.5
+  },
+  {
+    "id": 32,
+    "name": "ЖК «Гармония»",
+    "developer": "ГК ССК",
+    "location": "ул. Северная, 178",
+    "full_address": "Краснодар, Прикубанский округ, ул. Северная, 178",
+    "description": "Жилой комплекс с развитой инфраструктурой от ГК ССК",
+    "image": "https://via.placeholder.com/800x600/006699/FFFFFF?text=ЖК+Гармония",
+    "district": "Прикубанский округ",
+    "building_class": "комфорт",
+    "apartments_count": 320,
+    "buildings_count": 3,
+    "floors_min": 14,
+    "floors_max": 18,
+    "completion_date": "1 кв. 2026",
+    "price_from": 5800000,
+    "price_to": 11200000,
+    "coordinates": [
+      45.0428,
+      38.9634
+    ],
+    "status": "building",
+    "cashback_percent": 7.2
+  },
+  {
+    "id": 33,
+    "name": "ЖК «Дар»",
+    "developer": "ДАРСТРОЙ",
+    "location": "ул. Тургенева, 205",
+    "full_address": "Краснодар, Центральный округ, ул. Тургенева, 205",
+    "description": "Премиальный жилой комплекс от ДАРСТРОЙ в центре города",
+    "image": "https://via.placeholder.com/800x600/2B5CE6/FFFFFF?text=ЖК+Дар",
+    "district": "Центральный округ",
+    "building_class": "бизнес",
+    "apartments_count": 180,
+    "buildings_count": 2,
+    "floors_min": 18,
+    "floors_max": 24,
+    "completion_date": "4 кв. 2025",
+    "price_from": 7200000,
+    "price_to": 14500000,
+    "coordinates": [
+      45.0367,
+      38.9687
+    ],
+    "status": "building",
+    "cashback_percent": 7.8
+  },
+  {
+    "id": 34,
+    "name": "ЖК «Дарский»",
+    "developer": "ДАРСТРОЙ",
+    "location": "ул. Красная, 88",
+    "full_address": "Краснодар, Центральный округ, ул. Красная, 88",
+    "description": "Жилой комплекс комфорт-класса в историческом центре",
+    "image": "https://via.placeholder.com/800x600/1E40AF/FFFFFF?text=ЖК+Дарский",
+    "district": "Центральный округ",
+    "building_class": "комфорт",
+    "apartments_count": 240,
+    "buildings_count": 3,
+    "floors_min": 12,
+    "floors_max": 16,
+    "completion_date": "2 кв. 2026",
+    "price_from": 5900000,
+    "price_to": 11800000,
+    "coordinates": [
+      45.0389,
+      38.9756
+    ],
+    "status": "building",
+    "cashback_percent": 6.5
+  },
+  {
+    "id": 35,
+    "name": "ЖК «Стройград»",
+    "developer": "ГК «Инвестстройкуб»",
+    "location": "ул. Северная, 315",
+    "full_address": "Краснодар, Прикубанский округ, ул. Северная, 315",
+    "description": "Современный район от ДАРСТРОЙ с полной инфраструктурой",
+    "image": "https://via.placeholder.com/800x600/1D4ED8/FFFFFF?text=ЖК+Стройград",
+    "district": "Прикубанский округ",
+    "building_class": "комфорт",
+    "apartments_count": 450,
+    "buildings_count": 4,
+    "floors_min": 14,
+    "floors_max": 20,
+    "completion_date": "3 кв. 2026",
+    "price_from": 5200000,
+    "price_to": 10500000,
+    "coordinates": [
+      45.0445,
+      38.9623
+    ],
+    "status": "building",
+    "cashback_percent": 7.0,
+    "developer_id": 1
+  },
+  {
+    "id": 36,
+    "name": "ЖК «Инвест Плаза»",
+    "developer": "ГК «Инвестстройкуб»",
+    "developer_id": 1,
+    "location": "Краснодар, ул. Красная, 15",
+    "district": "Центральный",
+    "latitude": 45.0442,
+    "longitude": 38.9769,
+    "description": "Премиальный жилой комплекс в самом центре Краснодара от ГК «Инвестстройкуб». Современная архитектура, развитая инфраструктура.",
+    "class": "Комфорт+",
+    "completion_date": "2025",
+    "status": "строится",
+    "floors": 17,
+    "apartments_count": 120,
+    "price_from": 4200000,
+    "price_to": 8500000,
+    "image": "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "features": [
+      "Подземный паркинг",
+      "Детская площадка",
+      "Фитнес-зал",
+      "Консьерж-сервис",
+      "Видеонаблюдение"
+    ],
+    "advantages": [
+      "Центральное расположение",
+      "Рядом с парком Городской сад",
+      "Развитая транспортная доступность",
+      "Престижный район"
+    ]
+  },
+  {
+    "id": 37,
+    "name": "ЖК «Гарантия Prime»",
+    "developer": "Гарантия",
+    "developer_id": 9,
+    "location": "ул. Красная, 170",
+    "district": "Центральный",
+    "class": "Премиум",
+    "completion_date": "4 кв. 2025",
+    "description": "Элитный жилой комплекс в самом центре Краснодара. Премиум-локация с панорамными видами на город и реку Кубань. Закрытая территория с ландшафтным дизайном.",
+    "features": [
+      "Закрытая охраняемая территория",
+      "Подземный паркинг на 150 мест",
+      "Детская площадка европейского качества",
+      "Фитнес-центр и SPA-зона",
+      "Консьерж-сервис 24/7",
+      "Видеонаблюдение по периметру",
+      "Ландшафтный дизайн территории",
+      "Собственная управляющая компания"
+    ],
+    "infrastructure": [
+      "Подземный паркинг",
+      "Детская площадка",
+      "Фитнес-центр",
+      "Консьерж",
+      "Охрана 24/7"
+    ],
+    "price_from": 8500000,
+    "real_price_from": 8500000,
+    "cashback_percent": 4.5,
+    "floors": 22,
+    "apartments_total": 88,
+    "coordinates": [
+      45.0392,
+      38.9769
+    ],
+    "image": "https://via.placeholder.com/800x600/1565C0/FFFFFF?text=ЖК+Гарантия+Prime",
+    "gallery": []
+  }
+]

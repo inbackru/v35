@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block title %}Подборки от менеджера - InBack{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">Подборки недвижимости</h1>
+                    <p class="mt-1 text-gray-600">Персональные рекомендации от вашего менеджера</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    {% if user.assigned_manager %}
+                    <div class="text-right">
+                        <p class="text-sm font-medium text-gray-900">Ваш менеджер:</p>
+                        <p class="text-sm text-gray-600">{{ user.assigned_manager.full_name }}</p>
+                    </div>
+                    <div class="h-10 w-10 rounded-full bg-gradient-to-r from-blue-500 to-[#006699] flex items-center justify-center">
+                        <span class="text-white font-medium text-sm">{{ user.assigned_manager.first_name[0] }}{{ user.assigned_manager.last_name[0] }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        {% if collections %}
+        <!-- Collections Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for collection in collections %}
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
+                <!-- Collection Header -->
+                <div class="p-6 pb-4">
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ collection.title }}</h3>
+                            <p class="text-sm text-gray-600 mb-4">{{ collection.description or 'Персональная подборка недвижимости' }}</p>
+                        </div>
+                        <div class="ml-4">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                {% if collection.status == 'Отправлена' %}bg-gray-100 text-gray-700
+                                {% elif collection.status == 'Просмотрена' %}bg-gray-100 text-green-800
+                                {% else %}bg-gray-100 text-gray-800{% endif %}">
+                                {{ collection.status }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Properties Preview -->
+                <div class="px-6 pb-4">
+                    <div class="space-y-3">
+                        {% for property in collection.properties[:3] %}
+                        <div class="flex items-center space-x-3">
+                            <div class="w-16 h-12 rounded-lg bg-gradient-to-r from-blue-100 to-purple-100 flex items-center justify-center">
+                                <i class="fas fa-building text-[#0088CC] text-sm"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-900 truncate">{{ property.property_name }}</p>
+                                <p class="text-sm text-gray-500">{{ property.complex_name }}</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-sm font-semibold text-gray-900">{{ "{:,}".format(property.property_price).replace(',', ' ') }} ₽</p>
+                                {% if property.property_size %}
+                                <p class="text-xs text-gray-500">{{ property.property_size }} м²</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                        
+                        {% if collection.properties|length > 3 %}
+                        <div class="text-center pt-2">
+                            <p class="text-sm text-gray-500">
+                                И еще {{ collection.properties|length - 3 }} {{ (collection.properties|length - 3)|pluralize('объект', 'объекта', 'объектов') }}
+                            </p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Collection Footer -->
+                <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <div class="text-xs text-gray-500">
+                            <i class="fas fa-calendar mr-1"></i>
+                            {{ collection.created_at.strftime('%d.%m.%Y') }}
+                        </div>
+                        <div class="flex space-x-2">
+                            <a href="{{ url_for('view_collection', collection_id=collection.id) }}" 
+                               class="bg-[#0088CC] hover:bg-[#006699] text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                               onclick="markAsViewed({{ collection.id }})">
+                                <i class="fas fa-eye mr-1"></i>Посмотреть
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% else %}
+        <!-- Empty State -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-12">
+            <div class="text-center">
+                <div class="mx-auto h-24 w-24 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 flex items-center justify-center mb-6">
+                    <i class="fas fa-folder-open text-[#0088CC] text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Пока нет подборок</h3>
+                <p class="text-gray-600 mb-6">Ваш менеджер еще не создал для вас персональные подборки недвижимости</p>
+                
+                {% if not user.assigned_manager %}
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-info-circle text-[#0088CC] mt-0.5"></i>
+                        </div>
+                        <div class="ml-3 text-left">
+                            <h4 class="text-sm font-medium text-gray-700">Как получить подборку?</h4>
+                            <p class="text-sm text-[#006699] mt-1">
+                                Обратитесь к нашим менеджерам, и они создадут персональные подборки недвижимости специально для вас
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <div class="flex justify-center space-x-4">
+                    <a href="{{ url_for('properties') }}" 
+                       class="bg-[#0088CC] hover:bg-[#006699] text-white px-6 py-3 rounded-lg font-medium transition-colors">
+                        <i class="fas fa-search mr-2"></i>Найти недвижимость
+                    </a>
+                    <a href="{{ url_for('contacts') }}" 
+                       class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-medium transition-colors">
+                        <i class="fas fa-phone mr-2"></i>Связаться с нами
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+function markAsViewed(collectionId) {
+    // Mark collection as viewed when user clicks to view it
+    fetch(`/collection/${collectionId}/mark-viewed`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'same-origin'
+    }).catch(error => console.log('Error marking as viewed:', error));
+}
+</script>
+{% endblock %}

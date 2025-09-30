@@ -1,0 +1,278 @@
+[
+  {
+    "id": 1,
+    "name": "Центральный",
+    "slug": "tsentralnyy",
+    "description": "Район Центральный в Краснодаре"
+  },
+  {
+    "id": 2,
+    "name": "40 лет Победы",
+    "slug": "40-let-pobedy",
+    "description": "Район 40 лет Победы в Краснодаре"
+  },
+  {
+    "id": 3,
+    "name": "Авиагородок",
+    "slug": "aviagorodok",
+    "description": "Район Авиагородок в Краснодаре"
+  },
+  {
+    "id": 4,
+    "name": "Аврора",
+    "slug": "avrora",
+    "description": "Район Аврора в Краснодаре"
+  },
+  {
+    "id": 5,
+    "name": "Березовый",
+    "slug": "berezovy",
+    "description": "Район Березовый в Краснодаре"
+  },
+  {
+    "id": 6,
+    "name": "Вавилова",
+    "slug": "vavilova",
+    "description": "Район Вавилова в Краснодаре"
+  },
+  {
+    "id": 7,
+    "name": "Гидростроителей",
+    "slug": "gidrostroitelei",
+    "description": "Район Гидростроителей в Краснодаре"
+  },
+  {
+    "id": 8,
+    "name": "Горхутор",
+    "slug": "gorkhutor",
+    "description": "Район Горхутор в Краснодаре"
+  },
+  {
+    "id": 9,
+    "name": "Дубинка",
+    "slug": "dubinka",
+    "description": "Район Дубинка в Краснодаре"
+  },
+  {
+    "id": 10,
+    "name": "Западный",
+    "slug": "zapadny",
+    "description": "Район Западный в Краснодаре"
+  },
+  {
+    "id": 11,
+    "name": "Западный обход",
+    "slug": "zapadny-obkhod",
+    "description": "Район Западный обход в Краснодаре"
+  },
+  {
+    "id": 12,
+    "name": "Западный округ",
+    "slug": "zapadny-okrug",
+    "description": "Район Западный округ в Краснодаре"
+  },
+  {
+    "id": 13,
+    "name": "ЗИП Жукова",
+    "slug": "zip-zhukova",
+    "description": "Район ЗИП Жукова в Краснодаре"
+  },
+  {
+    "id": 14,
+    "name": "Калинино",
+    "slug": "kalinino",
+    "description": "Район Калинино в Краснодаре"
+  },
+  {
+    "id": 15,
+    "name": "Карасунский",
+    "slug": "karasunsky",
+    "description": "Район Карасунский в Краснодаре"
+  },
+  {
+    "id": 16,
+    "name": "ККБ",
+    "slug": "kkb",
+    "description": "Район ККБ в Краснодаре"
+  },
+  {
+    "id": 17,
+    "name": "Кожзавод",
+    "slug": "kozhzavod",
+    "description": "Район Кожзавод в Краснодаре"
+  },
+  {
+    "id": 18,
+    "name": "Колосистый",
+    "slug": "kolosisty",
+    "description": "Район Колосистый в Краснодаре"
+  },
+  {
+    "id": 19,
+    "name": "Комсомольский",
+    "slug": "komsomolsky",
+    "description": "Район Комсомольский в Краснодаре"
+  },
+  {
+    "id": 20,
+    "name": "Красная площадь",
+    "slug": "krasnaya-ploshchad",
+    "description": "Район Красная площадь в Краснодаре"
+  },
+  {
+    "id": 21,
+    "name": "Краснодарский",
+    "slug": "krasnodarsky",
+    "description": "Район Краснодарский в Краснодаре"
+  },
+  {
+    "id": 22,
+    "name": "КСК",
+    "slug": "ksk",
+    "description": "Район КСК в Краснодаре"
+  },
+  {
+    "id": 23,
+    "name": "Кубанский",
+    "slug": "kubansky",
+    "description": "Район Кубанский в Краснодаре"
+  },
+  {
+    "id": 24,
+    "name": "Молодежный",
+    "slug": "molodezhny",
+    "description": "Район Молодежный в Краснодаре"
+  },
+  {
+    "id": 25,
+    "name": "Музыкальный",
+    "slug": "muzykalny",
+    "description": "Район Музыкальный в Краснодаре"
+  },
+  {
+    "id": 26,
+    "name": "Немецкая деревня",
+    "slug": "nemetskaya-derevnya",
+    "description": "Район Немецкая деревня в Краснодаре"
+  },
+  {
+    "id": 27,
+    "name": "Новознаменский",
+    "slug": "novoznamensky",
+    "description": "Район Новознаменский в Краснодаре"
+  },
+  {
+    "id": 28,
+    "name": "Панорама",
+    "slug": "panorama",
+    "description": "Район Панорама в Краснодаре"
+  },
+  {
+    "id": 29,
+    "name": "Пашковский",
+    "slug": "pashkovsky",
+    "description": "Район Пашковский в Краснодаре"
+  },
+  {
+    "id": 30,
+    "name": "Покровка",
+    "slug": "pokrovka",
+    "description": "Район Покровка в Краснодаре"
+  },
+  {
+    "id": 31,
+    "name": "Прикубанский",
+    "slug": "prikubansky",
+    "description": "Район Прикубанский в Краснодаре"
+  },
+  {
+    "id": 32,
+    "name": "Район аэропорта",
+    "slug": "rayon-aeroporta",
+    "description": "Район Район аэропорта в Краснодаре"
+  },
+  {
+    "id": 33,
+    "name": "Репино",
+    "slug": "repino",
+    "description": "Район Репино в Краснодаре"
+  },
+  {
+    "id": 34,
+    "name": "Северный",
+    "slug": "severny",
+    "description": "Район Северный в Краснодаре"
+  },
+  {
+    "id": 35,
+    "name": "Славянский",
+    "slug": "slavyansky",
+    "description": "Район Славянский в Краснодаре"
+  },
+  {
+    "id": 36,
+    "name": "Славянский 2",
+    "slug": "slavyansky-2",
+    "description": "Район Славянский 2 в Краснодаре"
+  },
+  {
+    "id": 37,
+    "name": "Солнечный",
+    "slug": "solnechny",
+    "description": "Район Солнечный в Краснодаре"
+  },
+  {
+    "id": 38,
+    "name": "Старокорсунская",
+    "slug": "starokorsunskaya",
+    "description": "Район Старокорсунская в Краснодаре"
+  },
+  {
+    "id": 39,
+    "name": "Табачная фабрика",
+    "slug": "tabachnaya-fabrika",
+    "description": "Район Табачная фабрика в Краснодаре"
+  },
+  {
+    "id": 40,
+    "name": "ТЭЦ",
+    "slug": "tets",
+    "description": "Район ТЭЦ в Краснодаре"
+  },
+  {
+    "id": 41,
+    "name": "Фестивальный",
+    "slug": "festivalny",
+    "description": "Район Фестивальный в Краснодаре"
+  },
+  {
+    "id": 42,
+    "name": "ХБК",
+    "slug": "hbk",
+    "description": "Район ХБК в Краснодаре"
+  },
+  {
+    "id": 43,
+    "name": "Черемушки",
+    "slug": "cheremushki",
+    "description": "Район Черемушки в Краснодаре"
+  },
+  {
+    "id": 44,
+    "name": "Школьный",
+    "slug": "shkolny",
+    "description": "Район Школьный в Краснодаре"
+  },
+  {
+    "id": 45,
+    "name": "Юбилейный",
+    "slug": "yubileyny",
+    "description": "Район Юбилейный в Краснодаре"
+  },
+  {
+    "id": 46,
+    "name": "Яблоновский",
+    "slug": "yablonovsky",
+    "description": "Район Яблоновский в Краснодаре"
+  }
+]

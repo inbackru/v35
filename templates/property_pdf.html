@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Карточка квартиры - {{ property.title }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            .print-area { box-shadow: none !important; }
+            body { background: white !important; }
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .print-area {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+        
+        .qr-code {
+            width: 80px;
+            height: 80px;
+            background: #f3f4f6;
+            border: 2px dashed #9ca3af;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            text-align: center;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex justify-center items-center p-4">
+    
+    <div class="no-print absolute top-4 right-4">
+        <button class="bg-[#0088CC] hover:bg-[#006699] text-white px-4 py-2 rounded-lg shadow-md transition-colors" onclick="window.print()">
+            <i class="fas fa-print mr-2"></i>
+            Печать карточки
+        </button>
+    </div>
+
+    <div class="print-area bg-white shadow-lg rounded-lg overflow-hidden">
+        <!-- Шапка документа -->
+        <div class="flex justify-between items-start border-b border-gray-200 pb-4 mb-6">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800">Карточка объекта недвижимости</h1>
+                <p class="text-gray-600">Дата формирования: {{ current_date }}</p>
+            </div>
+            <div class="flex items-center gap-4">
+                {% if qr_code %}
+                <div class="qr-code bg-white border rounded">
+                    <img src="data:image/png;base64,{{ qr_code }}" alt="QR-код объекта" class="w-full h-full object-contain">
+                </div>
+                {% else %}
+                <div class="qr-code">
+                    QR-код<br/>объекта
+                </div>
+                {% endif %}
+                <div class="text-right">
+                    <p class="text-gray-600 text-sm">ID объекта:</p>
+                    <p class="font-semibold">{{ property.id }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Основная информация -->
+        <div class="grid grid-cols-2 gap-8 mb-8">
+            <div>
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Основная информация</h2>
+                <div class="space-y-3">
+                    <div class="flex justify-between border-b border-gray-100 pb-2">
+                        <span class="text-gray-600">Тип недвижимости:</span>
+                        <span class="font-medium">{{ property.property_type or 'Квартира' }}</span>
+                    </div>
+                    <div class="flex justify-between border-b border-gray-100 pb-2">
+                        <span class="text-gray-600">Жилой комплекс:</span>
+                        <span class="font-medium">{{ property.complex_name or property.residential_complex or 'Не указан' }}</span>
+                    </div>
+                    <div class="flex justify-between border-b border-gray-100 pb-2">
+                        <span class="text-gray-600">Статус:</span>
+                        <span class="font-medium text-green-600">{{ property.status or 'Свободна' }}</span>
+                    </div>
+                    <div class="flex justify-between border-b border-gray-100 pb-2">
+                        <span class="text-gray-600">Адрес:</span>
+                        <span class="font-medium text-right">{{ property.address or (property.district + ', Краснодар') }}</span>
+                    </div>
+                    <div class="flex justify-between border-b border-gray-100 pb-2">
+                        <span class="text-gray-600">Этаж:</span>
+                        <span class="font-medium">{{ property.floor or '1' }} из {{ property.total_floors or property.floors_total or '25' }}</span>
+                    </div>
+                    <div class="flex justify-between border-b border-gray-100 pb-2">
+                        <span class="text-gray-600">Площадь:</span>
+                        <span class="font-medium">{{ property.area }} м²</span>
+                    </div>
+                    <div class="flex justify-between border-b border-gray-100 pb-2">
+                        <span class="text-gray-600">Комнат:</span>
+                        <span class="font-medium">{{ property.rooms }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Финансовая информация</h2>
+                <div class="space-y-3">
+                    <div class="flex justify-between border-b border-gray-100 pb-2">
+                        <span class="text-gray-600">Цена:</span>
+                        <span class="font-medium text-[#0088CC]">{{ "{:,}".format(property.price).replace(',', ' ') }} ₽</span>
+                    </div>
+                    <div class="flex justify-between border-b border-gray-100 pb-2">
+                        <span class="text-gray-600">Кешбек:</span>
+                        <span class="font-medium text-green-600">до {{ "{:,}".format(cashback).replace(',', ' ') }} ₽</span>
+                    </div>
+                    <div class="flex justify-between border-b border-gray-100 pb-2">
+                        <span class="text-gray-600">Цена с кешбеком:</span>
+                        <span class="font-medium text-[#0088CC]">{{ "{:,}".format(property.price - cashback).replace(',', ' ') }} ₽</span>
+                    </div>
+                    <div class="flex justify-between border-b border-gray-100 pb-2">
+                        <span class="text-gray-600">Цена за м²:</span>
+                        <span class="font-medium">{{ "{:,}".format((property.price_per_sqm or (property.price // property.area))).replace(',', ' ') }} ₽</span>
+                    </div>
+                    <div class="flex justify-between border-b border-gray-100 pb-2">
+                        <span class="text-gray-600">Ипотека:</span>
+                        <span class="font-medium">{% if property.mortgage_available %}Доступна{% else %}Не предусмотрена{% endif %}</span>
+                    </div>
+                    <div class="flex justify-between border-b border-gray-100 pb-2">
+                        <span class="text-gray-600">Рассрочка:</span>
+                        <span class="font-medium">{% if property.installment_available %}Доступна{% else %}Не предусмотрена{% endif %}</span>
+                    </div>
+                    <div class="flex justify-between border-b border-gray-100 pb-2">
+                        <span class="text-gray-600">Комиссия:</span>
+                        <span class="font-medium">Нет</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Описание ЖК -->
+        {% if property.complex_name or property.description %}
+        <div class="mb-8">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Описание объекта</h2>
+            <div class="bg-blue-50 p-6 rounded-lg">
+                {% if property.complex_name %}
+                <p class="text-gray-700 mb-3"><span class="font-medium text-gray-700">{{ property.complex_name }}</span> - {{ property.complex_description or 'современный жилой комплекс в Краснодаре.' }}</p>
+                {% endif %}
+                {% if property.description %}
+                <p class="text-gray-700 mb-3">{{ property.description }}</p>
+                {% endif %}
+                <p class="text-gray-700">Застройщик: {{ property.developer or property.developer_name or 'Не указан' }}.</p>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Фото объекта -->
+        <div class="mb-8">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Фото объекта</h2>
+            {% set photos = property.property_info.get('photos') if property.property_info else [] %}
+            {% if photos or property.gallery or property.image %}
+                {% if photos %}
+                    {% if photos is string %}
+                        {% set photo_list = photos | from_json %}
+                    {% else %}
+                        {% set photo_list = photos %}
+                    {% endif %}
+                    
+                    {% if photo_list and photo_list | length > 0 %}
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        {% for photo in photo_list[:4] %}
+                        <div class="bg-gray-100 p-2 rounded-lg">
+                            <img src="{{ photo }}" alt="Фото {{ loop.index }}" class="w-full h-32 object-cover rounded">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% if photo_list | length > 4 %}
+                    <p class="text-sm text-gray-500">И еще {{ photo_list | length - 4 }} фотографий</p>
+                    {% endif %}
+                    {% endif %}
+                {% elif property.gallery and property.gallery|length > 0 %}
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        {% for photo in property.gallery[:4] %}
+                        <div class="bg-gray-100 p-2 rounded-lg">
+                            <img src="{{ photo }}" alt="Фото {{ loop.index }}" class="w-full h-32 object-cover rounded">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% if property.gallery | length > 4 %}
+                    <p class="text-sm text-gray-500">И еще {{ property.gallery | length - 4 }} фотографий</p>
+                    {% endif %}
+                {% elif property.image %}
+                    <div class="flex justify-center bg-gray-100 p-4 rounded-lg">
+                        <img src="{{ property.image }}" alt="{{ property.title }}" class="max-w-full max-h-64 object-contain rounded">
+                    </div>
+                {% endif %}
+            {% else %}
+            <div class="flex justify-center bg-gray-100 p-4 rounded-lg">
+                <div class="w-full h-64 bg-gray-200 flex items-center justify-center text-gray-500 rounded">
+                    [Фото объекта недоступно]
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Дополнительная информация -->
+        <div class="mb-8">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Дополнительная информация</h2>
+            <div class="grid grid-cols-3 gap-6">
+                <div class="space-y-3">
+                    <div class="flex justify-between border-b border-gray-100 pb-2">
+                        <span class="text-gray-600">Отделка:</span>
+                        <span class="font-medium">{{ property.finishing or property.renovation or 'Предчистовая' }}</span>
+                    </div>
+                    <div class="flex justify-between border-b border-gray-100 pb-2">
+                        <span class="text-gray-600">Санузел:</span>
+                        <span class="font-medium">{{ property.bathroom_type or 'Совмещенный' }}</span>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <div class="flex justify-between border-b border-gray-100 pb-2">
+                        <span class="text-gray-600">Балкон:</span>
+                        <span class="font-medium">{% if property.balcony and property.balcony != 'Нет' %}{{ property.balcony }}{% else %}Нет{% endif %}</span>
+                    </div>
+                    <div class="flex justify-between border-b border-gray-100 pb-2">
+                        <span class="text-gray-600">Окна:</span>
+                        <span class="font-medium">{{ property.windows_type or 'Пластиковые' }}</span>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <div class="flex justify-between border-b border-gray-100 pb-2">
+                        <span class="text-gray-600">Лифты:</span>
+                        <span class="font-medium">{{ property.elevators or '2 пассажирских' }}</span>
+                    </div>
+                    <div class="flex justify-between border-b border-gray-100 pb-2">
+                        <span class="text-gray-600">Парковка:</span>
+                        <span class="font-medium">{{ property.parking_type or 'Наземная' }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Планировка -->
+        <div class="mb-8">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Планировка</h2>
+            {% set layout_image = property.property_info.get('layout_image') if property.property_info else property.layout_image or property.floor_plan %}
+            {% if layout_image %}
+            <div class="flex justify-center bg-gray-100 p-4 rounded-lg">
+                <img src="{{ layout_image }}" alt="Планировка {{ property.title }}" class="max-w-full max-h-64 object-contain rounded">
+            </div>
+            {% else %}
+            <div class="flex justify-center bg-gray-100 p-4 rounded-lg">
+                <div class="w-full h-64 bg-gray-200 flex items-center justify-center text-gray-500 rounded">
+                    [Планировка недоступна]
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Контактная информация -->
+        <div>
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Контактная информация</h2>
+            <div class="grid grid-cols-4 gap-6 bg-blue-50 p-6 rounded-lg">
+                <div>
+                    <h3 class="font-medium text-gray-700 mb-2">Застройщик</h3>
+                    <p class="text-gray-700">{{ property.developer or property.developer_name or 'Не указан' }}</p>
+                    <p class="text-gray-700 text-sm mt-1">{{ property.developer_inn or 'ИНН не указан' }}</p>
+                </div>
+                <div>
+                    <h3 class="font-medium text-gray-700 mb-2">Проектная декларация</h3>
+                    <p class="text-gray-700">на сайте наш.дом.рф</p>
+                </div>
+                <div>
+                    <h3 class="font-medium text-gray-700 mb-2">Телефон</h3>
+                    <p class="text-gray-700">+7 (800) 123-45-67</p>
+                </div>
+                <div>
+                    <h3 class="font-medium text-gray-700 mb-2">Сайт</h3>
+                    <p class="text-gray-700">inback.ru</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Подвал -->
+        <div class="mt-8 pt-4 border-t border-gray-200 text-center text-gray-500 text-sm">
+            <p>Данная карточка сгенерирована автоматически и действительна на дату формирования.</p>
+            <p class="mt-1">Официальный партнер застройщика. Проектная декларация на сайте наш.дом.рф</p>
+            <p class="mt-1">© 2024 InBack. Все права защищены.</p>
+        </div>
+    </div>
+
+    <script>
+        // Auto-print on load if requested
+        if (window.location.search.includes('print=1')) {
+            window.addEventListener('load', function() {
+                setTimeout(() => window.print(), 500);
+            });
+        }
+    </script>
+</body>
+</html>

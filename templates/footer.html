@@ -1,0 +1,164 @@
+<!-- Footer -->
+<footer class="bg-gray-900 text-white py-16">
+    <div class="container mx-auto px-4">
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+            <!-- Company Info -->
+            <div>
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 bg-gradient-to-r from-[#0088CC] to-[#006699] rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold text-lg">In</span>
+                    </div>
+                    <span class="text-xl font-bold">InBack</span>
+                </div>
+                <p class="text-gray-400 mb-4">
+                    Сервис кэшбека при покупке новостроек в Краснодаре. Получите до 500 000 ₽ кэшбека при покупке квартиры у проверенных застройщиков.
+                </p>
+                <div class="space-y-2 text-sm">
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-phone text-[#0088CC]"></i>
+                        <a href="tel:+78001234567" class="hover:text-[#0088CC] transition">+7 (800) 123-45-67</a>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-envelope text-[#0088CC]"></i>
+                        <a href="mailto:info@inback.ru" class="hover:text-[#0088CC] transition">info@inback.ru</a>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-map-marker-alt text-[#0088CC]"></i>
+                        <span>г. Краснодар, ул. Красная, 176</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Catalog -->
+            <div>
+                <h4 class="font-semibold text-lg mb-4">Каталог</h4>
+                <ul class="space-y-2 text-gray-400">
+                    <li><a href="{{ url_for('properties') }}" class="hover:text-white transition">Все новостройки</a></li>
+                    <li><a href="{{ url_for('residential_complexes') }}" class="hover:text-white transition">Жилые комплексы</a></li>
+                    <li><a href="{{ url_for('developers') }}" class="hover:text-white transition">Застройщики</a></li>
+                    <li><a href="{{ url_for('districts') }}" class="hover:text-white transition">Районы Краснодара</a></li>
+                    <li><a href="{{ url_for('streets') }}" class="hover:text-white transition">Улицы</a></li>
+                    <li><a href="{{ url_for('map_view') }}" class="hover:text-white transition">Карта новостроек</a></li>
+                </ul>
+            </div>
+            
+            <!-- Mortgage Programs -->
+            <div>
+                <h4 class="font-semibold text-lg mb-4">Ипотека</h4>
+                <ul class="space-y-2 text-gray-400">
+                    <li><a href="{{ url_for('ipoteka') }}" class="hover:text-white transition">Ипотечные программы</a></li>
+                    <li><a href="{{ url_for('family_mortgage') }}" class="hover:text-white transition">Семейная ипотека 3.5%</a></li>
+                    <li><a href="{{ url_for('it_mortgage') }}" class="hover:text-white transition">IT-ипотека 3.5%</a></li>
+                    <li><a href="{{ url_for('military_mortgage') }}" class="hover:text-white transition">Военная ипотека</a></li>
+                    <li><a href="{{ url_for('developer_mortgage') }}" class="hover:text-white transition">Рассрочка</a></li>
+                    <li><a href="{{ url_for('maternal_capital') }}" class="hover:text-white transition">Материнский капитал</a></li>
+                </ul>
+            </div>
+            
+            <!-- About & Services -->
+            <div>
+                <h4 class="font-semibold text-lg mb-4">О сервисе</h4>
+                <ul class="space-y-2 text-gray-400">
+                    <li><a href="{{ url_for('about') }}" class="hover:text-white transition">О нас</a></li>
+                    <li><a href="{{ url_for('how_it_works') }}" class="hover:text-white transition">Как получить кэшбек</a></li>
+                    <li><a href="{{ url_for('security') }}" class="hover:text-white transition">Безопасность сделок</a></li>
+                    <li><a href="{{ url_for('reviews') }}" class="hover:text-white transition">Отзывы клиентов</a></li>
+                    <li><a href="{{ url_for('blog') }}" class="hover:text-white transition">Блог</a></li>
+                    <li><a href="{{ url_for('contacts') }}" class="hover:text-white transition">Контакты</a></li>
+                    <li><a href="{{ url_for('careers') }}" class="hover:text-white transition">Карьера</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Important Disclaimer -->
+        <div class="border-t border-gray-700 pt-6 pb-6">
+            <div class="bg-gray-800 rounded-lg p-4">
+                <div class="flex items-start gap-3">
+                    <svg class="w-5 h-5 text-yellow-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                    </svg>
+                    <div>
+                        <h4 class="font-semibold text-white mb-2 text-sm">Важная информация</h4>
+                        <p class="text-gray-300 text-xs leading-relaxed">
+                            Информация о застройщиках на сайте носит справочный характер. Участие компаний в кэшбек-программах может отличаться. Актуальные условия уточняйте у наших консультантов.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Social Media & Additional Info -->
+        <div class="border-t border-gray-700 pt-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="text-center md:text-left">
+                    <p class="text-gray-400 text-sm mb-2">
+                        © 2025 InBack. Все права защищены.
+                    </p>
+                    <p class="text-gray-500 text-xs">
+                        Не является публичной офертой. Условия предоставления кэшбека уточняйте у менеджеров.
+                    </p>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row items-center gap-6">
+                    <!-- Social Media -->
+                    <div class="flex gap-4">
+                        <a href="https://t.me/inback_krd" target="_blank" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-[#0088CC] transition" title="Telegram">
+                            <i class="fab fa-telegram text-white"></i>
+                        </a>
+                        <a href="https://wa.me/78001234567" target="_blank" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-[#25D366] transition" title="WhatsApp">
+                            <i class="fab fa-whatsapp text-white"></i>
+                        </a>
+                        <a href="https://vk.com/inback_krd" target="_blank" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-[#4680C2] transition" title="ВКонтакте">
+                            <i class="fab fa-vk text-white"></i>
+                        </a>
+                        <a href="mailto:info@inback.ru" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-[#0088CC] transition" title="Email">
+                            <i class="fas fa-envelope text-white"></i>
+                        </a>
+                    </div>
+                    
+                    <!-- Legal Links -->
+                    <div class="flex flex-col sm:flex-row gap-4 text-sm text-gray-400">
+                        <a href="{{ url_for('privacy_policy') }}" class="hover:text-white transition text-center">Политика конфиденциальности</a>
+                        <a href="{{ url_for('data_processing_consent') }}" class="hover:text-white transition text-center">Согласие на обработку данных</a>
+                        <a href="{{ url_for('technical_info') }}" class="hover:text-white transition text-center">Техническая информация</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Additional Information -->
+        <div class="border-t border-gray-700 pt-6 mt-6">
+            <div class="grid md:grid-cols-2 gap-6 text-sm text-gray-500">
+                <div>
+                    <h5 class="font-medium text-gray-400 mb-2">Популярные районы</h5>
+                    <div class="flex flex-wrap gap-2">
+                        <a href="{{ url_for('district_detail', district='tsentralnyy') }}" class="hover:text-[#0088CC] transition">Центральный</a>
+                        <span>•</span>
+                        <a href="{{ url_for('district_detail', district='zapadny') }}" class="hover:text-[#0088CC] transition">Западный</a>
+                        <span>•</span>
+                        <a href="{{ url_for('district_detail', district='karasunsky') }}" class="hover:text-[#0088CC] transition">Карасунский</a>
+                        <span>•</span>
+                        <a href="{{ url_for('district_detail', district='festivalny') }}" class="hover:text-[#0088CC] transition">Фестивальный</a>
+                    </div>
+                </div>
+                <div>
+                    <h5 class="font-medium text-gray-400 mb-2">Типы квартир</h5>
+                    <div class="flex flex-wrap gap-2">
+                        <a href="{{ url_for('properties') }}?rooms=1" class="hover:text-[#0088CC] transition">1-комнатные</a>
+                        <span>•</span>
+                        <a href="{{ url_for('properties') }}?rooms=2" class="hover:text-[#0088CC] transition">2-комнатные</a>
+                        <span>•</span>
+                        <a href="{{ url_for('properties') }}?rooms=3" class="hover:text-[#0088CC] transition">3-комнатные</a>
+                        <span>•</span>
+                        <a href="{{ url_for('properties') }}?rooms=4" class="hover:text-[#0088CC] transition">4-комнатные</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Application Modal -->
+<!-- Old modal removed - using new quiz from base.html -->
+
+<!-- Styles and scripts removed - using quiz from base.html -->

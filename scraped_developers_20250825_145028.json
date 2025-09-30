@@ -1,0 +1,77 @@
+{
+  "ssk": [],
+  "neometria": [
+    {
+      "name": "Проект сданВид на мореСмотреть проектЖК «Малина»от 5.8 млн ₽Новороссийск5 мин.до водопадов12 мин.до ",
+      "developer": "Неометрия",
+      "url": "https://neometria.ru/novorossiysk/complex-malina",
+      "scraped_at": "2025-08-25T14:50:24.831702",
+      "apartments": [
+        {
+          "complex_name": "Проект сданВид на мореСмотреть проектЖК «Малина»от 5.8 млн ₽Новороссийск5 мин.до водопадов12 мин.до ",
+          "developer": "Неометрия",
+          "price": 5800000,
+          "rooms": 1,
+          "area": null,
+          "source_url": "https://neometria.ru/novorossiysk/complex-malina",
+          "found_at": "2025-08-25T14:50:24.897660"
+        },
+        {
+          "complex_name": "Проект сданВид на мореСмотреть проектЖК «Малина»от 5.8 млн ₽Новороссийск5 мин.до водопадов12 мин.до ",
+          "developer": "Неометрия",
+          "price": 6000000,
+          "rooms": 2,
+          "area": null,
+          "source_url": "https://neometria.ru/novorossiysk/complex-malina",
+          "found_at": "2025-08-25T14:50:24.897676"
+        },
+        {
+          "complex_name": "Проект сданВид на мореСмотреть проектЖК «Малина»от 5.8 млн ₽Новороссийск5 мин.до водопадов12 мин.до ",
+          "developer": "Неометрия",
+          "price": null,
+          "rooms": 3,
+          "area": null,
+          "source_url": "https://neometria.ru/novorossiysk/complex-malina",
+          "found_at": "2025-08-25T14:50:24.897678"
+        },
+        {
+          "complex_name": "Проект сданВид на мореСмотреть проектЖК «Малина»от 5.8 млн ₽Новороссийск5 мин.до водопадов12 мин.до ",
+          "developer": "Неометрия",
+          "price": null,
+          "rooms": 1,
+          "area": null,
+          "source_url": "https://neometria.ru/novorossiysk/complex-malina",
+          "found_at": "2025-08-25T14:50:24.897681"
+        },
+        {
+          "complex_name": "Проект сданВид на мореСмотреть проектЖК «Малина»от 5.8 млн ₽Новороссийск5 мин.до водопадов12 мин.до ",
+          "developer": "Неометрия",
+          "price": null,
+          "rooms": 2,
+          "area": null,
+          "source_url": "https://neometria.ru/novorossiysk/complex-malina",
+          "found_at": "2025-08-25T14:50:24.897683"
+        },
+        {
+          "complex_name": "Проект сданВид на мореСмотреть проектЖК «Малина»от 5.8 млн ₽Новороссийск5 мин.до водопадов12 мин.до ",
+          "developer": "Неометрия",
+          "price": null,
+          "rooms": 3,
+          "area": null,
+          "source_url": "https://neometria.ru/novorossiysk/complex-malina",
+          "found_at": "2025-08-25T14:50:24.897685"
+        },
+        {
+          "complex_name": "Проект сданВид на мореСмотреть проектЖК «Малина»от 5.8 млн ₽Новороссийск5 мин.до водопадов12 мин.до ",
+          "developer": "Неометрия",
+          "price": null,
+          "rooms": 1,
+          "area": null,
+          "source_url": "https://neometria.ru/novorossiysk/complex-malina",
+          "found_at": "2025-08-25T14:50:24.897688"
+        }
+      ]
+    }
+  ],
+  "yugstroyinvest": []
+}

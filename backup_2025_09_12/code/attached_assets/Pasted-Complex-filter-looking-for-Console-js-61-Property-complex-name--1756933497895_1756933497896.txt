@@ -1,0 +1,39 @@
+Complex filter: looking for "ЖК Гостиничный комплекс"
+Console.js:61 🔍 Property complex_name: "ЖК Гостиничный комплекс "Нескучный сад""
+Console.js:61 ✅ Complex filter: match found!
+Console.js:61 🏠 Complex filter: looking for "ЖК Гостиничный комплекс"
+Console.js:61 🔍 Property complex_name: "ЖК Гостиничный комплекс "Нескучный сад""
+Console.js:61 ✅ Complex filter: match found!
+Console.js:61 🏠 Complex filter: looking for "ЖК Гостиничный комплекс"
+Console.js:61 🔍 Property complex_name: "ЖК Гостиничный комплекс "Гранд Каскад""
+Console.js:61 ✅ Complex filter: match found!
+Console.js:61 🏠 Complex filter: looking for "ЖК Гостиничный комплекс"
+Console.js:61 🔍 Property complex_name: "ЖК Гостиничный комплекс "Гранд Каскад""
+Console.js:61 ✅ Complex filter: match found!
+Console.js:61 🏠 Complex filter: looking for "ЖК Гостиничный комплекс"
+Console.js:61 🔍 Property complex_name: "ЖК Гостиничный комплекс "Гранд Каскад""
+Console.js:61 ✅ Complex filter: match found!
+Console.js:61 🏠 Complex filter: looking for "ЖК Гостиничный комплекс"
+Console.js:61 🔍 Property complex_name: "ЖК Гостиничный комплекс "Нескучный сад""
+Console.js:61 ✅ Complex filter: match found!
+Console.js:61 🏠 Complex filter: looking for "ЖК Гостиничный комплекс"
+Console.js:61 🔍 Property complex_name: "ЖК Гостиничный комплекс "Гранд Каскад""
+Console.js:61 ✅ Complex filter: match found!
+Console.js:61 🏠 Complex filter: looking for "ЖК Гостиничный комплекс"
+Console.js:61 🔍 Property complex_name: "ЖК Гостиничный комплекс "Нескучный сад""
+Console.js:61 ✅ Complex filter: match found!
+Console.js:61 🏠 Complex filter: looking for "ЖК Гостиничный комплекс"
+Console.js:61 🔍 Property complex_name: "ЖК Гостиничный комплекс "Нескучный сад""
+Console.js:61 ✅ Complex filter: match found!
+Console.js:61 🏠 Complex filter: looking for "ЖК Гостиничный комплекс"
+Console.js:61 🔍 Property complex_name: "ЖК Гостиничный комплекс "Нескучный сад""
+Console.js:61 ✅ Complex filter: match found!
+Console.js:61 🏠 Complex filter: looking for "ЖК Гостиничный комплекс"
+Console.js:61 🔍 Property complex_name: "ЖК Гостиничный комплекс "Нескучный сад""
+Console.js:61 ✅ Complex filter: match found!
+Console.js:61 🏠 Complex filter: looking for "ЖК Гостиничный комплекс"
+Console.js:61 🔍 Property complex_name: "ЖК Гостиничный комплекс "Нескучный сад""
+Console.js:61 ✅ Complex filter: match found!
+Console.js:61 🎯 FILTERING RESULT: 122 properties from 122 total
+Console.js:61 🔄 Calling updateResultsCount with: 122
+Console.js:61 🔄 upd

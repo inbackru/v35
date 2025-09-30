@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+
+{% block title %}Новости недвижимости Краснодара | InBack{% endblock %}
+{% block description %}Актуальные новости рынка недвижимости Краснодара: новостройки, кэшбек программы, льготная ипотека, изменения в законодательстве.{% endblock %}
+{% block keywords %}новости недвижимости краснодар, новостройки краснодар, кэшбек новости, ипотека новости{% endblock %}
+
+{% block head %}
+<script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "NewsArticle",
+      "name": "Новости недвижимости Краснодара",
+      "description": "Актуальные новости рынка недвижимости Краснодара",
+      "publisher": {
+        "@type": "Organization",
+        "name": "InBack",
+        "logo": "https://inback.ru/logo.jpg"
+      }
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gradient-to-br from-purple-50 to-indigo-100 pt-20 pb-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="inline-flex items-center px-4 py-2 bg-gray-100 rounded-full text-gray-700 text-sm font-medium mb-6">
+                <i class="fas fa-newspaper mr-2"></i>
+                Новости недвижимости
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+                Новости <span class="text-[#0088CC]">рынка недвижимости</span> Краснодара
+            </h1>
+            <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                Актуальные события, изменения в законодательстве, новые проекты и специальные предложения от застройщиков
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- News Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- News Item 1 -->
+                <article class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all border border-gray-100">
+                    <div class="aspect-video bg-gradient-to-br from-blue-100 to-blue-200 rounded-t-xl flex items-center justify-center">
+                        <i class="fas fa-building text-4xl text-[#0088CC]"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-gray-500 mb-3">
+                            <i class="fas fa-calendar mr-2"></i>
+                            15 января 2024
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-gray-900">Новые льготы по ипотеке в 2024 году</h3>
+                        <p class="text-gray-600 mb-4 text-sm">
+                            Правительство расширило программы льготного ипотечного кредитования. Семейная ипотека продлена до конца 2024 года со ставкой 6%.
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-[#0088CC] font-medium">Ипотека</span>
+                            <button class="text-[#0088CC] hover:text-[#006699] text-sm font-medium">
+                                Читать далее <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- News Item 2 -->
+                <article class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all border border-gray-100">
+                    <div class="aspect-video bg-gradient-to-br from-green-100 to-green-200 rounded-t-xl flex items-center justify-center">
+                        <i class="fas fa-home text-4xl text-green-600"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-gray-500 mb-3">
+                            <i class="fas fa-calendar mr-2"></i>
+                            12 января 2024
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-gray-900">Открытие нового ЖК "Солнечный город"</h3>
+                        <p class="text-gray-600 mb-4 text-sm">
+                            В районе ФМР началось строительство крупного жилого комплекса на 2000 квартир. Старт продаж - февраль 2024.
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-green-600 font-medium">Новостройки</span>
+                            <button class="text-[#0088CC] hover:text-[#006699] text-sm font-medium">
+                                Читать далее <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- News Item 3 -->
+                <article class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all border border-gray-100">
+                    <div class="aspect-video bg-gradient-to-br from-orange-100 to-orange-200 rounded-t-xl flex items-center justify-center">
+                        <i class="fas fa-coins text-4xl text-[#0088CC]"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-gray-500 mb-3">
+                            <i class="fas fa-calendar mr-2"></i>
+                            10 января 2024
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-gray-900">Рост кэшбека до 500 000 ₽</h3>
+                        <p class="text-gray-600 mb-4 text-sm">
+                            Застройщики Краснодара увеличили размер кэшбека за квартиры в новостройках. Максимальная сумма возврата достигла 500 000 рублей.
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-[#0088CC] font-medium">Кэшбек</span>
+                            <button class="text-[#0088CC] hover:text-[#006699] text-sm font-medium">
+                                Читать далее <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- News Item 4 -->
+                <article class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all border border-gray-100">
+                    <div class="aspect-video bg-gradient-to-br from-red-100 to-red-200 rounded-t-xl flex items-center justify-center">
+                        <i class="fas fa-gavel text-4xl text-[#0088CC]"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-gray-500 mb-3">
+                            <i class="fas fa-calendar mr-2"></i>
+                            8 января 2024
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-gray-900">Изменения в 214-ФЗ с марта 2024</h3>
+                        <p class="text-gray-600 mb-4 text-sm">
+                            Вступают в силу новые требования к застройщикам по страхованию долевого строительства и эскроу-счетам.
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-[#0088CC] font-medium">Законодательство</span>
+                            <button class="text-[#0088CC] hover:text-[#006699] text-sm font-medium">
+                                Читать далее <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- News Item 5 -->
+                <article class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all border border-gray-100">
+                    <div class="aspect-video bg-gradient-to-br from-teal-100 to-teal-200 rounded-t-xl flex items-center justify-center">
+                        <i class="fas fa-map-marked-alt text-4xl text-teal-600"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-gray-500 mb-3">
+                            <i class="fas fa-calendar mr-2"></i>
+                            5 января 2024
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-gray-900">Развитие инфраструктуры ЮМР</h3>
+                        <p class="text-gray-600 mb-4 text-sm">
+                            В Юбилейном микрорайоне планируется строительство новой школы и детского сада. Проект стоимостью 2 млрд рублей.
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-teal-600 font-medium">Инфраструктура</span>
+                            <button class="text-[#0088CC] hover:text-[#006699] text-sm font-medium">
+                                Читать далее <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- News Item 6 -->
+                <article class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all border border-gray-100">
+                    <div class="aspect-video bg-gradient-to-br from-indigo-100 to-indigo-200 rounded-t-xl flex items-center justify-center">
+                        <i class="fas fa-chart-line text-4xl text-indigo-600"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-gray-500 mb-3">
+                            <i class="fas fa-calendar mr-2"></i>
+                            3 января 2024
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-gray-900">Статистика продаж за 2023 год</h3>
+                        <p class="text-gray-600 mb-4 text-sm">
+                            В Краснодаре продано рекордное количество квартир в новостройках - 15 000 единиц. Рост составил 23% к предыдущему году.
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-indigo-600 font-medium">Аналитика</span>
+                            <button class="text-[#0088CC] hover:text-[#006699] text-sm font-medium">
+                                Читать далее <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Pagination -->
+            <div class="flex justify-center mt-12">
+                <nav class="flex space-x-2">
+                    <button class="px-4 py-2 text-gray-500 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="px-4 py-2 text-white bg-[#0088CC] rounded-lg">1</button>
+                    <button class="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">2</button>
+                    <button class="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">3</button>
+                    <button class="px-4 py-2 text-gray-500 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4 text-center">
+        <div class="max-w-2xl mx-auto">
+            <h2 class="text-3xl font-bold mb-6">Подпишитесь на новости</h2>
+            <p class="text-gray-600 mb-8">
+                Получайте актуальную информацию о новых проектах, изменениях в законодательстве и специальных предложениях
+            </p>
+            <div class="flex max-w-md mx-auto">
+                <input type="email" placeholder="Ваш email" class="flex-1 px-4 py-3 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                <button class="px-6 py-3 bg-[#0088CC] text-white rounded-r-lg hover:bg-[#006699] transition-colors">
+                    Подписаться
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

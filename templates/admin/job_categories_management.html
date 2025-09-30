@@ -1,0 +1,163 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Категории вакансий - Админ панель | InBack{% endblock %}
+{% block page_title %}Категории вакансий{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Page Header -->
+    <div class="flex justify-between items-center">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Категории вакансий</h1>
+            <p class="text-gray-600 mt-2">Управление категориями для организации вакансий</p>
+        </div>
+        <a href="{{ url_for('admin_create_job_category') }}" 
+           class="bg-[#1e40af] hover:bg-[#1d4ed8] text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center">
+            <i class="fas fa-plus mr-2"></i>
+            Создать категорию
+        </a>
+    </div>
+
+    <!-- Categories Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for category in categories %}
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-start justify-between">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 rounded-lg flex items-center justify-center" 
+                         style="background-color: {{ category.color }}20;">
+                        <i class="{{ category.icon }} text-xl" style="color: {{ category.color }};"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-lg font-semibold text-gray-900">{{ category.name }}</h3>
+                        <p class="text-sm text-gray-500">{{ category.description }}</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-2">
+                    <!-- Edit Button -->
+                    <a href="{{ url_for('admin_edit_job_category', category_id=category.id) }}" 
+                       class="text-[#1e40af] hover:text-[#1d4ed8] p-2 rounded hover:bg-blue-50 transition-colors"
+                       title="Редактировать">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    
+                    <!-- Delete Button -->
+                    <button onclick="deleteCategory({{ category.id }}, '{{ category.name }}')"
+                            class="text-red-600 hover:text-red-800 p-2 rounded hover:bg-red-50 transition-colors"
+                            title="Удалить">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Category Stats -->
+            <div class="mt-4 flex items-center justify-between">
+                <div class="flex items-center text-sm text-gray-500">
+                    <i class="fas fa-briefcase mr-1"></i>
+                    <span>{{ category.jobs.count() if category.jobs else 0 }} вакансий</span>
+                </div>
+                
+                <div class="flex items-center space-x-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                               {{ 'bg-green-100 text-green-800' if category.is_active else 'bg-red-100 text-red-800' }}">
+                        <i class="fas {{ 'fa-check-circle' if category.is_active else 'fa-pause-circle' }} mr-1"></i>
+                        {{ 'Активна' if category.is_active else 'Неактивна' }}
+                    </span>
+                    
+                    {% if category.sort_order %}
+                    <span class="text-xs text-gray-400">
+                        Порядок: {{ category.sort_order }}
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if not categories %}
+    <div class="text-center py-12">
+        <i class="fas fa-tags text-gray-300 text-6xl mb-4"></i>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">Пока нет категорий</h3>
+        <p class="text-gray-500 mb-6">Создайте первую категорию для организации вакансий</p>
+        <a href="{{ url_for('admin_create_job_category') }}" 
+           class="bg-[#1e40af] hover:bg-[#1d4ed8] text-white px-6 py-3 rounded-lg font-medium transition-colors inline-flex items-center">
+            <i class="fas fa-plus mr-2"></i>
+            Создать категорию
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto h-full w-full z-50">
+    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+        <div class="mt-3 text-center">
+            <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+                <i class="fas fa-exclamation-triangle text-red-600 text-xl"></i>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 mt-2">Удалить категорию?</h3>
+            <div class="mt-2 px-7 py-3">
+                <p class="text-sm text-gray-500">
+                    Вы уверены, что хотите удалить категорию "<span id="deleteCategoryName"></span>"? 
+                    Это действие нельзя отменить.
+                </p>
+            </div>
+            <div class="flex justify-center gap-4 mt-4">
+                <button onclick="closeDeleteModal()" 
+                        class="px-4 py-2 bg-gray-300 text-gray-800 text-base font-medium rounded-md shadow-sm hover:bg-gray-400 transition-colors">
+                    Отмена
+                </button>
+                <button onclick="confirmDelete()" 
+                        class="px-4 py-2 bg-red-600 text-white text-base font-medium rounded-md shadow-sm hover:bg-red-700 transition-colors">
+                    Удалить
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let deleteCategoryId = null;
+
+function deleteCategory(categoryId, categoryName) {
+    deleteCategoryId = categoryId;
+    document.getElementById('deleteCategoryName').textContent = categoryName;
+    document.getElementById('deleteModal').classList.remove('hidden');
+}
+
+function closeDeleteModal() {
+    document.getElementById('deleteModal').classList.add('hidden');
+    deleteCategoryId = null;
+}
+
+function confirmDelete() {
+    if (deleteCategoryId) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `/admin/job-categories/${deleteCategoryId}/delete`;
+        
+        // Add CSRF token if available
+        const csrfToken = document.querySelector('meta[name="csrf-token"]');
+        if (csrfToken) {
+            const tokenInput = document.createElement('input');
+            tokenInput.type = 'hidden';
+            tokenInput.name = 'csrf_token';
+            tokenInput.value = csrfToken.content;
+            form.appendChild(tokenInput);
+        }
+        
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+
+// Close modal when clicking outside
+document.getElementById('deleteModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeDeleteModal();
+    }
+});
+</script>
+{% endblock %}

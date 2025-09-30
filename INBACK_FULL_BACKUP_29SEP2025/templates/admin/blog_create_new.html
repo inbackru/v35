@@ -1,0 +1,213 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Создать статью - InBack.ru{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-6">
+    <!-- Header -->
+    <div class="flex items-center mb-6">
+        <a href="{{ url_for('admin_blog_manager') }}" 
+           class="text-gray-600 hover:text-gray-900 mr-4">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <div>
+            <h1 class="text-3xl font-bold text-gray-900">Создать новую статью</h1>
+            <p class="text-gray-600 mt-2">Заполните форму для создания статьи блога</p>
+        </div>
+    </div>
+
+    <form method="POST" class="space-y-6">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Main Content -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Title -->
+                <div class="bg-white rounded-lg shadow-sm border p-6">
+                    <label for="title" class="block text-sm font-medium text-gray-700 mb-2">
+                        Заголовок статьи <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text" 
+                           id="title" 
+                           name="title" 
+                           required
+                           placeholder="Введите заголовок статьи..."
+                           class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent text-lg">
+                </div>
+
+                <!-- Excerpt -->
+                <div class="bg-white rounded-lg shadow-sm border p-6">
+                    <label for="excerpt" class="block text-sm font-medium text-gray-700 mb-2">
+                        Краткое описание
+                    </label>
+                    <textarea id="excerpt" 
+                              name="excerpt" 
+                              rows="3"
+                              placeholder="Краткое описание статьи для предварительного просмотра..."
+                              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent"></textarea>
+                    <p class="text-sm text-gray-500 mt-1">Оптимальная длина: 150-200 символов</p>
+                </div>
+
+                <!-- Content -->
+                <div class="bg-white rounded-lg shadow-sm border p-6">
+                    <label for="content" class="block text-sm font-medium text-gray-700 mb-2">
+                        Содержание статьи <span class="text-red-500">*</span>
+                    </label>
+                    <textarea id="content" 
+                              name="content" 
+                              required
+                              rows="20"
+                              placeholder="Введите содержание статьи..."
+                              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent font-mono text-sm"></textarea>
+                    <div class="mt-2 text-sm text-gray-500">
+                        <p>Поддерживается HTML разметка. Основные теги:</p>
+                        <div class="mt-1 space-x-4">
+                            <code>&lt;h2&gt;&lt;h3&gt;</code> - заголовки
+                            <code>&lt;p&gt;</code> - абзацы
+                            <code>&lt;ul&gt;&lt;ol&gt;&lt;li&gt;</code> - списки
+                            <code>&lt;strong&gt;&lt;em&gt;</code> - выделение
+                            <code>&lt;a href=""&gt;</code> - ссылки
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                <!-- Publish Settings -->
+                <div class="bg-white rounded-lg shadow-sm border p-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Публикация</h3>
+                    
+                    <!-- Status -->
+                    <div class="mb-4">
+                        <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Статус</label>
+                        <select id="status" 
+                                name="status" 
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC]">
+                            <option value="draft">Черновик</option>
+                            <option value="published">Опубликовать</option>
+                            <option value="archived">В архив</option>
+                        </select>
+                    </div>
+
+                    <!-- Category -->
+                    <div class="mb-4">
+                        <label for="category_id" class="block text-sm font-medium text-gray-700 mb-2">
+                            Категория <span class="text-red-500">*</span>
+                        </label>
+                        <select id="category_id" 
+                                name="category_id" 
+                                required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC]">
+                            <option value="">Выберите категорию</option>
+                            {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Featured -->
+                    <div class="mb-4">
+                        <label class="flex items-center">
+                            <input type="checkbox" 
+                                   name="is_featured" 
+                                   value="1"
+                                   class="rounded border-gray-300 text-[#1e40af] shadow-sm focus:border-blue-300 focus:ring focus:ring-offset-0 focus:ring-blue-200 focus:ring-opacity-50">
+                            <span class="ml-2 text-sm text-gray-700">Рекомендуемая статья</span>
+                        </label>
+                        <p class="text-xs text-gray-500 mt-1">Статья будет выделена на главной странице блога</p>
+                    </div>
+                </div>
+
+                <!-- SEO Settings -->
+                <div class="bg-white rounded-lg shadow-sm border p-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">SEO настройки</h3>
+                    
+                    <!-- Meta Title -->
+                    <div class="mb-4">
+                        <label for="meta_title" class="block text-sm font-medium text-gray-700 mb-2">Meta Title</label>
+                        <input type="text" 
+                               id="meta_title" 
+                               name="meta_title" 
+                               placeholder="Заголовок для поисковых систем..."
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent">
+                        <p class="text-xs text-gray-500 mt-1">Оставьте пустым для автоматической генерации</p>
+                    </div>
+
+                    <!-- Meta Description -->
+                    <div class="mb-4">
+                        <label for="meta_description" class="block text-sm font-medium text-gray-700 mb-2">Meta Description</label>
+                        <textarea id="meta_description" 
+                                  name="meta_description" 
+                                  rows="3"
+                                  placeholder="Описание для поисковых систем..."
+                                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent"></textarea>
+                        <p class="text-xs text-gray-500 mt-1">Оптимальная длина: 120-160 символов</p>
+                    </div>
+
+                    <!-- Keywords -->
+                    <div>
+                        <label for="keywords" class="block text-sm font-medium text-gray-700 mb-2">Ключевые слова</label>
+                        <input type="text" 
+                               id="keywords" 
+                               name="keywords" 
+                               placeholder="недвижимость, краснодар, кэшбек..."
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent">
+                        <p class="text-xs text-gray-500 mt-1">Разделяйте запятыми</p>
+                    </div>
+                </div>
+
+                <!-- Featured Image -->
+                <div class="bg-white rounded-lg shadow-sm border p-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Изображение</h3>
+                    
+                    <div>
+                        <label for="featured_image" class="block text-sm font-medium text-gray-700 mb-2">URL изображения</label>
+                        <input type="url" 
+                               id="featured_image" 
+                               name="featured_image" 
+                               placeholder="https://example.com/image.jpg"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent">
+                        <p class="text-xs text-gray-500 mt-1">Рекомендуемый размер: 1200x630 пикселей</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex justify-between bg-white rounded-lg shadow-sm border p-6">
+            <a href="{{ url_for('admin_blog_manager') }}" 
+               class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
+                <i class="fas fa-times mr-2"></i>Отменить
+            </a>
+            <div class="space-x-3">
+                <button type="submit" 
+                        name="status" 
+                        value="draft"
+                        class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
+                    <i class="fas fa-save mr-2"></i>Сохранить как черновик
+                </button>
+                <button type="submit" 
+                        name="status" 
+                        value="published"
+                        class="px-6 py-2 bg-[#1e40af] hover:bg-[#1d4ed8] text-white rounded-lg transition-colors">
+                    <i class="fas fa-paper-plane mr-2"></i>Опубликовать
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+// Auto-generate slug from title
+document.getElementById('title').addEventListener('input', function() {
+    // This could be used to show a preview of the URL slug
+    console.log('Title changed:', this.value);
+});
+
+// Character count for meta description
+document.getElementById('meta_description').addEventListener('input', function() {
+    const charCount = this.value.length;
+    const optimal = charCount >= 120 && charCount <= 160;
+    // Could show character count indicator
+});
+</script>
+{% endblock %}

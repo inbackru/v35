@@ -1,0 +1,2822 @@
+{% extends "base.html" %}
+
+{% block title %}Кэшбек за новостройки в Краснодаре до 500 000 ₽ | InBack{% endblock %}
+
+{% block description %}Оформите кэшбек до 5% при покупке квартиры в новостройках Краснодара. Бесплатная юридическая проверка сделки, выгодные условия ипотеки. Вернём до 500 000 рублей!{% endblock %}
+
+{% block keywords %}кэшбек за квартиру, новостройки Краснодар, покупка квартиры с кэшбеком, ипотека Краснодар, жильё с возвратом денег{% endblock %}
+
+{% block head %}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "RealEstateAgent",
+      "name": "InBack",
+      "image": "https://inback.ru/logo.jpg",
+      "description": "Сервис возврата кэшбека при покупке недвижимости в Краснодаре",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "ул. Красная, 176",
+        "addressLocality": "Краснодар",
+        "addressRegion": "Краснодарский край"
+      },
+      "telephone": "+78001234567",
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "09:00",
+        "closes": "19:00"
+      }
+    }
+    </script>
+    <style>
+        /* Custom styles for index page */
+
+        
+        .loading-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+        }
+        
+        .loading-animation.hide {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .animation-delay-200 {
+            animation-delay: 200ms;
+        }
+        
+        .animation-delay-400 {
+            animation-delay: 400ms;
+        }
+        
+        .animation-delay-1000 {
+            animation-delay: 1s;
+        }
+        
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+        
+        /* Typewriter styles - адаптивные размеры */
+        .typewriter-text {
+            font-size: 1.875rem; /* text-3xl для мобильного */
+            font-weight: 700;
+            line-height: 1.1;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #0088CC, #006699);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+        }
+        
+        /* Адаптивные размеры для тайпвера */
+        @media (min-width: 640px) {
+            .typewriter-text {
+                font-size: 2.25rem; /* text-4xl для sm экранов */
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .typewriter-text {
+                font-size: 3.75rem; /* text-6xl для md+ экранов */
+            }
+        }
+        
+        @keyframes spin-slow {
+            from {
+                transform: rotateY(0deg);
+            }
+            to {
+                transform: rotateY(360deg);
+            }
+        }
+        
+        .animate-spin-slow {
+            animation: spin-slow 3s linear infinite;
+        }
+        
+        /* Partners scrolling animation */
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+        
+        .animate-scroll {
+            animation: scroll 30s linear infinite;
+        }
+        
+        .partners-scroll:hover .animate-scroll {
+            animation-play-state: paused;
+        }
+
+        /* Cashback Calculator Styles */
+        .cashback-slider {
+            background: linear-gradient(to right, #0088CC 0%, #0088CC var(--slider-progress, 25%), #e5e7eb var(--slider-progress, 25%), #e5e7eb 100%);
+        }
+        
+        .cashback-slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #0088CC;
+            border: 2px solid white;
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .cashback-slider::-webkit-slider-thumb:hover {
+            background: #006699;
+            box-shadow: 0 0 0 2px rgba(0, 136, 204, 0.2), 0 2px 6px rgba(0,0,0,0.15);
+        }
+        
+        .cashback-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #0088CC;
+            border: 2px solid white;
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .cashback-slider::-moz-range-thumb:hover {
+            background: #006699;
+            box-shadow: 0 0 0 2px rgba(0, 136, 204, 0.2), 0 2px 6px rgba(0,0,0,0.15);
+        }
+        
+        /* Timeline Animation Styles */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes drawLine {
+            from {
+                width: 0;
+            }
+            to {
+                width: calc(100% + 2rem);
+            }
+        }
+        
+        @keyframes breathe {
+            0%, 100% {
+                transform: scale(1);
+                background-color: #0088CC;
+            }
+            50% {
+                transform: scale(1.3);
+                background-color: #4F8EF7;
+            }
+        }
+        
+        .timeline-step {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .timeline-step:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-step:nth-child(2) { animation-delay: 0.3s; }
+        .timeline-step:nth-child(3) { animation-delay: 0.5s; }
+        .timeline-step:nth-child(4) { animation-delay: 0.7s; }
+        
+        .timeline-dot {
+            animation: scaleIn 0.4s ease-out forwards, breathe 2s ease-in-out infinite;
+            animation-delay: 0.2s, 1s;
+        }
+        
+        .timeline-line {
+            animation: drawLine 0.8s ease-out forwards;
+            width: 0;
+        }
+        
+        .timeline-line:nth-child(1) { animation-delay: 0.4s; }
+        .timeline-line:nth-child(2) { animation-delay: 0.6s; }
+        .timeline-line:nth-child(3) { animation-delay: 0.8s; }
+
+    </style>
+    <script>
+        // ✅ КЕШБЕК КАЛЬКУЛЯТОР
+        function updateCashbackCalculator() {
+            const slider = document.getElementById('property-price-slider');
+            const priceDisplay = document.getElementById('property-price-display');
+            const cashbackDisplay = document.getElementById('cashback-amount');
+            
+            if (slider && priceDisplay && cashbackDisplay) {
+                const price = parseInt(slider.value);
+                const cashback = Math.round(price * 0.025); // 2.5%
+                
+                // Обновляем отображение цены
+                priceDisplay.textContent = price.toLocaleString('ru-RU') + ' ₽';
+                
+                // Обновляем кешбек
+                cashbackDisplay.textContent = cashback.toLocaleString('ru-RU') + ' ₽';
+                
+                // Обновляем прогресс слайдера
+                const progress = ((price - slider.min) / (slider.max - slider.min)) * 100;
+                slider.style.setProperty('--slider-progress', progress + '%');
+            }
+        }
+
+        // Функция для основного калькулятора (второй)
+        function updateCashbackCalculatorMain() {
+            const slider = document.getElementById('property-price-slider-main');
+            const priceDisplay = document.getElementById('property-price-display-main');
+            const cashbackDisplay = document.getElementById('cashback-amount-main');
+            
+            if (slider && priceDisplay && cashbackDisplay) {
+                const price = parseInt(slider.value);
+                const cashback = Math.round(price * 0.025); // 2.5%
+                
+                // Обновляем отображение цены
+                priceDisplay.textContent = price.toLocaleString('ru-RU') + ' ₽';
+                
+                // Обновляем кешбек
+                cashbackDisplay.textContent = cashback.toLocaleString('ru-RU') + ' ₽';
+                
+                // Обновляем прогресс слайдера
+                const progress = ((price - slider.min) / (slider.max - slider.min)) * 100;
+                slider.style.setProperty('--slider-progress', progress + '%');
+            }
+        }
+
+        // Инициализация калькулятора после загрузки DOM
+        document.addEventListener('DOMContentLoaded', function() {
+            // Основной калькулятор
+            const sliderMain = document.getElementById('property-price-slider-main');
+            if (sliderMain) {
+                sliderMain.addEventListener('input', updateCashbackCalculatorMain);
+                // Первоначальный расчет
+                updateCashbackCalculatorMain();
+            }
+        });
+
+        // ✅ РАБОЧИЕ ФИЛЬТРЫ НА ГЛАВНОЙ СТРАНИЦЕ
+        function applyHomeFilters() {
+            // Собираем параметры фильтров
+            const params = new URLSearchParams();
+            
+            // Поисковый запрос
+            const searchQuery = document.getElementById('property-search')?.value?.trim();
+            if (searchQuery) {
+                params.append('search', searchQuery);
+            }
+            
+            // Выбранные комнаты (исправлен селектор)
+            const selectedRooms = [];
+            document.querySelectorAll('.room-btn').forEach(btn => {
+                // Проверяем имеет ли кнопка активный класс
+                if (btn.classList.contains('bg-[#0088CC]') || btn.style.backgroundColor === 'rgb(0, 136, 204)') {
+                    const roomValue = btn.getAttribute('data-rooms');
+                    if (roomValue === '4+') {
+                        selectedRooms.push('4', '5', '6'); // 4+ означает 4, 5, 6+ комнат
+                    } else {
+                        selectedRooms.push(roomValue);
+                    }
+                }
+            });
+            if (selectedRooms.length > 0) {
+                params.append('rooms', selectedRooms.join(','));
+            }
+            
+            // Район
+            const district = document.getElementById('district-filter')?.value;
+            if (district && district !== '') {
+                params.append('district', district);
+            }
+            
+            // ✅ ИСПРАВЛЕНО: Цена в МИЛЛИОНАХ как вводит пользователь
+            const priceFrom = document.getElementById('price-from')?.value;
+            if (priceFrom && parseFloat(priceFrom) > 0) {
+                params.append('price_min', parseFloat(priceFrom)); // Передаем в млн как вводит пользователь
+            }
+            
+            const priceTo = document.getElementById('price-to')?.value;
+            if (priceTo && parseFloat(priceTo) > 0) {
+                params.append('price_max', parseFloat(priceTo)); // Передаем в млн как вводит пользователь
+            }
+            
+            // Дополнительные фильтры
+            const developer = document.getElementById('developer-filter')?.value;
+            if (developer && developer !== '') {
+                params.append('developer', developer);
+            }
+            
+            // Площадь
+            const areaFrom = document.getElementById('area-from')?.value;
+            if (areaFrom) {
+                params.append('area_from', areaFrom);
+            }
+            
+            const areaTo = document.getElementById('area-to')?.value;
+            if (areaTo) {
+                params.append('area_to', areaTo);
+            }
+            
+            // Этаж
+            const floorFrom = document.getElementById('floor-from')?.value;
+            if (floorFrom) {
+                params.append('floor_from', floorFrom);
+            }
+            
+            const floorTo = document.getElementById('floor-to')?.value;
+            if (floorTo) {
+                params.append('floor_to', floorTo);
+            }
+            
+            // Перенаправляем на страницу /properties с параметрами
+            const url = '/properties' + (params.toString() ? '?' + params.toString() : '');
+            window.location.href = url;
+        }
+        
+        // Функция сброса фильтров
+        function resetHomeFilters() {
+            // Очищаем поиск
+            const searchInput = document.getElementById('property-search');
+            if (searchInput) searchInput.value = '';
+            
+            // Сбрасываем кнопки комнат
+            document.querySelectorAll('.room-btn').forEach(btn => {
+                btn.classList.remove('bg-[#0088CC]', 'text-white', 'border-[#0088CC]');
+            });
+            
+            // Сбрасываем район
+            const districtSelect = document.getElementById('district-filter');
+            if (districtSelect) districtSelect.value = '';
+            
+            // Сбрасываем цены
+            const priceFrom = document.getElementById('price-from');
+            if (priceFrom) priceFrom.value = '';
+            
+            const priceTo = document.getElementById('price-to');
+            if (priceTo) priceTo.value = '';
+            
+            // Сбрасываем дополнительные фильтры
+            const developerSelect = document.getElementById('developer-filter');
+            if (developerSelect) developerSelect.value = '';
+            
+            const areaFrom = document.getElementById('area-from');
+            if (areaFrom) areaFrom.value = '';
+            
+            const areaTo = document.getElementById('area-to');
+            if (areaTo) areaTo.value = '';
+            
+            const floorFrom = document.getElementById('floor-from');
+            if (floorFrom) floorFrom.value = '';
+            
+            const floorTo = document.getElementById('floor-to');
+            if (floorTo) floorTo.value = '';
+        }
+        
+        // Обработка кнопок комнат (улучшенная логика)
+        document.addEventListener('DOMContentLoaded', function() {
+            const roomButtons = document.querySelectorAll('.room-btn');
+            roomButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Переключаем активное состояние
+                    if (this.classList.contains('bg-[#0088CC]')) {
+                        // Убираем активное состояние
+                        this.classList.remove('bg-[#0088CC]', 'text-white', 'border-[#0088CC]');
+                        this.style.backgroundColor = '';
+                        this.style.color = '';
+                        this.style.borderColor = '';
+                    } else {
+                        // Добавляем активное состояние
+                        this.classList.add('bg-[#0088CC]', 'text-white', 'border-[#0088CC]');
+                        this.style.backgroundColor = 'rgb(0, 136, 204)';
+                        this.style.color = 'white';
+                        this.style.borderColor = 'rgb(0, 136, 204)';
+                    }
+                });
+            });
+        });
+        
+        // Обработка Enter в поиске
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('property-search');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        applyHomeFilters();
+                    }
+                });
+            }
+        });
+        
+        // ✅ ИСПРАВЛЕНО: Кнопка "Больше фильтров" - правильный обработчик
+        function toggleAdvancedFilters() {
+            const panel = document.getElementById('advancedFiltersPanel');
+            const btn = document.getElementById('toggleAdvancedFilters');
+            
+            if (panel && btn) {
+                if (panel.classList.contains('hidden')) {
+                    panel.classList.remove('hidden');
+                    btn.innerHTML = '<i class="fas fa-sliders-h text-sm"></i><span>Скрыть фильтры</span>';
+                } else {
+                    panel.classList.add('hidden');
+                    btn.innerHTML = '<i class="fas fa-sliders-h text-sm"></i><span>Больше фильтров</span>';
+                }
+            }
+        }
+        
+        // Calculator functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const priceRange = document.getElementById('priceRange');
+            const priceValue = document.getElementById('priceValue');
+            const cashbackPercentRange = document.getElementById('cashbackPercentRange');
+            const cashbackPercentValue = document.getElementById('cashbackPercentValue');
+            const termRange = document.getElementById('termRange');
+            const termValue = document.getElementById('termValue');
+            const cashbackDisplay = document.getElementById('cashbackDisplay');
+            const cashbackAmount = document.getElementById('cashbackAmount');
+            const monthlyPayment = document.getElementById('monthlyPayment');
+            
+            if (priceRange && priceValue && cashbackPercentRange && cashbackPercentValue && termRange && termValue) {
+                function updateCalculator() {
+                    const price = parseInt(priceRange.value);
+                    const cashbackPercent = parseFloat(cashbackPercentRange.value);
+                    const term = parseInt(termRange.value);
+                    
+                    // Update display values
+                    priceValue.textContent = price.toLocaleString('ru-RU') + ' ₽';
+                    cashbackPercentValue.textContent = cashbackPercent + '%';
+                    cashbackDisplay.textContent = cashbackPercent + '%';
+                    termValue.textContent = term + ' ' + (term === 1 ? 'год' : term < 5 ? 'года' : 'лет');
+                    
+                    // Calculate cashback amount
+                    const cashback = Math.round(price * cashbackPercent / 100);
+                    cashbackAmount.textContent = cashback.toLocaleString('ru-RU') + ' ₽';
+                    
+                    // Calculate monthly payment (simplified calculation with 6% annual rate)
+                    const monthlyRate = 0.06 / 12;
+                    const monthlyPaymentAmount = Math.round(price * monthlyRate * Math.pow(1 + monthlyRate, term * 12) / (Math.pow(1 + monthlyRate, term * 12) - 1));
+                    monthlyPayment.textContent = monthlyPaymentAmount.toLocaleString('ru-RU') + ' ₽';
+                }
+                
+                priceRange.addEventListener('input', updateCalculator);
+                cashbackPercentRange.addEventListener('input', updateCalculator);
+                termRange.addEventListener('input', updateCalculator);
+                
+                // Initial calculation
+                updateCalculator();
+            }
+        });
+    </script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ton: {
+                            blue: '#0088cc',
+                            dark: '#222426',
+                            light: '#f5f5f5',
+                            accent: '#00a3e0',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+{% endblock %}
+
+{% block content %}
+    <!-- Loading Animation -->
+    <div class="loading-animation bg-gradient-to-b from-[#006699] to-[#0088CC]">
+        <div class="relative w-32 h-32">
+            <div class="absolute inset-0 rounded-full border-[10px] border-white/20 animate-ping"></div>
+            <div class="absolute inset-[15px] rounded-full border-[10px] border-white/30 animate-ping animation-delay-200"></div>
+            <div class="absolute inset-[30px] rounded-full border-[10px] border-white/40 animate-ping animation-delay-400"></div>
+            <div class="absolute inset-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white flex items-center justify-center">
+                <div class="w-8 h-8 rounded-full bg-[#0088CC]"></div>
+            </div>
+        </div>
+        <div class="mt-8 text-white text-xl font-semibold">Загружаем лучшие предложения...</div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="py-20 md:py-32 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden">
+        <!-- Background decorative elements -->
+        <div class="absolute top-0 left-0 w-full h-full pointer-events-none">
+            <!-- Large gradient circles -->
+            <div class="absolute top-20 -left-20 w-96 h-96 bg-gradient-to-r from-[#0088CC]/3 to-transparent rounded-full blur-3xl"></div>
+            <div class="absolute -top-32 right-0 w-80 h-80 bg-gradient-to-l from-[#006699]/4 to-transparent rounded-full blur-2xl"></div>
+            <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-72 h-72 bg-gradient-to-t from-[#0088CC]/2 to-transparent rounded-full blur-3xl"></div>
+            
+            <!-- Floating geometric shapes -->
+            <div class="absolute top-32 right-1/4 w-4 h-4 bg-[#0088CC]/20 rounded-full animate-pulse"></div>
+            <div class="absolute top-48 left-1/3 w-3 h-3 bg-[#006699]/30 rounded-full animate-pulse animation-delay-1000"></div>
+            <div class="absolute bottom-40 right-1/3 w-5 h-5 bg-[#0088CC]/15 rounded-full animate-pulse animation-delay-2000"></div>
+            <div class="absolute bottom-32 left-1/4 w-2 h-2 bg-[#006699]/25 rounded-full animate-pulse"></div>
+            
+            <!-- Subtle lines and dots pattern -->
+            <div class="absolute top-1/4 left-1/5 w-1 h-12 bg-gradient-to-b from-[#0088CC]/10 to-transparent"></div>
+            <div class="absolute top-1/3 right-1/5 w-1 h-16 bg-gradient-to-b from-[#006699]/8 to-transparent"></div>
+            <div class="absolute bottom-1/3 left-1/2 w-1 h-10 bg-gradient-to-b from-[#0088CC]/12 to-transparent"></div>
+            
+            <!-- Corner accent shapes -->
+            <div class="absolute top-16 left-8 w-8 h-8 border border-[#0088CC]/10 rounded-full"></div>
+            <div class="absolute top-24 right-12 w-6 h-6 border border-[#006699]/15 rounded-full"></div>
+            <div class="absolute bottom-20 left-12 w-10 h-10 border border-[#0088CC]/8 rounded-full"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-4xl mx-auto text-center">
+                <h1 class="text-3xl sm:text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+                    <div class="leading-tight">Новостройки в Краснодаре</div>
+                    <div class="typewriter" id="typewriter"></div>
+                </h1>
+                <p class="text-base sm:text-lg md:text-xl text-gray-600 mb-8 px-4 leading-relaxed">Новостройки Краснодара — с выгодой до 500 000 ₽ на квартиру</p>
+                
+                <!-- Search Box -->
+                <div class="search-box bg-white rounded-2xl p-2 shadow-lg max-w-2xl mx-auto mb-6 relative">
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <input type="text" id="hero-search" placeholder="Поиск ЖК, район, застройщик" class="flex-grow px-4 sm:px-6 py-3 sm:py-4 rounded-xl focus:outline-none text-sm sm:text-base" autocomplete="off">
+                        <button id="hero-search-btn" class="bg-[rgb(0_136_204)] text-white px-4 sm:px-6 py-3 sm:py-4 rounded-xl hover:opacity-90 transition font-medium text-sm sm:text-base">Найти</button>
+                        <!-- ✅ ОТКЛЮЧЕНО: Hero Search Suggestions - SuperSearch обрабатывает подсказки -->
+                        <!-- <div id="hero-searchSuggestions" class="hidden..."> УДАЛЕН </div> -->
+                    </div>
+                </div>
+
+                <!-- Popular districts quick links -->
+                <div class="flex flex-wrap justify-center gap-2 mb-12 max-w-2xl mx-auto">
+                    <a href="{{ url_for('properties') }}" class="text-sm text-gray-600 hover:text-[#0088CC] px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full transition">Центральный</a>
+                    <a href="{{ url_for('properties') }}" class="text-sm text-gray-600 hover:text-[#0088CC] px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full transition">Западный</a>
+                    <a href="{{ url_for('properties') }}" class="text-sm text-gray-600 hover:text-[#0088CC] px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full transition">Карасунский</a>
+                    <a href="{{ url_for('properties') }}" class="text-sm text-gray-600 hover:text-[#0088CC] px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full transition">Гидростроителей</a>
+                    <a href="{{ url_for('properties') }}" class="text-sm text-gray-600 hover:text-[#0088CC] px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full transition">Юбилейный</a>
+                    <a href="{{ url_for('properties') }}" class="text-sm text-gray-600 hover:text-[#0088CC] px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full transition">Фестивальный</a>
+                    <a href="{{ url_for('properties') }}" class="text-sm text-gray-600 hover:text-[#0088CC] px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full transition">Пашковский</a>
+                    <a href="{{ url_for('properties') }}" class="text-sm text-gray-600 hover:text-[#0088CC] px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full transition">Прикубанский</a>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-3 sm:gap-4 mb-16">
+                    <div class="flex items-center bg-gray-100 rounded-full px-4 py-3 text-sm sm:text-base">
+                        <div class="w-6 h-6 rounded-full bg-[#0088CC] flex items-center justify-center text-white mr-3 flex-shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span>Кэшбек до 5%</span>
+                    </div>
+                    <div class="flex items-center bg-gray-100 rounded-full px-4 py-3 text-sm sm:text-base">
+                        <div class="w-6 h-6 rounded-full bg-[#0088CC] flex items-center justify-center text-white mr-3 flex-shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span>Бесплатная юридическая поддержка</span>
+                    </div>
+                    <div class="flex items-center bg-gray-100 rounded-full px-4 py-3 text-sm sm:text-base">
+                        <div class="w-6 h-6 rounded-full bg-[#0088CC] flex items-center justify-center text-white mr-3 flex-shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span>Ипотека с господдержкой</span>
+                    </div>
+                </div>
+                
+                <!-- Floating Partners Banner -->
+                <div class="relative overflow-hidden py-6">
+                    <div class="partners-scroll flex items-center space-x-16 animate-scroll">
+                        <!-- First set of partners -->
+                        <div class="flex items-center space-x-16 flex-shrink-0">
+                            <div class="text-gray-500 font-medium whitespace-nowrap">Застройщики:</div>
+                            
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">ГК ССК</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">DOGMA</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">ТОЧНО</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">AVA GROUP</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">ЮГСТРОЙИНВЕСТ</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">НЕОМЕТРИЯ</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">ВКБ-НОВОСТРОЙКИ</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">МЕТРИКС</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">АЛЬФАСТРОЙИНВЕСТ</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">ГИНСИТИ</div>
+                        </div>
+                        
+                        <!-- Duplicate set for seamless loop -->
+                        <div class="flex items-center space-x-16 flex-shrink-0">
+                            <div class="text-gray-500 font-medium whitespace-nowrap">Застройщики:</div>
+                            
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">СЕМЬЯ</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">ЕВРОПЕЯ</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">ГАРАНТИЯ</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">ЕКАТЕРИНОДАРИНВЕСТ-СТРОЙ</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">РОМЕКС ДЕВЕЛОПМЕНТ</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">ДАРСТРОЙ</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">БАУИНВЕСТ</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">ГК ССК</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">DOGMA</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">ТОЧНО</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<!-- How It Works Section -->
+<section class="py-20 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-4">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-16">
+            <div>
+                <!-- Фирменный бейдж -->
+                <div class="w-fit px-4 py-1 bg-black bg-opacity-5 rounded-full mb-6">
+                    <span class="text-sm font-medium uppercase">Как мы работаем</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Как это работает</h2>
+            </div>
+            <a href="/about" class="text-[#0088CC] font-medium hover:text-[#006BA6] transition-colors duration-200 flex items-center gap-2">
+                О компании
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </div>
+
+        <!-- Timeline -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Step 1 -->
+                <div class="text-center timeline-step">
+                    <div class="relative mb-6">
+                        <div class="hidden md:block absolute top-2 left-1/2 h-0.5 bg-gray-300 z-0 timeline-line" style="transform: translateX(0%);"></div>
+                        <div class="w-4 h-4 bg-[#0088CC] rounded-full mx-auto relative z-10 timeline-dot"></div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Шаг 1</h3>
+                    <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+                        <p class="text-gray-600 leading-relaxed">
+                            Найдите идеальную квартиру в Краснодаре по вашим параметрам. 
+                            Используйте удобные фильтры по цене, району и планировке.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="text-center timeline-step">
+                    <div class="relative mb-6">
+                        <div class="hidden md:block absolute top-2 left-1/2 h-0.5 bg-gray-300 z-0 timeline-line" style="transform: translateX(0%);"></div>
+                        <div class="w-4 h-4 bg-[#0088CC] rounded-full mx-auto relative z-10 timeline-dot"></div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Шаг 2</h3>
+                    <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+                        <p class="text-gray-600 leading-relaxed">
+                            Получите бесплатную консультацию от нашего эксперта. 
+                            Поможем выбрать лучший вариант, проверим документы и расскажем о условиях.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="text-center timeline-step">
+                    <div class="relative mb-6">
+                        <div class="hidden md:block absolute top-2 left-1/2 h-0.5 bg-gray-300 z-0 timeline-line" style="transform: translateX(0%);"></div>
+                        <div class="w-4 h-4 bg-[#0088CC] rounded-full mx-auto relative z-10 timeline-dot"></div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Шаг 3</h3>
+                    <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+                        <p class="text-gray-600 leading-relaxed">
+                            Оформляем безопасную сделку напрямую с застройщиком. 
+                            Все документы готовим мы, вам остается только подписать договор.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="text-center timeline-step">
+                    <div class="relative mb-6">
+                        <div class="w-4 h-4 bg-[#0088CC] rounded-full mx-auto timeline-dot"></div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Шаг 4</h3>
+                    <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+                        <p class="text-gray-600 leading-relaxed">
+                            Получите кэшбек за пользование сервисом в течение 30 дней после сделки. 
+                            Узнавайте точную сумму кешбека у менеджера.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        <!-- CTA Section -->
+        <div class="text-center mt-16">
+            <div class="bg-white rounded-2xl shadow-lg p-8 max-w-2xl mx-auto">
+                <h3 class="text-2xl font-bold text-gray-900 mb-4">Готовы начать?</h3>
+                <p class="text-gray-600 mb-6">Оставьте заявку, и мы перезвоним в течение 15 минут</p>
+                <button onclick="openApplicationModal()" 
+                        class="bg-[#0088CC] text-white py-3 px-8 rounded-lg font-medium hover:bg-[#006BA6] transition-colors duration-200 flex items-center gap-2 mx-auto">
+                    <span>Получить консультацию</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Unique Offer Section - TON Style -->
+    <section class="pt-16 pb-20 bg-gradient-to-b from-gray-50 to-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <div class="w-fit px-4 py-1 bg-black bg-opacity-5 rounded-full mb-6">
+                            <span class="text-sm font-medium uppercase">Специальное предложение</span>
+                        </div>
+                        <h2 class="text-3xl md:text-4xl font-bold mb-4 leading-tight">Платежи в подарок или выгода до 500 000 ₽</h2>
+                        <p class="text-base sm:text-lg text-[#5F6D7E] mb-6">Ищете идеальную квартиру? Мы поможем купить ее еще выгоднее с нашими специальными условиями.</p>
+                        <button onclick="openApplicationModal()" class="flex items-center gap-2 text-[#0088CC] hover:opacity-80 transition">
+                            <span>Узнать кешбек</span>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.5 3.5L14 8M14 8L9.5 12.5M14 8H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="relative flex justify-center items-center">
+                        <!-- 3D Кошелек с монетами -->
+                        <div class="relative">
+                            <!-- Основной кошелек -->
+                            <div class="relative w-80 h-64 bg-gradient-to-br from-[#4F8EF7] to-[#0088CC] rounded-3xl shadow-2xl transform rotate-12 hover:rotate-6 transition-all duration-500">
+                                <!-- Блики на кошельке -->
+                                <div class="absolute top-4 left-4 w-12 h-12 bg-white/20 rounded-2xl blur-sm"></div>
+                                <div class="absolute top-8 right-8 w-6 h-6 bg-white/30 rounded-full"></div>
+                                
+                                <!-- Кнопка кошелька -->
+                                <div class="absolute top-1/2 right-4 w-4 h-4 bg-gray-300 rounded-full shadow-inner"></div>
+                                
+                                <!-- Строчки кошелька -->
+                                <div class="absolute bottom-8 left-6 right-6">
+                                    <div class="border-t-2 border-dashed border-white/40 mb-2"></div>
+                                    <div class="border-t-2 border-dashed border-white/40 mb-2"></div>
+                                    <div class="border-t-2 border-dashed border-white/40"></div>
+                                </div>
+                                
+                                <!-- Содержимое кошелька -->
+                                <div class="absolute top-6 left-6 right-6">
+                                    <!-- Купюры -->
+                                    <div class="w-20 h-12 bg-green-100 rounded transform -rotate-3 mb-2 shadow-md"></div>
+                                    <div class="w-24 h-12 bg-green-200 rounded transform rotate-2 shadow-md"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Летающие монеты -->
+                            <div class="absolute -top-8 left-16 w-16 h-16 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-full shadow-lg transform rotate-45 animate-bounce">
+                                <div class="absolute inset-2 border-2 border-yellow-600 rounded-full"></div>
+                                <div class="absolute inset-4 text-yellow-700 text-xs font-bold flex items-center justify-center">₽</div>
+                            </div>
+                            
+                            <div class="absolute -top-4 right-12 w-12 h-12 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full shadow-lg transform -rotate-12 animate-pulse">
+                                <div class="absolute inset-1.5 border-2 border-yellow-700 rounded-full"></div>
+                                <div class="absolute inset-3 text-yellow-800 text-xs font-bold flex items-center justify-center">₽</div>
+                            </div>
+                            
+                            <div class="absolute top-8 -right-6 w-10 h-10 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-full shadow-lg transform rotate-30 animate-bounce" style="animation-delay: 0.5s;">
+                                <div class="absolute inset-1 border-2 border-yellow-600 rounded-full"></div>
+                                <div class="absolute inset-2 text-yellow-700 text-xs font-bold flex items-center justify-center">₽</div>
+                            </div>
+                            
+                            <!-- Статистика -->
+                            <div class="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-white px-8 py-3 rounded-lg shadow-lg border border-gray-200 min-w-max">
+                                <span class="text-gray-600 font-medium text-sm whitespace-nowrap">Более 500 семей сэкономили с InBack</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section - Скрыт, может понадобиться позже -->
+    <!-- 
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto mb-12">
+                <div class="w-fit px-4 py-1 bg-black bg-opacity-5 rounded-full mb-6">
+                    <span class="text-sm font-medium uppercase">Процесс получения кешбека</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 leading-tight">Как это работает</h2>
+                <p class="text-base sm:text-lg text-[#5F6D7E]">Простой и понятный процесс получения кешбека при покупке квартиры</p>
+            </div>
+            
+            Остальной код блока скрыт - см. выше
+        </div>
+    </section>
+    -->
+
+    <!-- Минималистичный блок "Как это работает" 
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-16">
+                    <div class="w-fit mx-auto px-4 py-1 bg-black bg-opacity-5 rounded-full mb-6">
+                        <span class="text-sm font-medium uppercase">Как это работает</span>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Простой процесс получения кэшбека</h2>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">Всего 4 шага до возврата денежных средств</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 lg:gap-12">
+                    <!-- Шаг 1 
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-[#0088CC] rounded-xl flex items-center justify-center flex-shrink-0">
+                            <span class="text-white font-bold text-lg">1</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-900">Выбор квартиры</h3>
+                            <p class="text-gray-600 leading-relaxed">Подбираем подходящий вариант из каталога проверенных застройщиков с экспертной поддержкой</p>
+                        </div>
+                    </div>
+
+                    <!-- Шаг 2 
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-[#0088CC] rounded-xl flex items-center justify-center flex-shrink-0">
+                            <span class="text-white font-bold text-lg">2</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-900">Оформление как клиент InBack</h3>
+                            <p class="text-gray-600 leading-relaxed">Регистрируем вас у застройщика для получения специальных условий и кэшбека</p>
+                        </div>
+                    </div>
+
+                    <!-- Шаг 3 
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-[#0088CC] rounded-xl flex items-center justify-center flex-shrink-0">
+                            <span class="text-white font-bold text-lg">3</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-900">Сопровождение сделки</h3>
+                            <p class="text-gray-600 leading-relaxed">Обеспечиваем юридическую поддержку и ведение всех документов до завершения покупки</p>
+                        </div>
+                    </div>
+
+                    <!-- Шаг 4 
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-[#0088CC] rounded-xl flex items-center justify-center flex-shrink-0">
+                            <span class="text-white font-bold text-lg">4</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-900">Получение кэшбека</h3>
+                            <p class="text-gray-600 leading-relaxed">Перечисляем возврат до 500 000 ₽ на вашу банковскую карту после завершения сделки</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Преимущества 
+                <div class="mt-16 bg-gray-50 rounded-xl p-8">
+                    <div class="grid md:grid-cols-3 gap-8 text-center">
+                        <div>
+                            <div class="w-12 h-12 bg-[#0088CC] bg-opacity-10 rounded-xl flex items-center justify-center mb-4 mx-auto">
+                                <svg class="w-6 h-6 text-[#0088CC]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                                </svg>
+                            </div>
+                            <h4 class="font-semibold mb-2 text-gray-900">Юридическая защита</h4>
+                            <p class="text-sm text-gray-600">Полное сопровождение сделки</p>
+                        </div>
+                        <div>
+                            <div class="w-12 h-12 bg-[#0088CC] bg-opacity-10 rounded-xl flex items-center justify-center mb-4 mx-auto">
+                                <svg class="w-6 h-6 text-[#0088CC]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                </svg>
+                            </div>
+                            <h4 class="font-semibold mb-2 text-gray-900">Персональный эксперт</h4>
+                            <p class="text-sm text-gray-600">Индивидуальная работа с клиентом</p>
+                        </div>
+                        <div>
+                            <div class="w-12 h-12 bg-[#0088CC] bg-opacity-10 rounded-xl flex items-center justify-center mb-4 mx-auto">
+                                <svg class="w-6 h-6 text-[#0088CC]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <h4 class="font-semibold mb-2 text-gray-900">Гарантированный возврат</h4>
+                            <p class="text-sm text-gray-600">До 500 000 ₽ кэшбека</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-12">
+                    <button onclick="openApplicationModal()" class="bg-[#0088CC] hover:bg-opacity-90 text-white px-8 py-3 rounded-lg transition-all duration-300 font-medium">
+                        Узнать размер кэшбека
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Districts Section - TON Style 
+    <section id="districts" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto text-center mb-12">
+                <div class="w-fit mx-auto px-6 py-1.5 bg-[#F0F7FF] rounded-full mb-4">
+                    <span class="text-sm font-medium text-[#0088CC]">Районы Краснодара</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Выберите идеальный район</h2>
+                <p class="text-lg sm:text-xl text-[#5F6D7E]">Подберите жильё в удобном для вас районе города</p>
+            </div>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div class="bg-[#F8F9FA] hover:bg-[#F0F7FF] p-4 rounded-lg transition-colors border border-[#E5E9F0]">
+                    <div class="w-12 h-12 bg-[#0088CC] bg-opacity-10 rounded-lg flex items-center justify-center mb-3">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Центральный</h3>
+                    <p class="text-sm text-[#5F6D7E] mb-3">Престижный центр города</p>
+                    <a href="{{ url_for('properties') }}">
+                    <button class="text-[#0088CC] text-sm font-medium flex items-center gap-1">
+                        <span>Смотреть ЖК</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.5 3.5L14 8M14 8L9.5 12.5M14 8H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                    </a>
+                </div>
+                <div class="bg-[#F8F9FA] hover:bg-[#F0F7FF] p-4 rounded-lg transition-colors border border-[#E5E9F0]">
+                    <div class="w-12 h-12 bg-[#0088CC] bg-opacity-10 rounded-lg flex items-center justify-center mb-3">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 16V12H16M12 8H12.01" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Западный</h3>
+                    <p class="text-sm text-[#5F6D7E] mb-3">Новые кварталы</p>
+                    <a href="{{ url_for('properties') }}">
+                    <button class="text-[#0088CC] text-sm font-medium flex items-center gap-1">
+                        <span>Смотреть ЖК</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.5 3.5L14 8M14 8L9.5 12.5M14 8H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                    </a>
+                </div>
+                <div class="bg-[#F8F9FA] hover:bg-[#F0F7FF] p-4 rounded-lg transition-colors border border-[#E5E9F0]">
+                    <div class="w-12 h-12 bg-[#0088CC] bg-opacity-10 rounded-lg flex items-center justify-center mb-3">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3.99988 12H20.9999M20.9999 12L15.9999 17M20.9999 12L15.9999 7" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 3.00001V21" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Карасунский</h3>
+                    <p class="text-sm text-[#5F6D7E] mb-3">Тихий и зеленый</p>
+                    <a href="{{ url_for('properties') }}">
+                    <button class="text-[#0088CC] text-sm font-medium flex items-center gap-1">
+                        <span>Смотреть ЖК</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.5 3.5L14 8M14 8L9.5 12.5M14 8H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                    </a>
+                </div>
+                <div class="bg-[#F8F9FA] hover:bg-[#F0F7FF] p-4 rounded-lg transition-colors border border-[#E5E9F0]">
+                    <div class="w-12 h-12 bg-[#0088CC] bg-opacity-10 rounded-lg flex items-center justify-center mb-3">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 10C7 13 9.23858 15 12 15C14.7614 15 17 13 17 10C17 7 14.7614 5 12 5C9.23858 5 7 7 7 10Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 15C13.6569 15 15 16.3431 15 18V19H9V18C9 16.3431 10.3431 15 12 15Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Гидростроителей</h3>
+                    <p class="text-sm text-[#5F6D7E] mb-3">Удобная инфраструктура</p>
+                    <a href="{{ url_for('properties') }}">
+                    <button class="text-[#0088CC] text-sm font-medium flex items-center gap-1">
+                        <span>Смотреть ЖК</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.5 3.5L14 8M14 8L9.5 12.5M14 8H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                    </a>
+                </div>
+                <div class="bg-[#F8F9FA] hover:bg-[#F0F7FF] p-4 rounded-lg transition-colors border border-[#E5E9F0]">
+                    <div class="w-12 h-12 bg-[#0088CC] bg-opacity-10 rounded-lg flex items-center justify-center mb-3">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 12C7 8.13401 10.134 5 14 5C17.866 5 21 8.13401 21 12C21 15.866 17.866 19 14 19H7V12Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M3 20V14" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Фестивальный</h3>
+                    <p class="text-sm text-[#5F6D7E] mb-3">Близко к паркам</p>
+                    <a href="{{ url_for('properties') }}">
+                    <button class="text-[#0088CC] text-sm font-medium flex items-center gap-1">
+                        <span>Смотреть ЖК</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.5 3.5L14 8M14 8L9.5 12.5M14 8H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                    </a>
+                </div>
+                <div class="bg-[#F8F9FA] hover:bg-[#F0F7FF] p-4 rounded-lg transition-colors border border-[#E5E9F0]">
+                    <div class="w-12 h-12 bg-[#0088CC] bg-opacity-10 rounded-lg flex items-center justify-center mb-3">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7.33653 3.70117L10.7773 1.93856C11.5415 1.54133 12.4585 1.54133 13.2227 1.93856L16.6635 3.70117C17.4369 4.10352 18 4.88255 18 5.75944V10.2406C18 11.1174 17.4369 11.8965 16.6635 12.2988L13.2227 14.0614C12.4585 14.4587 11.5415 14.4587 10.7773 14.0614L7.33653 12.2988C6.56311 11.8965 6 11.1174 6 10.2406V5.75944C6 4.88255 6.56311 4.10352 7.33653 3.70117Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M6 6.5L12 10L18 6.5" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 22V14" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M5.5 10V16C5.5 16.464 5.5 16.696 5.60799 16.898C5.71603 17.1 5.9161 17.2398 6.31623 17.5196L10.7773 20.5614C11.5415 20.9587 12.4585 20.9587 13.2227 20.5614L17.6838 17.5196C18.0839 17.2398 18.284 17.1 18.392 16.898C18.5 16.696 18.5 16.464 18.5 16V10" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Юбилейный</h3>
+                    <p class="text-sm text-[#5F6D7E] mb-3">Современная застройка</p>
+                    <a href="{{ url_for('properties') }}">
+                    <button class="text-[#0088CC] text-sm font-medium flex items-center gap-1">
+                        <span>Смотреть ЖК</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.5 3.5L14 8M14 8L9.5 12.5M14 8H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                    </a>
+                </div>
+                <div class="bg-[#F8F9FA] hover:bg-[#F0F7FF] p-4 rounded-lg transition-colors border border-[#E5E9F0]">
+                    <div class="w-12 h-12 bg-[#0088CC] bg-opacity-10 rounded-lg flex items-center justify-center mb-3">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 4H4V8H8V4Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M14 4H10V8H14V4Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M20 4H16V8H20V4Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 10H4V14H8V10Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M14 10H10V14H14V10Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M20 10H16V14H20V10Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 16H4V20H8V16Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M14 16H10V20H14V16Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M20 16H16V20H20V16Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Пашковский</h3>
+                    <p class="text-sm text-[#5F6D7E] mb-3">Транспортная доступность</p>
+                    <a href="{{ url_for('properties') }}">
+                    <button class="text-[#0088CC] text-sm font-medium flex items-center gap-1">
+                        <span>Смотреть ЖК</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.5 3.5L14 8M14 8L9.5 12.5M14 8H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                    </a>
+                </div>
+                <div class="bg-[#F8F9FA] hover:bg-[#F0F7FF] p-4 rounded-lg transition-colors border border-[#E5E9F0]">
+                    <div class="w-12 h-12 bg-[#0088CC] bg-opacity-10 rounded-lg flex items-center justify-center mb-3">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="m3 3 2.5 5H1" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M9 12h6m-3-3v6" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Все районы</h3>
+                    <p class="text-sm text-[#5F6D7E] mb-3">Полный список районов города</p>
+                    <a href="{{ url_for('districts') }}">
+                    <button class="text-[#0088CC] text-sm font-medium flex items-center gap-1">
+                        <span>Смотреть все</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.5 3.5L14 8M14 8L9.5 12.5M14 8H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                    </a>
+                </div>
+            </div>
+
+            <div class="text-center mt-10">
+                <a href="{{ url_for('districts') }}">
+                <button class="bg-[rgb(0_136_204)] hover:bg-[rgb(0_107_160)] text-white px-6 py-3 rounded-full transition flex items-center mx-auto gap-2 font-medium">
+                    <span>Показать все районы</span>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.5 3.5L14 8M14 8L9.5 12.5M14 8H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                </button>
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Cashback Calculator Section -->
+    <section id="calculator" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <!-- Header -->
+                <div class="mb-12">
+                    <!-- Фирменный бейдж калькулятора -->
+                    <div class="w-fit px-4 py-1 bg-black bg-opacity-5 rounded-full mb-6">
+                        <span class="text-sm font-medium uppercase">Калькулятор кэшбека</span>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                        Рассчитайте ваш кэшбек
+                    </h2>
+                    <p class="text-lg text-gray-600">Узнайте, сколько вы можете сэкономить при покупке недвижимости</p>
+                </div>
+                
+                <!-- Calculator -->
+                <div class="bg-gray-50 rounded-2xl p-8 md:p-12">
+                    <div class="grid lg:grid-cols-2 gap-12 items-center">
+                        <!-- Calculator Content -->
+                        <div>
+                            <div class="mb-8">
+                                <div class="text-5xl md:text-6xl font-bold text-[#0088CC] mb-2" id="cashback-amount-main">
+                                    62 500 ₽
+                                </div>
+                                <div class="text-lg text-gray-600">
+                                    Ваш кэшбек от покупки недвижимости
+                                </div>
+                            </div>
+                            
+                            <!-- Slider -->
+                            <div class="mb-8">
+                                <div class="flex justify-between items-center mb-6">
+                                    <label class="text-lg font-medium text-gray-900">Стоимость недвижимости</label>
+                                    <div class="text-xl font-bold text-gray-900" id="property-price-display-main">2 500 000 ₽</div>
+                                </div>
+                                
+                                <div class="relative">
+                                    <input 
+                                        type="range" 
+                                        id="property-price-slider-main" 
+                                        min="1000000" 
+                                        max="15000000" 
+                                        step="100000" 
+                                        value="2500000"
+                                        class="cashback-slider w-full h-2 bg-gray-200 rounded-full appearance-none cursor-pointer"
+                                    >
+                                    <div class="flex justify-between text-sm text-gray-500 mt-2">
+                                        <span>1 млн ₽</span>
+                                        <span>15 млн ₽</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="text-sm text-gray-500 mb-8">
+                                <span class="bg-blue-50 text-[#0088CC] px-4 py-2 rounded-full">
+                                    Расчет от 2,5% от стоимости недвижимости
+                                </span>
+                            </div>
+                            
+                            <button 
+                                onclick="openApplicationModal()" 
+                                class="bg-[#0088CC] hover:bg-[#006699] text-white font-medium px-8 py-4 rounded-xl transition-all duration-300 shadow-sm hover:shadow-md"
+                            >
+                                Получить консультацию
+                            </button>
+                        </div>
+                        
+                        <!-- Benefits -->
+                        <div class="space-y-6">
+                            <div class="flex items-center space-x-4 p-4 bg-white rounded-xl shadow-sm">
+                                <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-percentage text-[#0088CC] text-lg"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-900 text-lg">Кэшбек до 5%</h4>
+                                    <p class="text-gray-600 text-sm">Возврат средств за пользование сервисом</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center space-x-4 p-4 bg-white rounded-xl shadow-sm">
+                                <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-shield-alt text-[#0088CC] text-lg"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-900 text-lg">Юридическая защита</h4>
+                                    <p class="text-gray-600 text-sm">Проверка документов и сопровождение</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center space-x-4 p-4 bg-white rounded-xl shadow-sm">
+                                <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-users text-[#0088CC] text-lg"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-900 text-lg">Персональный менеджер</h4>
+                                    <p class="text-gray-600 text-sm">Индивидуальный подход к каждому</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+ 
+
+    <!-- Reviews Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="mb-12">
+                    <div class="w-fit px-4 py-1 bg-black bg-opacity-5 rounded-full mb-6">
+                        <span class="text-sm font-medium uppercase">Отзывы клиентов</span>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Истории успеха</h2>
+                    <p class="text-lg text-gray-600 max-w-3xl">
+                        Узнайте, как наши клиенты нашли свой идеальный дом и получили кэшбек
+                    </p>
+                </div>
+                
+                <!-- Reviews Slider -->
+                <div class="relative">
+                    <!-- Navigation Arrows -->
+                    <button onclick="previousReview()" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-20 w-12 h-12 bg-white shadow-lg rounded-full flex items-center justify-center text-gray-600 hover:text-[#0088CC] transition-all duration-300">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                    </button>
+                    
+                    <button onclick="nextReview()" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-20 w-12 h-12 bg-white shadow-lg rounded-full flex items-center justify-center text-gray-600 hover:text-[#0088CC] transition-all duration-300">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                    
+                    <!-- Reviews Carousel -->
+                    <div class="overflow-hidden pb-8">
+                        <div id="reviewsCarousel" class="flex transition-transform duration-500 ease-in-out">
+                            <!-- First Slide - Group of 4 cards -->
+                            <div class="min-w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                                <!-- Review Card 1 -->
+                                <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                                    <div class="relative h-48 bg-gray-200">
+                                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=300&h=192&fit=crop&auto=format&q=80" 
+                                             alt="Интерьер квартиры" 
+                                             class="w-full h-full object-cover">
+                                        <div class="absolute top-3 left-3 bg-green-500 bg-opacity-90 text-white text-xs px-2 py-1 rounded">
+                                            ✓ Сделка завершена
+                                        </div>
+                                    </div>
+                                    <div class="p-4">
+                                        <div class="mb-3">
+                                            <div class="text-sm text-gray-500 mb-1">Район: Центральный</div>
+                                            <div class="text-sm text-gray-500 mb-1">Объект: 2-комнатная квартира, 55 м²</div>
+                                            <div class="text-sm text-gray-500 mb-1">Срок сделки: 3 недели</div>
+                                            <div class="text-sm text-gray-500 mb-2">Цена: 6,9 млн ₽</div>
+                                        </div>
+                                        <div class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded inline-block mb-3">
+                                            Кэшбек получен: 345,000 ₽
+                                        </div>
+                                        <div class="border-t pt-3">
+                                            <div class="text-sm font-semibold text-gray-900">Сергей Михайлов</div>
+                                            <div class="text-xs text-gray-500 mb-2">3 марта, 2024</div>
+                                            <div class="text-xs text-gray-600 leading-relaxed">
+                                                "Отличный сервис! Помогли с выбором квартиры и оформлением кэшбека. Рекомендую всем!"
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Review Card 2 -->
+                                <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                                    <div class="relative h-48 bg-gray-200">
+                                        <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=300&h=192&fit=crop&auto=format&q=80" 
+                                             alt="Интерьер квартиры" 
+                                             class="w-full h-full object-cover">
+                                        <div class="absolute top-3 left-3 bg-green-500 bg-opacity-90 text-white text-xs px-2 py-1 rounded">
+                                            ✓ Сделка завершена
+                                        </div>
+                                    </div>
+                                    <div class="p-4">
+                                        <div class="mb-3">
+                                            <div class="text-sm text-gray-500 mb-1">Район: Черемушки</div>
+                                            <div class="text-sm text-gray-500 mb-1">Объект: Студия, 32 м²</div>
+                                            <div class="text-sm text-gray-500 mb-1">Срок сделки: 2 недели</div>
+                                            <div class="text-sm text-gray-500 mb-2">Цена: 3,5 млн ₽</div>
+                                        </div>
+                                        <div class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded inline-block mb-3">
+                                            Кэшбек получен: 175,000 ₽
+                                        </div>
+                                        <div class="border-t pt-3">
+                                            <div class="text-sm font-semibold text-gray-900">Екатерина Волкова</div>
+                                            <div class="text-xs text-gray-500 mb-2">1 апреля, 2024</div>
+                                            <div class="text-xs text-gray-600 leading-relaxed">
+                                                "Быстро и качественно оформили сделку. Получила кэшбек в срок. Спасибо команде!"
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Review Card 3 -->
+                                <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                                    <div class="relative h-48 bg-gray-200">
+                                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=300&h=192&fit=crop&auto=format&q=80" 
+                                             alt="Интерьер квартиры" 
+                                             class="w-full h-full object-cover">
+                                        <div class="absolute top-3 left-3 bg-green-500 bg-opacity-90 text-white text-xs px-2 py-1 rounded">
+                                            ✓ Сделка завершена
+                                        </div>
+                                    </div>
+                                    <div class="p-4">
+                                        <div class="mb-3">
+                                            <div class="text-sm text-gray-500 mb-1">Район: Западный Обход</div>
+                                            <div class="text-sm text-gray-500 mb-1">Объект: 3-комнатная квартира, 84 м²</div>
+                                            <div class="text-sm text-gray-500 mb-1">Срок сделки: 4 недели</div>
+                                            <div class="text-sm text-gray-500 mb-2">Цена: 11 млн ₽</div>
+                                        </div>
+                                        <div class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded inline-block mb-3">
+                                            Кэшбек получен: 550,000 ₽
+                                        </div>
+                                        <div class="border-t pt-3">
+                                            <div class="text-sm font-semibold text-gray-900">Алина Сергеевна</div>
+                                            <div class="text-xs text-gray-500 mb-2">26 января, 2024</div>
+                                            <div class="text-xs text-gray-600 leading-relaxed">
+                                                "Прекрасный опыт! Консультации на высшем уровне, все прозрачно и честно."
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Review Card 4 -->
+                                <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                                    <div class="relative h-48 bg-gray-200">
+                                        <img src="https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=300&h=192&fit=crop&auto=format&q=80" 
+                                             alt="Интерьер квартиры" 
+                                             class="w-full h-full object-cover">
+                                        <div class="absolute top-3 left-3 bg-green-500 bg-opacity-90 text-white text-xs px-2 py-1 rounded">
+                                            ✓ Сделка завершена
+                                        </div>
+                                    </div>
+                                    <div class="p-4">
+                                        <div class="mb-3">
+                                            <div class="text-sm text-gray-500 mb-1">Район: Фестивальный</div>
+                                            <div class="text-sm text-gray-500 mb-1">Объект: 2-комнатная квартира, 67 м²</div>
+                                            <div class="text-sm text-gray-500 mb-1">Срок сделки: 3 недели</div>
+                                            <div class="text-sm text-gray-500 mb-2">Цена: 8,2 млн ₽</div>
+                                        </div>
+                                        <div class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded inline-block mb-3">
+                                            Кэшбек получен: 410,000 ₽
+                                        </div>
+                                        <div class="border-t pt-3">
+                                            <div class="text-sm font-semibold text-gray-900">Алексей Кузнецов</div>
+                                            <div class="text-xs text-gray-500 mb-2">25 августа 2024</div>
+                                            <div class="text-xs text-gray-600 leading-relaxed">
+                                                "Отличная команда профессионалов. Помогли не только с покупкой, но и с оформлением документов."
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Second Slide - Another group of 4 cards -->
+                            <div class="min-w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                                <!-- Review Card 5 -->
+                                <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                                    <div class="relative h-48 bg-gray-200">
+                                        <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=300&h=192&fit=crop&auto=format&q=80" 
+                                             alt="Интерьер квартиры" 
+                                             class="w-full h-full object-cover">
+                                        <div class="absolute top-3 left-3 bg-green-500 bg-opacity-90 text-white text-xs px-2 py-1 rounded">
+                                            ✓ Сделка завершена
+                                        </div>
+                                    </div>
+                                    <div class="p-4">
+                                        <div class="mb-3">
+                                            <div class="text-sm text-gray-500 mb-1">Район: Гидростроителей</div>
+                                            <div class="text-sm text-gray-500 mb-1">Объект: 1-комнатная квартира, 42 м²</div>
+                                            <div class="text-sm text-gray-500 mb-1">Срок сделки: 2 недели</div>
+                                            <div class="text-sm text-gray-500 mb-2">Цена: 5,1 млн ₽</div>
+                                        </div>
+                                        <div class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded inline-block mb-3">
+                                            Кэшбек получен: 255,000 ₽
+                                        </div>
+                                        <div class="border-t pt-3">
+                                            <div class="text-sm font-semibold text-gray-900">Дмитрий Петров</div>
+                                            <div class="text-xs text-gray-500 mb-2">15 февраля, 2024</div>
+                                            <div class="text-xs text-gray-600 leading-relaxed">
+                                                "Первая покупка квартиры прошла гладко благодаря InBack. Очень доволен результатом!"
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Review Card 6 -->
+                                <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                                    <div class="relative h-48 bg-gray-200">
+                                        <img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=300&h=192&fit=crop&auto=format&q=80" 
+                                             alt="Интерьер квартиры" 
+                                             class="w-full h-full object-cover">
+                                        <div class="absolute top-3 left-3 bg-green-500 bg-opacity-90 text-white text-xs px-2 py-1 rounded">
+                                            ✓ Сделка завершена
+                                        </div>
+                                    </div>
+                                    <div class="p-4">
+                                        <div class="mb-3">
+                                            <div class="text-sm text-gray-500 mb-1">Район: Фестивальный</div>
+                                            <div class="text-sm text-gray-500 mb-1">Объект: 3-комнатная квартира, 95 м²</div>
+                                            <div class="text-sm text-gray-500 mb-1">Срок сделки: 5 недель</div>
+                                            <div class="text-sm text-gray-500 mb-2">Цена: 13,8 млн ₽</div>
+                                        </div>
+                                        <div class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded inline-block mb-3">
+                                            Кэшбек получен: 690,000 ₽
+                                        </div>
+                                        <div class="border-t pt-3">
+                                            <div class="text-sm font-semibold text-gray-900">Мария Иванова</div>
+                                            <div class="text-xs text-gray-500 mb-2">8 мая, 2024</div>
+                                            <div class="text-xs text-gray-600 leading-relaxed">
+                                                "Невероятный сервис! Получила максимальный кэшбек и прекрасную квартиру для семьи."
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Review Card 7 -->
+                                <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                                    <div class="relative h-48 bg-gray-200">
+                                        <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=300&h=192&fit=crop&auto=format&q=80" 
+                                             alt="Интерьер квартиры" 
+                                             class="w-full h-full object-cover">
+                                        <div class="absolute top-3 left-3 bg-green-500 bg-opacity-90 text-white text-xs px-2 py-1 rounded">
+                                            ✓ Сделка завершена
+                                        </div>
+                                    </div>
+                                    <div class="p-4">
+                                        <div class="mb-3">
+                                            <div class="text-sm text-gray-500 mb-1">Район: Восточно-Кругликовский</div>
+                                            <div class="text-sm text-gray-500 mb-1">Объект: 2-комнатная квартира, 73 м²</div>
+                                            <div class="text-sm text-gray-500 mb-1">Срок сделки: 3 недели</div>
+                                            <div class="text-sm text-gray-500 mb-2">Цена: 9,6 млн ₽</div>
+                                        </div>
+                                        <div class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded inline-block mb-3">
+                                            Кэшбек получен: 480,000 ₽
+                                        </div>
+                                        <div class="border-t pt-3">
+                                            <div class="text-sm font-semibold text-gray-900">Андрей Смирнов</div>
+                                            <div class="text-xs text-gray-500 mb-2">22 июня, 2024</div>
+                                            <div class="text-xs text-gray-600 leading-relaxed">
+                                                "Профессиональный подход на каждом этапе. Сэкономил время и получил отличный кэшбек."
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Review Card 8 -->
+                                <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                                    <div class="relative h-48 bg-gray-200">
+                                        <img src="https://images.unsplash.com/photo-1502005229762-cf1b2da2db52?w=300&h=192&fit=crop&auto=format&q=80" 
+                                             alt="Интерьер квартиры" 
+                                             class="w-full h-full object-cover">
+                                        <div class="absolute top-3 left-3 bg-green-500 bg-opacity-90 text-white text-xs px-2 py-1 rounded">
+                                            ✓ Сделка завершена
+                                        </div>
+                                    </div>
+                                    <div class="p-4">
+                                        <div class="mb-3">
+                                            <div class="text-sm text-gray-500 mb-1">Район: Юбилейный</div>
+                                            <div class="text-sm text-gray-500 mb-1">Объект: 1-комнатная квартира, 38 м²</div>
+                                            <div class="text-sm text-gray-500 mb-1">Срок сделки: 2 недели</div>
+                                            <div class="text-sm text-gray-500 mb-2">Цена: 4,7 млн ₽</div>
+                                        </div>
+                                        <div class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded inline-block mb-3">
+                                            Кэшбек получен: 235,000 ₽
+                                        </div>
+                                        <div class="border-t pt-3">
+                                            <div class="text-sm font-semibold text-gray-900">Ольга Николаева</div>
+                                            <div class="text-xs text-gray-500 mb-2">11 июля, 2024</div>
+                                            <div class="text-xs text-gray-600 leading-relaxed">
+                                                "Молодая семья получила первую квартиру и приличный кэшбек. Очень благодарны!"
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pagination Dots -->
+                    <div class="flex justify-center mt-8 space-x-2">
+                        <button onclick="goToReviewSlide(0)" class="w-3 h-3 rounded-full bg-[#0088CC] review-dot active"></button>
+                        <button onclick="goToReviewSlide(1)" class="w-3 h-3 rounded-full bg-gray-300 review-dot hover:bg-[#0088CC] transition-colors duration-200"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Expert Help Section - TON Style -->
+    <section class="py-20 bg-[#F5F7FA]">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="w-fit px-4 py-1 bg-black bg-opacity-5 rounded-full mb-6">
+                    <span class="text-sm font-medium uppercase">Поддержка</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 leading-tight">Персональная помощь от наших экспертов</h2>
+                <p class="text-lg text-[#5F6D7E] mb-8">Наши специалисты помогут вам подобрать идеальное жильё и с максимальной выгодой. Услуга абсолютно бесплатна — без комиссий и скрытых платежей.</p>
+                
+                <!-- Support Cards - TON Style -->
+                <div class="max-w-4xl mx-auto space-y-4">
+
+                    <!-- Card 1: Консультация - Blue Gradient like TON Sites -->
+                    <div class="bg-gradient-to-r from-[#4F8EF7] to-[#74A9F4] rounded-3xl p-5 text-white relative overflow-hidden">
+                        <!-- Version Badge -->
+                        <div class="mb-3">
+                            <span class="bg-white/20 backdrop-blur-sm text-white text-xs font-medium px-3 py-1 rounded-full uppercase tracking-wide">
+                                Эксперт готов
+                            </span>
+                        </div>
+
+                        <!-- Main Content -->
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center">
+                            <div>
+                                <h3 class="text-2xl md:text-3xl font-bold mb-2 leading-tight">
+                                    Консультация эксперта, подбор недвижимости
+                                </h3>
+
+                                <p class="text-white/90 mb-4">
+                                    Персональная консультация по выбору недвижимости с максимальной выгодой
+                                </p>
+
+                                <button onclick="openApplicationModal()" class="bg-white text-[#4F8EF7] px-5 py-2.5 rounded-2xl font-semibold hover:bg-gray-50 transition-colors duration-200">
+                                    Записаться
+                                </button>
+                            </div>
+
+                            <!-- 3D Element - Right side -->
+                            <div class="relative flex justify-center lg:justify-end">
+                                <!-- Floating Icons -->
+                                <div class="absolute top-4 right-8 w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm">
+                                    <i class="fas fa-eye text-white text-lg"></i>
+                                </div>
+
+                                <div class="absolute top-16 right-20 w-10 h-10 bg-white/15 rounded-xl flex items-center justify-center backdrop-blur-sm">
+                                    <i class="fas fa-link text-white text-sm"></i>
+                                </div>
+
+                                <div class="absolute bottom-8 right-4 w-14 h-14 bg-white/25 rounded-2xl flex items-center justify-center backdrop-blur-sm">
+                                    <i class="fas fa-compass text-white text-xl"></i>
+                                </div>
+
+                                <!-- Main 3D Globe -->
+                                <div class="w-32 h-32 lg:w-40 lg:h-40 relative">
+                                    <div class="w-full h-full bg-gradient-to-br from-white/30 to-white/10 rounded-full backdrop-blur-sm flex items-center justify-center border border-white/20">
+                                        <div class="w-20 h-20 lg:w-24 lg:h-24 bg-gradient-to-br from-white/40 to-white/20 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-home text-white text-2xl lg:text-3xl"></i>
+                                        </div>
+                                    </div>
+
+                                    <!-- Grid pattern overlay -->
+                                    <div class="absolute inset-0 rounded-full" style="background-image: conic-gradient(from 0deg, transparent 0deg, white/5 45deg, transparent 90deg, white/5 135deg, transparent 180deg, white/5 225deg, transparent 270deg, white/5 315deg, transparent 360deg);"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Сопровождение - Purple Gradient like TON Storage -->
+                    <div class="bg-gradient-to-r from-[#6C5CE7] to-[#A29BF0] rounded-3xl p-5 text-white relative overflow-hidden">
+                        <!-- Version Badge -->
+                        <div class="mb-3">
+                            <span class="bg-white/20 backdrop-blur-sm text-white text-xs font-medium px-3 py-1 rounded-full uppercase tracking-wide">
+                                Полное сопровождение
+                            </span>
+                        </div>
+
+                        <!-- Main Content -->
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center">
+                            <div>
+                                <h3 class="text-2xl md:text-3xl font-bold mb-2 leading-tight">
+                                    Сопровождение сделки
+                                </h3>
+
+                                <p class="text-white/90 mb-4">
+                                    Полное юридическое сопровождение сделки с недвижимостью
+                                </p>
+
+                                <div class="flex flex-wrap gap-2">
+                                    <button onclick="openApplicationModal()" class="bg-white text-[#6C5CE7] px-5 py-2.5 rounded-2xl font-semibold hover:bg-gray-50 transition-colors duration-200">
+                                        Заказать
+                                    </button>
+                                    <a href="/about#services" class="text-white px-4 py-2.5 rounded-2xl font-medium hover:bg-white/10 transition-colors duration-200 flex items-center text-sm">
+                                        Услуги <i class="fas fa-chevron-right ml-1 text-xs"></i>
+                                    </a>
+                                    <a href="/contact" class="text-white px-4 py-2.5 rounded-2xl font-medium hover:bg-white/10 transition-colors duration-200 flex items-center text-sm">
+                                        Контакты <i class="fas fa-chevron-right ml-1 text-xs"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- 3D Element - Server Stack -->
+                            <div class="relative flex justify-center lg:justify-end">
+                                <!-- Floating Elements -->
+                                <div class="absolute -top-2 right-12 w-8 h-8 bg-[#4F46E5] rounded-lg transform rotate-45"></div>
+                                <div class="absolute top-8 -right-2 w-6 h-6 bg-[#8B5CF6] rounded-lg transform rotate-12"></div>
+
+                                <!-- Main Stack -->
+                                <div class="relative">
+                                    <!-- Server Stack -->
+                                    <div class="space-y-2">
+                                        <!-- Top Server -->
+                                        <div class="w-40 lg:w-48 h-10 bg-gradient-to-r from-white/40 to-white/20 rounded-2xl backdrop-blur-sm border border-white/30 flex items-center px-3">
+                                            <div class="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
+                                            <div class="flex-1 h-1 bg-white/30 rounded"></div>
+                                        </div>
+
+                                        <!-- Middle Server -->
+                                        <div class="w-40 lg:w-48 h-10 bg-gradient-to-r from-white/35 to-white/15 rounded-2xl backdrop-blur-sm border border-white/25 flex items-center px-3">
+                                            <div class="w-2 h-2 bg-blue-400 rounded-full mr-2"></div>
+                                            <div class="flex-1 h-1 bg-white/25 rounded"></div>
+                                        </div>
+
+                                        <!-- Bottom Server -->
+                                        <div class="w-40 lg:w-48 h-10 bg-gradient-to-r from-white/30 to-white/10 rounded-2xl backdrop-blur-sm border border-white/20 flex items-center px-3">
+                                            <div class="w-2 h-2 bg-purple-400 rounded-full mr-2"></div>
+                                            <div class="flex-1 h-1 bg-white/20 rounded"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Arrow pointing to stack -->
+                                    <div class="absolute -top-6 right-8 w-8 h-8 text-white/60">
+                                        <i class="fas fa-arrow-down text-lg"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Best Deals Slider Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <!-- Header -->
+                <div class="flex items-center justify-between mb-12">
+                    <div>
+                        <div class="w-fit px-4 py-1 bg-black bg-opacity-5 rounded-full mb-4">
+                            <span class="text-sm font-medium uppercase">Лучшие предложения</span>
+                        </div>
+                        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Эксклюзивные предложения</h2>
+                        <p class="text-lg text-gray-600">Отобранные объекты с максимально выгодными условиями</p>
+                    </div>
+                    
+                    <!-- View All Link -->
+                    <a href="/residential-complexes" class="text-[#0088CC] font-medium hover:text-[#006BA6] transition-colors duration-200 flex items-center gap-2">
+                        Посмотреть все
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+                
+                <!-- Exclusive Complexes Slider (styled like Reviews) -->
+                <div class="relative">
+                    <!-- Navigation Arrows -->
+                    <button onclick="previousExclusive()" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-20 w-12 h-12 bg-white shadow-lg rounded-full flex items-center justify-center text-gray-600 hover:text-[#0088CC] transition-all duration-300">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                    </button>
+                    
+                    <button onclick="nextExclusive()" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-20 w-12 h-12 bg-white shadow-lg rounded-full flex items-center justify-center text-gray-600 hover:text-[#0088CC] transition-all duration-300">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                    
+                    <!-- Complexes Carousel -->
+                    <div class="overflow-hidden pb-8">
+                        <div id="exclusiveCarousel" class="flex transition-transform duration-500 ease-in-out">
+                            {% if exclusive_complexes %}
+                            <!-- First Slide - Group of 4 cards -->
+                            <div class="min-w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                                {% for complex in exclusive_complexes[:4] %}
+                                {% set card_index = loop.index %}
+                                <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 cursor-pointer" onclick="window.location.href='/residential-complex/{{ complex.id }}'">
+                                    <div class="relative h-48 bg-gray-200">
+                                        {% if complex.images and complex.images|length > 0 %}
+                                            <!-- Photo Slider -->
+                                            <div class="relative w-full h-full overflow-hidden" id="photoSlider{{ card_index }}">
+                                                <div class="flex transition-transform duration-300 ease-in-out h-full" id="photoContainer{{ card_index }}">
+                                                    {% for image in complex.images %}
+                                                    <div class="flex-none w-full h-full">
+                                                        <img src="{{ image }}" 
+                                                             alt="{{ complex.name }} - фото {{ loop.index }}" 
+                                                             class="w-full h-full object-cover">
+                                                    </div>
+                                                    {% endfor %}
+                                                </div>
+                                                
+                                                <!-- Navigation dots if more than 1 photo -->
+                                                {% if complex.images|length > 1 %}
+                                                <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                                                    {% for i in range(complex.images|length) %}
+                                                    <button class="w-2 h-2 rounded-full {% if loop.index0 == 0 %}bg-white{% else %}bg-white bg-opacity-50{% endif %} transition-all duration-200" 
+                                                            onclick="showPhoto({{ card_index }}, {{ loop.index0 }}, {{ complex.images|length }})"
+                                                            id="dot{{ card_index }}_{{ loop.index0 }}"></button>
+                                                    {% endfor %}
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                        {% else %}
+                                            <div class="w-full h-full bg-gray-100 flex items-center justify-center">
+                                                <i class="fas fa-building text-gray-400 text-3xl"></i>
+                                            </div>
+                                        {% endif %}
+                                        <div class="absolute top-3 left-3 {% if complex.is_completed %}bg-green-500{% else %}bg-blue-500{% endif %} bg-opacity-90 text-white text-xs px-2 py-1 rounded">
+                                            {% if complex.is_completed %}✓ Готов к заселению{% else %}🏗 Строится{% endif %}
+                                        </div>
+                                        {% if session.manager_id %}
+                                        <button class="absolute top-3 right-3 w-8 h-8 bg-purple-600 hover:bg-purple-700 rounded-full flex items-center justify-center text-white shadow-lg transition-all duration-200 hover:scale-105" 
+                                                title="Добавить ЖК в презентацию" onclick="openComplexPresentationModal('{{ complex.complex_id }}'); event.stopPropagation();">
+                                            <i class="fas fa-plus text-xs"></i>
+                                        </button>
+                                        {% endif %}
+                                    </div>
+                                    <div class="p-4">
+                                        <div class="mb-3">
+                                            <div class="text-sm text-gray-700 mb-1"><span class="font-bold">{{ complex.name }}</span></div>
+                                            <div class="text-sm text-gray-600 mb-1"><span class="font-bold">{{ complex.developer or 'Не указан' }}</span></div>
+                                            <div class="text-sm text-gray-600 mb-1">Квартир: <span class="font-bold">{{ complex.apartments_count }}</span></div>
+                                            <div class="text-sm text-gray-600 mb-2">Цена: от <span class="font-bold">{{ "{:.1f}".format((complex.price_from or 0) / 1000000) }} млн ₽</span></div>
+                                        </div>
+                                        <div class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded inline-block mb-3">
+                                            Кэшбек до {{ (complex.cashback_max / 1000) | round(0) | int }}к ₽
+                                        </div>
+                                        <div class="border-t pt-3">
+                                            <div class="text-xs text-gray-700 leading-relaxed break-words">
+                                                {{ complex.address }}
+                                            </div>
+                                            <div class="text-xs text-gray-500 mb-2">Сдача: {{ complex.completion_date }}</div>
+                                            <div class="text-xs text-gray-600 leading-relaxed">
+                                                "{{ complex.room_type or 'Различные планировки' }} • {{ complex.buildings_count or 1 }} корпус{% if complex.buildings_count and complex.buildings_count > 1 %}а{% endif %}"
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            
+                            {% if exclusive_complexes|length > 4 %}
+                            <!-- Second Slide - Next group of cards -->
+                            <div class="min-w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                                {% for complex in exclusive_complexes[4:] %}
+                                {% set card_index = loop.index + 4 %}
+                                <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 cursor-pointer" onclick="window.location.href='/residential-complex/{{ complex.id }}'">
+                                    <div class="relative h-48 bg-gray-200">
+                                        {% if complex.images and complex.images|length > 0 %}
+                                            <!-- Photo Slider -->
+                                            <div class="relative w-full h-full overflow-hidden" id="photoSlider{{ card_index }}">
+                                                <div class="flex transition-transform duration-300 ease-in-out h-full" id="photoContainer{{ card_index }}">
+                                                    {% for image in complex.images %}
+                                                    <div class="flex-none w-full h-full">
+                                                        <img src="{{ image }}" 
+                                                             alt="{{ complex.name }} - фото {{ loop.index }}" 
+                                                             class="w-full h-full object-cover">
+                                                    </div>
+                                                    {% endfor %}
+                                                </div>
+                                                
+                                                <!-- Navigation dots if more than 1 photo -->
+                                                {% if complex.images|length > 1 %}
+                                                <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                                                    {% for i in range(complex.images|length) %}
+                                                    <button class="w-2 h-2 rounded-full {% if loop.index0 == 0 %}bg-white{% else %}bg-white bg-opacity-50{% endif %} transition-all duration-200" 
+                                                            onclick="showPhoto({{ card_index }}, {{ loop.index0 }}, {{ complex.images|length }})"
+                                                            id="dot{{ card_index }}_{{ loop.index0 }}"></button>
+                                                    {% endfor %}
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                        {% else %}
+                                            <div class="w-full h-full bg-gray-100 flex items-center justify-center">
+                                                <i class="fas fa-building text-gray-400 text-3xl"></i>
+                                            </div>
+                                        {% endif %}
+                                        <div class="absolute top-3 left-3 {% if complex.is_completed %}bg-green-500{% else %}bg-blue-500{% endif %} bg-opacity-90 text-white text-xs px-2 py-1 rounded">
+                                            {% if complex.is_completed %}✓ Готов к заселению{% else %}🏗 Строится{% endif %}
+                                        </div>
+                                        {% if session.manager_id %}
+                                        <button class="absolute top-3 right-3 w-8 h-8 bg-purple-600 hover:bg-purple-700 rounded-full flex items-center justify-center text-white shadow-lg transition-all duration-200 hover:scale-105" 
+                                                title="Добавить ЖК в презентацию" onclick="openComplexPresentationModal('{{ complex.complex_id }}'); event.stopPropagation();">
+                                            <i class="fas fa-plus text-xs"></i>
+                                        </button>
+                                        {% endif %}
+                                    </div>
+                                    <div class="p-4">
+                                        <div class="mb-3">
+                                            <div class="text-sm text-gray-700 mb-1"><span class="font-bold">{{ complex.name }}</span></div>
+                                            <div class="text-sm text-gray-600 mb-1"><span class="font-bold">{{ complex.developer or 'Не указан' }}</span></div>
+                                            <div class="text-sm text-gray-600 mb-1">Квартир: <span class="font-bold">{{ complex.apartments_count }}</span></div>
+                                            <div class="text-sm text-gray-600 mb-2">Цена: от <span class="font-bold">{{ "{:.1f}".format((complex.price_from or 0) / 1000000) }} млн ₽</span></div>
+                                        </div>
+                                        <div class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded inline-block mb-3">
+                                            Кэшбек до {{ (complex.cashback_max / 1000) | round(0) | int }}к ₽
+                                        </div>
+                                        <div class="border-t pt-3">
+                                            <div class="text-xs text-gray-700 leading-relaxed break-words">
+                                                {{ complex.address }}
+                                            </div>
+                                            <div class="text-xs text-gray-500 mb-2">Сдача: {{ complex.completion_date }}</div>
+                                            <div class="text-xs text-gray-600 leading-relaxed">
+                                                "{{ complex.room_type or 'Различные планировки' }} • {{ complex.buildings_count or 1 }} корпус{% if complex.buildings_count and complex.buildings_count > 1 %}а{% endif %}"
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                            
+                            {% else %}
+                            <!-- Fallback -->
+                            <div class="min-w-full text-center py-12">
+                                <div class="text-gray-500">
+                                    <i class="fas fa-building text-4xl mb-4"></i>
+                                    <h3 class="text-lg font-semibold mb-2">Эксклюзивные предложения</h3>
+                                    <p class="text-sm">Скоро здесь появятся лучшие предложения</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- View All Button -->
+                <div class="text-center mt-8">
+                    <a href="/residential-complexes" class="inline-flex items-center px-6 py-3 bg-white text-[#0088CC] border border-[#0088CC] rounded-xl hover:bg-[#0088CC] hover:text-white transition-all duration-300 font-medium">
+                        Посмотреть все ЖК
+                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Articles Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="mb-12 text-left">
+                    <!-- Фирменный бейдж -->
+                    <div class="w-fit px-4 py-1 bg-black bg-opacity-5 rounded-full mb-6">
+                        <span class="text-sm font-medium uppercase">InBack журнал</span>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-left">Журнал</h2>
+                    <p class="text-lg text-gray-600 max-w-3xl">
+                        Актуальные новости и экспертные советы для вашего выбора
+                    </p>
+                    
+                    <!-- Categories Filter - Dynamic -->
+                    <div class="flex flex-wrap justify-start gap-2 mt-6">
+                        <a href="/blog" class="bg-blue-500 text-white text-xs px-3 py-1 rounded-full cursor-pointer hover:bg-blue-600 transition-colors">
+                            Все
+                        </a>
+                        {% for category in blog_categories %}
+                        <a href="/blog/category/{{ category.slug }}" class="bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs px-3 py-1 rounded-full cursor-pointer transition-colors">
+                            {{ category.name }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="text-right mt-4">
+                        <a href="/blog" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                            Посмотреть все →
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Articles Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {% for article in blog_articles %}
+                    <article class="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                        <a href="{{ article.url }}" class="block">
+                            <div class="aspect-[4/3] relative bg-cover bg-center" style="background-image: url('{{ article.featured_image }}');">
+                                <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+                                <div class="absolute top-4 left-4 w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                                    {% if 'ипотека' in article.title.lower() %}
+                                        <i class="fas fa-percentage text-white text-xl"></i>
+                                    {% elif 'управляющая' in article.title.lower() %}
+                                        <i class="fas fa-building text-white text-xl"></i>
+                                    {% elif 'кадастр' in article.title.lower() %}
+                                        <i class="fas fa-map text-white text-xl"></i>
+                                    {% elif 'справка' in article.title.lower() %}
+                                        <i class="fas fa-stethoscope text-white text-xl"></i>
+                                    {% else %}
+                                        <i class="fas fa-newspaper text-white text-xl"></i>
+                                    {% endif %}
+                                </div>
+                                <div class="absolute bottom-4 left-4 right-4 text-white z-10">
+                                    <div class="text-xs opacity-80 mb-1">
+                                        {% if article.published_at %}
+                                            {{ article.published_at|russian_date }}
+                                        {% else %}
+                                            Недавно
+                                        {% endif %}
+                                    </div>
+                                    <h3 class="text-lg font-bold line-clamp-2">{{ article.title }}</h3>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <p class="text-sm text-gray-600 line-clamp-3 mb-3">
+                                    {{ article.excerpt }}
+                                </p>
+                                <div class="text-xs text-gray-500">
+                                    Читать {{ article.reading_time }} мин
+                                </div>
+                            </div>
+                        </a>
+                    </article>
+                    {% endfor %}
+                    
+                    {% if not blog_articles %}
+                    <!-- Fallback если нет статей -->
+                    <article class="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                        <div class="aspect-[4/3] relative bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+                            <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+                            <div class="absolute top-4 left-4 w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-newspaper text-white text-xl"></i>
+                            </div>
+                            <div class="absolute bottom-4 left-4 right-4 text-white z-10">
+                                <div class="text-xs opacity-80 mb-1">Скоро</div>
+                                <h3 class="text-lg font-bold line-clamp-2">Статьи скоро появятся</h3>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-sm text-gray-600 line-clamp-3 mb-3">
+                                Мы готовим для вас интересные и полезные статьи о недвижимости, ипотеке и инвестициях.
+                            </p>
+                            <div class="text-xs text-gray-500">
+                                Следите за обновлениями
+                            </div>
+                        </div>
+                    </article>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+   
+    
+    <!-- Team Section - Added from original file -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="mb-12">
+                    <div class="flex justify-between items-center mb-8">
+                        <div>
+                        <!-- Фирменный бейдж -->
+                            <div class="w-fit px-4 py-1 bg-black bg-opacity-5 rounded-full mb-6">
+                                <span class="text-sm font-medium uppercase">Наша команда</span>
+                            </div>
+                        <h2 class="text-2xl md:text-3xl font-bold mb-4 text-left">Эксперты по недвижимости</h2>
+                        <p class="text-xl text-[#5F6D7E] text-left">Профессионалы с многолетним опытом в сфере недвижимости Краснодара</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Эксперты с фотографиями и hover эффектом -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+                <!-- Александр Петров -->
+                <div class="expert-card group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+                    <div class="aspect-[3/4] relative overflow-hidden">
+                        <img src="{{ url_for('static', filename='images/aleksandr_petrov.png') }}" 
+                             alt="Александр Петров" 
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        
+                        <!-- Градиент внизу -->
+                        <div class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        
+                        <!-- Основная информация -->
+                        <div class="absolute bottom-4 left-4 right-4 text-white z-10 group-hover:opacity-0 transition-opacity duration-300">
+                            <h3 class="text-lg font-bold">Александр Петров</h3>
+                            <p class="text-sm opacity-90">Краснодар</p>
+                        </div>
+                        
+                        <!-- Hover информация -->
+                        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm p-4 flex flex-col justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <h3 class="text-xl font-bold mb-2">Александр Петров</h3>
+                            <p class="text-sm text-blue-300 mb-3">Краснодар</p>
+                            <p class="text-sm leading-relaxed">
+                                Основатель и CEO InBack. 15 лет в сфере недвижимости, эксперт по инвестициям в новостройки. 
+                                Помог более 500 семьям найти идеальное жилье с максимальной выгодой.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Елена Смирнова -->
+                <div class="expert-card group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+                    <div class="aspect-[3/4] relative overflow-hidden">
+                        <img src="{{ url_for('static', filename='images/elena_smirnova.png') }}" 
+                             alt="Елена Смирнова" 
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        
+                        <!-- Градиент внизу -->
+                        <div class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        
+                        <!-- Основная информация -->
+                        <div class="absolute bottom-4 left-4 right-4 text-white z-10 group-hover:opacity-0 transition-opacity duration-300">
+                            <h3 class="text-lg font-bold">Елена Смирнова</h3>
+                            <p class="text-sm opacity-90">Краснодар</p>
+                        </div>
+                        
+                        <!-- Hover информация -->
+                        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm p-4 flex flex-col justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <h3 class="text-xl font-bold mb-2">Елена Смирнова</h3>
+                            <p class="text-sm text-blue-300 mb-3">Краснодар</p>
+                            <p class="text-sm leading-relaxed">
+                                Финансовый директор и эксперт по ипотечным программам. 
+                                Специализируется на подборе оптимальных условий кредитования и налоговых вычетах. 
+                                Поможет сэкономить до 20% на покупке недвижимости.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Дмитрий Иванов -->
+                <div class="expert-card group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+                    <div class="aspect-[3/4] relative overflow-hidden">
+                        <img src="{{ url_for('static', filename='images/dmitriy_ivanov.png') }}" 
+                             alt="Дмитрий Иванов" 
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        
+                        <!-- Градиент внизу -->
+                        <div class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        
+                        <!-- Основная информация -->
+                        <div class="absolute bottom-4 left-4 right-4 text-white z-10 group-hover:opacity-0 transition-opacity duration-300">
+                            <h3 class="text-lg font-bold">Дмитрий Иванов</h3>
+                            <p class="text-sm opacity-90">Краснодар</p>
+                        </div>
+                        
+                        <!-- Hover информация -->
+                        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm p-4 flex flex-col justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <h3 class="text-xl font-bold mb-2">Дмитрий Иванов</h3>
+                            <p class="text-sm text-blue-300 mb-3">Краснодар</p>
+                            <p class="text-sm leading-relaxed">
+                                Ведущий юрист компании с 10-летним опытом сопровождения сделок с недвижимостью. 
+                                Гарантирует юридическую чистоту каждой сделки и защиту интересов клиентов.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Больше экспертов placeholder -->
+                <div class="expert-card group relative bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center">
+                    <div class="text-center p-6">
+                        <div class="w-16 h-16 bg-blue-500 bg-opacity-20 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-800 mb-2">Еще эксперты</h3>
+                        <p class="text-sm text-gray-600">Наша команда растет</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+ 
+
+    
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        // ✅ ИСПРАВЛЕНО: Удален дублированный typewriter код - теперь используется только main.js версия
+        // Loading animation
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.querySelector('.loading-animation').style.display = 'none';
+            }, 2000);
+            
+            // ✅ typewriter теперь управляется только через main.js
+        });
+
+        // Calculator functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const priceRange = document.getElementById('priceRange');
+            const termRange = document.getElementById('termRange');
+            const priceValue = document.getElementById('priceValue');
+            const termValue = document.getElementById('termValue');
+            const cashbackAmount = document.getElementById('cashbackAmount');
+            const monthlyPayment = document.getElementById('monthlyPayment');
+
+            function updateCalculator() {
+                const price = parseInt(priceRange.value);
+                const term = parseInt(termRange.value);
+                
+                // Update display values
+                priceValue.textContent = (price / 1000000).toFixed(1).replace('.', ' ') + ' млн ₽';
+                termValue.textContent = term + ' ' + (term === 1 ? 'год' : term < 5 ? 'года' : 'лет');
+                
+                // Calculate cashback (2.5% of price)
+                const cashback = price * 0.025;
+                cashbackAmount.textContent = Math.round(cashback).toLocaleString() + ' ₽';
+                
+                // Calculate monthly payment (6% annual rate)
+                const monthlyRate = 0.06 / 12;
+                const numPayments = term * 12;
+                const payment = (price * monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / 
+                               (Math.pow(1 + monthlyRate, numPayments) - 1);
+                monthlyPayment.textContent = Math.round(payment).toLocaleString() + ' ₽';
+            }
+
+            if (priceRange && termRange) {
+                priceRange.addEventListener('input', updateCalculator);
+                termRange.addEventListener('input', updateCalculator);
+                updateCalculator(); // Initial calculation
+            }
+
+            // ✅ УДАЛЕН: Дублирующий обработчик - теперь используется onclick="toggleAdvancedFilters()"
+            
+            // Room buttons selection
+            const roomButtons = document.querySelectorAll('.room-btn');
+            roomButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    roomButtons.forEach(btn => {
+                        btn.classList.remove('bg-[#0088CC]', 'text-white', 'border-[#0088CC]');
+                        btn.classList.add('border-gray-300', 'hover:bg-[#0088CC]', 'hover:text-white', 'hover:border-[#0088CC]');
+                    });
+                    
+                    this.classList.add('bg-[#0088CC]', 'text-white', 'border-[#0088CC]');
+                    this.classList.remove('border-gray-300');
+                });
+            });
+
+            // Removed old search suggestions code - now using smart search below
+            
+            // Load featured properties on page load
+            loadFeaturedProperties();
+        });
+        
+        // Load Featured Properties Function
+        function loadFeaturedProperties() {
+            fetch('/api/properties')
+                .then(response => response.json())
+                .then(data => {
+                    const properties = Array.isArray(data) ? data : data.properties || [];
+                    const featuredContainer = document.getElementById('featured-properties');
+                    
+                    if (properties.length >= 6) {
+                        const featuredProperties = properties.slice(0, 6);
+                        featuredContainer.innerHTML = '';
+                        
+                        featuredProperties.forEach(property => {
+                            // Map API data to display values - исправленные поля базы данных
+                            const roomType = getRoomTypeDisplay(property.object_rooms || property.room_type || property.property_type || 'Студия');
+                            const area = parseFloat(property.total_area || property.area || 0).toFixed(1);
+                            const price = parseInt(property.price || 0);
+                            const complexName = property.complex_name || property.residential_complex || property.complex || 'ЖК не указан';
+                            const district = property.parsed_district || property.district || property.region || 'Краснодарский край';
+                            const developer = property.developer_name || property.developer || 'Застройщик не указан';
+                            const floor = property.floor || '?';
+                            const maxFloor = property.floors_in_building || property.max_floor || property.floors_total || '?';
+                            const cashback = Math.round(price * 0.05); // 5% кешбек
+                            const photosArray = property.photos ? JSON.parse(property.photos) : [];
+                            
+                            const propertyCard = `
+                                <div class="property-card bg-white rounded-lg shadow-sm overflow-hidden w-full flex flex-col md:flex-row hover:shadow-lg transition-all duration-300" 
+                                     data-type="${roomType}" 
+                                     data-rooms="${property.rooms || 0}" 
+                                     data-price="${price}" 
+                                     data-district="${district}" 
+                                     data-developer="${developer}"
+                                     data-complex="${complexName}"
+                                     data-area="${area}"
+                                     data-floor="${floor}">
+                                     
+                                    <!-- Image Carousel like in /properties -->
+                                    <div class="w-full md:w-96 h-64 relative group flex-shrink-0">
+                                        <div class="carousel-container w-full h-full relative overflow-hidden rounded-lg bg-gray-100" data-property-id="${property.id}">
+                                            <!-- Main image -->
+                                            <div class="carousel-slide absolute inset-0 transition-opacity duration-300" data-slide="0">
+                                                <img src="${photosArray.length > 0 ? photosArray[0] : property.main_image || property.image || 'https://via.placeholder.com/400x300/f3f4f6/9ca3af?text=Фото+недоступно'}" 
+                                                     alt="${roomType} ${area} м²" 
+                                                     class="w-full h-full object-cover bg-gray-200" 
+                                                     loading="lazy"
+                                                     onerror="this.style.backgroundColor='#f3f4f6';">
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Overlay elements like in /properties -->
+                                        <div class="absolute top-3 right-3 z-20 flex gap-2">
+                                            <div class="favorite-heart bg-white/90 hover:bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md cursor-pointer transition-all" data-property-id="${property.id}" title="Добавить в избранное" onclick="event.stopPropagation();">
+                                                <i class="fas fa-heart text-gray-400 hover:text-red-500"></i>
+                                            </div>
+                                            <div class="comparison-btn w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-md cursor-pointer transition-all" title="Добавить к сравнению" onclick="event.stopPropagation();">
+                                                <i class="fas fa-balance-scale text-gray-600 text-base"></i>
+                                            </div>
+                                        </div>
+                                        <div class="absolute top-3 left-3 bg-[#FF5722] text-white text-xs font-semibold px-2 py-1 rounded z-20">
+                                            Кэшбек 5%
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Info section like in /properties -->
+                                    <div class="flex-1 p-6">
+                                        <div class="flex justify-between items-start mb-3">
+                                            <div>
+                                                <a href="/property/${property.id}" class="text-xl font-semibold hover:text-[#0088CC] transition">
+                                                    ${roomType}, ${area} м², ${floor}/${maxFloor} эт.
+                                                </a>
+                                                <div class="flex items-center space-x-2 mt-1">
+                                                    <div class="text-gray-600 text-sm space-y-1">
+                                                        <p class="flex items-center">
+                                                            <svg class="w-4 h-4 text-[#0088CC] mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                                                            </svg>
+                                                            <a href="#" class="hover:text-[#0088CC] hover:underline">${complexName}</a>
+                                                        </p>
+                                                        <p class="flex items-center">
+                                                            <svg class="w-4 h-4 text-[#0088CC] mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                                                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                                                            </svg>
+                                                            ${district}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="flex flex-col items-end">
+                                                    <span class="text-sm text-gray-500 line-through">${(price * 1.05).toLocaleString()} ₽</span>
+                                                    <span class="property-price text-xl font-bold text-[#FF5722]">${price.toLocaleString()} ₽</span>
+                                                    <span class="text-xs text-gray-500">(5% кэшбек ${cashback.toLocaleString()} ₽)</span>
+                                                </div>
+                                                <span class="text-sm text-gray-500">${Math.round(price/area).toLocaleString()} ₽/м²</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Developer info and button -->
+                                        <div class="grid grid-cols-1 gap-2 mb-3">
+                                            <div class="col-span-1 grid grid-cols-1 gap-3 mb-3 pb-2 border-b border-gray-200">
+                                                <div class="flex items-center">
+                                                    <div class="w-6 h-6 bg-gray-200 rounded-full mr-2 flex items-center justify-center text-xs font-bold text-gray-600">
+                                                        ${developer.substring(0, 3).toUpperCase()}
+                                                    </div>
+                                                    <span class="text-sm text-gray-600 font-medium">${developer}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Action buttons -->
+                                        <div class="flex gap-3">
+                                            <a href="/property/${property.id}" class="flex-1 bg-[#0088CC] hover:bg-[#0077BB] text-white px-4 py-2.5 rounded-lg text-sm font-medium transition text-center">
+                                                Подробнее
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                            featuredContainer.innerHTML += propertyCard;
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading featured properties:', error);
+                    // Keep loading placeholders on error
+                });
+        }
+        
+        function getRoomTypeDisplay(roomType) {
+            if (!roomType || roomType === 'Не указано') return 'Квартира';
+            if (roomType.includes('студия') || roomType.includes('Студия')) return 'Студия';
+            if (roomType.includes('1') || roomType.includes('однокомнатная')) return '1-комнатная';
+            if (roomType.includes('2') || roomType.includes('двухкомнатная')) return '2-комнатная';
+            if (roomType.includes('3') || roomType.includes('трёхкомнатная')) return '3-комнатная';
+            if (roomType.includes('4') || roomType.includes('четырёхкомнатная')) return '4-комнатная';
+            return roomType;
+        }
+        
+        // Filter Functions - Updated for smart search
+        function applyFilters() {
+            const search = document.getElementById('property-search').value;
+            const district = document.getElementById('district-filter')?.value || '';
+            const priceFrom = document.getElementById('price-from')?.value || '';
+            const priceTo = document.getElementById('price-to')?.value || '';
+            const developer = document.getElementById('developer-filter')?.value || '';
+            
+            // Get selected room count
+            const selectedRoom = document.querySelector('.room-btn.bg-\\[\\#0088CC\\]');
+            const rooms = selectedRoom ? selectedRoom.dataset.rooms : '';
+            
+            // Build query parameters
+            const params = new URLSearchParams();
+            if (search) params.set('search', search);
+            if (district) params.set('district', district);
+            if (rooms) params.set('rooms', rooms);
+            if (priceFrom) params.set('price_min', priceFrom * 1000000);
+            if (priceTo) params.set('price_max', priceTo * 1000000);
+            if (developer) params.set('developer', developer);
+            
+            // Redirect to properties page with filters
+            window.location.href = '/properties?' + params.toString();
+        }
+        
+        function resetAllFilters() {
+            // Reset all form fields
+            document.getElementById('property-search').value = '';
+            document.getElementById('district-filter').value = '';
+            document.getElementById('price-from').value = '';
+            document.getElementById('price-to').value = '';
+            
+            if (document.getElementById('developer-filter')) {
+                document.getElementById('developer-filter').value = '';
+            }
+            
+            // Reset room buttons
+            document.querySelectorAll('.room-btn').forEach(btn => {
+                btn.classList.remove('bg-[#0088CC]', 'text-white', 'border-[#0088CC]');
+                btn.classList.add('border-gray-300');
+            });
+            
+            // ✅ ОТКЛЮЧЕНО: Hide suggestions - больше нет элемента property-searchSuggestions
+            // const suggestions = document.getElementById('property-searchSuggestions');
+            // if (suggestions) {
+            //     suggestions.classList.add('hidden');
+            // }
+        }
+
+        // ✅ ОТКЛЮЧЕНО: Smart search functionality - SuperSearch заменил эту функцию
+        if (false) { // setTimeout(function() {
+            console.log('Initializing property search...');
+            const searchInput = document.getElementById('property-search');
+            const suggestionsDiv = document.getElementById('property-searchSuggestions');
+            
+            console.log('Property search elements found:', !!searchInput, !!suggestionsDiv);
+            
+            if (searchInput && suggestionsDiv) {
+                let searchTimeout;
+                
+                searchInput.addEventListener('input', function() {
+                    clearTimeout(searchTimeout);
+                    const query = this.value.trim();
+                    
+                    if (query.length >= 2) {
+                        searchTimeout = setTimeout(() => {
+                            fetch(`/api/search-suggestions?q=${encodeURIComponent(query)}`)
+                                .then(response => response.json())
+                                .then(suggestions => {
+                                    suggestionsDiv.innerHTML = '';
+                                    if (suggestions.length > 0) {
+                                        suggestions.forEach(suggestion => {
+                                            const item = document.createElement('div');
+                                            item.className = 'px-4 py-2 hover:bg-gray-100 cursor-pointer border-b border-gray-100';
+                                            item.innerHTML = `
+                                                <div class="font-medium">${suggestion.text}</div>
+                                                <div class="text-sm text-gray-600">${suggestion.subtitle || ''}</div>
+                                            `;
+                                            item.addEventListener('click', () => {
+                                                window.location.href = suggestion.url;
+                                            });
+                                            suggestionsDiv.appendChild(item);
+                                        });
+                                        suggestionsDiv.classList.remove('hidden');
+                                    } else {
+                                        suggestionsDiv.classList.add('hidden');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Property search error:', error);
+                                    suggestionsDiv.classList.add('hidden');
+                                });
+                        }, 300);
+                    } else {
+                        suggestionsDiv.classList.add('hidden');
+                    }
+                });
+                
+                // Hide suggestions when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!searchInput.contains(e.target) && !suggestionsDiv.contains(e.target)) {
+                        suggestionsDiv.classList.add('hidden');
+                    }
+                });
+                
+                searchInput.addEventListener('input', function() {
+                    const query = this.value.trim();
+                    console.log('Search query:', query);
+                    
+                    clearTimeout(searchTimeout);
+                    
+                    if (query.length < 2) {
+                        suggestionsDiv.classList.add('hidden');
+                        return;
+                    }
+                    
+                    searchTimeout = setTimeout(function() {
+                        fetch('/api/search-suggestions?q=' + encodeURIComponent(query))
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log('API response:', data);
+                                showSuggestions(data || []);
+                            })
+                            .catch(error => {
+                                console.warn('Search API unavailable:', error.message);
+                                suggestionsDiv.classList.add('hidden');
+                            });
+                    }, 300);
+                });
+                
+                // Enter key support
+                searchInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        if (this.value.trim()) {
+                            window.location.href = '/properties?search=' + encodeURIComponent(this.value.trim());
+                        }
+                    }
+                });
+                
+                function showSuggestions(suggestions) {
+                    if (!suggestions.length) {
+                        suggestionsDiv.classList.add('hidden');
+                        return;
+                    }
+                    
+                    let html = '';
+                    suggestions.forEach(function(s) {
+                        // Use new URL from API if available, fallback to old behavior
+                        const clickHandler = s.url ? 
+                            `window.location.href='${s.url}'` :
+                            `chooseSuggestion('${s.type}', '${s.value || s.text}', '${encodeURIComponent(s.text)}')`;
+                        
+                        html += `<div class="flex items-center justify-between p-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0" onclick="${clickHandler}">`;
+                        html += '<div class="flex items-center">';
+                        html += `<i class="${s.icon || 'fas fa-search'} text-[#0088CC] mr-3"></i>`;
+                        html += '<span class="text-gray-900">' + s.text + '</span>';
+                        html += '</div>';
+                        html += '<span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">' + (s.subtitle || s.category || 'Поиск') + '</span>';
+                        html += '</div>';
+                    });
+                    
+                    suggestionsDiv.innerHTML = html;
+                    suggestionsDiv.classList.remove('hidden');
+                    console.log('Suggestions shown');
+                }
+                
+                // Global function for suggestion selection
+                window.chooseSuggestion = function(type, value, text) {
+                    const decodedText = decodeURIComponent(text);
+                    searchInput.value = decodedText;
+                    suggestionsDiv.classList.add('hidden');
+                    
+                    // Redirect with filters - исправлена обработка undefined
+                    let url = '/properties?search=' + encodeURIComponent(decodedText);
+                    
+                    // Добавляем дополнительные параметры только если они валидны
+                    if (type && type !== 'undefined' && value && value !== 'undefined') {
+                        // Специальная обработка для типов комнат и других параметров
+                        if (type === 'rooms' || type === 'room_type') {
+                            url += '&rooms=' + encodeURIComponent(value);
+                        } else if (type === 'complex') {
+                            url += '&complex=' + encodeURIComponent(decodedText);
+                        } else if (type === 'developer') {
+                            url += '&developer=' + encodeURIComponent(decodedText);
+                        } else if (type === 'district') {
+                            url += '&district=' + encodeURIComponent(decodedText);
+                        } else {
+                            url += '&' + type + '=' + encodeURIComponent(value);
+                        }
+                    }
+                    
+                    window.location.href = url;
+                };
+            }
+        } // }, 1000); ОТКЛЮЧЕНО
+        
+        // ✅ ПОЛНОСТЬЮ ОТКЛЮЧЁН: Hero search заменён на SuperSearch 
+        console.log('Hero search fully disabled - SuperSearch handles everything');
+                
+                // ✅ Hero search полностью делегирован SuperSearch - удалены дублирующие обработчики
+                console.log('Hero search handlers removed - SuperSearch manages everything');
+                
+                function showHeroSuggestions(suggestions) {
+                    if (!suggestions.length) {
+                        heroSuggestionsDiv.classList.add('hidden');
+                        return;
+                    }
+                    
+                    let html = '';
+                    suggestions.forEach(function(s) {
+                        // Use new URL from API if available, fallback to old behavior
+                        const clickHandler = s.url ? 
+                            `window.location.href='${s.url}'` :
+                            `chooseHeroSuggestion('${s.type}', '${s.value || s.text}', '${encodeURIComponent(s.text)}')`;
+                            
+                        html += `<div class="flex items-center justify-between p-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0" onclick="${clickHandler}">`;
+                        html += '<div class="flex items-center">';
+                        html += `<i class="${s.icon || 'fas fa-search'} text-[#0088CC] mr-3"></i>`;
+                        html += '<span class="text-gray-900">' + s.text + '</span>';
+                        html += '</div>';
+                        html += '<span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">' + (s.subtitle || s.category || 'Поиск') + '</span>';
+                        html += '</div>';
+                    });
+                    
+                    heroSuggestionsDiv.innerHTML = html;
+                    heroSuggestionsDiv.classList.remove('hidden');
+                    console.log('Hero suggestions shown');
+                }
+                
+                // Global function for hero suggestion selection
+                window.chooseHeroSuggestion = function(type, value, text) {
+                    const decodedText = decodeURIComponent(text);
+                    const heroSearchInput = document.getElementById('hero-search');
+                    if (heroSearchInput) {
+                        heroSearchInput.value = decodedText;
+                    }
+                    const heroSuggestionsDiv = document.getElementById('hero-suggestions');
+                    if (heroSuggestionsDiv) {
+                        heroSuggestionsDiv.classList.add('hidden');
+                    }
+                    
+                    // Redirect with filters - исправлена обработка undefined
+                    let url = '/properties?search=' + encodeURIComponent(decodedText);
+                    
+                    // Добавляем дополнительные параметры только если они валидны
+                    if (type && type !== 'undefined' && value && value !== 'undefined') {
+                        // Специальная обработка для типов комнат и других параметров
+                        if (type === 'rooms' || type === 'room_type') {
+                            url += '&rooms=' + encodeURIComponent(value);
+                        } else if (type === 'complex') {
+                            url += '&complex=' + encodeURIComponent(decodedText);
+                        } else if (type === 'developer') {
+                            url += '&developer=' + encodeURIComponent(decodedText);
+                        } else if (type === 'district') {
+                            url += '&district=' + encodeURIComponent(decodedText);
+                        } else {
+                            url += '&' + type + '=' + encodeURIComponent(value);
+                        }
+                    }
+                    
+                    window.location.href = url;
+                };
+                
+                // ✅ ОТКЛЮЧЕНО: Click outside обработчик - героические элементы не существуют
+                // document.addEventListener('click', function(e) { ... });
+            // ✅ БЛОК ПОЛНОСТЬЮ ОТКЛЮЧЁН
+        // }, 1200);
+
+        // ✅ DEALS SLIDER FUNCTIONALITY
+        let currentDealIndex = 0;
+        const totalDeals = 4;
+        
+        function previousDeal() {
+            currentDealIndex = currentDealIndex > 0 ? currentDealIndex - 1 : totalDeals - 1;
+            updateDealsSlider();
+        }
+        
+        function nextDeal() {
+            currentDealIndex = currentDealIndex < totalDeals - 1 ? currentDealIndex + 1 : 0;
+            updateDealsSlider();
+        }
+        
+        function updateDealsSlider() {
+            const slider = document.getElementById('dealsSlider');
+            if (slider) {
+                // For mobile: show one card at a time
+                // For desktop: show cards with new width
+                const isMobile = window.innerWidth < 768;
+                let translateX;
+                
+                if (isMobile) {
+                    // Mobile: full width cards
+                    translateX = -currentDealIndex * 100;
+                } else {
+                    // Desktop: 580px + 24px gap = 604px per card
+                    translateX = -currentDealIndex * 604;
+                }
+                
+                slider.style.transform = `translateX(${translateX}px)`;
+                
+                // Update mobile dots
+                updateDealsDots();
+            }
+        }
+        
+        function updateDealsDots() {
+            const dots = document.querySelectorAll('#dealsDots div');
+            dots.forEach((dot, index) => {
+                if (index === currentDealIndex) {
+                    dot.className = 'w-2 h-2 rounded-full bg-[#0088CC]';
+                } else {
+                    dot.className = 'w-2 h-2 rounded-full bg-gray-300';
+                }
+            });
+        }
+        
+        // Auto-slide deals every 5 seconds
+        setInterval(() => {
+            // Only auto-slide if user is not actively interacting
+            if (!document.querySelector('.deals-slider:hover')) {
+                nextDeal();
+            }
+        }, 5000);
+        
+        // Handle window resize for responsive slider
+        window.addEventListener('resize', () => {
+            updateDealsSlider();
+        });
+        
+        // Initialize deals slider on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDealsSlider();
+        });
+
+        // ✅ REVIEWS SLIDER FUNCTIONALITY
+        let currentReviewSlide = 0;
+        const totalReviewSlides = 2; // Two groups of 4 reviews
+        
+        function previousReview() {
+            currentReviewSlide = currentReviewSlide > 0 ? currentReviewSlide - 1 : totalReviewSlides - 1;
+            updateReviewsSlider();
+        }
+        
+        function nextReview() {
+            currentReviewSlide = currentReviewSlide < totalReviewSlides - 1 ? currentReviewSlide + 1 : 0;
+            updateReviewsSlider();
+        }
+        
+        function goToReviewSlide(slideIndex) {
+            currentReviewSlide = slideIndex;
+            updateReviewsSlider();
+        }
+        
+        function updateReviewsSlider() {
+            const slider = document.getElementById('reviewsCarousel');
+            if (slider) {
+                // Each slide is 100% width
+                const translateX = -currentReviewSlide * 100;
+                slider.style.transform = `translateX(${translateX}%)`;
+                
+                // Update pagination dots
+                updateReviewsDots();
+            }
+        }
+        
+        function updateReviewsDots() {
+            const dots = document.querySelectorAll('.review-dot');
+            dots.forEach((dot, index) => {
+                if (index === currentReviewSlide) {
+                    dot.className = 'w-3 h-3 rounded-full bg-[#0088CC] review-dot active';
+                } else {
+                    dot.className = 'w-3 h-3 rounded-full bg-gray-300 review-dot hover:bg-[#0088CC] transition-colors duration-200';
+                }
+            });
+        }
+        
+        // Auto-slide reviews every 7 seconds
+        setInterval(() => {
+            // Only auto-slide if user is not actively interacting
+            if (!document.querySelector('#reviewsCarousel:hover')) {
+                nextReview();
+            }
+        }, 7000);
+        
+        // Initialize reviews slider on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateReviewsSlider();
+        });
+
+        // ✅ EXCLUSIVE COMPLEXES SLIDER FUNCTIONALITY
+        let currentExclusiveSlide = 0;
+        const totalExclusiveSlides = 2; // Two groups of 4 complexes (6 total, split into 2 slides)
+        
+        function previousExclusive() {
+            currentExclusiveSlide = currentExclusiveSlide > 0 ? currentExclusiveSlide - 1 : totalExclusiveSlides - 1;
+            updateExclusiveSlider();
+        }
+        
+        function nextExclusive() {
+            currentExclusiveSlide = currentExclusiveSlide < totalExclusiveSlides - 1 ? currentExclusiveSlide + 1 : 0;
+            updateExclusiveSlider();
+        }
+        
+        function goToExclusiveSlide(slideIndex) {
+            currentExclusiveSlide = slideIndex;
+            updateExclusiveSlider();
+        }
+        
+        function updateExclusiveSlider() {
+            const slider = document.getElementById('exclusiveCarousel');
+            if (slider) {
+                const translateX = -(currentExclusiveSlide * 100);
+                slider.style.transform = `translateX(${translateX}%)`;
+            }
+        }
+        
+        // ✅ PHOTO SLIDER FUNCTIONALITY (1 photo per view)
+        function showPhoto(cardIndex, photoIndex, totalPhotos) {
+            const container = document.getElementById('photoContainer' + cardIndex);
+            if (container) {
+                const translateX = -(photoIndex * 100);
+                container.style.transform = `translateX(${translateX}%)`;
+                
+                // Update dots
+                for (let i = 0; i < totalPhotos; i++) {
+                    const dot = document.getElementById('dot' + cardIndex + '_' + i);
+                    if (dot) {
+                        if (i === photoIndex) {
+                            dot.className = 'w-2 h-2 rounded-full bg-white transition-all duration-200';
+                        } else {
+                            dot.className = 'w-2 h-2 rounded-full bg-white bg-opacity-50 transition-all duration-200';
+                        }
+                    }
+                }
+            }
+        }
+
+        // Initialize exclusive slider on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateExclusiveSlider();
+        });
+        
+        // Fix the "Найти квартиру" button
+        setTimeout(function() {
+            console.log('Fixing find button...');
+            const findButtons = document.querySelectorAll('button[onclick="applyFilters()"]');
+            console.log('Found buttons:', findButtons.length);
+            
+            findButtons.forEach(function(button, index) {
+                console.log('Fixing button', index);
+                button.onclick = function(e) {
+                    e.preventDefault();
+                    console.log('Apply filters called');
+                    applyFilters();
+                    return false;
+                };
+            });
+        }, 500);
+        
+        // Legacy carousel code has been removed to prevent console errors on pages without carousel elements
+        
+        // Photo Modal Functions
+        function openPhotoModal(imageSrc, caption) {
+            const modal = document.getElementById('photoModal');
+            const modalPhoto = document.getElementById('modalPhoto');
+            const modalCaption = document.getElementById('modalCaption');
+            
+            modalPhoto.src = imageSrc;
+            modalPhoto.alt = caption;
+            modalCaption.textContent = caption;
+            
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closePhotoModal() {
+            const modal = document.getElementById('photoModal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+        
+        // Close modal on ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePhotoModal();
+            }
+        });
+        
+    </script>
+    
+    <!-- Photo Modal -->
+    <div id="photoModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-75 flex items-center justify-center p-4" onclick="closePhotoModal()">
+        <div class="relative max-w-4xl max-h-full" onclick="event.stopPropagation()">
+            <button onclick="closePhotoModal()" class="absolute -top-12 right-0 text-white text-2xl hover:text-gray-300 transition-colors">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+            <img id="modalPhoto" src="" alt="" class="max-w-full max-h-full rounded-lg shadow-2xl">
+            <div id="modalCaption" class="text-white text-center mt-4 text-lg font-medium"></div>
+        </div>
+    </div>
+
+{% endblock %}

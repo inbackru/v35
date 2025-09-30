@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добро пожаловать в InBack!</title>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #1f2937;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9fafb;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #059669;
+            margin-bottom: 16px;
+        }
+        .welcome-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+        .welcome-subtitle {
+            color: #6b7280;
+            font-size: 16px;
+        }
+        .content {
+            margin: 32px 0;
+        }
+        .feature-list {
+            background: #f3f4f6;
+            border-radius: 8px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+        .feature-item:last-child {
+            margin-bottom: 0;
+        }
+        .feature-icon {
+            background: #059669;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 12px;
+        }
+        .btn {
+            display: inline-block;
+            background: #059669;
+            color: white !important;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .btn:hover {
+            background: #047857;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid #e5e7eb;
+            font-size: 14px;
+            color: #6b7280;
+        }
+        .social-links {
+            margin: 16px 0;
+        }
+        .social-links a {
+            color: #059669;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">InBack</div>
+            <h1 class="welcome-title">Добро пожаловать, {{ user.first_name or user.full_name.split()[0] }}!</h1>
+            <p class="welcome-subtitle">Ваш аккаунт успешно создан. Начните поиск недвижимости с кэшбеком уже сегодня.</p>
+        </div>
+
+        <div class="content">
+            <p>Поздравляем с регистрацией в InBack — платформе для покупки недвижимости с гарантированным кэшбеком до 3% от стоимости квартиры!</p>
+
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="feature-icon">🏠</div>
+                    Более 1000 квартир в новостройках Краснодара
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">💰</div>
+                    Кэшбек до 3% от стоимости недвижимости
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🎯</div>
+                    Персональные подборки от экспертов
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📊</div>
+                    Удобные инструменты сравнения
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🤝</div>
+                    Сопровождение сделки от А до Я
+                </div>
+            </div>
+
+            <p><strong>Что делать дальше?</strong></p>
+            <ol>
+                <li>Войдите в личный кабинет</li>
+                <li>Настройте параметры поиска</li>
+                <li>Добавляйте понравившиеся объекты в избранное</li>
+                <li>Подавайте заявки на просмотр</li>
+                <li>Получайте кэшбек после покупки!</li>
+            </ol>
+
+            <div style="text-align: center;">
+                <a href="{{ base_url }}/dashboard" class="btn">Перейти в личный кабинет</a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Если у вас есть вопросы, свяжитесь с нами:</p>
+            <div class="social-links">
+                <a href="tel:+78612345678">📞 +7 (861) 234-56-78</a>
+                <a href="mailto:support@inback.ru">✉️ support@inback.ru</a>
+                <a href="https://t.me/inback_support">💬 Telegram</a>
+            </div>
+            <p>&copy; 2025 InBack. Все права защищены.</p>
+        </div>
+    </div>
+</body>
+</html>

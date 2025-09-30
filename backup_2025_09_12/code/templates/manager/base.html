@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Менеджер | InBack{% endblock %}</title>
+    
+    <!-- Meta tags -->
+    <meta name="description" content="{% block description %}Панель менеджера по недвижимости InBack{% endblock %}">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f8fafc;
+        }
+        
+        .dashboard-header {
+            background: linear-gradient(135deg, #059669 0%, #0d9488 100%);
+            box-shadow: 0 4px 20px rgba(5, 150, 105, 0.15);
+        }
+        
+        .sidebar-item.active {
+            background-color: #ecfdf5;
+            color: #059669;
+            border-right: 3px solid #059669;
+        }
+        
+        .sidebar-item:hover {
+            background-color: #f8fafc;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .floating-card {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+    
+    {% block head %}{% endblock %}
+</head>
+<body class="bg-gray-50">
+    <!-- Dashboard Header -->
+    <header class="dashboard-header text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="{{ url_for('index') }}" class="flex items-center">
+                        <div class="w-8 h-8 bg-white rounded-lg flex items-center justify-center mr-3">
+                            <span class="text-[#059669] font-bold text-lg">IB</span>
+                        </div>
+                        <span class="text-xl font-bold">InBack</span>
+                        <span class="ml-2 px-2 py-1 bg-white/20 text-white text-xs font-medium rounded">Менеджер</span>
+                    </a>
+                </div>
+                
+                <!-- User Menu -->
+                <div class="flex items-center space-x-4">
+                    <!-- Notifications -->
+                    <button class="relative p-2 hover:bg-white/10 rounded-lg transition-colors">
+                        <i class="fas fa-bell text-lg"></i>
+                        <span class="notification-badge">{{ new_applications or 0 }}</span>
+                    </button>
+                    
+                    <!-- User Avatar and Menu -->
+                    <div class="relative">
+                        <button class="flex items-center space-x-3 p-2 hover:bg-white/10 rounded-lg transition-colors" id="manager-menu-button">
+                            <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                                <i class="fas fa-user-tie text-sm"></i>
+                            </div>
+                            <span class="font-medium">{{ manager.full_name or manager.email }}</span>
+                            <i class="fas fa-chevron-down text-sm"></i>
+                        </button>
+                        
+                        <!-- Dropdown Menu -->
+                        <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden" id="manager-menu-dropdown">
+                            <a href="{{ url_for('manager_dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-chart-line mr-2"></i>Дашборд
+                            </a>
+                            <a href="{{ url_for('index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-external-link-alt mr-2"></i>Главный сайт
+                            </a>
+                            <div class="border-t border-gray-100"></div>
+                            <a href="{{ url_for('manager_logout') }}" class="block px-4 py-2 text-sm text-[#059669] hover:bg-gray-100">
+                                <i class="fas fa-sign-out-alt mr-2"></i>Выйти
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} bg-{{ 'green' if category == 'success' else 'red' if category == 'error' else 'blue' if category == 'info' else 'yellow' }}-100 border border-{{ 'green' if category == 'success' else 'red' if category == 'error' else 'blue' if category == 'info' else 'yellow' }}-400 text-{{ 'green' if category == 'success' else 'red' if category == 'error' else 'blue' if category == 'info' else 'yellow' }}-700 px-4 py-3 rounded mb-4">
+                        <div class="flex justify-between items-center">
+                            <span>{{ message }}</span>
+                            <button onclick="this.parentElement.parentElement.remove()" class="text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Main Content with Sidebar -->
+    <div class="flex">
+        <!-- Sidebar -->
+        <div class="w-64 bg-white shadow-lg h-screen sticky top-0">
+            <div class="p-6">
+                <div class="flex items-center mb-8">
+                    <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center mr-3">
+                        <i class="fas fa-user-tie text-[#059669]"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-900">{{ manager.full_name or 'Менеджер' }}</h3>
+                        <p class="text-sm text-gray-500">Панель менеджера</p>
+                    </div>
+                </div>
+                
+            <nav class="px-6">
+                <div class="mb-6">
+                    <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Основное</h3>
+                </div>
+                <ul class="space-y-2">
+                    <li>
+                        <a href="{{ url_for('manager_dashboard') }}" 
+                           class="sidebar-item flex items-center px-4 py-3 text-gray-700 hover:text-[#059669] transition-colors rounded-lg">
+                            <i class="fas fa-chart-line mr-3 w-5"></i>
+                            <span>Дашборд</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('manager_clients') }}" 
+                           class="sidebar-item flex items-center px-4 py-3 text-gray-700 hover:text-[#059669] transition-colors rounded-lg">
+                            <i class="fas fa-users mr-3 w-5"></i>
+                            <span>Клиенты</span>
+                            <span class="ml-auto bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">{{ clients_count or '0' }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('manager_create_collection') }}" 
+                           class="sidebar-item flex items-center px-4 py-3 text-gray-700 hover:text-[#059669] transition-colors rounded-lg">
+                            <i class="fas fa-plus mr-3 w-5"></i>
+                            <span>Создать подборку</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('manager_collections') }}" 
+                           class="sidebar-item flex items-center px-4 py-3 text-gray-700 hover:text-[#059669] transition-colors rounded-lg">
+                            <i class="fas fa-folder mr-3 w-5"></i>
+                            <span>Подборки</span>
+                            <span class="ml-auto bg-gray-100 text-green-800 text-xs px-2 py-1 rounded-full">{{ collections_count if collections_count else '0' }}</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="mb-6 mt-8">
+                    <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Инструменты</h3>
+                </div>
+                <ul class="space-y-2">
+                    <li>
+                        <a href="#" 
+                           class="sidebar-item flex items-center px-4 py-3 text-gray-700 hover:text-[#059669] transition-colors rounded-lg">
+                            <i class="fas fa-search mr-3 w-5"></i>
+                            <span>Сохраненные поиски</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" 
+                           class="sidebar-item flex items-center px-4 py-3 text-gray-700 hover:text-[#059669] transition-colors rounded-lg">
+                            <i class="fas fa-paper-plane mr-3 w-5"></i>
+                            <span>Рекомендации</span>
+                            <span class="ml-auto bg-gray-100 text-purple-800 text-xs px-2 py-1 rounded-full">{{ recommendations_count if recommendations_count else '0' }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" 
+                           class="sidebar-item flex items-center px-4 py-3 text-gray-700 hover:text-[#059669] transition-colors rounded-lg">
+                            <i class="fas fa-clipboard-list mr-3 w-5"></i>
+                            <span>Заявки</span>
+                            <span class="ml-auto bg-gray-100 text-yellow-800 text-xs px-2 py-1 rounded-full">{{ applications_count if applications_count else '0' }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            </div>
+        </div>
+        
+        <!-- Main Content Area -->
+        <div class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50">
+            <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Toggle manager menu dropdown
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuButton = document.getElementById('manager-menu-button');
+            const menuDropdown = document.getElementById('manager-menu-dropdown');
+            
+            if (menuButton && menuDropdown) {
+                menuButton.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    menuDropdown.classList.toggle('hidden');
+                });
+                
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function() {
+                    menuDropdown.classList.add('hidden');
+                });
+            }
+
+            // Auto-hide flash messages after 5 seconds
+            const flashMessages = document.querySelectorAll('.alert');
+            flashMessages.forEach(function(message) {
+                setTimeout(function() {
+                    message.style.transition = 'opacity 0.5s ease';
+                    message.style.opacity = '0';
+                    setTimeout(function() {
+                        message.remove();
+                    }, 500);
+                }, 5000);
+            });
+        });
+    </script>
+    
+    {% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ панель - Вход | InBack</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .bg-gradient { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    </style>
+</head>
+<body class="bg-gradient min-h-screen flex items-center justify-center">
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="fixed top-0 left-0 right-0 z-50 p-4 space-y-2">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} max-w-md mx-auto bg-white border-l-4 p-4 rounded shadow-lg
+                        {% if category == 'success' %}border-green-500 text-green-700
+                        {% elif category == 'error' %}border-red-500 text-red-700
+                        {% elif category == 'info' %}border-blue-500 text-[#006699]
+                        {% else %}border-yellow-500 text-yellow-700{% endif %}">
+                        <div class="flex justify-between items-center">
+                            <span>{{ message }}</span>
+                            <button onclick="this.parentElement.parentElement.remove()" class="text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <div class="w-full max-w-md">
+        <!-- Login Card -->
+        <div class="bg-white rounded-2xl shadow-2xl p-8">
+            <div class="text-center mb-8">
+                <div class="mx-auto w-16 h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl flex items-center justify-center mb-4">
+                    <i class="fas fa-shield-alt text-white text-2xl"></i>
+                </div>
+                <h1 class="text-2xl font-bold text-gray-800">Администраторская панель</h1>
+                <p class="text-gray-600 mt-2">Войдите в систему управления</p>
+            </div>
+
+            <form method="POST" class="space-y-6">
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-envelope mr-2 text-gray-400"></i>Email
+                    </label>
+                    <input type="email" 
+                           name="email" 
+                           id="email" 
+                           required 
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
+                           placeholder="admin@inback.ru">
+                </div>
+
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-lock mr-2 text-gray-400"></i>Пароль
+                    </label>
+                    <div class="relative">
+                        <input type="password" 
+                               name="password" 
+                               id="password" 
+                               required 
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all pr-12"
+                               placeholder="Введите пароль">
+                        <button type="button" 
+                                onclick="togglePassword()" 
+                                class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                            <i id="password-icon" class="fas fa-eye text-gray-400 hover:text-gray-600"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input id="remember" 
+                               name="remember" 
+                               type="checkbox" 
+                               class="h-4 w-4 text-[#1e40af] focus:ring-red-500 border-gray-300 rounded">
+                        <label for="remember" class="ml-2 block text-sm text-gray-700">
+                            Запомнить меня
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" 
+                        class="w-full bg-gradient-to-r from-red-500 to-red-600 text-white py-3 px-6 rounded-lg hover:from-red-600 hover:to-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transform transition-all hover:scale-[1.02] font-medium">
+                    <i class="fas fa-sign-in-alt mr-2"></i>Войти в панель
+                </button>
+            </form>
+
+            <!-- Demo Access Info -->
+            <div class="mt-8 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <div class="flex items-center mb-3">
+                    <i class="fas fa-info-circle text-[#1e40af] mr-2"></i>
+                    <h3 class="text-sm font-medium text-gray-700">Демо доступ</h3>
+                </div>
+                <div class="text-xs text-[#006699] space-y-1 mb-3">
+                    <p><strong>Email:</strong> admin@inback.ru</p>
+                    <p><strong>Пароль:</strong> demo123</p>
+                </div>
+                <button type="button" onclick="fillCredentials('admin@inback.ru', 'demo123')" 
+                        class="w-full px-3 py-2 bg-red-600 text-white text-xs rounded-lg hover:bg-red-700 transition-colors font-medium">
+                    <i class="fas fa-magic mr-1"></i>
+                    Автозаполнение
+                </button>
+            </div>
+
+            <!-- Navigation Links -->
+            <div class="mt-6 text-center space-x-4 text-sm">
+                <a href="{{ url_for('index') }}" class="text-gray-600 hover:text-[#1e40af] transition-colors">
+                    <i class="fas fa-home mr-1"></i>На главную
+                </a>
+                <span class="text-gray-300">|</span>
+                <a href="{{ url_for('login') }}" class="text-gray-600 hover:text-[#1e40af] transition-colors">
+                    <i class="fas fa-user mr-1"></i>Клиентский вход
+                </a>
+                <span class="text-gray-300">|</span>
+                <a href="{{ url_for('manager_login') }}" class="text-gray-600 hover:text-[#1e40af] transition-colors">
+                    <i class="fas fa-user-tie mr-1"></i>Вход менеджера
+                </a>
+            </div>
+        </div>
+
+        <!-- Security Notice -->
+        <div class="text-center mt-6">
+            <p class="text-white text-xs opacity-75">
+                <i class="fas fa-shield-alt mr-1"></i>
+                Защищенное соединение SSL
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const passwordIcon = document.getElementById('password-icon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                passwordIcon.classList.remove('fa-eye');
+                passwordIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                passwordIcon.classList.remove('fa-eye-slash');
+                passwordIcon.classList.add('fa-eye');
+            }
+        }
+
+        function fillCredentials(email, password) {
+            document.getElementById('email').value = email;
+            document.getElementById('password').value = password;
+            
+            // Добавим визуальный эффект
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-check mr-1"></i>Заполнено!';
+            button.className = button.className.replace('bg-red-600 hover:bg-red-700', 'bg-green-600');
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.className = button.className.replace('bg-green-600', 'bg-red-600 hover:bg-red-700');
+            }, 1500);
+        }
+
+        // Auto-hide flash messages
+        setTimeout(function() {
+            document.querySelectorAll('.alert').forEach(function(alert) {
+                alert.style.transition = 'opacity 0.5s';
+                alert.style.opacity = '0';
+                setTimeout(() => alert.remove(), 500);
+            });
+        }, 5000);
+    </script>
+</body>
+</html>

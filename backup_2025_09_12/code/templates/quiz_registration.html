@@ -1,0 +1,454 @@
+{% extends "base.html" %}
+
+{% block title %}Регистрация - Квиз | InBack{% endblock %}
+
+{% block content %}
+<div id="quiz-container">
+<style>
+    .quiz-container {
+        background: white;
+        min-height: auto;
+    }
+    
+    .step-indicator {
+        transition: all 0.3s ease;
+    }
+    
+    .step-active {
+        background: #0088cc;
+        color: white;
+    }
+    
+    .step-completed {
+        background: #10b981;
+        color: white;
+    }
+    
+    .step-inactive {
+        background: #e5e7eb;
+        color: #6b7280;
+    }
+    
+    .quiz-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .option-card {
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: white;
+    }
+    
+    .option-card:hover {
+        border-color: #0088cc;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,136,204,0.2);
+    }
+    
+    .option-card.selected {
+        border-color: #0088cc;
+        background: #f0f9ff;
+        box-shadow: 0 5px 15px rgba(0,136,204,0.3);
+    }
+    
+    .btn-quiz {
+        background: linear-gradient(135deg, #0088cc 0%, #32a4fb 100%);
+        transition: all 0.3s ease;
+    }
+    
+    .btn-quiz:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0,136,204,0.3);
+    }
+    
+    .fade-in {
+        animation: fadeIn 0.5s ease-in;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+<div class="quiz-container">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">Подберем лучшие варианты для вас</h1>
+            <p class="text-gray-600">Ответьте на несколько вопросов, чтобы мы могли предложить подходящие объекты</p>
+        </div>
+        
+        <!-- Progress Indicator -->
+        <div class="flex justify-center mb-8">
+            <div class="flex items-center space-x-4">
+                <div class="step-indicator step-active w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold" id="step-1">1</div>
+                <div class="w-8 h-1 bg-gray-300" id="connector-1"></div>
+                <div class="step-indicator step-inactive w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold" id="step-2">2</div>
+                <div class="w-8 h-1 bg-gray-300" id="connector-2"></div>
+                <div class="step-indicator step-inactive w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold" id="step-3">3</div>
+                <div class="w-8 h-1 bg-gray-300" id="connector-3"></div>
+                <div class="step-indicator step-inactive w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold" id="step-4">4</div>
+                <div class="w-8 h-1 bg-gray-300" id="connector-4"></div>
+                <div class="step-indicator step-inactive w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold" id="step-5">5</div>
+            </div>
+        </div>
+        
+        <!-- Quiz Content -->
+        <div class="max-w-2xl mx-auto">
+            <div class="quiz-card p-8">
+                <!-- Step 1: District Selection -->
+                <div id="quiz-step-1" class="quiz-step fade-in">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">В каком районе ищете недвижимость?</h2>
+                    <p class="text-gray-600 text-center mb-8">Выберите предпочтительный район Краснодара</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                        <div class="option-card" data-value="Центральный" onclick="selectOption(this, 'district')">
+                            <i class="fas fa-city text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg mb-2">Центральный</h3>
+                            <p class="text-gray-600 text-sm">Исторический центр города</p>
+                        </div>
+                        <div class="option-card" data-value="Прикубанский" onclick="selectOption(this, 'district')">
+                            <i class="fas fa-water text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg mb-2">Прикубанский</h3>
+                            <p class="text-gray-600 text-sm">Район у реки Кубань</p>
+                        </div>
+                        <div class="option-card" data-value="Западный" onclick="selectOption(this, 'district')">
+                            <i class="fas fa-home text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg mb-2">Западный</h3>
+                            <p class="text-gray-600 text-sm">Развивающийся район</p>
+                        </div>
+                        <div class="option-card" data-value="Карасунский" onclick="selectOption(this, 'district')">
+                            <i class="fas fa-leaf text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg mb-2">Карасунский</h3>
+                            <p class="text-gray-600 text-sm">Зеленый и спокойный</p>
+                        </div>
+                        <div class="option-card" data-value="Любой" onclick="selectOption(this, 'district')">
+                            <i class="fas fa-map text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg mb-2">Любой район</h3>
+                            <p class="text-gray-600 text-sm">Рассмотрю все варианты</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 2: Property Type -->
+                <div id="quiz-step-2" class="quiz-step hidden fade-in">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Что ищете?</h2>
+                    <p class="text-gray-600 text-center mb-8">Выберите тип недвижимости</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                        <div class="option-card" data-value="Квартира" onclick="selectOption(this, 'property_type')">
+                            <i class="fas fa-building text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg mb-2">Квартира</h3>
+                            <p class="text-gray-600 text-sm">В жилом комплексе</p>
+                        </div>
+                        <div class="option-card" data-value="Таунхаус" onclick="selectOption(this, 'property_type')">
+                            <i class="fas fa-home text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg mb-2">Таунхаус</h3>
+                            <p class="text-gray-600 text-sm">Многоуровневое жилье</p>
+                        </div>
+                        <div class="option-card" data-value="Дом" onclick="selectOption(this, 'property_type')">
+                            <i class="fas fa-house text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg mb-2">Дом</h3>
+                            <p class="text-gray-600 text-sm">Частный дом</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 3: Room Count -->
+                <div id="quiz-step-3" class="quiz-step hidden fade-in">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Сколько комнат?</h2>
+                    <p class="text-gray-600 text-center mb-8">Выберите количество комнат</p>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                        <div class="option-card text-center" data-value="1" onclick="selectOption(this, 'room_count')">
+                            <i class="fas fa-bed text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg">1 комната</h3>
+                        </div>
+                        <div class="option-card text-center" data-value="2" onclick="selectOption(this, 'room_count')">
+                            <i class="fas fa-bed text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg">2 комнаты</h3>
+                        </div>
+                        <div class="option-card text-center" data-value="3" onclick="selectOption(this, 'room_count')">
+                            <i class="fas fa-bed text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg">3 комнаты</h3>
+                        </div>
+                        <div class="option-card text-center" data-value="4+" onclick="selectOption(this, 'room_count')">
+                            <i class="fas fa-bed text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg">4+ комнат</h3>
+                        </div>
+                        <div class="option-card text-center md:col-span-4" data-value="Любое" onclick="selectOption(this, 'room_count')">
+                            <i class="fas fa-question text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg">Количество не важно</h3>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 4: Budget -->
+                <div id="quiz-step-4" class="quiz-step hidden fade-in">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Какой бюджет?</h2>
+                    <p class="text-gray-600 text-center mb-8">Выберите ценовой диапазон</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                        <div class="option-card" data-value="До 3 млн" onclick="selectOption(this, 'budget')">
+                            <i class="fas fa-ruble-sign text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg mb-2">До 3 млн ₽</h3>
+                            <p class="text-gray-600 text-sm">Экономичные варианты</p>
+                        </div>
+                        <div class="option-card" data-value="3-5 млн" onclick="selectOption(this, 'budget')">
+                            <i class="fas fa-ruble-sign text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg mb-2">3-5 млн ₽</h3>
+                            <p class="text-gray-600 text-sm">Средний сегмент</p>
+                        </div>
+                        <div class="option-card" data-value="5-8 млн" onclick="selectOption(this, 'budget')">
+                            <i class="fas fa-ruble-sign text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg mb-2">5-8 млн ₽</h3>
+                            <p class="text-gray-600 text-sm">Комфорт класс</p>
+                        </div>
+                        <div class="option-card" data-value="От 8 млн" onclick="selectOption(this, 'budget')">
+                            <i class="fas fa-ruble-sign text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg mb-2">От 8 млн ₽</h3>
+                            <p class="text-gray-600 text-sm">Премиум сегмент</p>
+                        </div>
+                        <div class="option-card md:col-span-2" data-value="Не определился" onclick="selectOption(this, 'budget')">
+                            <i class="fas fa-question text-2xl text-[#0088CC] mb-3"></i>
+                            <h3 class="font-semibold text-lg mb-2">Еще не определился</h3>
+                            <p class="text-gray-600 text-sm">Покажите все варианты</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 5: Personal Info -->
+                <div id="quiz-step-5" class="quiz-step hidden fade-in">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Контактные данные</h2>
+                    <p class="text-gray-600 text-center mb-8">Как с вами связаться с подходящими вариантами?</p>
+                    
+                    <!-- Property Interest Block (will be shown when property data is available) -->
+                    <div id="property-interest-block" class="hidden mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                        <h3 class="text-lg font-semibold text-blue-800 mb-3">
+                            <i class="fas fa-home mr-2"></i>
+                            Объект вашего интереса
+                        </h3>
+                        <div id="property-interest-content" class="text-sm text-blue-700">
+                            <!-- Property details will be inserted here -->
+                        </div>
+                    </div>
+                    
+                    <form id="registrationForm" class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Ваше имя</label>
+                            <input type="text" id="full_name" name="full_name" required 
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-blue-500"
+                                   placeholder="Как к вам обращаться?">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                            <input type="email" id="email" name="email" required 
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-blue-500"
+                                   placeholder="ivan@example.com">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Телефон</label>
+                            <input type="tel" id="phone" name="phone" required 
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-blue-500"
+                                   placeholder="+7 (900) 123-45-67">
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <input type="checkbox" id="agree_terms" name="agree_terms" required class="mt-1 mr-3">
+                            <label for="agree_terms" class="text-sm text-gray-600">
+                                Я соглашаюсь с <a href="/privacy_policy" class="text-[#0088CC] hover:underline" target="_blank">политикой конфиденциальности</a> 
+                                и <a href="/data_processing_consent" class="text-[#0088CC] hover:underline" target="_blank">обработкой персональных данных</a>
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Navigation -->
+                <div class="flex justify-between items-center mt-8">
+                    <button id="prevBtn" class="px-6 py-3 text-gray-600 hover:text-gray-800 font-medium" onclick="previousStep()" style="display: none;">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Назад
+                    </button>
+                    <div class="flex-1"></div>
+                    <button id="nextBtn" class="btn-quiz px-8 py-3 text-white font-semibold rounded-lg" onclick="nextStep()" disabled>
+                        Далее
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                    <button id="submitBtn" class="btn-quiz px-8 py-3 text-white font-semibold rounded-lg hidden" onclick="submitRegistration()">
+                        <span id="submitText">Отправить заявку</span>
+                        <span id="submitSpinner" class="hidden">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentStep = 1;
+const totalSteps = 5;
+const quizData = {
+    district: '',
+    property_type: '',
+    room_count: '',
+    budget: ''
+};
+
+function selectOption(element, category) {
+    // Remove selection from siblings
+    const siblings = element.parentNode.querySelectorAll('.option-card');
+    siblings.forEach(sibling => sibling.classList.remove('selected'));
+    
+    // Add selection to current
+    element.classList.add('selected');
+    
+    // Store selection
+    quizData[category] = element.dataset.value;
+    
+    // Enable next button
+    document.getElementById('nextBtn').disabled = false;
+    document.getElementById('nextBtn').classList.remove('opacity-50');
+}
+
+function nextStep() {
+    if (currentStep < totalSteps) {
+        // Hide current step
+        document.getElementById(`quiz-step-${currentStep}`).classList.add('hidden');
+        
+        // Update step indicator
+        document.getElementById(`step-${currentStep}`).classList.remove('step-active');
+        document.getElementById(`step-${currentStep}`).classList.add('step-completed');
+        
+        // Show next step
+        currentStep++;
+        document.getElementById(`quiz-step-${currentStep}`).classList.remove('hidden');
+        document.getElementById(`step-${currentStep}`).classList.remove('step-inactive');
+        document.getElementById(`step-${currentStep}`).classList.add('step-active');
+        
+        // Update navigation
+        updateNavigation();
+    }
+}
+
+function previousStep() {
+    if (currentStep > 1) {
+        // Hide current step
+        document.getElementById(`quiz-step-${currentStep}`).classList.add('hidden');
+        
+        // Update step indicator
+        document.getElementById(`step-${currentStep}`).classList.remove('step-active');
+        document.getElementById(`step-${currentStep}`).classList.add('step-inactive');
+        
+        // Show previous step
+        currentStep--;
+        document.getElementById(`quiz-step-${currentStep}`).classList.remove('hidden');
+        document.getElementById(`step-${currentStep}`).classList.remove('step-completed');
+        document.getElementById(`step-${currentStep}`).classList.add('step-active');
+        
+        // Update navigation
+        updateNavigation();
+    }
+}
+
+function updateNavigation() {
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    
+    // Show/hide previous button
+    prevBtn.style.display = currentStep > 1 ? 'block' : 'none';
+    
+    // Show/hide next/submit buttons
+    if (currentStep === totalSteps) {
+        nextBtn.classList.add('hidden');
+        submitBtn.classList.remove('hidden');
+    } else {
+        nextBtn.classList.remove('hidden');
+        submitBtn.classList.add('hidden');
+        nextBtn.disabled = true;
+        nextBtn.classList.add('opacity-50');
+    }
+}
+
+function submitRegistration() {
+    const form = document.getElementById('registrationForm');
+    const formData = new FormData(form);
+    
+    // Validate form
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+    
+    // Check password confirmation
+    if (formData.get('password') !== formData.get('confirm_password')) {
+        alert('Пароли не совпадают');
+        return;
+    }
+    
+    // Show loading
+    document.getElementById('submitText').classList.add('hidden');
+    document.getElementById('submitSpinner').classList.remove('hidden');
+    document.getElementById('submitBtn').disabled = true;
+    
+    // Prepare registration data
+    const registrationData = {
+        full_name: formData.get('full_name'),
+        email: formData.get('email'),
+        phone: formData.get('phone'),
+        password: formData.get('password'),
+        preferred_district: quizData.district,
+        property_type: quizData.property_type,
+        room_count: quizData.room_count,
+        budget_range: quizData.budget,
+        quiz_completed: true
+    };
+    
+    // Submit registration
+    fetch('/api/quiz-register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(registrationData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Show success message and redirect
+            alert('Регистрация успешна! Вы будете перенаправлены в личный кабинет.');
+            window.location.href = '/dashboard';
+        } else {
+            alert('Ошибка регистрации: ' + data.error);
+            // Reset button
+            document.getElementById('submitText').classList.remove('hidden');
+            document.getElementById('submitSpinner').classList.add('hidden');
+            document.getElementById('submitBtn').disabled = false;
+        }
+    })
+    .catch(error => {
+        console.error('Registration error:', error);
+        alert('Произошла ошибка. Попробуйте еще раз.');
+        // Reset button
+        document.getElementById('submitText').classList.remove('hidden');
+        document.getElementById('submitSpinner').classList.add('hidden');
+        document.getElementById('submitBtn').disabled = false;
+    });
+}
+
+// Initialize
+updateNavigation();
+</script>
+</div>
+{% endblock %}

@@ -1,0 +1,763 @@
+<!-- Header -->
+<header class="bg-white shadow-md sticky top-0 z-50">
+    <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center py-4">
+            <!-- Logo -->
+            <div class="flex items-center">
+                <a href="{{ url_for('index') }}" class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-r from-[#006699] to-[#0088CC] rounded-lg flex items-center justify-center">
+                        <i class="fas fa-home text-white text-lg"></i>
+                    </div>
+                    <span class="text-xl font-bold text-gray-900">InBack</span>
+                </a>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden lg:flex items-center space-x-8">
+                <!-- Недвижимость -->
+                <div class="relative group">
+                    <button class="flex items-center space-x-1 text-gray-700 hover:text-[#0088CC] transition">
+                        <span>Недвижимость</span>
+                        <i class="fas fa-chevron-down text-xs"></i>
+                    </button>
+                    <div class="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                        <div class="p-4">
+                            <div class="space-y-2">
+                                <a href="{{ url_for('properties') }}" class="block px-3 py-2 text-gray-700 hover:bg-gray-50 hover:text-[#0088CC] rounded transition">
+                                    <i class="fas fa-building mr-2"></i>
+                                    Квартиры
+                                </a>
+                                <a href="{{ url_for('residential_complexes') }}" class="block px-3 py-2 text-gray-700 hover:bg-gray-50 hover:text-[#0088CC] rounded transition">
+                                    <i class="fas fa-city mr-2"></i>
+                                    Жилые комплексы
+                                </a>
+                                <a href="{{ url_for('developers') }}" class="block px-3 py-2 text-gray-700 hover:bg-gray-50 hover:text-[#0088CC] rounded transition">
+                                    <i class="fas fa-hard-hat mr-2"></i>
+                                    Застройщики
+                                </a>
+                                <a href="{{ url_for('districts') }}" class="block px-3 py-2 text-gray-700 hover:bg-gray-50 hover:text-[#0088CC] rounded transition">
+                                    <i class="fas fa-map-marker-alt mr-2"></i>
+                                    Районы
+                                </a>
+                                <a href="{{ url_for('streets') }}" class="block px-3 py-2 text-gray-700 hover:bg-gray-50 hover:text-[#0088CC] rounded transition">
+                                    <i class="fas fa-road mr-2"></i>
+                                    Улицы
+                                </a>
+                                <a href="{{ url_for('map_view') }}" class="block px-3 py-2 text-gray-700 hover:bg-gray-50 hover:text-[#0088CC] rounded transition">
+                                    <i class="fas fa-map mr-2"></i>
+                                    Карта поиска
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ипотека -->
+                <div class="relative group">
+                    <button class="flex items-center space-x-1 text-gray-700 hover:text-[#0088CC] transition">
+                        <span>Ипотека</span>
+                        <i class="fas fa-chevron-down text-xs"></i>
+                    </button>
+                    <div class="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                        <div class="p-4">
+                            <div class="space-y-2">
+                                <a href="{{ url_for('ipoteka') }}" class="block px-3 py-2 text-gray-700 hover:bg-gray-50 hover:text-[#0088CC] rounded transition">
+                                    <i class="fas fa-percentage mr-2"></i>
+                                    Все программы
+                                </a>
+                                <a href="{{ url_for('family_mortgage') }}" class="block px-3 py-2 text-gray-700 hover:bg-gray-50 hover:text-[#0088CC] rounded transition">
+                                    <i class="fas fa-heart mr-2"></i>
+                                    Семейная ипотека
+                                </a>
+                                <a href="{{ url_for('it_mortgage') }}" class="block px-3 py-2 text-gray-700 hover:bg-gray-50 hover:text-[#0088CC] rounded transition">
+                                    <i class="fas fa-laptop-code mr-2"></i>
+                                    IT-ипотека
+                                </a>
+                                <a href="{{ url_for('military_mortgage') }}" class="block px-3 py-2 text-gray-700 hover:bg-gray-50 hover:text-[#0088CC] rounded transition">
+                                    <i class="fas fa-shield-alt mr-2"></i>
+                                    Военная ипотека
+                                </a>
+                                <a href="{{ url_for('developer_mortgage') }}" class="block px-3 py-2 text-gray-700 hover:bg-gray-50 hover:text-[#0088CC] rounded transition">
+                                    <i class="fas fa-handshake mr-2"></i>
+                                    Рассрочка от застройщика
+                                </a>
+                                <a href="{{ url_for('maternal_capital') }}" class="block px-3 py-2 text-gray-700 hover:bg-gray-50 hover:text-[#0088CC] rounded transition">
+                                    <i class="fas fa-baby mr-2"></i>
+                                    Материнский капитал
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Кэшбек -->
+                <div class="relative group">
+                    <button class="flex items-center space-x-1 text-gray-700 hover:text-[#0088CC] transition">
+                        <span>Кэшбек</span>
+                        <i class="fas fa-chevron-down text-xs"></i>
+                    </button>
+                    <div class="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                        <div class="p-4">
+                            <div class="space-y-2">
+                                <a href="{{ url_for('how_it_works') }}" class="block px-3 py-2 text-gray-700 hover:bg-gray-50 hover:text-[#0088CC] rounded transition">
+                                    <i class="fas fa-question-circle mr-2"></i>
+                                    Как это работает
+                                </a>
+                                <a href="{{ url_for('reviews') }}" class="block px-3 py-2 text-gray-700 hover:bg-gray-50 hover:text-[#0088CC] rounded transition">
+                                    <i class="fas fa-star mr-2"></i>
+                                    Отзывы
+                                </a>
+                                <a href="{{ url_for('about') }}" class="block px-3 py-2 text-gray-700 hover:bg-gray-50 hover:text-[#0088CC] rounded transition">
+                                    <i class="fas fa-info-circle mr-2"></i>
+                                    О сервисе
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Блог -->
+                <div class="relative group">
+                    <button class="flex items-center space-x-1 text-gray-700 hover:text-[#0088CC] transition">
+                        <span>Блог</span>
+                        <i class="fas fa-chevron-down text-xs"></i>
+                    </button>
+                    <div class="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                        <div class="p-4">
+                            <div class="space-y-2">
+                                <a href="{{ url_for('blog') }}" class="block px-3 py-2 text-gray-700 hover:bg-gray-50 hover:text-[#0088CC] rounded transition">
+                                    <i class="fas fa-blog mr-2"></i>
+                                    Все статьи
+                                </a>
+                                <a href="{{ url_for('news') }}" class="block px-3 py-2 text-gray-700 hover:bg-gray-50 hover:text-[#0088CC] rounded transition">
+                                    <i class="fas fa-newspaper mr-2"></i>
+                                    Новости
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="{{ url_for('contacts') }}" class="text-gray-700 hover:text-[#0088CC] transition">Контакты</a>
+            </nav>
+
+            <!-- Right Side - Phone & Login -->
+            <div class="hidden md:flex items-center space-x-4">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-[#0088CC] rounded-full flex items-center justify-center">
+                        <i class="fas fa-phone text-white text-xs"></i>
+                    </div>
+                    <div>
+                        <a href="tel:+78001231212" class="text-sm font-medium text-gray-900 hover:text-[#0088CC] transition">
+                            +7 (800) 123-12-12
+                        </a>
+                        <div class="text-xs text-gray-500">Звонок бесплатный</div>
+                    </div>
+                </div>
+                <button onclick="openLoginModal()" class="bg-[#0088CC] text-white px-4 py-2 rounded-lg hover:opacity-90 transition text-sm">
+                    Войти
+                </button>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="lg:hidden flex flex-col space-y-1" onclick="toggleMobileMenu()">
+                <span class="w-6 h-0.5 bg-gray-600"></span>
+                <span class="w-6 h-0.5 bg-gray-600"></span>
+                <span class="w-6 h-0.5 bg-gray-600"></span>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="lg:hidden hidden bg-white border-t">
+            <div class="py-4 space-y-2">
+                <!-- Mobile Недвижимость -->
+                <div>
+                    <button onclick="toggleSubMenu('mobileRealEstate')" class="w-full flex justify-between items-center px-4 py-2 text-gray-700">
+                        <span>Недвижимость</span>
+                        <i class="fas fa-chevron-down text-xs"></i>
+                    </button>
+                    <div id="mobileRealEstate" class="mobile-submenu hidden bg-gray-50 px-6 py-2 space-y-2">
+                        <a href="{{ url_for('properties') }}" class="block py-1 text-gray-600">Квартиры</a>
+                        <a href="{{ url_for('residential_complexes') }}" class="block py-1 text-gray-600">Жилые комплексы</a>
+                        <a href="{{ url_for('developers') }}" class="block py-1 text-gray-600">Застройщики</a>
+                        <a href="{{ url_for('districts') }}" class="block py-1 text-gray-600">Районы</a>
+                        <a href="{{ url_for('streets') }}" class="block py-1 text-gray-600">Улицы</a>
+                        <a href="{{ url_for('map_view') }}" class="block py-1 text-gray-600">Карта поиска</a>
+                    </div>
+                </div>
+
+                <!-- Mobile Ипотека -->
+                <div>
+                    <button onclick="toggleSubMenu('mobileMortgage')" class="w-full flex justify-between items-center px-4 py-2 text-gray-700">
+                        <span>Ипотека</span>
+                        <i class="fas fa-chevron-down text-xs"></i>
+                    </button>
+                    <div id="mobileMortgage" class="mobile-submenu hidden bg-gray-50 px-6 py-2 space-y-2">
+                        <a href="{{ url_for('ipoteka') }}" class="block py-1 text-gray-600">Все программы</a>
+                        <a href="{{ url_for('family_mortgage') }}" class="block py-1 text-gray-600">Семейная ипотека</a>
+                        <a href="{{ url_for('it_mortgage') }}" class="block py-1 text-gray-600">IT-ипотека</a>
+                        <a href="{{ url_for('military_mortgage') }}" class="block py-1 text-gray-600">Военная ипотека</a>
+                        <a href="{{ url_for('developer_mortgage') }}" class="block py-1 text-gray-600">Рассрочка от застройщика</a>
+                        <a href="{{ url_for('maternal_capital') }}" class="block py-1 text-gray-600">Материнский капитал</a>
+                    </div>
+                </div>
+
+                <!-- Mobile Кэшбек -->
+                <div>
+                    <button onclick="toggleSubMenu('mobileCashback')" class="w-full flex justify-between items-center px-4 py-2 text-gray-700">
+                        <span>Кэшбек</span>
+                        <i class="fas fa-chevron-down text-xs"></i>
+                    </button>
+                    <div id="mobileCashback" class="mobile-submenu hidden bg-gray-50 px-6 py-2 space-y-2">
+                        <a href="{{ url_for('how_it_works') }}" class="block py-1 text-gray-600">Как это работает</a>
+                        <a href="{{ url_for('reviews') }}" class="block py-1 text-gray-600">Отзывы</a>
+                        <a href="{{ url_for('about') }}" class="block py-1 text-gray-600">О сервисе</a>
+                    </div>
+                </div>
+
+                <!-- Mobile Блог -->
+                <div>
+                    <button onclick="toggleSubMenu('mobileBlog')" class="w-full flex justify-between items-center px-4 py-2 text-gray-700">
+                        <span>Блог</span>
+                        <i class="fas fa-chevron-down text-xs"></i>
+                    </button>
+                    <div id="mobileBlog" class="mobile-submenu hidden bg-gray-50 px-6 py-2 space-y-2">
+                        <a href="{{ url_for('blog') }}" class="block py-1 text-gray-600">Все статьи</a>
+                        <a href="{{ url_for('news') }}" class="block py-1 text-gray-600">Новости</a>
+                    </div>
+                </div>
+
+                <a href="{{ url_for('contacts') }}" class="block px-4 py-2 text-gray-700">Контакты</a>
+                
+                <div class="px-4 py-2 border-t border-gray-200 mt-2">
+                    <a href="tel:+78001231212" class="block text-[#0088CC] font-medium">+7 (800) 123-12-12</a>
+                    <div class="text-sm text-gray-500">Звонок бесплатный</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Application Quiz Modal -->
+<div id="applicationModal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+        <div class="sticky top-0 bg-white border-b px-8 py-6">
+            <div class="flex justify-between items-center">
+                <h3 class="text-2xl font-bold">Подбор жилья</h3>
+                <button onclick="closeModal('applicationModal')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="mt-6">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-sm text-gray-600">Шаг <span id="current-step">1</span> из 5</span>
+                    <span class="text-sm text-gray-600">Осталось 2 минуты</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div id="progress-fill" class="bg-[rgb(0_136_204)] h-2 rounded-full transition-all duration-300" style="width: 20%"></div>
+                </div>
+            </div>
+        </div>
+
+        <form id="quiz-form" class="p-8">
+            <!-- Step 1: District Selection -->
+            <div class="quiz-step active" id="step-1">
+                <h4 class="text-xl font-semibold mb-6">В каких районах рассматриваете покупку?</h4>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div class="option-card cursor-pointer p-4 border-2 border-gray-200 rounded-lg hover:border-[rgb(0_136_204)] transition">
+                        <h3 class="font-medium">Центральный</h3>
+                        <p class="text-sm text-gray-600 mt-1">Исторический центр</p>
+                    </div>
+                    <div class="option-card cursor-pointer p-4 border-2 border-gray-200 rounded-lg hover:border-[rgb(0_136_204)] transition">
+                        <h3 class="font-medium">Западный</h3>
+                        <p class="text-sm text-gray-600 mt-1">Новые кварталы</p>
+                    </div>
+                    <div class="option-card cursor-pointer p-4 border-2 border-gray-200 rounded-lg hover:border-[rgb(0_136_204)] transition">
+                        <h3 class="font-medium">Карасунский</h3>
+                        <p class="text-sm text-gray-600 mt-1">Тихий район</p>
+                    </div>
+                    <div class="option-card cursor-pointer p-4 border-2 border-gray-200 rounded-lg hover:border-[rgb(0_136_204)] transition">
+                        <h3 class="font-medium">Юбилейный</h3>
+                        <p class="text-sm text-gray-600 mt-1">Развитая инфраструктура</p>
+                    </div>
+                    <div class="option-card cursor-pointer p-4 border-2 border-gray-200 rounded-lg hover:border-[rgb(0_136_204)] transition">
+                        <h3 class="font-medium">Прикубанский</h3>
+                        <p class="text-sm text-gray-600 mt-1">Близко к природе</p>
+                    </div>
+                    <div class="option-card cursor-pointer p-4 border-2 border-gray-200 rounded-lg hover:border-[rgb(0_136_204)] transition">
+                        <h3 class="font-medium">Любой</h3>
+                        <p class="text-sm text-gray-600 mt-1">Подберите лучшее</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Room Count -->
+            <div class="quiz-step hidden" id="step-2">
+                <h4 class="text-xl font-semibold mb-6">Сколько комнат планируете?</h4>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="option-card cursor-pointer p-6 border-2 border-gray-200 rounded-lg hover:border-[rgb(0_136_204)] transition text-center">
+                        <div class="text-2xl font-bold text-[rgb(0_136_204)] mb-2">С</div>
+                        <h3 class="font-medium">Студия</h3>
+                        <p class="text-sm text-gray-600 mt-1">25-35 м²</p>
+                    </div>
+                    <div class="option-card cursor-pointer p-6 border-2 border-gray-200 rounded-lg hover:border-[rgb(0_136_204)] transition text-center">
+                        <div class="text-2xl font-bold text-[rgb(0_136_204)] mb-2">1</div>
+                        <h3 class="font-medium">Однокомнатная</h3>
+                        <p class="text-sm text-gray-600 mt-1">35-50 м²</p>
+                    </div>
+                    <div class="option-card cursor-pointer p-6 border-2 border-gray-200 rounded-lg hover:border-[rgb(0_136_204)] transition text-center">
+                        <div class="text-2xl font-bold text-[rgb(0_136_204)] mb-2">2</div>
+                        <h3 class="font-medium">Двухкомнатная</h3>
+                        <p class="text-sm text-gray-600 mt-1">50-70 м²</p>
+                    </div>
+                    <div class="option-card cursor-pointer p-6 border-2 border-gray-200 rounded-lg hover:border-[rgb(0_136_204)] transition text-center">
+                        <div class="text-2xl font-bold text-[rgb(0_136_204)] mb-2">3+</div>
+                        <h3 class="font-medium">Трёх и более</h3>
+                        <p class="text-sm text-gray-600 mt-1">от 70 м²</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Completion Time -->
+            <div class="quiz-step hidden" id="step-3">
+                <h4 class="text-xl font-semibold mb-6">Когда планируете заселение?</h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="option-card cursor-pointer p-6 border-2 border-gray-200 rounded-lg hover:border-[rgb(0_136_204)] transition">
+                        <h3 class="font-medium mb-2">Готовая квартира</h3>
+                        <p class="text-sm text-gray-600">Можно заселяться сразу</p>
+                    </div>
+                    <div class="option-card cursor-pointer p-6 border-2 border-gray-200 rounded-lg hover:border-[rgb(0_136_204)] transition">
+                        <h3 class="font-medium mb-2">До 1 года</h3>
+                        <p class="text-sm text-gray-600">Квартира в стройке</p>
+                    </div>
+                    <div class="option-card cursor-pointer p-6 border-2 border-gray-200 rounded-lg hover:border-[rgb(0_136_204)] transition">
+                        <h3 class="font-medium mb-2">1-2 года</h3>
+                        <p class="text-sm text-gray-600">Можно подождать</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Payment Method -->
+            <div class="quiz-step hidden" id="step-4">
+                <h4 class="text-xl font-semibold mb-6">Как планируете оплачивать?</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="option-card cursor-pointer p-6 border-2 border-gray-200 rounded-lg hover:border-[rgb(0_136_204)] transition">
+                        <div class="flex items-center mb-3">
+                            <i class="fas fa-home text-[rgb(0_136_204)] mr-3"></i>
+                            <h3 class="font-medium">Ипотека</h3>
+                        </div>
+                        <p class="text-sm text-gray-600">Банковский кредит на покупку</p>
+                    </div>
+                    <div class="option-card cursor-pointer p-6 border-2 border-gray-200 rounded-lg hover:border-[rgb(0_136_204)] transition">
+                        <div class="flex items-center mb-3">
+                            <i class="fas fa-money-bill-wave text-[rgb(0_136_204)] mr-3"></i>
+                            <h3 class="font-medium">Наличные</h3>
+                        </div>
+                        <p class="text-sm text-gray-600">Полная оплата собственными средствами</p>
+                    </div>
+                    <div class="option-card cursor-pointer p-6 border-2 border-gray-200 rounded-lg hover:border-[rgb(0_136_204)] transition">
+                        <div class="flex items-center mb-3">
+                            <i class="fas fa-handshake text-[rgb(0_136_204)] mr-3"></i>
+                            <h3 class="font-medium">Рассрочка</h3>
+                        </div>
+                        <p class="text-sm text-gray-600">Поэтапная оплата застройщику</p>
+                    </div>
+                    <div class="option-card cursor-pointer p-6 border-2 border-gray-200 rounded-lg hover:border-[rgb(0_136_204)] transition">
+                        <div class="flex items-center mb-3">
+                            <i class="fas fa-question-circle text-[rgb(0_136_204)] mr-3"></i>
+                            <h3 class="font-medium">Пока не знаю</h3>
+                        </div>
+                        <p class="text-sm text-gray-600">Поможем выбрать лучший вариант</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 5: Contact Info -->
+            <div class="quiz-step hidden" id="step-5">
+                <h4 class="text-xl font-semibold mb-6">Как с вами связаться?</h4>
+                <div class="max-w-md mx-auto space-y-4">
+                    <div>
+                        <label class="block text-gray-700 mb-2">Имя *</label>
+                        <input type="text" id="name" required class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[rgb(0_136_204)]" placeholder="Введите ваше имя">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Телефон *</label>
+                        <input type="tel" id="phone" required class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[rgb(0_136_204)]" placeholder="+7 (999) 123-45-67">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Email</label>
+                        <input type="email" id="email" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[rgb(0_136_204)]" placeholder="email@example.com">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 6: Thank You -->
+            <div class="quiz-step hidden" id="step-6">
+                <div class="text-center max-w-md mx-auto">
+                    <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-check text-3xl text-green-600"></i>
+                    </div>
+                    <h4 class="text-2xl font-semibold mb-4">Заявка отправлена!</h4>
+                    <p class="text-gray-600 mb-6">Наш эксперт свяжется с вами в течение 15 минут и подберет лучшие варианты квартир с максимальным кэшбеком.</p>
+                    <div class="bg-[rgb(0_136_204)] bg-opacity-10 p-4 rounded-lg">
+                        <p class="text-[rgb(0_136_204)] font-medium">Ожидаемый кэшбек: до 500 000 ₽</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="flex justify-between mt-8 pt-6 border-t">
+                <button type="button" id="prev-btn" class="px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition hidden">
+                    Назад
+                </button>
+                <div class="flex-1"></div>
+                <button type="button" id="next-btn" class="px-8 py-3 bg-[rgb(0_136_204)] text-white rounded-lg hover:opacity-90 transition">
+                    Далее
+                </button>
+                <button type="submit" id="submit-btn" class="px-8 py-3 bg-[rgb(0_136_204)] text-white rounded-lg hover:opacity-90 transition hidden">
+                    <span id="submit-text">Отправить заявку</span>
+                    <span id="submit-spinner" class="hidden">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        Отправка...
+                    </span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Login Modal -->
+<div id="loginModal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl p-6 md:p-8 max-w-md w-full mx-4">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-2xl font-bold">Вход в личный кабинет</h3>
+            <button onclick="closeModal('loginModal')" class="text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+        <form>
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">Email</label>
+                <input type="email" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="example@mail.ru">
+            </div>
+            <div class="mb-6">
+                <label class="block text-gray-700 mb-2">Пароль</label>
+                <input type="password" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="••••••••">
+            </div>
+            <button type="button" onclick="loginUser()" class="w-full bg-gradient-to-r from-purple-600 to-blue-500 text-white px-6 py-3 rounded-lg hover:opacity-90 transition mb-4">Войти</button>
+            <div class="text-center">
+                <a href="#" class="text-[#0088CC] hover:underline">Забыли пароль?</a>
+                <p class="text-gray-600 mt-2">Нет аккаунта? <a href="#" class="text-[#0088CC] hover:underline" onclick="openRegisterModal()">Зарегистрироваться</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Register Modal -->
+<div id="registerModal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl p-6 md:p-8 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-2xl font-bold">Регистрация</h3>
+            <button onclick="closeModal('registerModal')" class="text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+        <form>
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">ФИО</label>
+                <input type="text" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Иванов Иван Иванович">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">Email</label>
+                <input type="email" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="example@mail.ru">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">Телефон</label>
+                <input type="tel" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="+7 (999) 123-45-67">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">Пароль</label>
+                <input type="password" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="••••••••">
+            </div>
+            <div class="mb-6">
+                <label class="block text-gray-700 mb-2">Подтвердите пароль</label>
+                <input type="password" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="••••••••">
+            </div>
+            <button type="button" class="w-full bg-[rgb(0_136_204)] text-white px-6 py-3 rounded-lg hover:opacity-90 transition mb-4">Зарегистрироваться</button>
+            <div class="text-center">
+                <p class="text-gray-600">Уже есть аккаунт? <a href="#" class="text-[#0088CC] hover:underline" onclick="openLoginModal()">Войти</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Account Modal -->
+<div id="accountModal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl p-6 md:p-8 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-2xl font-bold">Личный кабинет</h3>
+            <button onclick="closeModal('accountModal')" class="text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+        <div class="mb-6">
+            <div class="w-20 h-20 rounded-full gradient-bg flex items-center justify-center text-white text-3xl font-bold mb-4 mx-auto">И</div>
+            <h4 class="text-xl font-semibold text-center">Добро пожаловать, Иван!</h4>
+        </div>
+        
+        <div class="mb-8">
+            <h5 class="text-lg font-semibold mb-4">Ваши заявки</h5>
+            <div class="space-y-4">
+                <div class="border-b pb-4">
+                    <div class="flex justify-between mb-2">
+                        <span class="font-medium">ЖК «Гармония»</span>
+                        <span class="text-sm text-gray-500">12.05.2023</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600">Статус: <span class="text-green-600">Одобрена</span></span>
+                        <span class="text-sm font-medium">Кэшбек: 7%</span>
+                    </div>
+                </div>
+                <div class="border-b pb-4">
+                    <div class="flex justify-between mb-2">
+                        <span class="font-medium">ЖК «ЮгЛайф»</span>
+                        <span class="text-sm text-gray-500">28.04.2023</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600">Статус: <span class="text-[#0088CC]">В обработке</span></span>
+                        <span class="text-sm font-medium">Кэшбек: 5%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <button onclick="openApplicationModal()" class="w-full bg-[rgb(0_136_204)] text-white px-6 py-3 rounded-lg hover:opacity-90 transition mb-4">Подать новую заявку</button>
+        <button onclick="logoutUser()" class="w-full border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition">Выйти</button>
+    </div>
+</div>
+
+<script>
+// Mobile menu toggle
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    menu.classList.toggle('hidden');
+    // Close all submenus when closing main menu
+    if (menu.classList.contains('hidden')) {
+        document.querySelectorAll('.mobile-submenu').forEach(submenu => {
+            submenu.classList.add('hidden');
+        });
+    }
+}
+
+// Mobile submenu toggle
+function toggleSubMenu(id) {
+    const submenu = document.getElementById(id);
+    submenu.classList.toggle('hidden');
+}
+
+// Modal functions
+function openApplicationModal() {
+    document.getElementById('applicationModal').classList.remove('hidden');
+}
+
+function openLoginModal() {
+    closeModal('registerModal');
+    closeModal('accountModal');
+    document.getElementById('loginModal').classList.remove('hidden');
+}
+
+function openRegisterModal() {
+    closeModal('loginModal');
+    document.getElementById('registerModal').classList.remove('hidden');
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).classList.add('hidden');
+}
+
+// Login/logout simulation
+function loginUser() {
+    closeModal('loginModal');
+    document.getElementById('accountModal').classList.remove('hidden');
+}
+
+function logoutUser() {
+    closeModal('accountModal');
+}
+
+// Quiz functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('quiz-form');
+    const steps = document.querySelectorAll('.quiz-step');
+    const nextBtn = document.getElementById('next-btn');
+    const prevBtn = document.getElementById('prev-btn');
+    const submitBtn = document.getElementById('submit-btn');
+    const progressFill = document.getElementById('progress-fill');
+    const currentStepDisplay = document.getElementById('current-step');
+    
+    let currentStep = 0;
+    const totalSteps = steps.length - 1; // Exclude thank you step
+    
+    // Open quiz modal when "open-quiz" buttons are clicked
+    document.querySelectorAll('.open-quiz').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            openApplicationModal();
+        });
+    });
+    
+    // Option card selection
+    document.querySelectorAll('.option-card').forEach(card => {
+        card.addEventListener('click', function() {
+            // Allow multiple selections for district step
+            if (currentStep === 0) {
+                this.classList.toggle('selected');
+                this.classList.toggle('border-[rgb(0_136_204)]');
+                this.classList.toggle('bg-blue-50');
+            } else {
+                // Single selection for other steps
+                const siblings = this.parentElement.querySelectorAll('.option-card');
+                siblings.forEach(sibling => {
+                    sibling.classList.remove('selected', 'border-[rgb(0_136_204)]', 'bg-blue-50');
+                });
+                this.classList.add('selected', 'border-[rgb(0_136_204)]', 'bg-blue-50');
+            }
+        });
+    });
+    
+    // Next button
+    nextBtn.addEventListener('click', function() {
+        if (validateStep(currentStep)) {
+            currentStep++;
+            showStep(currentStep);
+        }
+    });
+    
+    // Previous button  
+    prevBtn.addEventListener('click', function() {
+        if (currentStep > 0) {
+            currentStep--;
+            showStep(currentStep);
+        }
+    });
+    
+    function validateStep(stepIndex) {
+        const step = steps[stepIndex];
+        const selectedCards = step.querySelectorAll('.option-card.selected');
+        
+        if (stepIndex === 4) { // Contact form
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            return name !== '' && phone !== '';
+        }
+        
+        return selectedCards.length > 0;
+    }
+    
+    function showStep(stepIndex) {
+        // Hide all steps
+        steps.forEach(step => step.classList.add('hidden'));
+        steps.forEach(step => step.classList.remove('active'));
+        
+        // Show current step
+        if (stepIndex < steps.length) {
+            steps[stepIndex].classList.remove('hidden');
+            steps[stepIndex].classList.add('active');
+        }
+        
+        // Update navigation
+        if (stepIndex === 0) {
+            prevBtn.classList.add('hidden');
+        } else {
+            prevBtn.classList.remove('hidden');
+        }
+        
+        if (stepIndex === totalSteps - 1) { // Last input step
+            nextBtn.classList.add('hidden');
+            submitBtn.classList.remove('hidden');
+        } else if (stepIndex === totalSteps) { // Thank you step
+            nextBtn.classList.add('hidden');
+            submitBtn.classList.add('hidden');
+            prevBtn.classList.add('hidden');
+        } else {
+            nextBtn.classList.remove('hidden');
+            submitBtn.classList.add('hidden');
+        }
+        
+        // Update progress
+        const progressPercent = (stepIndex / totalSteps) * 100;
+        progressFill.style.width = `${Math.min(progressPercent, 100)}%`;
+        currentStepDisplay.textContent = Math.min(stepIndex + 1, totalSteps);
+    }
+    
+    function goToStep(stepIndex) {
+        // Hide all steps
+        steps.forEach(step => {
+            step.classList.add('hidden');
+            step.classList.remove('active');
+        });
+        
+        // Show new step
+        steps[stepIndex].classList.add('active');
+        
+        // Update current step
+        currentStep = stepIndex;
+        
+        // Update progress bar
+        const progressPercent = (stepIndex / totalSteps) * 100;
+        progressFill.style.width = `${progressPercent}%`;
+        
+        // Update current step display
+        currentStepDisplay.textContent = stepIndex + 1;
+        
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    // Form submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const submitBtn = document.getElementById('submit-btn');
+        const submitText = document.getElementById('submit-text');
+        const submitSpinner = document.getElementById('submit-spinner');
+        
+        // Show loading indicator
+        submitBtn.disabled = true;
+        submitText.classList.add('hidden');
+        submitSpinner.classList.remove('hidden');
+        
+        if (validateStep(currentStep)) {
+            // Simulate form submission
+            setTimeout(() => {
+                goToStep(totalSteps);
+                
+                // Restore button
+                submitBtn.disabled = false;
+                submitText.classList.remove('hidden');
+                submitSpinner.classList.add('hidden');
+            }, 2000);
+        }
+    });
+
+    // Function to get selected option text
+    function getSelectedOptionText(stepId) {
+        const step = document.getElementById(stepId);
+        if (!step) return null;
+        const selectedCard = step.querySelector('.option-card.selected');
+        if (!selectedCard) return null;
+        return selectedCard.querySelector('h3').textContent;
+    }
+    
+    // Phone mask
+    const phoneInput = document.getElementById('phone');
+    if (phoneInput) {
+        phoneInput.addEventListener('input', function(e) {
+            let x = e.target.value.replace(/\D/g, '').match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
+            e.target.value = !x[2] ? x[1] : x[1] + ' (' + x[2] + ') ' + x[3] + (x[4] ? '-' + x[4] : '') + (x[5] ? '-' + x[5] : '');
+        });
+    }
+});
+</script>

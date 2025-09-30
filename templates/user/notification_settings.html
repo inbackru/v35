@@ -1,0 +1,303 @@
+{% extends "base.html" %}
+
+{% block title %}Настройки уведомлений | InBack{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="bg-white shadow-sm rounded-lg mb-6">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h1 class="text-2xl font-bold text-gray-900">Настройки уведомлений</h1>
+                <p class="text-gray-600 mt-1">Управляйте способами получения уведомлений</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Main Settings -->
+            <div class="lg:col-span-2">
+                <div class="bg-white shadow-sm rounded-lg p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-6">Способы получения уведомлений</h2>
+                    
+                    <!-- Preferred Contact Method -->
+                    <div class="mb-8">
+                        <label class="block text-sm font-medium text-gray-700 mb-3">
+                            Предпочтительный способ связи
+                        </label>
+                        <div class="space-y-3">
+                            <label class="flex items-center">
+                                <input type="radio" name="preferred_contact" value="email" 
+                                       class="h-4 w-4 text-[#0088CC] border-gray-300 focus:ring-[#0088CC]" checked>
+                                <span class="ml-3 text-sm text-gray-900">
+                                    <i class="fas fa-envelope text-gray-500 mr-2"></i>
+                                    Электронная почта
+                                </span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="preferred_contact" value="telegram" 
+                                       class="h-4 w-4 text-[#0088CC] border-gray-300 focus:ring-[#0088CC]">
+                                <span class="ml-3 text-sm text-gray-900">
+                                    <i class="fab fa-telegram text-[#0088CC] mr-2"></i>
+                                    Telegram
+                                </span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="preferred_contact" value="whatsapp" 
+                                       class="h-4 w-4 text-[#0088CC] border-gray-300 focus:ring-[#0088CC]">
+                                <span class="ml-3 text-sm text-gray-900">
+                                    <i class="fab fa-whatsapp text-[#0088CC] mr-2"></i>
+                                    WhatsApp
+                                </span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="preferred_contact" value="both" 
+                                       class="h-4 w-4 text-[#0088CC] border-gray-300 focus:ring-[#0088CC]">
+                                <span class="ml-3 text-sm text-gray-900">
+                                    <i class="fas fa-bells text-gray-500 mr-2"></i>
+                                    Все доступные способы
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Contact Information -->
+                    <div class="border-t border-gray-200 pt-8">
+                        <h3 class="text-md font-medium text-gray-900 mb-4">Контактная информация</h3>
+                        
+                        <!-- Email -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Электронная почта
+                            </label>
+                            <input type="email" id="email" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#0088CC] focus:border-blue-500"
+                                   value="{{ user.email }}" disabled>
+                            <p class="text-xs text-gray-500 mt-1">Email изменяется в настройках профиля</p>
+                        </div>
+
+                        <!-- Phone for WhatsApp -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Номер телефона для WhatsApp
+                            </label>
+                            <input type="tel" id="phone" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#0088CC] focus:border-blue-500"
+                                   value="{{ user.phone or '' }}" placeholder="+7 (900) 000-00-00">
+                            <p class="text-xs text-gray-500 mt-1">Введите номер для получения уведомлений в WhatsApp</p>
+                        </div>
+
+                        <!-- Telegram -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Telegram
+                            </label>
+                            {% if user.telegram_id %}
+                                <div class="flex items-center text-sm text-green-600">
+                                    <i class="fas fa-check-circle mr-2"></i>
+                                    Telegram аккаунт подключен
+                                </div>
+                            {% else %}
+                                <button id="connect-telegram" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-[#0088CC] focus:ring-2 focus:ring-[#0088CC]">
+                                    <i class="fab fa-telegram mr-2"></i>
+                                    Подключить Telegram
+                                </button>
+                                <p class="text-xs text-gray-500 mt-1">Подключите Telegram для получения мгновенных уведомлений</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Notification Types -->
+                    <div class="border-t border-gray-200 pt-8">
+                        <h3 class="text-md font-medium text-gray-900 mb-4">Типы уведомлений</h3>
+                        <div class="space-y-4">
+                            <label class="flex items-center justify-between">
+                                <div>
+                                    <div class="text-sm font-medium text-gray-900">Рекомендации менеджера</div>
+                                    <div class="text-xs text-gray-500">Уведомления о новых рекомендациях объектов</div>
+                                </div>
+                                <input type="checkbox" id="notify-recommendations" 
+                                       class="h-4 w-4 text-[#0088CC] border-gray-300 rounded focus:ring-[#0088CC]" checked>
+                            </label>
+
+                            <label class="flex items-center justify-between">
+                                <div>
+                                    <div class="text-sm font-medium text-gray-900">Результаты сохраненных поисков</div>
+                                    <div class="text-xs text-gray-500">Уведомления о новых объектах по вашим критериям</div>
+                                </div>
+                                <input type="checkbox" id="notify-saved-searches" 
+                                       class="h-4 w-4 text-[#0088CC] border-gray-300 rounded focus:ring-[#0088CC]" checked>
+                            </label>
+
+                            <label class="flex items-center justify-between">
+                                <div>
+                                    <div class="text-sm font-medium text-gray-900">Статус заявок</div>
+                                    <div class="text-xs text-gray-500">Уведомления об изменении статуса заявок на кешбек</div>
+                                </div>
+                                <input type="checkbox" id="notify-applications" 
+                                       class="h-4 w-4 text-[#0088CC] border-gray-300 rounded focus:ring-[#0088CC]" checked>
+                            </label>
+
+                            <label class="flex items-center justify-between">
+                                <div>
+                                    <div class="text-sm font-medium text-gray-900">Кешбек</div>
+                                    <div class="text-xs text-gray-500">Уведомления об одобрении и выплате кешбека</div>
+                                </div>
+                                <input type="checkbox" id="notify-cashback" 
+                                       class="h-4 w-4 text-[#0088CC] border-gray-300 rounded focus:ring-[#0088CC]" checked>
+                            </label>
+
+                            <label class="flex items-center justify-between">
+                                <div>
+                                    <div class="text-sm font-medium text-gray-900">Маркетинговые уведомления</div>
+                                    <div class="text-xs text-gray-500">Информация о новых ЖК, акциях и предложениях</div>
+                                </div>
+                                <input type="checkbox" id="notify-marketing" 
+                                       class="h-4 w-4 text-[#0088CC] border-gray-300 rounded focus:ring-[#0088CC]">
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Save Button -->
+                    <div class="border-t border-gray-200 pt-8">
+                        <button id="save-settings" 
+                                class="px-6 py-2 bg-[#0088CC] text-white rounded-md hover:bg-[#006699] focus:ring-2 focus:ring-[#0088CC]">
+                            <i class="fas fa-save mr-2"></i>
+                            Сохранить настройки
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                <!-- Status Card -->
+                <div class="bg-white shadow-sm rounded-lg p-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Статус уведомлений</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-600">Email</span>
+                            <span class="text-sm text-green-600">
+                                <i class="fas fa-check-circle mr-1"></i>Активен
+                            </span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-600">Telegram</span>
+                            <span class="text-sm {% if user.telegram_id %}text-green-600{% else %}text-gray-400{% endif %}">
+                                <i class="fas {% if user.telegram_id %}fa-check-circle{% else %}fa-times-circle{% endif %} mr-1"></i>
+                                {% if user.telegram_id %}Подключен{% else %}Не подключен{% endif %}
+                            </span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-600">WhatsApp</span>
+                            <span class="text-sm {% if user.phone %}text-green-600{% else %}text-gray-400{% endif %}">
+                                <i class="fas {% if user.phone %}fa-check-circle{% else %}fa-times-circle{% endif %} mr-1"></i>
+                                {% if user.phone %}Настроен{% else %}Не настроен{% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Help Card -->
+                <div class="bg-blue-50 shadow-sm rounded-lg p-6">
+                    <h3 class="text-lg font-medium text-blue-900 mb-4">Помощь</h3>
+                    <div class="space-y-3 text-sm text-[#006699]">
+                        <p><strong>Email:</strong> Стандартный способ получения уведомлений</p>
+                        <p><strong>Telegram:</strong> Мгновенные уведомления в мессенджере</p>
+                        <p><strong>WhatsApp:</strong> Уведомления в популярном мессенджере</p>
+                    </div>
+                    <div class="mt-4">
+                        <a href="#" class="text-sm text-[#0088CC] hover:text-[#0088CC]">
+                            Подробнее о настройке →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Load current settings
+    loadNotificationSettings();
+    
+    // Save settings
+    document.getElementById('save-settings').addEventListener('click', saveNotificationSettings);
+    
+    // Connect Telegram
+    const connectTelegram = document.getElementById('connect-telegram');
+    if (connectTelegram) {
+        connectTelegram.addEventListener('click', connectTelegramAccount);
+    }
+});
+
+function loadNotificationSettings() {
+    fetch('/api/user/notification-settings')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const settings = data.settings;
+                
+                // Set preferred contact method
+                const contactRadio = document.querySelector(`input[name="preferred_contact"][value="${settings.preferred_contact}"]`);
+                if (contactRadio) contactRadio.checked = true;
+                
+                // Set phone number
+                document.getElementById('phone').value = settings.phone || '';
+                
+                // Set notification types
+                const types = settings.notification_types;
+                document.getElementById('notify-recommendations').checked = types.recommendations;
+                document.getElementById('notify-saved-searches').checked = types.saved_searches;
+                document.getElementById('notify-applications').checked = types.applications;
+                document.getElementById('notify-cashback').checked = types.cashback;
+                document.getElementById('notify-marketing').checked = types.marketing;
+            }
+        })
+        .catch(error => {
+            console.error('Error loading notification settings:', error);
+        });
+}
+
+function saveNotificationSettings() {
+    const preferredContact = document.querySelector('input[name="preferred_contact"]:checked').value;
+    const phone = document.getElementById('phone').value;
+    
+    const notificationTypes = {
+        recommendations: document.getElementById('notify-recommendations').checked,
+        saved_searches: document.getElementById('notify-saved-searches').checked,
+        applications: document.getElementById('notify-applications').checked,
+        cashback: document.getElementById('notify-cashback').checked,
+        marketing: document.getElementById('notify-marketing').checked
+    };
+    
+    fetch('/api/user/notification-settings', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            preferred_contact: preferredContact,
+            phone: phone,
+            notification_types: notificationTypes
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Настройки сохранены успешно!');
+        } else {
+            alert('Ошибка при сохранении настроек: ' + data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error saving notification settings:', error);
+        alert('Ошибка при сохранении настроек');
+    });
+}
+
+function connectTelegramAccount() {
+    alert('Для подключения Telegram:\n1. Найдите бота @InBackBot в Telegram\n2. Отправьте команду /start\n3. Следуйте инструкциям для связки аккаунта');
+}
+</script>
+{% endblock %}

@@ -1,0 +1,343 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Управление клиентами - Админ панель | InBack{% endblock %}
+{% block page_title %}Управление клиентами{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-[#1e40af] to-indigo-700 rounded-xl p-6 text-white">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-2xl font-bold mb-2">Управление клиентами</h1>
+                <p class="text-blue-100">Назначение менеджеров клиентам системы</p>
+            </div>
+            <div class="hidden md:block">
+                <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                    <i class="fas fa-users-cog text-3xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Client Management Section -->
+    <div class="bg-white rounded-lg shadow-lg">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <div class="flex items-center justify-between">
+                <h3 class="text-lg font-medium text-gray-900">
+                    <i class="fas fa-users text-[#1e40af] mr-2"></i>
+                    Клиенты системы
+                </h3>
+                <div class="flex space-x-2">
+                    <button onclick="loadClientsManagers()" class="bg-[#1e40af] text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-sync-alt mr-2"></i>
+                        Обновить данные
+                    </button>
+                    <a href="/admin/dashboard" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition-colors">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        К дашборду
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="p-6">
+            <div id="clients-managers-content">
+                <div class="text-center py-12">
+                    <i class="fas fa-spinner fa-spin text-3xl text-gray-400 mb-4"></i>
+                    <p class="text-gray-500 text-lg">Загрузка данных о клиентах...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center">
+                <div class="p-3 bg-blue-100 rounded-lg">
+                    <i class="fas fa-users text-[#1e40af] text-xl"></i>
+                </div>
+                <div class="ml-4">
+                    <h3 class="text-sm font-medium text-gray-500">Всего клиентов</h3>
+                    <p id="total-clients" class="text-2xl font-bold text-gray-900">-</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center">
+                <div class="p-3 bg-green-100 rounded-lg">
+                    <i class="fas fa-user-tie text-green-600 text-xl"></i>
+                </div>
+                <div class="ml-4">
+                    <h3 class="text-sm font-medium text-gray-500">Назначенных</h3>
+                    <p id="assigned-clients" class="text-2xl font-bold text-gray-900">-</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center">
+                <div class="p-3 bg-yellow-100 rounded-lg">
+                    <i class="fas fa-user-clock text-yellow-600 text-xl"></i>
+                </div>
+                <div class="ml-4">
+                    <h3 class="text-sm font-medium text-gray-500">Без менеджера</h3>
+                    <p id="unassigned-clients" class="text-2xl font-bold text-gray-900">-</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Client Management Functions
+function loadClientsManagers() {
+    const contentDiv = document.getElementById('clients-managers-content');
+    
+    contentDiv.innerHTML = `
+        <div class="text-center py-12">
+            <i class="fas fa-spinner fa-spin text-3xl text-gray-400 mb-4"></i>
+            <p class="text-gray-500 text-lg">Загрузка данных о клиентах...</p>
+        </div>
+    `;
+    
+    fetch('/api/admin/clients-managers')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                renderClientsManagers(data.clients, data.managers);
+                updateStatistics(data.clients);
+            } else {
+                contentDiv.innerHTML = `
+                    <div class="text-center py-12">
+                        <i class="fas fa-exclamation-triangle text-red-500 text-3xl mb-4"></i>
+                        <p class="text-red-600 text-lg">Ошибка загрузки: ${data.error}</p>
+                        <button onclick="loadClientsManagers()" class="mt-4 bg-[#1e40af] text-white px-4 py-2 rounded hover:bg-blue-700">
+                            Попробовать снова
+                        </button>
+                    </div>
+                `;
+            }
+        })
+        .catch(error => {
+            console.error('Error loading clients and managers:', error);
+            contentDiv.innerHTML = `
+                <div class="text-center py-12">
+                    <i class="fas fa-exclamation-triangle text-red-500 text-3xl mb-4"></i>
+                    <p class="text-red-600 text-lg">Ошибка сети при загрузке данных</p>
+                    <button onclick="loadClientsManagers()" class="mt-4 bg-[#1e40af] text-white px-4 py-2 rounded hover:bg-blue-700">
+                        Попробовать снова
+                    </button>
+                </div>
+            `;
+        });
+}
+
+function updateStatistics(clients) {
+    const totalClients = clients.length;
+    const assignedClients = clients.filter(client => client.assigned_manager).length;
+    const unassignedClients = totalClients - assignedClients;
+    
+    document.getElementById('total-clients').textContent = totalClients;
+    document.getElementById('assigned-clients').textContent = assignedClients;
+    document.getElementById('unassigned-clients').textContent = unassignedClients;
+}
+
+function renderClientsManagers(clients, managers) {
+    const contentDiv = document.getElementById('clients-managers-content');
+    
+    const managersOptions = managers.map(manager => 
+        `<option value="${manager.id}">${manager.name} (${manager.assigned_clients_count} клиентов)</option>`
+    ).join('');
+    
+    const clientsRows = clients.map(client => {
+        const assignedManagerName = client.assigned_manager ? client.assigned_manager.name : 'Не назначен';
+        const statusClass = client.assigned_manager ? 'text-green-600' : 'text-yellow-600';
+        const rowClass = client.assigned_manager ? 'bg-green-50' : 'bg-yellow-50';
+        
+        return `
+            <tr class="border-b border-gray-200 hover:bg-gray-50 ${rowClass}">
+                <td class="py-4 px-4">
+                    <div class="flex items-center">
+                        <div class="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center mr-3">
+                            <i class="fas fa-user text-gray-600"></i>
+                        </div>
+                        <div>
+                            <div class="font-medium text-gray-900">${client.full_name}</div>
+                            <div class="text-sm text-gray-500">${client.email}</div>
+                            <div class="text-xs text-gray-400">${client.user_id}</div>
+                        </div>
+                    </div>
+                </td>
+                <td class="py-4 px-4 text-sm text-gray-600">${client.phone || 'Не указан'}</td>
+                <td class="py-4 px-4 text-sm text-gray-600">${client.created_at || 'Не указано'}</td>
+                <td class="py-4 px-4">
+                    <span class="text-sm font-medium ${statusClass}">${assignedManagerName}</span>
+                </td>
+                <td class="py-4 px-4">
+                    <select class="block w-full text-sm border border-gray-300 rounded-md px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-[#1e40af] focus:border-transparent" 
+                            onchange="assignClientToManager(${client.id}, this.value, this)">
+                        <option value="0">Не назначен</option>
+                        ${managersOptions}
+                    </select>
+                </td>
+            </tr>
+        `;
+    }).join('');
+    
+    if (clients.length === 0) {
+        contentDiv.innerHTML = `
+            <div class="text-center py-12">
+                <i class="fas fa-users text-gray-400 text-4xl mb-4"></i>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Клиентов пока нет</h3>
+                <p class="text-gray-500">Клиенты появятся здесь автоматически после регистрации в системе</p>
+            </div>
+        `;
+        return;
+    }
+    
+    contentDiv.innerHTML = `
+        <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <div class="flex items-center">
+                <i class="fas fa-info-circle text-blue-600 mr-2"></i>
+                <div>
+                    <h4 class="font-medium text-blue-800">Автоматическое добавление клиентов</h4>
+                    <p class="text-sm text-blue-600 mt-1">Все пользователи с ролью "Покупатель" автоматически появляются в этой системе</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">
+                            <i class="fas fa-user mr-1"></i>
+                            Клиент
+                        </th>
+                        <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">
+                            <i class="fas fa-phone mr-1"></i>
+                            Телефон
+                        </th>
+                        <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">
+                            <i class="fas fa-calendar mr-1"></i>
+                            Регистрация
+                        </th>
+                        <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">
+                            <i class="fas fa-user-tie mr-1"></i>
+                            Менеджер
+                        </th>
+                        <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">
+                            <i class="fas fa-cog mr-1"></i>
+                            Назначить
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    ${clientsRows}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+            <div class="flex items-center text-sm text-gray-600">
+                <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>
+                <span><strong>Подсказка:</strong> Выберите менеджера из списка чтобы назначить его клиенту. Менеджер будет видеть этого клиента в своем дашборде.</span>
+            </div>
+        </div>
+    `;
+    
+    // Set current manager selections
+    clients.forEach(client => {
+        if (client.assigned_manager) {
+            const select = document.querySelector(`select[onchange*="assignClientToManager(${client.id}"]`);
+            if (select) {
+                select.value = client.assigned_manager.id;
+            }
+        }
+    });
+}
+
+function assignClientToManager(clientId, managerId, selectElement) {
+    const originalValue = selectElement.value;
+    selectElement.disabled = true;
+    selectElement.style.opacity = '0.6';
+    
+    fetch('/api/admin/assign-client', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            client_id: clientId,
+            manager_id: managerId == 0 ? null : managerId
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        selectElement.disabled = false;
+        selectElement.style.opacity = '1';
+        
+        if (data.success) {
+            // Show success notification
+            showNotification(data.message, 'success');
+            
+            // Update manager column in the table
+            const row = selectElement.closest('tr');
+            const managerCell = row.children[3];
+            
+            if (managerId == 0) {
+                managerCell.innerHTML = '<span class="text-yellow-600 font-medium">Не назначен</span>';
+                row.className = 'border-b border-gray-200 hover:bg-gray-50 bg-yellow-50';
+            } else {
+                managerCell.innerHTML = `<span class="text-green-600 font-medium">${data.manager_name}</span>`;
+                row.className = 'border-b border-gray-200 hover:bg-gray-50 bg-green-50';
+            }
+            
+            // Refresh statistics
+            setTimeout(() => {
+                loadClientsManagers();
+            }, 1000);
+        } else {
+            // Revert selection and show error
+            selectElement.value = originalValue;
+            showNotification('Ошибка: ' + data.error, 'error');
+        }
+    })
+    .catch(error => {
+        selectElement.disabled = false;
+        selectElement.style.opacity = '1';
+        selectElement.value = originalValue;
+        console.error('Error assigning client:', error);
+        showNotification('Ошибка сети при назначении', 'error');
+    });
+}
+
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    const bgColor = type === 'success' ? 'bg-green-500' : 'bg-red-500';
+    const icon = type === 'success' ? 'fas fa-check' : 'fas fa-times';
+    
+    notification.className = `fixed top-4 right-4 ${bgColor} text-white px-6 py-3 rounded-lg shadow-lg z-50 max-w-sm`;
+    notification.innerHTML = `
+        <div class="flex items-center">
+            <i class="${icon} mr-3"></i>
+            <span>${message}</span>
+        </div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Auto remove after 4 seconds
+    setTimeout(() => {
+        notification.remove();
+    }, 4000);
+}
+
+// Auto-load clients and managers when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    loadClientsManagers();
+});
+</script>
+{% endblock %}

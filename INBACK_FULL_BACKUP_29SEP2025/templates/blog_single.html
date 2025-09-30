@@ -1,0 +1,453 @@
+{% extends "base.html" %}
+
+{% block title %}{{ article.title }} | Блог InBack{% endblock %}
+
+{% block meta_description %}{{ article.excerpt or article.title }}{% endblock %}
+
+{% block head %}
+<meta property="og:title" content="{{ article.title }}">
+<meta property="og:description" content="{{ article.excerpt or article.title }}">
+<meta property="og:type" content="article">
+<meta property="og:url" content="{{ request.url }}">
+{% if article.featured_image %}
+<meta property="og:image" content="{{ article.featured_image }}">
+{% endif %}
+<meta property="article:published_time" content="{{ article.published_at.isoformat() if article.published_at }}">
+<meta property="article:author" content="InBack">
+<meta property="article:section" content="{{ article.category }}">
+
+<style>
+/* Article animations */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.article-hero { animation: fadeIn 1s ease-out; }
+.article-content { animation: slideInUp 0.8s ease-out 0.2s both; }
+.article-sidebar { animation: slideInUp 0.8s ease-out 0.4s both; }
+.article-related { animation: slideInUp 0.8s ease-out 0.6s both; }
+
+/* Content styling */
+.blog-content {
+    line-height: 1.8;
+    color: #374151;
+    font-size: 16px;
+}
+
+.blog-content h1, .blog-content h2, .blog-content h3, .blog-content h4 {
+    margin-top: 2.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.blog-content h1 { font-size: 2.25rem; }
+.blog-content h2 { font-size: 1.875rem; }
+.blog-content h3 { font-size: 1.5rem; }
+.blog-content h4 { font-size: 1.25rem; }
+
+.blog-content p {
+    margin-bottom: 1.5rem;
+}
+
+.blog-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    margin: 2rem 0;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.blog-content img:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.blog-content ul, .blog-content ol {
+    margin: 1.5rem 0;
+    padding-left: 2rem;
+}
+
+.blog-content li {
+    margin-bottom: 0.75rem;
+    position: relative;
+}
+
+.blog-content ul li::before {
+    content: '•';
+    color: #3b82f6;
+    font-weight: bold;
+    position: absolute;
+    left: -1.5rem;
+}
+
+.blog-content blockquote {
+    border-left: 4px solid #3b82f6;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-radius: 8px;
+    font-style: italic;
+    position: relative;
+}
+
+.blog-content blockquote::before {
+    content: '"';
+    font-size: 4rem;
+    color: #3b82f6;
+    position: absolute;
+    top: -0.5rem;
+    left: 1rem;
+    opacity: 0.3;
+}
+
+.blog-content a {
+    color: #3b82f6;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+}
+
+.blog-content a:hover {
+    color: #1d4ed8;
+}
+
+/* Social share buttons */
+.share-btn {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.share-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+/* Reading progress bar */
+.reading-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    z-index: 9999;
+    transition: width 0.1s ease;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    .blog-content h1 { font-size: 1.875rem; }
+    .blog-content h2 { font-size: 1.5rem; }
+    .blog-content h3 { font-size: 1.25rem; }
+    .blog-content { font-size: 15px; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Reading progress bar -->
+<div class="reading-progress" id="reading-progress"></div>
+
+<!-- Article Hero -->
+<div class="article-hero bg-gradient-to-br from-slate-50 to-blue-50 pt-8 pb-16">
+    <div class="max-w-4xl mx-auto px-4">
+        <!-- Breadcrumbs -->
+        <nav class="flex mb-6" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                <li><a href="/" class="text-[#0088CC] hover:text-gray-700 transition-colors">Главная</a></li>
+                <li><span class="text-gray-400">/</span></li>
+                <li><a href="/blog" class="text-[#0088CC] hover:text-gray-700 transition-colors">Блог</a></li>
+                <li><span class="text-gray-400">/</span></li>
+                <li><span class="text-gray-500">{{ article.category }}</span></li>
+            </ol>
+        </nav>
+
+        <!-- Article Header -->
+        <div class="text-center mb-8">
+            {% if article.category %}
+            <div class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-700 mb-4">
+                <span class="w-2 h-2 bg-[#0088CC] rounded-full mr-2"></span>
+                {{ article.category }}
+            </div>
+            {% endif %}
+            
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+                {{ article.title }}
+            </h1>
+            
+            {% if article.excerpt %}
+            <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
+                {{ article.excerpt }}
+            </p>
+            {% endif %}
+
+            <!-- Article Meta -->
+            <div class="flex flex-wrap items-center justify-center gap-6 text-sm text-gray-500 mb-8">
+                <div class="flex items-center">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                    {{ article.published_at.strftime('%d.%m.%Y') if article.published_at else article.created_at.strftime('%d.%m.%Y') }}
+                </div>
+                {% if article.views_count %}
+                <div class="flex items-center">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                    </svg>
+                    {{ article.views_count }} просмотров
+                </div>
+                {% endif %}
+                <div class="flex items-center">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span id="reading-time">5 мин чтения</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Featured Image -->
+        {% if article.featured_image %}
+        <div class="aspect-video rounded-2xl overflow-hidden shadow-2xl mb-8">
+            <img src="{{ article.featured_image }}" 
+                 alt="{{ article.title }}" 
+                 class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Article Content -->
+<div class="max-w-6xl mx-auto px-4 py-12">
+    <div class="grid lg:grid-cols-4 gap-12">
+        <!-- Main Content -->
+        <article class="article-content lg:col-span-3">
+            <div class="blog-content prose prose-lg max-w-none">
+                {{ article.content|safe }}
+            </div>
+
+            <!-- Social Share -->
+            <div class="mt-12 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Поделиться статьей</h3>
+                <div class="flex flex-wrap gap-3">
+                    <a href="https://vk.com/share.php?url={{ request.url }}&title={{ article.title }}" 
+                       target="_blank" 
+                       class="share-btn flex items-center px-4 py-2 bg-[#0088CC] text-white rounded-lg hover:bg-[#006699] transition-all">
+                        <svg class="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M15.07 2H8.93C3.33 2 2 3.33 2 8.93v6.14C2 20.67 3.33 22 8.93 22h6.14c5.6 0 6.93-1.33 6.93-6.93V8.93C22 3.33 20.67 2 15.07 2z"/>
+                        </svg>
+                        ВКонтакте
+                    </a>
+                    <a href="https://t.me/share/url?url={{ request.url }}&text={{ article.title }}" 
+                       target="_blank" 
+                       class="share-btn flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-[#0088CC] transition-all">
+                        <svg class="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.65.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.12.19.14.27-.01.06.01.24 0 .38z"/>
+                        </svg>
+                        Telegram
+                    </a>
+                    <button onclick="copyLink()" 
+                            class="share-btn flex items-center px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-all">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                        </svg>
+                        Скопировать
+                    </button>
+                </div>
+            </div>
+        </article>
+
+        <!-- Sidebar -->
+        <aside class="article-sidebar">
+            <!-- Table of Contents -->
+            <div class="bg-white rounded-xl shadow-sm p-6 mb-6 sticky top-4">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Содержание</h3>
+                <div id="table-of-contents" class="space-y-2 text-sm">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Related Articles -->
+            {% if related_articles %}
+            <div class="bg-white rounded-xl shadow-sm p-6 sticky top-4">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Похожие статьи</h3>
+                <div class="space-y-4">
+                    {% for related in related_articles %}
+                    <a href="{{ url_for('blog_post', slug=related.slug) }}" 
+                       class="block p-3 rounded-lg hover:bg-gray-50 transition-colors group">
+                        {% if related.featured_image %}
+                        <div class="aspect-video rounded-lg overflow-hidden mb-2">
+                            <img src="{{ related.featured_image }}" 
+                                 alt="{{ related.title }}" 
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        </div>
+                        {% endif %}
+                        <h4 class="font-medium text-gray-900 group-hover:text-[#0088CC] transition-colors line-clamp-2">
+                            {{ related.title }}
+                        </h4>
+                        <p class="text-xs text-gray-500 mt-1">
+                            {{ related.published_at.strftime('%d.%m.%Y') if related.published_at else related.created_at.strftime('%d.%m.%Y') }}
+                        </p>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </aside>
+    </div>
+</div>
+
+<!-- Call to Action -->
+<section class="article-related py-16 bg-gradient-to-br from-[#0088CC] to-indigo-700">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+        <h2 class="text-3xl font-bold text-white mb-4">Готовы купить квартиру?</h2>
+        <p class="text-xl text-blue-100 mb-8">
+            Получите персональные рекомендации и узнайте о возможном кешбэке
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="/properties" 
+               class="inline-flex items-center px-8 py-3 bg-white text-[#0088CC] rounded-lg font-semibold hover:bg-gray-50 transition-all transform hover:-translate-y-0.5">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-5 0H3m2 0h4M9 7h6m-6 4h6m-6 4h6"></path>
+                </svg>
+                Посмотреть квартиры
+            </a>
+            <a href="/callback_request" 
+               class="inline-flex items-center px-8 py-3 bg-transparent text-white border-2 border-white rounded-lg font-semibold hover:bg-white hover:text-[#0088CC] transition-all transform hover:-translate-y-0.5">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                </svg>
+                Заказать звонок
+            </a>
+        </div>
+    </div>
+</section>
+
+<script>
+// Reading progress bar
+window.addEventListener('scroll', () => {
+    const article = document.querySelector('.article-content');
+    if (!article) return;
+    
+    const articleTop = article.offsetTop - 100;
+    const articleHeight = article.offsetHeight;
+    const windowHeight = window.innerHeight;
+    const scrollY = window.scrollY;
+    
+    if (scrollY > articleTop) {
+        const progress = Math.min(
+            ((scrollY - articleTop) / (articleHeight - windowHeight)) * 100,
+            100
+        );
+        document.getElementById('reading-progress').style.width = progress + '%';
+    } else {
+        document.getElementById('reading-progress').style.width = '0%';
+    }
+});
+
+// Table of Contents generation
+function generateTOC() {
+    const headings = document.querySelectorAll('.blog-content h1, .blog-content h2, .blog-content h3');
+    const toc = document.getElementById('table-of-contents');
+    
+    if (headings.length === 0) {
+        toc.innerHTML = '<p class="text-gray-500 text-sm">Содержание недоступно</p>';
+        return;
+    }
+    
+    headings.forEach((heading, index) => {
+        const id = 'heading-' + index;
+        heading.id = id;
+        
+        const level = parseInt(heading.tagName.substring(1));
+        const indent = level > 2 ? 'ml-4' : '';
+        
+        const link = document.createElement('a');
+        link.href = '#' + id;
+        link.textContent = heading.textContent;
+        link.className = `block py-1 text-gray-600 hover:text-[#0088CC] transition-colors ${indent}`;
+        
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+        
+        toc.appendChild(link);
+    });
+}
+
+// Reading time calculation
+function calculateReadingTime() {
+    const content = document.querySelector('.blog-content');
+    if (!content) return;
+    
+    const text = content.innerText;
+    const wordsPerMinute = 200; // Average reading speed in Russian
+    const wordCount = text.split(/\s+/).length;
+    const minutes = Math.ceil(wordCount / wordsPerMinute);
+    
+    document.getElementById('reading-time').textContent = minutes + ' мин чтения';
+}
+
+// Copy link function
+function copyLink() {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+        // Show success notification
+        const button = event.target.closest('button');
+        const originalText = button.innerHTML;
+        button.innerHTML = `
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            Скопировано!
+        `;
+        button.classList.add('bg-green-600');
+        
+        setTimeout(() => {
+            button.innerHTML = originalText;
+            button.classList.remove('bg-green-600');
+        }, 2000);
+    });
+}
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    generateTOC();
+    calculateReadingTime();
+});
+
+// Smooth scrolling for internal links
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,808 @@
+{% extends "base.html" %}
+
+{% block title %}Сравнение недвижимости | InBack{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900 mb-2">Сравнение недвижимости</h1>
+                    <p class="text-gray-600">Сравните выбранные объекты по основным характеристикам</p>
+                </div>
+                <button onclick="clearAllComparisons()" class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                    <i class="fas fa-trash mr-2"></i>Очистить все
+                </button>
+            </div>
+        </div>
+
+        <!-- Comparison Tabs -->
+        <div class="flex space-x-1 mb-8">
+            <button onclick="switchTab('properties')" id="tab-properties" class="comparison-tab active px-6 py-3 rounded-lg text-lg font-medium bg-[#0088CC] text-white">
+                Квартиры (<span id="properties-count">0</span>)
+            </button>
+            <button onclick="switchTab('complexes')" id="tab-complexes" class="comparison-tab px-6 py-3 rounded-lg text-lg font-medium bg-gray-100 text-gray-600 hover:bg-gray-200">
+                ЖК (<span id="complexes-count">0</span>)
+            </button>
+        </div>
+
+        <!-- Properties Comparison -->
+        <div id="properties-comparison" class="comparison-content">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div id="properties-grid" class="overflow-x-auto">
+                    <!-- Properties comparison table will be loaded here -->
+                    <div class="text-center py-16">
+                        <i class="fas fa-spinner fa-spin text-4xl text-gray-300 mb-4"></i>
+                        <p class="text-gray-500">Загрузка сравнения квартир...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Complexes Comparison -->
+        <div id="complexes-comparison" class="comparison-content hidden">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div id="complexes-grid" class="overflow-x-auto">
+                    <!-- Complexes comparison table will be loaded here -->
+                    <div class="text-center py-16">
+                        <i class="fas fa-spinner fa-spin text-4xl text-gray-300 mb-4"></i>
+                        <p class="text-gray-500">Загрузка сравнения ЖК...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div id="empty-state" class="hidden bg-white rounded-lg shadow-sm border border-gray-200 p-12">
+            <div class="text-center">
+                <div class="mx-auto h-24 w-24 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 flex items-center justify-center mb-6">
+                    <i class="fas fa-balance-scale text-[#0088CC] text-3xl"></i>
+                </div>
+                <h3 class="text-xl font-medium text-gray-900 mb-2">Нет объектов для сравнения</h3>
+                <p class="text-gray-600 mb-6">Добавьте квартиры или ЖК для сравнения характеристик</p>
+                <a href="{{ url_for('properties') }}" 
+                   class="bg-[#0088CC] hover:bg-[#006699] text-white px-6 py-3 rounded-lg font-medium transition-colors">
+                    <i class="fas fa-search mr-2"></i>Найти недвижимость
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let propertiesData = [];
+let complexesData = [];
+
+// Load data on page load
+document.addEventListener('DOMContentLoaded', async function() {
+    console.log('Comparison page loaded');
+    
+    // Clear old invalid complex IDs (1,2,3) if they exist
+    await cleanupOldComparisonData();
+    
+    // Check localStorage immediately - use all formats
+    let propertiesItems = JSON.parse(localStorage.getItem('comparisons') || '[]');
+    if (propertiesItems.length === 0) {
+        const comparisonData = JSON.parse(localStorage.getItem('comparison-data') || '{"properties": [], "complexes": []}');
+        propertiesItems = comparisonData.properties || [];
+    }
+    if (propertiesItems.length === 0) {
+        propertiesItems = JSON.parse(localStorage.getItem('comparison_properties') || '[]');
+    }
+    const complexesItems = JSON.parse(localStorage.getItem('comparison_complexes') || '[]');
+    console.log('Properties in comparison:', propertiesItems);
+    console.log('Complexes in comparison:', complexesItems);
+    
+    updateCounts();
+    
+    // Load data first, then load comparisons
+    await loadData();
+});
+
+// Function to cleanup old comparison data with invalid IDs
+async function cleanupOldComparisonData() {
+    try {
+        const complexesItems = JSON.parse(localStorage.getItem('comparison_complexes') || '[]');
+        const validComplexes = [];
+        
+        // Check each complex ID
+        for (const complexId of complexesItems) {
+            try {
+                const response = await fetch(`/api/complex/${complexId}`);
+                if (response.ok) {
+                    validComplexes.push(complexId);
+                } else {
+                    console.log(`Removing invalid complex ID ${complexId} from comparison`);
+                }
+            } catch (error) {
+                console.log(`Removing invalid complex ID ${complexId} from comparison`);
+            }
+        }
+        
+        // Update localStorage with only valid IDs
+        if (validComplexes.length !== complexesItems.length) {
+            localStorage.setItem('comparison_complexes', JSON.stringify(validComplexes));
+            console.log('Cleaned up comparison data:', validComplexes);
+        }
+    } catch (error) {
+        console.error('Error cleaning up comparison data:', error);
+    }
+}
+
+async function loadData() {
+    try {
+        // Load properties using API endpoint that's confirmed working
+        const propertiesResponse = await fetch('/api/properties');
+        propertiesData = await propertiesResponse.json();
+        
+        // Load complexes from database API - using existing endpoint but this loads JSON data
+        // TODO: Need to create database endpoint for complexes comparison
+        const complexesResponse = await fetch('/static/data/residential_complexes_expanded.json');
+        const complexesResponseData = await complexesResponse.json();
+        complexesData = complexesResponseData.complexes || complexesResponseData;
+        
+        console.log('Properties data loaded:', propertiesData.length, 'properties');
+        console.log('Complexes data loaded:', complexesData.length, 'complexes');
+        
+        // Now reload comparisons with actual data
+        loadComparisons();
+        
+    } catch (error) {
+        console.error('Error loading data:', error);
+        // Initialize empty data and still try to load comparisons
+        propertiesData = [];
+        complexesData = [];
+        console.error('All data loading attempts failed, using empty arrays');
+        loadComparisons();
+    }
+}
+
+function loadComparisons() {
+    loadComparison('properties');
+    loadComparison('complexes');
+}
+
+function switchTab(tab) {
+    // Update tab buttons
+    document.querySelectorAll('.comparison-tab').forEach(btn => {
+        btn.classList.remove('active', 'bg-[#0088CC]', 'text-white');
+        btn.classList.add('bg-gray-100', 'text-gray-600');
+    });
+    
+    document.getElementById(`tab-${tab}`).classList.remove('bg-gray-100', 'text-gray-600');
+    document.getElementById(`tab-${tab}`).classList.add('active', 'bg-[#0088CC]', 'text-white');
+    
+    // Switch content
+    document.querySelectorAll('.comparison-content').forEach(content => {
+        content.classList.add('hidden');
+    });
+    document.getElementById(`${tab}-comparison`).classList.remove('hidden');
+    
+    loadComparison(tab);
+}
+
+async function loadComparison(type) {
+    let comparisonItems;
+    
+    if (type === 'properties') {
+        // Use all localStorage formats for properties
+        comparisonItems = JSON.parse(localStorage.getItem('comparisons') || '[]');
+        if (comparisonItems.length === 0) {
+            const comparisonData = JSON.parse(localStorage.getItem('comparison-data') || '{"properties": [], "complexes": []}');
+            comparisonItems = comparisonData.properties || [];
+        }
+        if (comparisonItems.length === 0) {
+            comparisonItems = JSON.parse(localStorage.getItem('comparison_properties') || '[]');
+        }
+    } else {
+        comparisonItems = JSON.parse(localStorage.getItem(`comparison_${type}`) || '[]');
+    }
+    
+    const grid = document.getElementById(`${type}-grid`);
+    
+    console.log(`Loading ${type} comparison with items:`, comparisonItems);
+    
+    // Update count
+    const countElement = document.getElementById(`${type}-count`);
+    if (countElement) {
+        countElement.textContent = comparisonItems.length;
+    }
+    
+    if (comparisonItems.length === 0) {
+        showEmptyState(type);
+        return;
+    }
+    
+    if (type === 'properties') {
+        buildPropertiesComparison(comparisonItems, grid);
+    } else {
+        await buildComplexesComparison(comparisonItems, grid);
+    }
+}
+
+function buildPropertiesComparison(propertyIds, grid) {
+    console.log('Building comparison for property IDs:', propertyIds);
+    console.log('Available properties data:', propertiesData.slice(0, 3));
+    
+    const comparisonProperties = propertyIds.map(id => {
+        const property = propertiesData.find(p => p.id == id);
+        console.log(`Looking for property ID ${id}:`, property);
+        
+        if (property) {
+            // Find residential complex info
+            const complex = complexesData.find(c => c.id == property.residential_complex_id);
+            let complexName = complex ? complex.name : (property.complex_name || property.residential_complex || 'Не указано');
+            
+            // Fix duplicate "ЖК ЖК" issue
+            complexName = complexName
+                .replace(/^ЖК\s+ЖК\s+/, 'ЖК ')  // Remove duplicate "ЖК ЖК"
+                .replace(/^ЖК\s+«?/, 'ЖК «')     // Normalize quotes
+                .replace(/«?$/, '»');            // Ensure closing quote
+            
+            // Build comprehensive property details like ЖК format
+            const roomsText = property.rooms !== undefined ? (property.rooms === 0 ? 'Студия' : `${property.rooms}-комн`) : 'Квартира';
+            const areaText = property.area ? `${property.area} м²` : '';
+            const cashbackPercent = property.cashback_available ? '3%' : (complex && complex.cashback_rate ? `${complex.cashback_rate}%` : '3%');
+            const cashbackAmount = property.price ? Math.round(property.price * 0.03) : 0;
+            
+            return {
+                id: property.id,
+                title: `${roomsText} ${areaText}`,
+                complex: complexName,
+                price: property.price || 0,
+                area: property.area || 0,
+                floor: property.floor || 'Не указано',
+                total_floors: property.total_floors || 'Не указано',
+                district: property.district || 'Не указано',
+                cashback: cashbackAmount,
+                cashback_percent: cashbackPercent,
+                developer: property.developer || (complex ? complex.developer : 'Не указано'),
+                finishing: property.finishing || property.finish_type || 'Не указано',
+                completion_date: property.completion_date || 'Не указано',
+                has_balcony: property.has_balcony ? 'Да' : 'Нет',
+                mortgage_available: property.mortgage_available ? 'Да' : 'Нет',
+                price_per_sqm: property.price && property.area ? Math.round(property.price / property.area) : 'Не указано',
+                image: property.image || '/static/images/no-image.jpg'
+            };
+        }
+        
+        return {
+            id: id,
+            title: `Квартира ${id}`,
+            complex: 'Не найдено',
+            price: 0,
+            area: 0,
+            floor: 'Не найдено',
+            total_floors: 'Не найдено',
+            district: 'Не найдено',
+            cashback: 0,
+            cashback_percent: '0%',
+            developer: 'Не найдено',
+            finishing: 'Не найдено',
+            completion_date: 'Не найдено',
+            has_balcony: 'Не найдено',
+            mortgage_available: 'Не найдено',
+            price_per_sqm: 'Не найдено',
+            image: '/static/images/no-image.jpg'
+        };
+    });
+    
+    // Create table-based comparison like complex-comparison page
+    let tableHTML = `
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead class="bg-gray-50 border-b">
+                    <tr>
+                        <th class="px-6 py-4 text-left text-sm font-medium text-gray-500 w-48">Характеристика</th>
+                        ${comparisonProperties.map((property, index) => `
+                            <th class="px-6 py-4 text-center text-sm font-medium text-gray-500 min-w-80">
+                                <div class="flex flex-col items-center">
+                                    <span class="font-semibold text-gray-900 mb-2">${property.title}</span>
+                                    <button onclick="removeFromComparison('properties', '${property.id}')" 
+                                            class="text-red-500 hover:text-red-700 text-sm bg-red-50 hover:bg-red-100 px-3 py-1 rounded-full transition-colors">
+                                        <i class="fas fa-times mr-1"></i>Убрать
+                                    </button>
+                                </div>
+                            </th>
+                        `).join('')}
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    <!-- Images Row -->
+                    <tr>
+                        <td class="px-6 py-4 font-medium text-gray-900">Фото</td>
+                        ${comparisonProperties.map(property => `
+                            <td class="px-6 py-4 text-center">
+                                <img src="${property.image}" 
+                                     alt="${property.title}"
+                                     class="w-32 h-24 object-cover rounded-lg mx-auto">
+                            </td>
+                        `).join('')}
+                    </tr>
+                    
+                    <!-- Property Name -->
+                    <tr class="bg-gray-50">
+                        <td class="px-6 py-4 font-medium text-gray-900">Квартира</td>
+                        ${comparisonProperties.map(property => `
+                            <td class="px-6 py-4 text-center font-semibold">${property.title}</td>
+                        `).join('')}
+                    </tr>
+                    
+                    <!-- ЖК -->
+                    <tr>
+                        <td class="px-6 py-4 font-medium text-gray-900">ЖК</td>
+                        ${comparisonProperties.map(property => `
+                            <td class="px-6 py-4 text-center">${property.complex}</td>
+                        `).join('')}
+                    </tr>
+                    
+                    <!-- Price -->
+                    <tr class="bg-gray-50">
+                        <td class="px-6 py-4 font-medium text-gray-900">Цена</td>
+                        ${comparisonProperties.map(property => `
+                            <td class="px-6 py-4 text-center text-lg font-bold text-[#0088CC]">
+                                ${property.price ? property.price.toLocaleString() + ' ₽' : 'По запросу'}
+                            </td>
+                        `).join('')}
+                    </tr>
+                    
+                    <!-- Cashback -->
+                    <tr class="bg-green-50">
+                        <td class="px-6 py-4 font-medium text-gray-900">Кешбек</td>
+                        ${comparisonProperties.map(property => `
+                            <td class="px-6 py-4 text-center font-bold text-green-600">
+                                +${property.cashback.toLocaleString()} ₽ (${property.cashback_percent})
+                            </td>
+                        `).join('')}
+                    </tr>
+                    
+                    <!-- Area -->
+                    <tr>
+                        <td class="px-6 py-4 font-medium text-gray-900">Площадь</td>
+                        ${comparisonProperties.map(property => `
+                            <td class="px-6 py-4 text-center text-lg font-semibold">
+                                ${property.area ? property.area + ' м²' : 'Не указана'}
+                            </td>
+                        `).join('')}
+                    </tr>
+                    
+                    <!-- Price per sqm -->
+                    <tr class="bg-gray-50">
+                        <td class="px-6 py-4 font-medium text-gray-900">Цена за м²</td>
+                        ${comparisonProperties.map(property => `
+                            <td class="px-6 py-4 text-center font-semibold">
+                                ${property.price_per_sqm !== 'Не указано' ? property.price_per_sqm.toLocaleString() + ' ₽/м²' : 'Не указано'}
+                            </td>
+                        `).join('')}
+                    </tr>
+                    
+                    <!-- Floor -->
+                    <tr>
+                        <td class="px-6 py-4 font-medium text-gray-900">Этаж</td>
+                        ${comparisonProperties.map(property => `
+                            <td class="px-6 py-4 text-center">
+                                ${property.floor}${property.total_floors !== 'Не указано' ? '/' + property.total_floors : ''}
+                            </td>
+                        `).join('')}
+                    </tr>
+                    
+                    <!-- District -->
+                    <tr class="bg-gray-50">
+                        <td class="px-6 py-4 font-medium text-gray-900">Район</td>
+                        ${comparisonProperties.map(property => `
+                            <td class="px-6 py-4 text-center">${property.district}</td>
+                        `).join('')}
+                    </tr>
+                    
+                    <!-- Developer -->
+                    <tr>
+                        <td class="px-6 py-4 font-medium text-gray-900">Застройщик</td>
+                        ${comparisonProperties.map(property => `
+                            <td class="px-6 py-4 text-center">${property.developer}</td>
+                        `).join('')}
+                    </tr>
+                    
+                    <!-- Finishing -->
+                    <tr class="bg-gray-50">
+                        <td class="px-6 py-4 font-medium text-gray-900">Отделка</td>
+                        ${comparisonProperties.map(property => `
+                            <td class="px-6 py-4 text-center">${property.finishing}</td>
+                        `).join('')}
+                    </tr>
+                    
+                    <!-- Completion Date -->
+                    <tr>
+                        <td class="px-6 py-4 font-medium text-gray-900">Срок сдачи</td>
+                        ${comparisonProperties.map(property => `
+                            <td class="px-6 py-4 text-center">${property.completion_date}</td>
+                        `).join('')}
+                    </tr>
+                    
+                    <!-- Balcony -->
+                    <tr class="bg-gray-50">
+                        <td class="px-6 py-4 font-medium text-gray-900">Балкон</td>
+                        ${comparisonProperties.map(property => `
+                            <td class="px-6 py-4 text-center">${property.has_balcony}</td>
+                        `).join('')}
+                    </tr>
+                    
+                    <!-- Mortgage -->
+                    <tr>
+                        <td class="px-6 py-4 font-medium text-gray-900">Ипотека</td>
+                        ${comparisonProperties.map(property => `
+                            <td class="px-6 py-4 text-center">${property.mortgage_available}</td>
+                        `).join('')}
+                    </tr>
+                    
+                    <!-- Action Buttons -->
+                    <tr class="bg-blue-50">
+                        <td class="px-6 py-4 font-medium text-gray-900">Действия</td>
+                        ${comparisonProperties.map(property => `
+                            <td class="px-6 py-4 text-center">
+                                <a href="/object/${property.id}" 
+                                   class="inline-flex items-center px-4 py-2 bg-[#0088CC] hover:bg-[#006699] text-white rounded-lg font-medium transition-colors">
+                                    <i class="fas fa-eye mr-2"></i>Подробнее
+                                </a>
+                            </td>
+                        `).join('')}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    `;
+    
+    grid.innerHTML = tableHTML;
+}
+
+async function buildComplexesComparison(complexIds, grid) {
+    console.log('Building comparison for complex IDs:', complexIds);
+    
+    const comparisonComplexes = [];
+    
+    // Load each complex from API
+    for (const id of complexIds) {
+        try {
+            const response = await fetch(`/api/complex/${id}`);
+            if (!response.ok) {
+                console.error(`Failed to load complex ${id}: ${response.status}`);
+                comparisonComplexes.push({
+                    id: id,
+                    name: `ЖК ${id} (не найден)`,
+                    developer: 'Не найдено',
+                    district: 'Не найдено',
+                    completion_date: 'Не найдено',
+                    price_from: 'Не найдено',
+                    price_to: 'Не найдено',
+                    building_class: 'Не найдено',
+                    buildings_count: 'Не найдено',
+                    apartments_count: 'Не найдено',
+                    floors_min: 'Не найдено',
+                    floors_max: 'Не найдено',
+                    construction_technology: 'Не найдено',
+                    parking: 'Не найдено',
+                    cashback_percent: 'Не найдено'
+                });
+                continue;
+            }
+            
+            const complex = await response.json();
+            console.log(`Loaded complex ${id}:`, complex);
+            
+            comparisonComplexes.push({
+                id: complex.id,
+                name: complex.name || `ЖК ${complex.id}`,
+                developer: complex.developer || 'Не указано',
+                district: complex.district || 'Не указано', 
+                completion_date: complex.completion_date || 'Не указано',
+                price_from: complex.price_from || 'Не указано',
+                price_to: complex.price_to || 'Не указано',
+                building_class: complex.building_class || 'Не указано',
+                buildings_count: complex.buildings_count || 'Не указано',
+                apartments_count: complex.apartments_count || 'Не указано',
+                floors_min: complex.floors_min || 'Не указано',
+                floors_max: complex.floors_max || 'Не указано',
+                construction_technology: complex.construction_technology || 'Не указано',
+                parking: complex.parking || 'Не указано',
+                cashback_percent: complex.cashback_percent || 'Не указано'
+            });
+            
+        } catch (error) {
+            console.error(`Error loading complex ${id}:`, error);
+            comparisonComplexes.push({
+                id: id,
+                name: `ЖК ${id} (ошибка загрузки)`,
+                developer: 'Не найдено',
+                district: 'Не найдено',
+                completion_date: 'Не найдено',
+                price_from: 'Не найдено',
+                price_to: 'Не найдено',
+                building_class: 'Не найдено',
+                buildings_count: 'Не найдено',
+                apartments_count: 'Не найдено',
+                floors_min: 'Не найдено',
+                floors_max: 'Не найдено',
+                construction_technology: 'Не найдено',
+                parking: 'Не найдено',
+                cashback_percent: 'Не найдено'
+            });
+        }
+    }
+    
+    let tableHTML = `
+        <table class="min-w-full bg-white">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-4 text-left text-sm font-medium text-gray-500 uppercase">Параметр</th>
+                    ${comparisonComplexes.map(complex => `
+                        <th class="px-6 py-4 text-center text-sm font-medium text-gray-900">
+                            <div class="flex flex-col items-center">
+                                <div class="w-16 h-16 bg-gradient-to-br from-green-100 to-blue-100 rounded-lg flex items-center justify-center mb-3">
+                                    <i class="fas fa-building text-green-600 text-xl"></i>
+                                </div>
+                                <span class="font-semibold text-gray-900 mb-2">${complex.name || `ЖК ${complex.id}`}</span>
+                                <button onclick="removeFromComparison('complexes', '${complex.id}')" 
+                                        class="text-red-500 hover:text-red-700 text-sm bg-red-50 hover:bg-gray-100 px-3 py-1 rounded-full transition-colors">
+                                    <i class="fas fa-times mr-1"></i>Убрать
+                                </button>
+                            </div>
+                        </th>
+                    `).join('')}
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 font-semibold text-gray-900">Застройщик</td>
+                    ${comparisonComplexes.map(complex => `
+                        <td class="px-6 py-4 text-center font-medium">
+                            ${complex.developer || 'Не указано'}
+                        </td>
+                    `).join('')}
+                </tr>
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 font-semibold text-gray-900">Район</td>
+                    ${comparisonComplexes.map(complex => `
+                        <td class="px-6 py-4 text-center font-medium">
+                            ${complex.district || 'Не указано'}
+                        </td>
+                    `).join('')}
+                </tr>
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 font-semibold text-gray-900">Класс жилья</td>
+                    ${comparisonComplexes.map(complex => `
+                        <td class="px-6 py-4 text-center font-medium">
+                            ${complex.building_class || 'Не указано'}
+                        </td>
+                    `).join('')}
+                </tr>
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 font-semibold text-gray-900">Срок сдачи</td>
+                    ${comparisonComplexes.map(complex => `
+                        <td class="px-6 py-4 text-center font-medium">
+                            ${complex.completion_date || 'Не указано'}
+                        </td>
+                    `).join('')}
+                </tr>
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 font-semibold text-gray-900">Цена от</td>
+                    ${comparisonComplexes.map(complex => `
+                        <td class="px-6 py-4 text-center">
+                            <span class="text-xl font-bold text-green-600">
+                                ${complex.price_from ? (typeof complex.price_from === 'number' ? complex.price_from.toLocaleString() + ' ₽' : complex.price_from) : 'Не указано'}
+                            </span>
+                        </td>
+                    `).join('')}
+                </tr>
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 font-semibold text-gray-900">Цена до</td>
+                    ${comparisonComplexes.map(complex => `
+                        <td class="px-6 py-4 text-center">
+                            <span class="text-xl font-bold text-green-600">
+                                ${complex.price_to ? (typeof complex.price_to === 'number' ? complex.price_to.toLocaleString() + ' ₽' : complex.price_to) : 'Не указано'}
+                            </span>
+                        </td>
+                    `).join('')}
+                </tr>
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 font-semibold text-gray-900">Количество корпусов</td>
+                    ${comparisonComplexes.map(complex => `
+                        <td class="px-6 py-4 text-center font-medium">
+                            ${complex.buildings_count || 'Не указано'}
+                        </td>
+                    `).join('')}
+                </tr>
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 font-semibold text-gray-900">Количество квартир</td>
+                    ${comparisonComplexes.map(complex => `
+                        <td class="px-6 py-4 text-center font-medium">
+                            ${complex.apartments_count || 'Не указано'}
+                        </td>
+                    `).join('')}
+                </tr>
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 font-semibold text-gray-900">Этажность</td>
+                    ${comparisonComplexes.map(complex => `
+                        <td class="px-6 py-4 text-center font-medium">
+                            ${complex.floors_min && complex.floors_max ? 
+                                (complex.floors_min === complex.floors_max ? 
+                                    complex.floors_min + ' эт.' : 
+                                    complex.floors_min + '-' + complex.floors_max + ' эт.') : 
+                                'Не указано'}
+                        </td>
+                    `).join('')}
+                </tr>
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 font-semibold text-gray-900">Технология строительства</td>
+                    ${comparisonComplexes.map(complex => `
+                        <td class="px-6 py-4 text-center font-medium">
+                            ${complex.construction_technology || 'Не указано'}
+                        </td>
+                    `).join('')}
+                </tr>
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 font-semibold text-gray-900">Паркинг</td>
+                    ${comparisonComplexes.map(complex => `
+                        <td class="px-6 py-4 text-center font-medium">
+                            ${complex.parking || 'Не указано'}
+                        </td>
+                    `).join('')}
+                </tr>
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 font-semibold text-gray-900">Кэшбек %</td>
+                    ${comparisonComplexes.map(complex => `
+                        <td class="px-6 py-4 text-center">
+                            <span class="text-xl font-bold text-[#0088CC]">
+                                ${complex.cashback_percent ? complex.cashback_percent + '%' : 'Не указано'}
+                            </span>
+                        </td>
+                    `).join('')}
+                </tr>
+            </tbody>
+        </table>
+    `;
+    
+    grid.innerHTML = tableHTML;
+}
+
+function showEmptyState(type) {
+    const grid = document.getElementById(`${type}-grid`);
+    grid.innerHTML = `
+        <div class="text-center py-16">
+            <div class="mx-auto h-20 w-20 rounded-full bg-gradient-to-r from-gray-100 to-gray-200 flex items-center justify-center mb-6">
+                <i class="fas fa-${type === 'properties' ? 'balance-scale' : 'building'} text-gray-400 text-2xl"></i>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">Нет ${type === 'properties' ? 'квартир' : 'ЖК'} для сравнения</h3>
+            <p class="text-gray-600 mb-6">Добавьте ${type === 'properties' ? 'квартиры' : 'ЖК'} на странице недвижимости</p>
+            <a href="${type === 'properties' ? '/properties' : '/complexes'}" 
+               class="bg-[#0088CC] hover:bg-[#006699] text-white px-6 py-3 rounded-lg font-medium transition-colors">
+                <i class="fas fa-search mr-2"></i>Найти ${type === 'properties' ? 'квартиры' : 'ЖК'}
+            </a>
+        </div>
+    `;
+}
+
+function removeFromComparison(type, id) {
+    if (type === 'properties') {
+        // Remove from both localStorage formats
+        const comparisons = JSON.parse(localStorage.getItem('comparisons') || '[]');
+        const newComparisons = comparisons.filter(item => item != id);
+        localStorage.setItem('comparisons', JSON.stringify(newComparisons));
+        
+        const oldComparisons = JSON.parse(localStorage.getItem('comparison_properties') || '[]');
+        const newOldComparisons = oldComparisons.filter(item => item != id);
+        localStorage.setItem('comparison_properties', JSON.stringify(newOldComparisons));
+    } else {
+        const comparisonItems = JSON.parse(localStorage.getItem(`comparison_${type}`) || '[]');
+        const updatedItems = comparisonItems.filter(item => item != id);
+        localStorage.setItem(`comparison_${type}`, JSON.stringify(updatedItems));
+    }
+    
+    console.log(`Removed ${id} from ${type} comparison`);
+    
+    // Update comparison count in header if exists
+    if (window.comparisonManager) {
+        window.comparisonManager.updateComparisonUI();
+    }
+    
+    // Reload comparison
+    loadComparison(type);
+    updateCounts();
+    showNotification(`Объект удален из сравнения`, 'success');
+    
+    // Check if both comparisons are empty
+    const propertiesItems = JSON.parse(localStorage.getItem('comparisons') || '[]');
+    const complexesItems = JSON.parse(localStorage.getItem('comparison_complexes') || '[]');
+    
+    if (propertiesItems.length === 0 && complexesItems.length === 0) {
+        document.getElementById('empty-state').classList.remove('hidden');
+        document.querySelectorAll('.comparison-content').forEach(content => {
+            content.classList.add('hidden');
+        });
+    }
+}
+
+function clearAllComparisons() {
+    if (confirm('Очистить все сравнения?')) {
+        localStorage.removeItem('comparison_properties');
+        localStorage.removeItem('comparisons');
+        localStorage.removeItem('comparison_complexes');
+        
+        // Update comparison counts in header if exists
+        const headerCountProperties = document.getElementById('comparison-count-properties');
+        const headerCountComplexes = document.getElementById('comparison-count-complexes');
+        if (headerCountProperties) headerCountProperties.textContent = '0';
+        if (headerCountComplexes) headerCountComplexes.textContent = '0';
+        
+        loadComparisons();
+        showNotification('Все сравнения очищены', 'success');
+    }
+}
+
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg max-w-sm ${
+        type === 'success' ? 'bg-green-500 text-white' :
+        type === 'error' ? 'bg-red-500 text-white' :
+        type === 'warning' ? 'bg-yellow-500 text-white' :
+        'bg-blue-500 text-white'
+    }`;
+    notification.innerHTML = `
+        <div class="flex items-center justify-between">
+            <span>${message}</span>
+            <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-white hover:text-gray-200">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    `;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.remove();
+        }
+    }, 5000);
+}
+
+function updateCounts() {
+    let propertiesItems = JSON.parse(localStorage.getItem('comparisons') || '[]');
+    if (propertiesItems.length === 0) {
+        const comparisonData = JSON.parse(localStorage.getItem('comparison-data') || '{"properties": [], "complexes": []}');
+        propertiesItems = comparisonData.properties || [];
+    }
+    if (propertiesItems.length === 0) {
+        propertiesItems = JSON.parse(localStorage.getItem('comparison_properties') || '[]');
+    }
+    const propertiesCount = propertiesItems.length;
+    const complexesCount = JSON.parse(localStorage.getItem('comparison_complexes') || '[]').length;
+    
+    console.log('Updating counts:', { propertiesCount, complexesCount });
+    
+    const propertiesCountEl = document.getElementById('properties-count');
+    const complexesCountEl = document.getElementById('complexes-count');
+    
+    if (propertiesCountEl) propertiesCountEl.textContent = propertiesCount;
+    if (complexesCountEl) complexesCountEl.textContent = complexesCount;
+    
+    // Show empty state if no items
+    if (propertiesCount === 0 && complexesCount === 0) {
+        console.log('Showing empty state');
+        document.getElementById('empty-state').classList.remove('hidden');
+        document.getElementById('properties-comparison').classList.add('hidden');
+        document.getElementById('complexes-comparison').classList.add('hidden');
+    } else {
+        console.log('Hiding empty state, showing comparisons');
+        document.getElementById('empty-state').classList.add('hidden');
+        
+        // Show appropriate comparison section
+        if (propertiesCount > 0) {
+            document.getElementById('properties-comparison').classList.remove('hidden');
+            switchTab('properties');
+        } else if (complexesCount > 0) {
+            document.getElementById('complexes-comparison').classList.remove('hidden');
+            switchTab('complexes');
+        }
+    }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,474 @@
+{% extends "base.html" %}
+
+{% block title %}Сравнение объектов - InBack{% endblock %}
+
+{% block extra_css %}
+<style>
+.comparison-header {
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+    color: white;
+    padding: 2rem 0;
+}
+
+.comparison-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.comparison-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.property-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.price-badge {
+    background: linear-gradient(135deg, #059669, #10b981);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.tab-active {
+    background: #3b82f6;
+    color: white;
+}
+
+.comparison-table {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.table-header {
+    background: #f8fafc;
+    font-weight: 600;
+    color: #374151;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="comparison-header">
+    <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold mb-2">Сравнение объектов</h1>
+                <p class="text-blue-100">Детальное сравнение выбранных квартир и жилых комплексов</p>
+            </div>
+            <div class="text-right">
+                <div class="text-sm text-blue-100">Объектов в сравнении</div>
+                <div class="text-2xl font-bold" id="total-count">-</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mx-auto px-4 py-8">
+    <!-- Tabs -->
+    <div class="flex space-x-4 mb-8">
+        <button onclick="switchTab('properties')" 
+                id="tab-properties" 
+                class="px-6 py-3 rounded-lg font-semibold transition-colors tab-active">
+            Квартиры (<span id="properties-count">0</span>)
+        </button>
+        <button onclick="switchTab('complexes')" 
+                id="tab-complexes" 
+                class="px-6 py-3 rounded-lg font-semibold transition-colors bg-gray-200 text-gray-700 hover:bg-gray-300">
+            ЖК (<span id="complexes-count">0</span>)
+        </button>
+        <button onclick="clearComparison()" 
+                class="px-6 py-3 rounded-lg font-semibold bg-red-500 text-white hover:bg-red-600 transition-colors ml-auto">
+            Очистить всё
+        </button>
+    </div>
+
+    <!-- Properties Section -->
+    <div id="properties-section" class="mb-12">
+        <div id="properties-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Properties will be loaded here -->
+        </div>
+        
+        <!-- Properties Comparison Table -->
+        <div id="properties-table" class="comparison-table hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="table-header">
+                        <tr>
+                            <th class="p-4 text-left">Параметр</th>
+                            <th class="p-4 text-center" colspan="100">Квартиры</th>
+                        </tr>
+                    </thead>
+                    <tbody id="properties-table-body">
+                        <!-- Table rows will be generated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Complexes Section -->
+    <div id="complexes-section" class="hidden mb-12">
+        <div id="complexes-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Complexes will be loaded here -->
+        </div>
+        
+        <!-- Complexes Comparison Table -->
+        <div id="complexes-table" class="comparison-table hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="table-header">
+                        <tr>
+                            <th class="p-4 text-left">Параметр</th>
+                            <th class="p-4 text-center" colspan="100">ЖК</th>
+                        </tr>
+                    </thead>
+                    <tbody id="complexes-table-body">
+                        <!-- Table rows will be generated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Empty State -->
+    <div id="empty-state" class="text-center py-16">
+        <div class="text-gray-400 text-6xl mb-4">
+            <i class="fas fa-balance-scale"></i>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-600 mb-2">Нет объектов для сравнения</h3>
+        <p class="text-gray-500 mb-6">Добавьте квартиры или ЖК в избранное, чтобы сравнить их здесь</p>
+        <a href="{{ url_for('index') }}" class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors">
+            Найти объекты
+        </a>
+    </div>
+</div>
+
+<script>
+let currentTab = 'properties';
+let comparisonData = null;
+
+// Switch between tabs
+function switchTab(tab) {
+    currentTab = tab;
+    
+    // Update tab buttons
+    document.getElementById('tab-properties').className = 
+        tab === 'properties' ? 'px-6 py-3 rounded-lg font-semibold transition-colors tab-active' : 
+        'px-6 py-3 rounded-lg font-semibold transition-colors bg-gray-200 text-gray-700 hover:bg-gray-300';
+    
+    document.getElementById('tab-complexes').className = 
+        tab === 'complexes' ? 'px-6 py-3 rounded-lg font-semibold transition-colors tab-active' : 
+        'px-6 py-3 rounded-lg font-semibold transition-colors bg-gray-200 text-gray-700 hover:bg-gray-300';
+    
+    // Show/hide sections
+    document.getElementById('properties-section').style.display = tab === 'properties' ? 'block' : 'none';
+    document.getElementById('complexes-section').style.display = tab === 'complexes' ? 'block' : 'none';
+}
+
+// Format price
+function formatPrice(price) {
+    if (!price) return 'По запросу';
+    return new Intl.NumberFormat('ru-RU').format(price) + ' ₽';
+}
+
+// Load comparison data from API
+async function loadComparisonData() {
+    try {
+        const response = await fetch('/api/comparison/load');
+        const data = await response.json();
+        
+        if (data.comparison) {
+            comparisonData = data;
+            updateCounts();
+            renderProperties(data.properties || []);
+            renderComplexes(data.complexes || []);
+            
+            // Show appropriate section or empty state
+            const hasProperties = data.properties && data.properties.length > 0;
+            const hasComplexes = data.complexes && data.complexes.length > 0;
+            
+            if (hasProperties || hasComplexes) {
+                document.getElementById('empty-state').style.display = 'none';
+                
+                // Switch to tab with data
+                if (!hasProperties && hasComplexes) {
+                    switchTab('complexes');
+                } else {
+                    switchTab('properties');
+                }
+            } else {
+                document.getElementById('empty-state').style.display = 'block';
+                document.getElementById('properties-section').style.display = 'none';
+                document.getElementById('complexes-section').style.display = 'none';
+            }
+        }
+    } catch (error) {
+        console.error('Ошибка загрузки данных сравнения:', error);
+        document.getElementById('empty-state').style.display = 'block';
+    }
+}
+
+// Update counts
+function updateCounts() {
+    if (comparisonData && comparisonData.comparison) {
+        const propertiesCount = comparisonData.comparison.properties_count || 0;
+        const complexesCount = comparisonData.comparison.complexes_count || 0;
+        const totalCount = propertiesCount + complexesCount;
+        
+        document.getElementById('properties-count').textContent = propertiesCount;
+        document.getElementById('complexes-count').textContent = complexesCount;
+        document.getElementById('total-count').textContent = totalCount;
+        
+        console.log('✅ Updated counts from API:', { propertiesCount, complexesCount, totalCount });
+    }
+}
+
+// Render properties
+function renderProperties(properties) {
+    const grid = document.getElementById('properties-grid');
+    const table = document.getElementById('properties-table');
+    
+    if (!properties || properties.length === 0) {
+        grid.innerHTML = '<div class="col-span-full text-center text-gray-500">Нет квартир для сравнения</div>';
+        table.style.display = 'none';
+        return;
+    }
+    
+    // Render grid cards
+    grid.innerHTML = properties.map(property => `
+        <div class="comparison-card">
+            <img src="${property.image || '/static/images/no-image.jpg'}" 
+                 alt="${property.property_name || 'Квартира'}" 
+                 class="property-image"
+                 onerror="this.src='/static/images/no-image.jpg'">
+            <div class="p-4">
+                <h3 class="text-lg font-semibold mb-2">${property.property_name || 'Квартира'}</h3>
+                <p class="text-gray-600 mb-2">${property.complex_name || 'ЖК'}</p>
+                <div class="price-badge mb-3">${formatPrice(property.property_price)}</div>
+                <div class="text-sm text-gray-600 space-y-1">
+                    <div><i class="fas fa-expand-arrows-alt w-4"></i> ${property.area || '-'} м²</div>
+                    <div><i class="fas fa-building w-4"></i> ${property.object_min_floor || '-'}/${property.object_max_floor || '-'} эт.</div>
+                    <div><i class="fas fa-calendar w-4"></i> ${property.completion_date || 'Не указано'}</div>
+                </div>
+                <button onclick="removeProperty('${property.property_id}')" 
+                        class="mt-4 w-full bg-red-500 text-white py-2 rounded hover:bg-red-600 transition-colors">
+                    Удалить из сравнения
+                </button>
+            </div>
+        </div>
+    `).join('');
+    
+    // Show comparison table if more than 1 property
+    if (properties.length > 1) {
+        renderPropertiesTable(properties);
+        table.style.display = 'block';
+    } else {
+        table.style.display = 'none';
+    }
+}
+
+// Render properties comparison table
+function renderPropertiesTable(properties) {
+    const tbody = document.getElementById('properties-table-body');
+    
+    const rows = [
+        { label: 'Название', key: 'property_name' },
+        { label: 'Комплекс', key: 'complex_name' },
+        { label: 'Цена', key: 'property_price', format: formatPrice },
+        { label: 'Площадь', key: 'area', format: (v) => v ? `${v} м²` : '-' },
+        { label: 'Этаж', key: 'floors', format: (v, prop) => `${prop.object_min_floor || '-'}/${prop.object_max_floor || '-'}` },
+        { label: 'Срок сдачи', key: 'completion_date' },
+        { label: 'Отделка', key: 'finishing' },
+        { label: 'Застройщик', key: 'developer_name' }
+    ];
+    
+    tbody.innerHTML = rows.map(row => `
+        <tr class="border-b border-gray-200">
+            <td class="p-4 font-semibold bg-gray-50">${row.label}</td>
+            ${properties.map(property => {
+                let value = property[row.key] || '-';
+                if (row.format) {
+                    value = row.format(value, property);
+                }
+                return `<td class="p-4 text-center">${value}</td>`;
+            }).join('')}
+        </tr>
+    `).join('');
+}
+
+// Render complexes
+function renderComplexes(complexes) {
+    const grid = document.getElementById('complexes-grid');
+    const table = document.getElementById('complexes-table');
+    
+    if (!complexes || complexes.length === 0) {
+        grid.innerHTML = '<div class="col-span-full text-center text-gray-500">Нет ЖК для сравнения</div>';
+        table.style.display = 'none';
+        return;
+    }
+    
+    // Render grid cards
+    grid.innerHTML = complexes.map(complex => `
+        <div class="comparison-card">
+            <img src="${complex.photo || '/static/images/no-image.jpg'}" 
+                 alt="${complex.complex_name || 'ЖК'}" 
+                 class="property-image"
+                 onerror="this.src='/static/images/no-image.jpg'">
+            <div class="p-4">
+                <h3 class="text-lg font-semibold mb-2">${complex.complex_name || 'ЖК'}</h3>
+                <p class="text-gray-600 mb-2">${complex.developer_name || 'Застройщик'}</p>
+                <div class="price-badge mb-3">от ${formatPrice(complex.min_price)}</div>
+                <div class="text-sm text-gray-600 space-y-1">
+                    <div><i class="fas fa-building w-4"></i> ${complex.buildings_count || '-'} зданий</div>
+                    <div><i class="fas fa-home w-4"></i> ${complex.apartments_count || '-'} квартир</div>
+                    <div><i class="fas fa-calendar w-4"></i> ${complex.completion_date || 'Не указано'}</div>
+                </div>
+                <button onclick="removeComplex('${complex.complex_id}')" 
+                        class="mt-4 w-full bg-red-500 text-white py-2 rounded hover:bg-red-600 transition-colors">
+                    Удалить из сравнения
+                </button>
+            </div>
+        </div>
+    `).join('');
+    
+    // Show comparison table if more than 1 complex
+    if (complexes.length > 1) {
+        renderComplexesTable(complexes);
+        table.style.display = 'block';
+    } else {
+        table.style.display = 'none';
+    }
+}
+
+// Render complexes comparison table
+function renderComplexesTable(complexes) {
+    const tbody = document.getElementById('complexes-table-body');
+    
+    const rows = [
+        { label: 'Название', key: 'complex_name' },
+        { label: 'Застройщик', key: 'developer_name' },
+        { label: 'Цена от', key: 'min_price', format: formatPrice },
+        { label: 'Цена до', key: 'max_price', format: formatPrice },
+        { label: 'Этажность', key: 'floors', format: (v, complex) => `${complex.floors_min || '-'}-${complex.floors_max || '-'}` },
+        { label: 'Зданий', key: 'buildings_count' },
+        { label: 'Квартир', key: 'apartments_count' },
+        { label: 'Срок сдачи', key: 'completion_date' },
+        { label: 'Класс', key: 'complex_class' }
+    ];
+    
+    tbody.innerHTML = rows.map(row => `
+        <tr class="border-b border-gray-200">
+            <td class="p-4 font-semibold bg-gray-50">${row.label}</td>
+            ${complexes.map(complex => {
+                let value = complex[row.key] || '-';
+                if (row.format) {
+                    value = row.format(value, complex);
+                }
+                return `<td class="p-4 text-center">${value}</td>`;
+            }).join('')}
+        </tr>
+    `).join('');
+}
+
+// Remove property from comparison
+async function removeProperty(propertyId) {
+    try {
+        const response = await fetch(`/api/comparison/remove/property/${propertyId}`, {
+            method: 'DELETE'
+        });
+        
+        if (response.ok) {
+            await loadComparisonData(); // Reload data
+            showNotification('Квартира удалена из сравнения', 'success');
+        } else {
+            showNotification('Ошибка при удалении квартиры', 'error');
+        }
+    } catch (error) {
+        console.error('Error removing property:', error);
+        showNotification('Ошибка при удалении квартиры', 'error');
+    }
+}
+
+// Remove complex from comparison
+async function removeComplex(complexId) {
+    try {
+        const response = await fetch(`/api/comparison/remove/complex/${complexId}`, {
+            method: 'DELETE'
+        });
+        
+        if (response.ok) {
+            await loadComparisonData(); // Reload data
+            showNotification('ЖК удален из сравнения', 'success');
+        } else {
+            showNotification('Ошибка при удалении ЖК', 'error');
+        }
+    } catch (error) {
+        console.error('Error removing complex:', error);
+        showNotification('Ошибка при удалении ЖК', 'error');
+    }
+}
+
+// Clear all comparison
+async function clearComparison() {
+    if (!confirm('Вы уверены, что хотите очистить всё сравнение?')) return;
+    
+    try {
+        const response = await fetch('/api/comparison/clear', {
+            method: 'DELETE'
+        });
+        
+        if (response.ok) {
+            await loadComparisonData(); // Reload data
+            showNotification('Сравнение очищено', 'success');
+        } else {
+            showNotification('Ошибка при очистке сравнения', 'error');
+        }
+    } catch (error) {
+        console.error('Error clearing comparison:', error);
+        showNotification('Ошибка при очистке сравнения', 'error');
+    }
+}
+
+// Show notification
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg ${
+        type === 'success' ? 'bg-green-500 text-white' :
+        type === 'error' ? 'bg-red-500 text-white' :
+        'bg-blue-500 text-white'
+    }`;
+    notification.innerHTML = `
+        <div class="flex items-center justify-between">
+            <span>${message}</span>
+            <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-white hover:text-gray-200">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    `;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.remove();
+        }
+    }, 5000);
+}
+
+// Initialize page
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🔄 Новая страница сравнения загружена');
+    loadComparisonData();
+});
+</script>
+{% endblock %}

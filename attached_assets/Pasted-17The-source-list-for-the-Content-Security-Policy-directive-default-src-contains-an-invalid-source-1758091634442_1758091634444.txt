@@ -1,0 +1,1342 @@
+17The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+17The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+17The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+stallwart.build.js:1 stallwart: failed ping 1
+v26:1 The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+v26:1 The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+v26:1 The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+_app-14a6500219be7db6.js:38 
+      /////////////////////
+   ///////////////////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////        Curious and driven?
+  ///////////////@@@@@@@///////        Work with us!
+  ///////////////@@@@@@@///////
+  ///////////////@@@@@@@///////        https://join.replit.com/hack.with.us
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@#//////////////
+   ///////////////////////////
+      /////////////////////
+      
+_app-14a6500219be7db6.js:38 [LaunchDarkly] LaunchDarkly client initialized
+v26:1 Banner not shown: beforeinstallpromptevent.preventDefault() called. The page must call beforeinstallpromptevent.prompt() to show the banner.
+9Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+framework-3a10836e762457cd.js:1 Unrecognized feature: 'ambient-light-sensor'.
+_ @ framework-3a10836e762457cd.js:1
+framework-3a10836e762457cd.js:1 Unrecognized feature: 'battery'.
+_ @ framework-3a10836e762457cd.js:1
+framework-3a10836e762457cd.js:1 Unrecognized feature: 'execution-while-not-rendered'.
+_ @ framework-3a10836e762457cd.js:1
+framework-3a10836e762457cd.js:1 Unrecognized feature: 'execution-while-out-of-viewport'.
+_ @ framework-3a10836e762457cd.js:1
+framework-3a10836e762457cd.js:1 Unrecognized feature: 'layout-animations'.
+_ @ framework-3a10836e762457cd.js:1
+framework-3a10836e762457cd.js:1 Unrecognized feature: 'legacy-image-formats'.
+_ @ framework-3a10836e762457cd.js:1
+framework-3a10836e762457cd.js:1 Unrecognized feature: 'navigation-override'.
+_ @ framework-3a10836e762457cd.js:1
+framework-3a10836e762457cd.js:1 Unrecognized feature: 'oversized-images'.
+_ @ framework-3a10836e762457cd.js:1
+framework-3a10836e762457cd.js:1 Unrecognized feature: 'publickey-credentials'.
+_ @ framework-3a10836e762457cd.js:1
+framework-3a10836e762457cd.js:1 Unrecognized feature: 'speaker-selection'.
+_ @ framework-3a10836e762457cd.js:1
+framework-3a10836e762457cd.js:1 Unrecognized feature: 'unoptimized-images'.
+_ @ framework-3a10836e762457cd.js:1
+framework-3a10836e762457cd.js:1 Unrecognized feature: 'unsized-media'.
+_ @ framework-3a10836e762457cd.js:1
+framework-3a10836e762457cd.js:1 Unrecognized feature: 'pointer-lock'.
+_ @ framework-3a10836e762457cd.js:1
+framework-3a10836e762457cd.js:1 Allow attribute will take precedence over 'allowfullscreen'.
+_ @ framework-3a10836e762457cd.js:1
+framework-3a10836e762457cd.js:1 Allow attribute will take precedence over 'allowpaymentrequest'.
+_ @ framework-3a10836e762457cd.js:1
+6504-d2c90ba8357c7a51.js:1 WebSocket connection to 'wss://eval.worf.platform.replit.com/wsv2/v2.public.Q2dZSTBQK214Z1lTQmdqdm02ZkdCaUlFZDI5eVpqQUFPdThCQ2lRMVl6QTJNV1ppWkMwNVpEYzNMVFJsTmpZdE9EUmhOaTFtTkRKak56UTVaVEZtWWpRU0EyNXBlQm9XY21Wd2JHbDBMWEpsY0d3dFptbHNaWE10ZDI5eVppSURkakkyS2dkamFXTnpZbmRvUWs0S0YzSmxjR3hwZEMxeVpYQnNMV0pzYjJOcmN5MTNiM0ptRWhWeVpYQnNhWFF0Y21Wd2JDMXRaWFJoTFhkdmNtWWFISEpsY0d4cGRDMXRZWEpuWVhKcGJtVXRZbXh2WTJ0ekxYZHZjbVpLQndqR3g5d1dFQUZRQUZvUGFXNTBaVzUwWDJKMWMybHVaWE56V2hWdmJtSnZZWEprYVc1blgycHZZbDlrWlhOcFoyNWFGMjl1WW05aGNtUnBibWRmY205c1pWOXRZVzVoWjJWeWVBQlNJd2dCRUlDQWdJQWdHUUFBQUFBQUFCQkFJUUFBQUFBQUFCQkFLSUNBZ0lESUFUQUNZQUJxRGdqR3g5d1dFZ2RqYVdOelluZG9nZ0VDS2dDYUFRb0tDREF1TUM0eE9ERTFvQUVCFslDGxXzCCyrZYOkpeGNao6U2dSEyNenHB0CFdjsKtLKSEhHA-HmW0qCB5HeWcJBqMn36J2mcZlDlDRBhXKjAw.Q2dad2NtOWtPak1pQ25KbGNHeHBkQzVqYjIwPQ' failed: 
+connect @ 6504-d2c90ba8357c7a51.js:1
+_app-14a6500219be7db6.js:9 WebSocket connection to 'wss://replit.com/graphql_subscriptions' failed: 
+(анонимная) @ _app-14a6500219be7db6.js:9
+62b35a865152ab14c5942820:1  Failed to load resource: net::ERR_INTERNET_DISCONNECTED
+/data/repls/5c061fbd-9d77-4e66-84a6-f42c749e1fb4/get_connection_metadata:1  Failed to load resource: net::ERR_INTERNET_DISCONNECTED
+securetoken.googleapis.com/v1/token?key=AIzaSyARAzVTWc_KOBojIholLo2wzwNOQ6VKcB8:1  Failed to load resource: net::ERR_INTERNET_DISCONNECTED
+api.sorryapp.com/v1/pages/27c7b5fc:1  Failed to load resource: net::ERR_INTERNET_DISCONNECTED
+api.sorryapp.com/v1/pages/27c7b5fc:1  Failed to load resource: net::ERR_INTERNET_DISCONNECTED
+api.sorryapp.com/v1/pages/27c7b5fc:1  Failed to load resource: net::ERR_INTERNET_DISCONNECTED
+events.launchdarkly.com/events/diagnostic/62b35a865152ab14c5942820:1  Failed to load resource: net::ERR_INTERNET_DISCONNECTED
+62b35a865152ab14c5942820:1  Failed to load resource: net::ERR_INTERNET_DISCONNECTED
+o1151714.ingest.sentry.io/api/6318792/envelope/?sentry_key=8aa91189a4274b5a8c9b7b01d46ea360&sentry_version=7&sentry_client=sentry.javascript.browser%2F7.112.0:1  Failed to load resource: net::ERR_INTERNET_DISCONNECTED
+o1151714.ingest.sentry.io/api/6318792/envelope/?sentry_key=8aa91189a4274b5a8c9b7b01d46ea360&sentry_version=7&sentry_client=sentry.javascript.browser%2F7.112.0:1  Failed to load resource: net::ERR_INTERNET_DISCONNECTED
+events.launchdarkly.com/events/diagnostic/62b35a865152ab14c5942820:1  Failed to load resource: net::ERR_INTERNET_DISCONNECTED
+6v26:1 Uncaught (in promise) UnknownError: Internal error opening backing store for indexedDB.open.
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ardb%3A:32 Unrecognized feature: 'ambient-light-sensor'.
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ardb%3A:32 Unrecognized feature: 'battery'.
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ardb%3A:32 Unrecognized feature: 'execution-while-not-rendered'.
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ardb%3A:32 Unrecognized feature: 'execution-while-out-of-viewport'.
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ardb%3A:32 Unrecognized feature: 'layout-animations'.
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ardb%3A:32 Unrecognized feature: 'legacy-image-formats'.
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ardb%3A:32 Unrecognized feature: 'navigation-override'.
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ardb%3A:32 Unrecognized feature: 'oversized-images'.
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ardb%3A:32 Unrecognized feature: 'publickey-credentials'.
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ardb%3A:32 Unrecognized feature: 'speaker-selection'.
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ardb%3A:32 Unrecognized feature: 'unoptimized-images'.
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ardb%3A:32 Unrecognized feature: 'unsized-media'.
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ardb%3A:32 Allow attribute will take precedence over 'allowfullscreen'.
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ardb%3A:32 Allow attribute will take precedence over 'allowpaymentrequest'.
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/static/images/aleksandr_petrov.webp:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/static/images/elena_smirnova.webp:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/static/images/dmitriy_ivanov.webp:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/api/favorites/count:1  Failed to load resource: the server responded with a status of 401 (Unauthorized)
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/static/images/aleksandr_petrov.webp:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/static/images/elena_smirnova.webp:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/static/images/dmitriy_ivanov.webp:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/api/favorites/count:1  Failed to load resource: the server responded with a status of 401 (Unauthorized)
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/api/manager/presentations:1  Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/static/images/placeholder-property.jpg:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/static/images/placeholder-property.jpg:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/api/manager/presentations:1  Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/static/images/aleksandr_petrov.webp:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/static/images/elena_smirnova.webp:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/static/images/dmitriy_ivanov.webp:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/api/favorites/count:1  Failed to load resource: the server responded with a status of 401 (Unauthorized)
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/static/images/aleksandr_petrov.webp:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/static/images/elena_smirnova.webp:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/static/images/dmitriy_ivanov.webp:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/api/favorites/count:1  Failed to load resource: the server responded with a status of 401 (Unauthorized)
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/static/images/placeholder-property.jpg:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/static/images/placeholder-property.jpg:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/api/manager/presentations:1  Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/static/images/placeholder-property.jpg:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/static/images/placeholder-property.jpg:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+Console.js:61 cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation
+Mt.forEach.n.<computed> @ Console.js:61
+Console.js:61 Header: openApplicationModal function defined
+Console.js:61 🚀 Defining critical functions FIRST...
+Console.js:61 ✅ loadClients function defined at top: function
+Console.js:61 ✅ loadRecommendations function defined at top: function
+Console.js:61 ✅ loadManagerSavedSearches function defined at top: function
+Console.js:61 ✅ Saved searches functions defined
+Console.js:61 ✅ Manager Favorites functionality initialized
+Console.js:61 DOM Helper initialized - safe DOM operations available
+2Console.js:61 Phone formatting setup for: phone
+Console.js:61 InBack form validation initialized
+Console.js:61 Performance optimizations initialized
+Console.js:61 CSS optimization: Found 4 stylesheets
+Console.js:61 Turbo loader initialized
+Console.js:61 Cache optimizer initialized
+Console.js:61 Image compressor initialized - WebP support: true
+Console.js:61 🔄 Loading clients...
+Console.js:61 Manager dashboard DOMContentLoaded - initializing...
+Console.js:61 🎯 Dashboard overview selected - loading recent recommendations
+Console.js:61 🔄 Loading recent recommendations...
+Console.js:61 🌟 Loading adaptive welcome message...
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 0 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 0
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 🚀 Performance Optimizer v2.0 - Starting...
+Console.js:61 🖼️ Lazy loading initialized for 0 images
+Console.js:61 ✅ Performance Optimizer initialized
+Console.js:61 🚀 SuperSearch v2.0 - Initializing...
+Console.js:61 Found 0 search inputs
+Console.js:61 Initializing smart search...
+Console.js:61 Form validation initialized
+Console.js:61 📊 Page Load Time: 5081ms
+Console.js:61 📊 Performance metrics: Object
+Console.js:61 Cache SW failed: SecurityError: Failed to register a ServiceWorker for scope ('https://5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/') with script ('https://5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/static/js/sw-cache.js'): The path of the provided scope ('/') is not under the max scope allowed ('/static/js/'). Adjust the scope, move the Service Worker script, or use the Service-Worker-Allowed HTTP header to allow the scope.
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/api/favorites/count:1  Failed to load resource: the server responded with a status of 401 (Unauthorized)
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 Starting data load...
+Console.js:61 🔄 Loading clients...
+Console.js:61 Loading recommendations...
+Console.js:61 🔄 Loading recent recommendations...
+Console.js:61 🌟 Loading adaptive welcome message...
+Console.js:61 📡 Response status: 200
+Console.js:61 📊 Clients data received: Object
+Console.js:61 ✅ Success! Displaying 0 clients
+Console.js:61 📝 Displaying clients: Array(0)
+Console.js:61 📡 Recent recommendations response status: 200
+Console.js:61 📊 Recent recommendations data received: Object
+Console.js:61 📡 Welcome message response status: 200
+Console.js:61 📊 Welcome message data received: Object
+Console.js:61 ✅ Welcome message loaded successfully
+Console.js:61 Recommendations data received: Object
+Console.js:61 📡 Response status: 200
+Console.js:61 📊 Clients data received: Object
+Console.js:61 ✅ Success! Displaying 0 clients
+Console.js:61 📝 Displaying clients: Array(0)
+Console.js:61 🔄 switchToSection called with: favorite-properties
+Console.js:61 🎯 Favorite properties section selected - calling loadFavoriteProperties
+Console.js:61 🔄 Loading favorite properties...
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 0 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 0
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 🔍 DOM elements check: Object
+Console.js:61 🌐 Calling /api/manager/favorites/list
+Console.js:61 📡 Recent recommendations response status: 200
+Console.js:61 📊 Recent recommendations data received: Object
+Console.js:61 📡 Welcome message response status: 200
+Console.js:61 📊 Welcome message data received: Object
+Console.js:61 ✅ Welcome message loaded successfully
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 📦 API response: Object
+Console.js:61 ✅ Loaded 5 favorite properties
+Console.js:61 📊 Sample data: Array(2)
+Console.js:61 🎯 displayFavoriteProperties called, data length: 5
+Console.js:61 🔍 Display DOM elements check: Object
+Console.js:61 📊 Updated total count to: 5
+Console.js:61 👀 Showing container and hiding empty state
+Console.js:61 🏗️ Creating card for property: 2055669541 Object
+Console.js:61 🏗️ Creating card for property: 2060712788 Object
+Console.js:61 🏗️ Creating card for property: 1999611566 Object
+Console.js:61 🏗️ Creating card for property: 1999611558 Object
+Console.js:61 🏗️ Creating card for property: 1999611557 Object
+Console.js:61 🏗️ Generated HTML length: 14453
+Console.js:61 📝 Sample HTML (first 200 chars): 
+        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow property-favorite-card" data-property-id="2055669541">
+            <div class="relative">
+                <img src=
+Console.js:61 ✅ Displayed 5 properties
+Console.js:61 🧮 Grid children count: 5
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 📦 Preloaded: /static/css/styles.css
+Console.js:61 📦 Preloaded: /static/js/super_search.js
+Console.js:61 📦 Preloaded: /static/js/main.js
+Console.js:61 Preloaded 5 popular queries
+Console.js:61 ✅ SuperSearch initialized successfully
+Console.js:61 🔄 switchToSection called with: favorite-complexes
+Console.js:61 🎯 Favorite complexes section selected - calling loadFavoriteComplexes
+Console.js:61 🔄 Loading favorite complexes...
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 ✅ Loaded 0 favorite complexes
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 🔄 switchToSection called with: favorite-properties
+Console.js:61 🎯 Favorite properties section selected - calling loadFavoriteProperties
+Console.js:61 🔄 Loading favorite properties...
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 🔍 DOM elements check: Object
+Console.js:61 🌐 Calling /api/manager/favorites/list
+Console.js:61 Memory usage: Object
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 📦 API response: Object
+Console.js:61 ✅ Loaded 5 favorite properties
+Console.js:61 📊 Sample data: Array(2)
+Console.js:61 🎯 displayFavoriteProperties called, data length: 5
+Console.js:61 🔍 Display DOM elements check: Object
+Console.js:61 📊 Updated total count to: 5
+Console.js:61 👀 Showing container and hiding empty state
+Console.js:61 🏗️ Creating card for property: 2055669541 Object
+Console.js:61 🏗️ Creating card for property: 2060712788 Object
+Console.js:61 🏗️ Creating card for property: 1999611566 Object
+Console.js:61 🏗️ Creating card for property: 1999611558 Object
+Console.js:61 🏗️ Creating card for property: 1999611557 Object
+Console.js:61 🏗️ Generated HTML length: 14453
+Console.js:61 📝 Sample HTML (first 200 chars): 
+        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow property-favorite-card" data-property-id="2055669541">
+            <div class="relative">
+                <img src=
+Console.js:61 ✅ Displayed 5 properties
+Console.js:61 🧮 Grid children count: 5
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 🔄 switchToSection called with: presentations
+Console.js:61 🎯 Presentations section selected - calling loadPresentations
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/api/manager/presentations:1  Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+Console.js:61 Response status: 500
+Console.js:61 Raw response: <!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta name="csrf-token" content="Ijg3MWE3MjY2Mzc3MmYxZDExNDJiN2Y4MmY4OGEzMDA3M2Q3ODNlYzMi.aMpWwQ.JzKxncrU4NadmxHetKD_K3tWdPc"/>
+    
+    
+    <title>Ошибка сервера - InBack.ru</title>
+    <meta content="Получите до 10% кэшбека при покупке новостройки в Краснодаре. Проверенные застройщики, юридическое сопровождение. ✅ Выгода до 500 000 ₽" name="description"/>
+    <meta content="новостройки Краснодар, кэшбек за квартиру, возврат денег при покупке недвижимости, застройщики Краснодара, ипотека" name="keywords"/>
+    <meta content="InBack.ru" name="author"/>
+    <meta content="index, follow" name="robots"/>
+    <meta content="1-3 days" name="revisit-after"/>
+    <meta content="general" name="rating"/>
+    <meta content="Краснодар, Россия" name="geo.placename"/>
+    <meta content="45.0355;38.9753" name="geo.position"/>
+    <meta content="InBack.ru - кэшбек сервис для покупки недвижимости" name="subject"/>
+    <meta content="кэшбек, новостройки, недвижимость, Краснодар, ипотека, застройщики" name="classification"/>
+    
+    
+    <!-- Social Meta Tags -->
+    <meta property="og:title" content="Кэшбек за новостройки в Краснодаре до 500 000 ₽ | InBack.ru"/>
+    <meta property="og:description" content="Получите до 10% кэшбека при покупке новостройки в Краснодаре. Проверенные застройщики, юридическое сопровождение. Выгода до 500 000 ₽"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="https://5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/api/manager/presentations"/>
+    <meta property="og:image" content="https://inback.ru/static/images/social-preview.jpg"/>
+    <meta property="og:image:width" content="1200"/>
+    <meta property="og:image:height" content="630"/>
+    <meta property="og:site_name" content="InBack.ru"/>
+    <meta property="og:locale" content="ru_RU"/>
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:title" content="Кэшбек за новостройки в Краснодаре | InBack.ru"/>
+    <meta name="twitter:description" content="Получите до 10% кэшбека при покупке новостройки в Краснодаре"/>
+    <meta name="twitter:image" content="https://inback.ru/static/images/social-preview.jpg"/>
+    
+    <!-- Additional SEO -->
+    <link rel="canonical" href="https://inback.ru/api/manager/presentations"/>
+    
+    <meta name="robots" content="noindex, nofollow">
+    
+    <link rel="shortcut icon" href="/static/favicon.png"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon.png"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon.png"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon.png"/>
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "InBack.ru",
+      "url": "https://inback.ru",
+      "logo": "https://inback.ru/static/images/logo.png",
+      "description": "Сервис возврата кэшбека при покупке недвижимости в Краснодаре",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "ул. Красная, 176",
+        "addressLocality": "Краснодар", 
+        "addressRegion": "Краснодарский край",
+        "addressCountry": "RU"
+      },
+      "telephone": "+7 (800) 123-45-67",
+      "email": "info@inback.ru",
+      "sameAs": [
+        "https://t.me/inback_krd",
+        "https://wa.me/78001234567",
+        "https://vk.com/inback_krd"
+      ],
+      "openingHours": "Mo-Fr 09:00-19:00",
+      "priceRange": "$$",
+      "areaServed": {
+        "@type": "City",
+        "name": "Краснодар"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Новостройки с кэшбеком",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Product",
+              "name": "Кэшбек за покупку новостроек",
+              "description": "Возврат до 500 000 ₽ при покупке квартиры в новостройке"
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "price": "0",
+              "priceCurrency": "RUB"
+            }
+          }
+        ]
+      }
+    }
+    </script>
+    
+    <meta content="index, follow" name="robots"/>
+    
+    <!-- Performance Hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
+    
+    <!-- Critical Resource Preloading -->
+    <link rel="preload" href="/static/css/styles.css" as="style">
+    <link rel="preload" href="/static/js/main.js" as="script">
+    
+    <!-- Essential Resources Only -->
+    <link href="https://fonts.goog
+Console.js:61 Error loading presentations: SyntaxError: Unexpected non-whitespace character after JSON at position 1458 (line 48 column 5)
+    at JSON.parse (<anonymous>)
+    at dashboard:5631:35
+Mt.forEach.n.<computed> @ Console.js:61
+Console.js:61 Memory usage: Object
+Console.js:61 Memory usage: Object
+Console.js:61 Memory usage: Object
+Console.js:61 Memory usage: Object
+Console.js:61 🔄 switchToSection called with: favorite-complexes
+Console.js:61 🎯 Favorite complexes section selected - calling loadFavoriteComplexes
+Console.js:61 🔄 Loading favorite complexes...
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 ✅ Loaded 0 favorite complexes
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 Memory usage: Object
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 Memory usage: Object
+Console.js:61 Memory usage: Object
+Console.js:61 Memory usage: Object
+Console.js:61 Memory usage: Object
+Console.js:61 Memory usage: Object
+Console.js:61 Memory usage: Object
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 Memory usage: Object
+Console.js:61 Memory usage: Object
+Console.js:61 Memory usage: Object
+Console.js:61 Memory usage: Object
+Console.js:61 Memory usage: Object
+Console.js:61 Memory usage: Object
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 Memory usage: Object
+Console.js:61 Memory usage: Object
+Console.js:61 Memory usage: Object
+Console.js:61 Memory usage: Object
+Console.js:61 Memory usage: Object
+Console.js:61 Memory usage: Object
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 Memory usage: Object
+Console.js:61 Memory usage: Object
+Console.js:61 Memory usage: Object
+Console.js:61 Memory usage: Object
+Console.js:61 🔄 switchToSection called with: favorite-properties
+Console.js:61 🎯 Favorite properties section selected - calling loadFavoriteProperties
+Console.js:61 🔄 Loading favorite properties...
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 🔍 DOM elements check: Object
+Console.js:61 🌐 Calling /api/manager/favorites/list
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 📦 API response: Object
+Console.js:61 ✅ Loaded 5 favorite properties
+Console.js:61 📊 Sample data: Array(2)
+Console.js:61 🎯 displayFavoriteProperties called, data length: 5
+Console.js:61 🔍 Display DOM elements check: Object
+Console.js:61 📊 Updated total count to: 5
+Console.js:61 👀 Showing container and hiding empty state
+Console.js:61 🏗️ Creating card for property: 2055669541 Object
+Console.js:61 🏗️ Creating card for property: 2060712788 Object
+Console.js:61 🏗️ Creating card for property: 1999611566 Object
+Console.js:61 🏗️ Creating card for property: 1999611558 Object
+Console.js:61 🏗️ Creating card for property: 1999611557 Object
+Console.js:61 🏗️ Generated HTML length: 14453
+Console.js:61 📝 Sample HTML (first 200 chars): 
+        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow property-favorite-card" data-property-id="2055669541">
+            <div class="relative">
+                <img src=
+Console.js:61 ✅ Displayed 5 properties
+Console.js:61 🧮 Grid children count: 5
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 Memory usage: Object
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 🔄 switchToSection called with: favorite-complexes
+Console.js:61 🎯 Favorite complexes section selected - calling loadFavoriteComplexes
+Console.js:61 🔄 Loading favorite complexes...
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 ✅ Loaded 0 favorite complexes
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 🔄 switchToSection called with: favorite-properties
+Console.js:61 🎯 Favorite properties section selected - calling loadFavoriteProperties
+Console.js:61 🔄 Loading favorite properties...
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 🔍 DOM elements check: Object
+Console.js:61 🌐 Calling /api/manager/favorites/list
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 📦 API response: Object
+Console.js:61 ✅ Loaded 5 favorite properties
+Console.js:61 📊 Sample data: Array(2)
+Console.js:61 🎯 displayFavoriteProperties called, data length: 5
+Console.js:61 🔍 Display DOM elements check: Object
+Console.js:61 📊 Updated total count to: 5
+Console.js:61 👀 Showing container and hiding empty state
+Console.js:61 🏗️ Creating card for property: 2055669541 Object
+Console.js:61 🏗️ Creating card for property: 2060712788 Object
+Console.js:61 🏗️ Creating card for property: 1999611566 Object
+Console.js:61 🏗️ Creating card for property: 1999611558 Object
+Console.js:61 🏗️ Creating card for property: 1999611557 Object
+Console.js:61 🏗️ Generated HTML length: 14453
+Console.js:61 📝 Sample HTML (first 200 chars): 
+        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow property-favorite-card" data-property-id="2055669541">
+            <div class="relative">
+                <img src=
+Console.js:61 ✅ Displayed 5 properties
+Console.js:61 🧮 Grid children count: 5
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 🔄 switchToSection called with: presentations
+Console.js:61 🎯 Presentations section selected - calling loadPresentations
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/api/manager/presentations:1  Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 Response status: 500
+Console.js:61 Raw response: <!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta name="csrf-token" content="Ijg3MWE3MjY2Mzc3MmYxZDExNDJiN2Y4MmY4OGEzMDA3M2Q3ODNlYzMi.aMpXTw.Ejv2k5Pq9npQCNbWPRBZlN4RdkY"/>
+    
+    
+    <title>Ошибка сервера - InBack.ru</title>
+    <meta content="Получите до 10% кэшбека при покупке новостройки в Краснодаре. Проверенные застройщики, юридическое сопровождение. ✅ Выгода до 500 000 ₽" name="description"/>
+    <meta content="новостройки Краснодар, кэшбек за квартиру, возврат денег при покупке недвижимости, застройщики Краснодара, ипотека" name="keywords"/>
+    <meta content="InBack.ru" name="author"/>
+    <meta content="index, follow" name="robots"/>
+    <meta content="1-3 days" name="revisit-after"/>
+    <meta content="general" name="rating"/>
+    <meta content="Краснодар, Россия" name="geo.placename"/>
+    <meta content="45.0355;38.9753" name="geo.position"/>
+    <meta content="InBack.ru - кэшбек сервис для покупки недвижимости" name="subject"/>
+    <meta content="кэшбек, новостройки, недвижимость, Краснодар, ипотека, застройщики" name="classification"/>
+    
+    
+    <!-- Social Meta Tags -->
+    <meta property="og:title" content="Кэшбек за новостройки в Краснодаре до 500 000 ₽ | InBack.ru"/>
+    <meta property="og:description" content="Получите до 10% кэшбека при покупке новостройки в Краснодаре. Проверенные застройщики, юридическое сопровождение. Выгода до 500 000 ₽"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="https://5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/api/manager/presentations"/>
+    <meta property="og:image" content="https://inback.ru/static/images/social-preview.jpg"/>
+    <meta property="og:image:width" content="1200"/>
+    <meta property="og:image:height" content="630"/>
+    <meta property="og:site_name" content="InBack.ru"/>
+    <meta property="og:locale" content="ru_RU"/>
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:title" content="Кэшбек за новостройки в Краснодаре | InBack.ru"/>
+    <meta name="twitter:description" content="Получите до 10% кэшбека при покупке новостройки в Краснодаре"/>
+    <meta name="twitter:image" content="https://inback.ru/static/images/social-preview.jpg"/>
+    
+    <!-- Additional SEO -->
+    <link rel="canonical" href="https://inback.ru/api/manager/presentations"/>
+    
+    <meta name="robots" content="noindex, nofollow">
+    
+    <link rel="shortcut icon" href="/static/favicon.png"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon.png"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon.png"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon.png"/>
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "InBack.ru",
+      "url": "https://inback.ru",
+      "logo": "https://inback.ru/static/images/logo.png",
+      "description": "Сервис возврата кэшбека при покупке недвижимости в Краснодаре",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "ул. Красная, 176",
+        "addressLocality": "Краснодар", 
+        "addressRegion": "Краснодарский край",
+        "addressCountry": "RU"
+      },
+      "telephone": "+7 (800) 123-45-67",
+      "email": "info@inback.ru",
+      "sameAs": [
+        "https://t.me/inback_krd",
+        "https://wa.me/78001234567",
+        "https://vk.com/inback_krd"
+      ],
+      "openingHours": "Mo-Fr 09:00-19:00",
+      "priceRange": "$$",
+      "areaServed": {
+        "@type": "City",
+        "name": "Краснодар"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Новостройки с кэшбеком",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Product",
+              "name": "Кэшбек за покупку новостроек",
+              "description": "Возврат до 500 000 ₽ при покупке квартиры в новостройке"
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "price": "0",
+              "priceCurrency": "RUB"
+            }
+          }
+        ]
+      }
+    }
+    </script>
+    
+    <meta content="index, follow" name="robots"/>
+    
+    <!-- Performance Hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
+    
+    <!-- Critical Resource Preloading -->
+    <link rel="preload" href="/static/css/styles.css" as="style">
+    <link rel="preload" href="/static/js/main.js" as="script">
+    
+    <!-- Essential Resources Only -->
+    <link href="https://fonts.goog
+Console.js:61 Error loading presentations: SyntaxError: Unexpected non-whitespace character after JSON at position 1458 (line 48 column 5)
+    at JSON.parse (<anonymous>)
+    at dashboard:5631:35
+Mt.forEach.n.<computed> @ Console.js:61
+Console.js:61 Memory usage: Object
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 🔄 switchToSection called with: saved-searches
+Console.js:61 🔄 switchToSection called with: presentations
+Console.js:61 🎯 Presentations section selected - calling loadPresentations
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/api/manager/presentations:1  Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+Console.js:61 Response status: 500
+Console.js:61 Raw response: <!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta name="csrf-token" content="Ijg3MWE3MjY2Mzc3MmYxZDExNDJiN2Y4MmY4OGEzMDA3M2Q3ODNlYzMi.aMpXVA.067bSyagemx0vphk3QokXsRfUrE"/>
+    
+    
+    <title>Ошибка сервера - InBack.ru</title>
+    <meta content="Получите до 10% кэшбека при покупке новостройки в Краснодаре. Проверенные застройщики, юридическое сопровождение. ✅ Выгода до 500 000 ₽" name="description"/>
+    <meta content="новостройки Краснодар, кэшбек за квартиру, возврат денег при покупке недвижимости, застройщики Краснодара, ипотека" name="keywords"/>
+    <meta content="InBack.ru" name="author"/>
+    <meta content="index, follow" name="robots"/>
+    <meta content="1-3 days" name="revisit-after"/>
+    <meta content="general" name="rating"/>
+    <meta content="Краснодар, Россия" name="geo.placename"/>
+    <meta content="45.0355;38.9753" name="geo.position"/>
+    <meta content="InBack.ru - кэшбек сервис для покупки недвижимости" name="subject"/>
+    <meta content="кэшбек, новостройки, недвижимость, Краснодар, ипотека, застройщики" name="classification"/>
+    
+    
+    <!-- Social Meta Tags -->
+    <meta property="og:title" content="Кэшбек за новостройки в Краснодаре до 500 000 ₽ | InBack.ru"/>
+    <meta property="og:description" content="Получите до 10% кэшбека при покупке новостройки в Краснодаре. Проверенные застройщики, юридическое сопровождение. Выгода до 500 000 ₽"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="https://5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/api/manager/presentations"/>
+    <meta property="og:image" content="https://inback.ru/static/images/social-preview.jpg"/>
+    <meta property="og:image:width" content="1200"/>
+    <meta property="og:image:height" content="630"/>
+    <meta property="og:site_name" content="InBack.ru"/>
+    <meta property="og:locale" content="ru_RU"/>
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:title" content="Кэшбек за новостройки в Краснодаре | InBack.ru"/>
+    <meta name="twitter:description" content="Получите до 10% кэшбека при покупке новостройки в Краснодаре"/>
+    <meta name="twitter:image" content="https://inback.ru/static/images/social-preview.jpg"/>
+    
+    <!-- Additional SEO -->
+    <link rel="canonical" href="https://inback.ru/api/manager/presentations"/>
+    
+    <meta name="robots" content="noindex, nofollow">
+    
+    <link rel="shortcut icon" href="/static/favicon.png"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon.png"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon.png"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon.png"/>
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "InBack.ru",
+      "url": "https://inback.ru",
+      "logo": "https://inback.ru/static/images/logo.png",
+      "description": "Сервис возврата кэшбека при покупке недвижимости в Краснодаре",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "ул. Красная, 176",
+        "addressLocality": "Краснодар", 
+        "addressRegion": "Краснодарский край",
+        "addressCountry": "RU"
+      },
+      "telephone": "+7 (800) 123-45-67",
+      "email": "info@inback.ru",
+      "sameAs": [
+        "https://t.me/inback_krd",
+        "https://wa.me/78001234567",
+        "https://vk.com/inback_krd"
+      ],
+      "openingHours": "Mo-Fr 09:00-19:00",
+      "priceRange": "$$",
+      "areaServed": {
+        "@type": "City",
+        "name": "Краснодар"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Новостройки с кэшбеком",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Product",
+              "name": "Кэшбек за покупку новостроек",
+              "description": "Возврат до 500 000 ₽ при покупке квартиры в новостройке"
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "price": "0",
+              "priceCurrency": "RUB"
+            }
+          }
+        ]
+      }
+    }
+    </script>
+    
+    <meta content="index, follow" name="robots"/>
+    
+    <!-- Performance Hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
+    
+    <!-- Critical Resource Preloading -->
+    <link rel="preload" href="/static/css/styles.css" as="style">
+    <link rel="preload" href="/static/js/main.js" as="script">
+    
+    <!-- Essential Resources Only -->
+    <link href="https://fonts.goog
+Console.js:61 Error loading presentations: SyntaxError: Unexpected non-whitespace character after JSON at position 1458 (line 48 column 5)
+    at JSON.parse (<anonymous>)
+    at dashboard:5631:35
+Mt.forEach.n.<computed> @ Console.js:61
+Console.js:61 Memory usage: Object
+Console.js:61 🔄 switchToSection called with: favorite-properties
+Console.js:61 🎯 Favorite properties section selected - calling loadFavoriteProperties
+Console.js:61 🔄 Loading favorite properties...
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 🔍 DOM elements check: Object
+Console.js:61 🌐 Calling /api/manager/favorites/list
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 📦 API response: Object
+Console.js:61 ✅ Loaded 5 favorite properties
+Console.js:61 📊 Sample data: Array(2)
+Console.js:61 🎯 displayFavoriteProperties called, data length: 5
+Console.js:61 🔍 Display DOM elements check: Object
+Console.js:61 📊 Updated total count to: 5
+Console.js:61 👀 Showing container and hiding empty state
+Console.js:61 🏗️ Creating card for property: 2055669541 Object
+Console.js:61 🏗️ Creating card for property: 2060712788 Object
+Console.js:61 🏗️ Creating card for property: 1999611566 Object
+Console.js:61 🏗️ Creating card for property: 1999611558 Object
+Console.js:61 🏗️ Creating card for property: 1999611557 Object
+Console.js:61 🏗️ Generated HTML length: 14453
+Console.js:61 📝 Sample HTML (first 200 chars): 
+        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow property-favorite-card" data-property-id="2055669541">
+            <div class="relative">
+                <img src=
+Console.js:61 ✅ Displayed 5 properties
+Console.js:61 🧮 Grid children count: 5
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 🔄 switchToSection called with: favorite-complexes
+Console.js:61 🎯 Favorite complexes section selected - calling loadFavoriteComplexes
+Console.js:61 🔄 Loading favorite complexes...
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 ✅ Loaded 0 favorite complexes
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 Memory usage: Object
+Console.js:61 Memory usage: Object
+Console.js:61 🔄 switchToSection called with: saved-searches
+Console.js:61 Memory usage: Object
+Console.js:61 🔄 switchToSection called with: favorite-properties
+Console.js:61 🎯 Favorite properties section selected - calling loadFavoriteProperties
+Console.js:61 🔄 Loading favorite properties...
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 🔍 DOM elements check: Object
+Console.js:61 🌐 Calling /api/manager/favorites/list
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 📦 API response: Object
+Console.js:61 ✅ Loaded 5 favorite properties
+Console.js:61 📊 Sample data: Array(2)
+Console.js:61 🎯 displayFavoriteProperties called, data length: 5
+Console.js:61 🔍 Display DOM elements check: Object
+Console.js:61 📊 Updated total count to: 5
+Console.js:61 👀 Showing container and hiding empty state
+Console.js:61 🏗️ Creating card for property: 2055669541 Object
+Console.js:61 🏗️ Creating card for property: 2060712788 Object
+Console.js:61 🏗️ Creating card for property: 1999611566 Object
+Console.js:61 🏗️ Creating card for property: 1999611558 Object
+Console.js:61 🏗️ Creating card for property: 1999611557 Object
+Console.js:61 🏗️ Generated HTML length: 14453
+Console.js:61 📝 Sample HTML (first 200 chars): 
+        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow property-favorite-card" data-property-id="2055669541">
+            <div class="relative">
+                <img src=
+Console.js:61 ✅ Displayed 5 properties
+Console.js:61 🧮 Grid children count: 5
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 🔄 switchToSection called with: favorite-complexes
+Console.js:61 🎯 Favorite complexes section selected - calling loadFavoriteComplexes
+Console.js:61 🔄 Loading favorite complexes...
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 ✅ Loaded 0 favorite complexes
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 🔄 switchToSection called with: favorite-properties
+Console.js:61 🎯 Favorite properties section selected - calling loadFavoriteProperties
+Console.js:61 🔄 Loading favorite properties...
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 🔍 DOM elements check: Object
+Console.js:61 🌐 Calling /api/manager/favorites/list
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 📦 API response: Object
+Console.js:61 ✅ Loaded 5 favorite properties
+Console.js:61 📊 Sample data: Array(2)
+Console.js:61 🎯 displayFavoriteProperties called, data length: 5
+Console.js:61 🔍 Display DOM elements check: Object
+Console.js:61 📊 Updated total count to: 5
+Console.js:61 👀 Showing container and hiding empty state
+Console.js:61 🏗️ Creating card for property: 2055669541 Object
+Console.js:61 🏗️ Creating card for property: 2060712788 Object
+Console.js:61 🏗️ Creating card for property: 1999611566 Object
+Console.js:61 🏗️ Creating card for property: 1999611558 Object
+Console.js:61 🏗️ Creating card for property: 1999611557 Object
+Console.js:61 🏗️ Generated HTML length: 14453
+Console.js:61 📝 Sample HTML (first 200 chars): 
+        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow property-favorite-card" data-property-id="2055669541">
+            <div class="relative">
+                <img src=
+Console.js:61 ✅ Displayed 5 properties
+Console.js:61 🧮 Grid children count: 5
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 Memory usage: Object
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 Memory usage: Object
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 Memory usage: Object
+Console.js:61 🔄 switchToSection called with: presentations
+Console.js:61 🎯 Presentations section selected - calling loadPresentations
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/api/manager/presentations:1  Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+Console.js:61 Response status: 500
+Console.js:61 Raw response: <!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta name="csrf-token" content="Ijg3MWE3MjY2Mzc3MmYxZDExNDJiN2Y4MmY4OGEzMDA3M2Q3ODNlYzMi.aMpXdw.iD3rbmSvx3Xx_9jA9wBPfZYsYvs"/>
+    
+    
+    <title>Ошибка сервера - InBack.ru</title>
+    <meta content="Получите до 10% кэшбека при покупке новостройки в Краснодаре. Проверенные застройщики, юридическое сопровождение. ✅ Выгода до 500 000 ₽" name="description"/>
+    <meta content="новостройки Краснодар, кэшбек за квартиру, возврат денег при покупке недвижимости, застройщики Краснодара, ипотека" name="keywords"/>
+    <meta content="InBack.ru" name="author"/>
+    <meta content="index, follow" name="robots"/>
+    <meta content="1-3 days" name="revisit-after"/>
+    <meta content="general" name="rating"/>
+    <meta content="Краснодар, Россия" name="geo.placename"/>
+    <meta content="45.0355;38.9753" name="geo.position"/>
+    <meta content="InBack.ru - кэшбек сервис для покупки недвижимости" name="subject"/>
+    <meta content="кэшбек, новостройки, недвижимость, Краснодар, ипотека, застройщики" name="classification"/>
+    
+    
+    <!-- Social Meta Tags -->
+    <meta property="og:title" content="Кэшбек за новостройки в Краснодаре до 500 000 ₽ | InBack.ru"/>
+    <meta property="og:description" content="Получите до 10% кэшбека при покупке новостройки в Краснодаре. Проверенные застройщики, юридическое сопровождение. Выгода до 500 000 ₽"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="https://5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/api/manager/presentations"/>
+    <meta property="og:image" content="https://inback.ru/static/images/social-preview.jpg"/>
+    <meta property="og:image:width" content="1200"/>
+    <meta property="og:image:height" content="630"/>
+    <meta property="og:site_name" content="InBack.ru"/>
+    <meta property="og:locale" content="ru_RU"/>
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:title" content="Кэшбек за новостройки в Краснодаре | InBack.ru"/>
+    <meta name="twitter:description" content="Получите до 10% кэшбека при покупке новостройки в Краснодаре"/>
+    <meta name="twitter:image" content="https://inback.ru/static/images/social-preview.jpg"/>
+    
+    <!-- Additional SEO -->
+    <link rel="canonical" href="https://inback.ru/api/manager/presentations"/>
+    
+    <meta name="robots" content="noindex, nofollow">
+    
+    <link rel="shortcut icon" href="/static/favicon.png"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon.png"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon.png"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon.png"/>
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "InBack.ru",
+      "url": "https://inback.ru",
+      "logo": "https://inback.ru/static/images/logo.png",
+      "description": "Сервис возврата кэшбека при покупке недвижимости в Краснодаре",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "ул. Красная, 176",
+        "addressLocality": "Краснодар", 
+        "addressRegion": "Краснодарский край",
+        "addressCountry": "RU"
+      },
+      "telephone": "+7 (800) 123-45-67",
+      "email": "info@inback.ru",
+      "sameAs": [
+        "https://t.me/inback_krd",
+        "https://wa.me/78001234567",
+        "https://vk.com/inback_krd"
+      ],
+      "openingHours": "Mo-Fr 09:00-19:00",
+      "priceRange": "$$",
+      "areaServed": {
+        "@type": "City",
+        "name": "Краснодар"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Новостройки с кэшбеком",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Product",
+              "name": "Кэшбек за покупку новостроек",
+              "description": "Возврат до 500 000 ₽ при покупке квартиры в новостройке"
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "price": "0",
+              "priceCurrency": "RUB"
+            }
+          }
+        ]
+      }
+    }
+    </script>
+    
+    <meta content="index, follow" name="robots"/>
+    
+    <!-- Performance Hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
+    
+    <!-- Critical Resource Preloading -->
+    <link rel="preload" href="/static/css/styles.css" as="style">
+    <link rel="preload" href="/static/js/main.js" as="script">
+    
+    <!-- Essential Resources Only -->
+    <link href="https://fonts.goog
+Console.js:61 Error loading presentations: SyntaxError: Unexpected non-whitespace character after JSON at position 1458 (line 48 column 5)
+    at JSON.parse (<anonymous>)
+    at dashboard:5631:35
+Mt.forEach.n.<computed> @ Console.js:61
+Console.js:61 Memory usage: Object
+Console.js:61 Memory usage: Object
+Console.js:61 Memory usage: Object
+Console.js:61 Memory usage: Object
+Console.js:61 Memory usage: Object
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 🔄 switchToSection called with: favorite-properties
+Console.js:61 🎯 Favorite properties section selected - calling loadFavoriteProperties
+Console.js:61 🔄 Loading favorite properties...
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 🔍 DOM elements check: Object
+Console.js:61 🌐 Calling /api/manager/favorites/list
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 📦 API response: Object
+Console.js:61 ✅ Loaded 5 favorite properties
+Console.js:61 📊 Sample data: Array(2)
+Console.js:61 🎯 displayFavoriteProperties called, data length: 5
+Console.js:61 🔍 Display DOM elements check: Object
+Console.js:61 📊 Updated total count to: 5
+Console.js:61 👀 Showing container and hiding empty state
+Console.js:61 🏗️ Creating card for property: 2055669541 Object
+Console.js:61 🏗️ Creating card for property: 2060712788 Object
+Console.js:61 🏗️ Creating card for property: 1999611566 Object
+Console.js:61 🏗️ Creating card for property: 1999611558 Object
+Console.js:61 🏗️ Creating card for property: 1999611557 Object
+Console.js:61 🏗️ Generated HTML length: 14453
+Console.js:61 📝 Sample HTML (first 200 chars): 
+        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow property-favorite-card" data-property-id="2055669541">
+            <div class="relative">
+                <img src=
+Console.js:61 ✅ Displayed 5 properties
+Console.js:61 🧮 Grid children count: 5
+Console.js:61 🔢 updateFavoritesCounts called
+Console.js:61 🔍 Count elements check: Object
+Console.js:61 📊 Local counts - properties: 5 complexes: 0
+Console.js:61 ✅ Updated properties nav count to: 5
+Console.js:61 ✅ Updated complexes nav count to: 0
+Console.js:61 🌐 Making API call to /api/manager/favorites/count for sync
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 📦 Count API response: Object
+Console.js:61 🔄 Synced properties count to: 5
+Console.js:61 🔄 Synced complexes count to: 1
+Console.js:61 Memory usage: Object
+Console.js:61 Memory usage: Object
+Console.js:61 🔄 switchToSection called with: presentations
+Console.js:61 🎯 Presentations section selected - calling loadPresentations
+5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/api/manager/presentations:1  Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+Console.js:61 Response status: 500
+Console.js:61 Raw response: <!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta name="csrf-token" content="Ijg3MWE3MjY2Mzc3MmYxZDExNDJiN2Y4MmY4OGEzMDA3M2Q3ODNlYzMi.aMpXmg.QtNUNCstS83MkzBog5qBDVXB14o"/>
+    
+    
+    <title>Ошибка сервера - InBack.ru</title>
+    <meta content="Получите до 10% кэшбека при покупке новостройки в Краснодаре. Проверенные застройщики, юридическое сопровождение. ✅ Выгода до 500 000 ₽" name="description"/>
+    <meta content="новостройки Краснодар, кэшбек за квартиру, возврат денег при покупке недвижимости, застройщики Краснодара, ипотека" name="keywords"/>
+    <meta content="InBack.ru" name="author"/>
+    <meta content="index, follow" name="robots"/>
+    <meta content="1-3 days" name="revisit-after"/>
+    <meta content="general" name="rating"/>
+    <meta content="Краснодар, Россия" name="geo.placename"/>
+    <meta content="45.0355;38.9753" name="geo.position"/>
+    <meta content="InBack.ru - кэшбек сервис для покупки недвижимости" name="subject"/>
+    <meta content="кэшбек, новостройки, недвижимость, Краснодар, ипотека, застройщики" name="classification"/>
+    
+    
+    <!-- Social Meta Tags -->
+    <meta property="og:title" content="Кэшбек за новостройки в Краснодаре до 500 000 ₽ | InBack.ru"/>
+    <meta property="og:description" content="Получите до 10% кэшбека при покупке новостройки в Краснодаре. Проверенные застройщики, юридическое сопровождение. Выгода до 500 000 ₽"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="https://5c061fbd-9d77-4e66-84a6-f42c749e1fb4-00-1wijnj9xvjtxi.worf.replit.dev/api/manager/presentations"/>
+    <meta property="og:image" content="https://inback.ru/static/images/social-preview.jpg"/>
+    <meta property="og:image:width" content="1200"/>
+    <meta property="og:image:height" content="630"/>
+    <meta property="og:site_name" content="InBack.ru"/>
+    <meta property="og:locale" content="ru_RU"/>
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:title" content="Кэшбек за новостройки в Краснодаре | InBack.ru"/>
+    <meta name="twitter:description" content="Получите до 10% кэшбека при покупке новостройки в Краснодаре"/>
+    <meta name="twitter:image" content="https://inback.ru/static/images/social-preview.jpg"/>
+    
+    <!-- Additional SEO -->
+    <link rel="canonical" href="https://inback.ru/api/manager/presentations"/>
+    
+    <meta name="robots" content="noindex, nofollow">
+    
+    <link rel="shortcut icon" href="/static/favicon.png"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon.png"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon.png"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon.png"/>
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "InBack.ru",
+      "url": "https://inback.ru",
+      "logo": "https://inback.ru/static/images/logo.png",
+      "description": "Сервис возврата кэшбека при покупке недвижимости в Краснодаре",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "ул. Красная, 176",
+        "addressLocality": "Краснодар", 
+        "addressRegion": "Краснодарский край",
+        "addressCountry": "RU"
+      },
+      "telephone": "+7 (800) 123-45-67",
+      "email": "info@inback.ru",
+      "sameAs": [
+        "https://t.me/inback_krd",
+        "https://wa.me/78001234567",
+        "https://vk.com/inback_krd"
+      ],
+      "openingHours": "Mo-Fr 09:00-19:00",
+      "priceRange": "$$",
+      "areaServed": {
+        "@type": "City",
+        "name": "Краснодар"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Новостройки с кэшбеком",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Product",
+              "name": "Кэшбек за покупку новостроек",
+              "description": "Возврат до 500 000 ₽ при покупке квартиры в новостройке"
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "price": "0",
+              "priceCurrency": "RUB"
+            }
+          }
+        ]
+      }
+    }
+    </script>
+    
+    <meta content="index, follow" name="robots"/>
+    
+    <!-- Performance Hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
+    
+    <!-- Critical Resource Preloading -->
+    <link rel="preload" href="/static/css/styles.css" as="style">
+    <link rel="preload" href="/static/js/main.js" as="script">
+    
+    <!-- Essential Resources Only -->
+    <link href="https://fonts.goog
+Console.js:61 Error loading presentations: SyntaxError: Unexpected non-whitespace character after JSON at position 1458 (line 48 column 5)
+    at JSON.parse (<anonymous>)
+    at dashboard:5631:35
+Mt.forEach.n.<computed> @ Console.js:61
+Console.js:61 Memory usage: Object

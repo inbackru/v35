@@ -1,0 +1,242 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Блог - Админ панель | InBack{% endblock %}
+{% block page_title %}Управление блогом{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Page Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Управление блогом</h1>
+            <p class="text-gray-600 mt-1">Создание и редактирование статей для сайта</p>
+        </div>
+        <div class="mt-4 sm:mt-0 flex space-x-3">
+            <a href="{{ url_for('admin_create_post') }}" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium">
+                <i class="fas fa-plus mr-2"></i>Новая статья
+            </a>
+            <a href="{{ url_for('admin_blog_categories') }}" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium">
+                <i class="fas fa-tags mr-2"></i>Категории
+            </a>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="bg-white rounded-lg shadow p-6">
+        <form method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div>
+                <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Поиск</label>
+                <input type="text" 
+                       name="search" 
+                       id="search" 
+                       value="{{ search }}"
+                       placeholder="Заголовок или содержимое..."
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500">
+            </div>
+            
+            <div>
+                <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Статус</label>
+                <select name="status" id="status" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500">
+                    <option value="">Все статусы</option>
+                    <option value="draft" {% if status == 'draft' %}selected{% endif %}>Черновик</option>
+                    <option value="published" {% if status == 'published' %}selected{% endif %}>Опубликовано</option>
+                    <option value="scheduled" {% if status == 'scheduled' %}selected{% endif %}>Запланировано</option>
+                </select>
+            </div>
+            
+            <div>
+                <label for="category" class="block text-sm font-medium text-gray-700 mb-1">Категория</label>
+                <select name="category" id="category" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500">
+                    <option value="">Все категории</option>
+                    <option value="Кешбэк" {% if category == 'Кешбэк' %}selected{% endif %}>Кешбэк</option>
+                    <option value="Районы" {% if category == 'Районы' %}selected{% endif %}>Районы</option>
+                    <option value="Ипотека" {% if category == 'Ипотека' %}selected{% endif %}>Ипотека</option>
+                    <option value="Новости" {% if category == 'Новости' %}selected{% endif %}>Новости</option>
+                </select>
+            </div>
+            
+            <div class="flex items-end space-x-2">
+                <button type="submit" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md">
+                    <i class="fas fa-search mr-1"></i>Найти
+                </button>
+                <a href="{{ url_for('admin_blog') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-md">
+                    <i class="fas fa-times mr-1"></i>Сбросить
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Articles Table -->
+    <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Статья
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Категория
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Статус
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Просмотры
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Дата создания
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Действия
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for post in posts.items %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-start">
+                                {% if post.featured_image %}
+                                <div class="flex-shrink-0 h-12 w-12">
+                                    <img class="h-12 w-12 rounded object-cover" src="{{ post.featured_image }}" alt="">
+                                </div>
+                                {% endif %}
+                                <div class="{% if post.featured_image %}ml-4{% endif %}">
+                                    <div class="text-sm font-medium text-gray-900">{{ post.title[:50] }}{% if post.title|length > 50 %}...{% endif %}</div>
+                                    <div class="text-sm text-gray-500">{{ post.excerpt[:80] if post.excerpt else '' }}{% if post.excerpt and post.excerpt|length > 80 %}...{% endif %}</div>
+                                    <div class="text-xs text-gray-400">{{ post.slug or 'Без slug' }}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-700">
+                                {{ post.category or 'Без категории' }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full
+                                {% if post.status == 'published' %}bg-gray-100 text-green-800
+                                {% elif post.status == 'scheduled' %}bg-gray-100 text-yellow-800
+                                {% else %}bg-gray-100 text-gray-800{% endif %}">
+                                {% if post.status == 'published' %}Опубликовано
+                                {% elif post.status == 'scheduled' %}Запланировано
+                                {% elif post.status == 'draft' %}Черновик
+                                {% else %}{{ post.status }}{% endif %}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            <div class="flex items-center">
+                                <i class="fas fa-eye text-gray-400 mr-2"></i>
+                                {{ post.views_count or 0 }}
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ post.created_at.strftime('%d.%m.%Y %H:%M') if post.created_at else '' }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                            {% if post.status == 'published' and post.slug %}
+                            <a href="/blog/{{ post.slug }}" target="_blank"
+                               class="text-[#1e40af] hover:text-blue-900" title="Просмотр">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                            {% endif %}
+                            
+                            <a href="{{ url_for('admin_edit_post', post_id=post.id) }}" 
+                               class="text-green-600 hover:text-green-900" title="Редактировать">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            
+                            <form method="POST" action="{{ url_for('admin_delete_post', post_id=post.id) }}" 
+                                  class="inline" onsubmit="return confirm('Удалить статью? Это действие необратимо!')">
+                                <button type="submit" class="text-[#1e40af] hover:text-red-900" title="Удалить">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Empty State -->
+        {% if posts.items|length == 0 %}
+        <div class="text-center py-12">
+            <i class="fas fa-newspaper text-gray-300 text-6xl mb-4"></i>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">Статьи не найдены</h3>
+            <p class="text-gray-500 mb-4">Попробуйте изменить параметры поиска или создайте первую статью</p>
+            <a href="{{ url_for('admin_create_post') }}" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg">
+                <i class="fas fa-plus mr-2"></i>Создать статью
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Pagination -->
+    {% if posts.pages > 1 %}
+    <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6 rounded-lg shadow">
+        <div class="flex-1 flex justify-between sm:hidden">
+            {% if posts.has_prev %}
+                <a href="{{ url_for('admin_blog', page=posts.prev_num, search=search, status=status, category=category) }}" 
+                   class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                    Назад
+                </a>
+            {% endif %}
+            {% if posts.has_next %}
+                <a href="{{ url_for('admin_blog', page=posts.next_num, search=search, status=status, category=category) }}" 
+                   class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                    Далее
+                </a>
+            {% endif %}
+        </div>
+        
+        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+            <div>
+                <p class="text-sm text-gray-700">
+                    Показано <span class="font-medium">{{ (posts.page - 1) * posts.per_page + 1 }}</span> 
+                    по <span class="font-medium">{{ posts.page * posts.per_page if posts.page * posts.per_page <= posts.total else posts.total }}</span> 
+                    из <span class="font-medium">{{ posts.total }}</span> статей
+                </p>
+            </div>
+            <div>
+                <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                    {% if posts.has_prev %}
+                    <a href="{{ url_for('admin_blog', page=posts.prev_num, search=search, status=status, category=category) }}" 
+                       class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                    {% endif %}
+                    
+                    {% for page_num in posts.iter_pages() %}
+                        {% if page_num %}
+                            {% if page_num != posts.page %}
+                            <a href="{{ url_for('admin_blog', page=page_num, search=search, status=status, category=category) }}" 
+                               class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                                {{ page_num }}
+                            </a>
+                            {% else %}
+                            <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-red-50 text-sm font-medium text-[#1e40af]">
+                                {{ page_num }}
+                            </span>
+                            {% endif %}
+                        {% else %}
+                        <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
+                            ...
+                        </span>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if posts.has_next %}
+                    <a href="{{ url_for('admin_blog', page=posts.next_num, search=search, status=status, category=category) }}" 
+                       class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+
+{% block title %}Тест карт с границами районов | InBack{% endblock %}
+
+{% block additional_js %}
+<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="container mx-auto px-4">
+        <h1 class="text-3xl font-bold text-center mb-8">Тест карт InBack.ru</h1>
+        
+        <!-- Управление картой -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Границы районов</h3>
+                    <div class="space-y-2">
+                        <button onclick="loadDistrictBoundaries('tsentralnyy')" 
+                                class="w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                            Показать Центральный район
+                        </button>
+                        <button onclick="loadDistrictBoundaries('zapadny')" 
+                                class="w-full px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+                            Показать Западный район
+                        </button>
+                        <button onclick="loadDistrictBoundaries('karasunsky')" 
+                                class="w-full px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600">
+                            Показать Карасунский район
+                        </button>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Подсветка улиц</h3>
+                    <div class="space-y-2">
+                        <button onclick="loadStreetHighlight('krasnaya')" 
+                                class="w-full px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+                            Подсветить ул. Красная
+                        </button>
+                        <button onclick="loadStreetHighlight('1-y-krasnyh-zor-proezd')" 
+                                class="w-full px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600">
+                            Подсветить 1-й Красных Зорь проезд
+                        </button>
+                        <button onclick="clearAllMaps()" 
+                                class="w-full px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+                            Очистить карту
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Контейнер карты -->
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div id="yandex-map" style="width: 100%; height: 600px;"></div>
+        </div>
+        
+        <!-- Логи и отладка -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mt-6">
+            <h3 class="text-lg font-semibold mb-4">Логи работы карты</h3>
+            <div id="map-logs" class="bg-gray-100 p-4 rounded max-h-96 overflow-y-auto text-sm font-mono">
+                Ожидание инициализации карты...
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let mapInstance = null;
+
+// Ожидаем загрузки Яндекс API v2.1, затем загружаем наш класс
+ymaps.ready(function() {
+    logMessage('✅ Яндекс.Карты API v2.1 готов');
+    
+    // Загружаем наш JavaScript класс динамически
+    const script = document.createElement('script');
+    script.src = '{{ url_for("static", filename="js/yandex_maps.js") }}';
+    script.onload = function() {
+        logMessage('✅ InBackMaps класс загружен');
+        initializeMap();
+    };
+    script.onerror = function() {
+        logMessage('❌ Ошибка загрузки yandex_maps.js');
+    };
+    document.head.appendChild(script);
+});
+
+// Инициализация карты
+async function initializeMap() {
+    try {
+        logMessage('🚀 Начинаем инициализацию карты...');
+        
+        mapInstance = new InBackMaps();
+        await mapInstance.initMap('yandex-map', [45.035180, 38.977414], 11);
+        
+        logMessage('✅ Карта успешно инициализирована');
+        
+        // Добавляем маркер центра Краснодара
+        mapInstance.addMarker(
+            [45.035180, 38.977414], 
+            'Центр Краснодара', 
+            'Драматический театр - Центр города Краснодар'
+        );
+        
+        logMessage('📍 Добавлен маркер центра города');
+        
+    } catch (error) {
+        logMessage(`❌ Ошибка инициализации: ${error.message}`);
+        console.error('Map initialization error:', error);
+    }
+}
+
+// Функции управления картой
+async function loadDistrictBoundaries(districtSlug) {
+    if (!mapInstance) {
+        logMessage('❌ Карта не инициализирована');
+        return;
+    }
+    
+    logMessage(`🗺️ Загружаем границы района: ${districtSlug}`);
+    
+    try {
+        const success = await mapInstance.loadDistrictBoundaries(districtSlug);
+        if (success) {
+            logMessage(`✅ Границы района ${districtSlug} загружены`);
+        } else {
+            logMessage(`⚠️ Не удалось загрузить границы района ${districtSlug}`);
+        }
+    } catch (error) {
+        logMessage(`❌ Ошибка загрузки границ: ${error.message}`);
+    }
+}
+
+async function loadStreetHighlight(streetSlug) {
+    if (!mapInstance) {
+        logMessage('❌ Карта не инициализирована');
+        return;
+    }
+    
+    logMessage(`🛣️ Загружаем подсветку улицы: ${streetSlug}`);
+    
+    try {
+        const success = await mapInstance.loadStreetHighlight(streetSlug);
+        if (success) {
+            logMessage(`✅ Улица ${streetSlug} подсвечена`);
+        } else {
+            logMessage(`⚠️ Не удалось подсветить улицу ${streetSlug}`);
+        }
+    } catch (error) {
+        logMessage(`❌ Ошибка подсветки улицы: ${error.message}`);
+    }
+}
+
+function clearAllMaps() {
+    if (!mapInstance) {
+        logMessage('❌ Карта не инициализирована');
+        return;
+    }
+    
+    mapInstance.clearAll();
+    logMessage('🧹 Карта очищена');
+}
+
+// Функция для логирования
+function logMessage(message) {
+    const timestamp = new Date().toLocaleTimeString();
+    const logElement = document.getElementById('map-logs');
+    const logLine = document.createElement('div');
+    logLine.innerHTML = `[${timestamp}] ${message}`;
+    
+    logElement.appendChild(logLine);
+    logElement.scrollTop = logElement.scrollHeight;
+    
+    console.log(message);
+}
+
+// Глобальные функции для отладки
+window.testAPI = {
+    async testDistrictAPI(slug) {
+        try {
+            const response = await fetch(`/api/district/boundaries/${slug}`);
+            const data = await response.json();
+            console.log('District API response:', data);
+            logMessage(`🔍 API тест района ${slug}: ${data.success ? 'успех' : 'неудача'}`);
+            return data;
+        } catch (error) {
+            console.error('API test error:', error);
+            logMessage(`❌ Ошибка тестирования API: ${error.message}`);
+        }
+    },
+    
+    async testStreetAPI(slug) {
+        try {
+            const response = await fetch(`/api/street/coordinates/${slug}`);
+            const data = await response.json();
+            console.log('Street API response:', data);
+            logMessage(`🔍 API тест улицы ${slug}: ${data.success ? 'успех' : 'неудача'}`);
+            return data;
+        } catch (error) {
+            console.error('API test error:', error);
+            logMessage(`❌ Ошибка тестирования API: ${error.message}`);
+        }
+    }
+};
+</script>
+{% endblock %}

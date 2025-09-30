@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+
+{% block title %}Техническая информация - InBack.ru{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-12">
+    <div class="container mx-auto px-4 max-w-4xl">
+        <div class="bg-white rounded-lg shadow-sm p-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-8 text-center">
+                <i class="fas fa-info-circle text-blue-600 mr-3"></i>
+                Техническая информация
+            </h1>
+            
+            <!-- Server Information -->
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">
+                    <i class="fas fa-server text-blue-500 mr-2"></i>
+                    Информация о сервере
+                </h2>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <label class="font-medium text-gray-700">Время сервера:</label>
+                        <p class="text-gray-900 font-mono">{{ tech_info.server_info.server_time }}</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <label class="font-medium text-gray-700">Платформа:</label>
+                        <p class="text-gray-900 font-mono">{{ tech_info.server_info.platform }}</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <label class="font-medium text-gray-700">Python версия:</label>
+                        <p class="text-gray-900 font-mono">{{ tech_info.server_info.python_version }}</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <label class="font-medium text-gray-700">Hostname:</label>
+                        <p class="text-gray-900 font-mono">{{ tech_info.server_info.hostname }}</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <label class="font-medium text-gray-700">Flask версия:</label>
+                        <p class="text-gray-900 font-mono">{{ tech_info.server_info.flask_version }}</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <label class="font-medium text-gray-700">Среда:</label>
+                        <p class="text-gray-900 font-mono">{{ tech_info.server_info.environment }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Session Information -->
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">
+                    <i class="fas fa-user-circle text-green-500 mr-2"></i>
+                    Информация о сессии
+                </h2>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <label class="font-medium text-gray-700">ID сессии:</label>
+                        <p class="text-gray-900 font-mono text-sm break-all">{{ tech_info.session_info.session_id }}</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <label class="font-medium text-gray-700">ID пользователя:</label>
+                        <p class="text-gray-900 font-mono">{{ tech_info.session_info.user_id }}</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <label class="font-medium text-gray-700">Имя пользователя:</label>
+                        <p class="text-gray-900">{{ tech_info.session_info.username }}</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <label class="font-medium text-gray-700">Авторизован:</label>
+                        <p class="text-gray-900">{{ '✅ Да' if tech_info.session_info.is_authenticated else '❌ Нет' }}</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <label class="font-medium text-gray-700">Постоянная сессия:</label>
+                        <p class="text-gray-900">{{ '✅ Да' if tech_info.session_info.session_permanent else '❌ Нет' }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Browser and Device Information -->
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">
+                    <i class="fas fa-desktop text-orange-500 mr-2"></i>
+                    Информация о браузере и устройстве
+                </h2>
+                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <label class="font-medium text-gray-700">Браузер:</label>
+                        <p class="text-gray-900">{{ tech_info.browser_info.browser }} {{ tech_info.browser_info.version }}</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <label class="font-medium text-gray-700">Операционная система:</label>
+                        <p class="text-gray-900">{{ tech_info.browser_info.os }}</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <label class="font-medium text-gray-700">Тип устройства:</label>
+                        <p class="text-gray-900">{{ tech_info.browser_info.device }}</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <label class="font-medium text-gray-700">Язык браузера:</label>
+                        <p class="text-gray-900 font-mono text-sm">{{ tech_info.request_info.accept_language }}</p>
+                    </div>
+                </div>
+                <!-- Client-side информация (будет заполнена JavaScript) -->
+                <div class="grid md:grid-cols-2 gap-4" id="client-info" style="display: none;">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <label class="font-medium text-gray-700">Размер экрана:</label>
+                        <p class="text-gray-900" id="screen-size">Загрузка...</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <label class="font-medium text-gray-700">Размер окна:</label>
+                        <p class="text-gray-900" id="window-size">Загрузка...</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <label class="font-medium text-gray-700">Часовой пояс:</label>
+                        <p class="text-gray-900" id="timezone">Загрузка...</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <label class="font-medium text-gray-700">Cookies включены:</label>
+                        <p class="text-gray-900" id="cookies-enabled">Загрузка...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Request Information -->
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">
+                    <i class="fas fa-globe text-purple-500 mr-2"></i>
+                    Информация о запросе
+                </h2>
+                <div class="space-y-4">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <label class="font-medium text-gray-700">IP адрес:</label>
+                        <p class="text-gray-900 font-mono">{{ tech_info.request_info.ip_address }}</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <label class="font-medium text-gray-700">Метод запроса:</label>
+                        <p class="text-gray-900 font-mono">{{ tech_info.request_info.method }}</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <label class="font-medium text-gray-700">URL:</label>
+                        <p class="text-gray-900 font-mono text-sm break-all">{{ tech_info.request_info.url }}</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <label class="font-medium text-gray-700">Referrer:</label>
+                        <p class="text-gray-900 font-mono text-sm break-all">{{ tech_info.request_info.referrer }}</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <label class="font-medium text-gray-700">User Agent:</label>
+                        <p class="text-gray-900 font-mono text-xs break-all">{{ tech_info.request_info.user_agent }}</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <label class="font-medium text-gray-700">Хост:</label>
+                        <p class="text-gray-900 font-mono">{{ tech_info.request_info.host }}</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <label class="font-medium text-gray-700">Поддерживаемые кодировки:</label>
+                        <p class="text-gray-900 font-mono text-sm break-all">{{ tech_info.request_info.accept_encoding }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Back Link -->
+            <div class="text-center">
+                <a href="{{ url_for('index') }}" 
+                   class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition duration-300">
+                    <i class="fas fa-home mr-2"></i>
+                    Вернуться на главную
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.font-mono {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Получаем информацию со стороны клиента
+    function loadClientInfo() {
+        // Размер экрана
+        const screenSize = `${screen.width}x${screen.height}`;
+        document.getElementById('screen-size').textContent = screenSize;
+        
+        // Размер окна браузера
+        const windowSize = `${window.innerWidth}x${window.innerHeight}`;
+        document.getElementById('window-size').textContent = windowSize;
+        
+        // Часовой пояс
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        document.getElementById('timezone').textContent = timezone;
+        
+        // Проверка cookies
+        const cookiesEnabled = navigator.cookieEnabled ? '✅ Да' : '❌ Нет';
+        document.getElementById('cookies-enabled').textContent = cookiesEnabled;
+        
+        // Показываем блок с клиентской информацией
+        document.getElementById('client-info').style.display = 'grid';
+    }
+    
+    // Загружаем информацию при загрузке страницы
+    loadClientInfo();
+    
+    // Обновляем размер окна при изменении
+    window.addEventListener('resize', function() {
+        const windowSize = `${window.innerWidth}x${window.innerHeight}`;
+        document.getElementById('window-size').textContent = windowSize;
+    });
+});
+</script>
+{% endblock %}

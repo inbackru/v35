@@ -1,0 +1,33 @@
+<!-- Top Contact Bar - Hidden on mobile -->
+<div class="hidden lg:block bg-gray-50 border-b border-gray-200 py-2">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between text-sm">
+            <!-- Left side - Contact info -->
+            <div class="flex items-center space-x-6 text-gray-600">
+                <a href="tel:+78001234567" class="flex items-center space-x-2 hover:text-[#0088CC] transition-colors">
+                    <i class="fas fa-phone text-xs"></i>
+                    <span>+7 (800) 123-45-67</span>
+                </a>
+                <a href="mailto:info@inback.ru" class="flex items-center space-x-2 hover:text-[#0088CC] transition-colors">
+                    <i class="fas fa-envelope text-xs"></i>
+                    <span>info@inback.ru</span>
+                </a>
+                <span class="hidden lg:inline-flex items-center space-x-2 text-gray-500">
+                    <i class="fas fa-clock text-xs"></i>
+                    <span>Пн-Пт 9:00-18:00</span>
+                </span>
+            </div>
+            
+            <!-- Right side - Quick actions -->
+            <div class="flex items-center space-x-4">
+                <button onclick="openCallbackModal()" class="text-[#0088CC] hover:text-[#006699] font-medium transition-colors">
+                    Заказать звонок
+                </button>
+                <span class="text-gray-300">|</span>
+                <button onclick="openQuizModal()" class="bg-[#0088CC] hover:bg-[#006699] text-white px-3 py-1 rounded text-xs font-medium transition-colors">
+                    Подобрать квартиру
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,1784 @@
+{% extends "base.html" %}
+
+{% block title %}{% if property.title %}{{ property.title }}{% else %}{{ property.rooms }}-комнатная квартира {{ property.area }} м²{% endif %} - Квартира в {{ property.complex_name or 'ЖК' }} с кэшбеком{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+.custom-property-marker {
+    background: transparent !important;
+    border: none !important;
+}
+
+.property-gallery-dot.active {
+    background-color: white !important;
+}
+
+.gallery-slides {
+    transition: transform 0.5s ease-in-out;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Breadcrumbs -->
+<div class="container mx-auto px-4 py-3 text-sm">
+    <nav aria-label="Breadcrumb" class="flex">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+                <a class="text-[#0088CC] hover:underline inline-flex items-center" href="/">
+                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                    </svg>
+                    Главная
+                </a>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                    </svg>
+                    <a href="{{ url_for('properties') }}" class="text-[#0088CC] hover:underline ml-1 md:ml-2">Квартиры</a>
+                </div>
+            </li>
+            <li aria-current="page">
+                <div class="flex items-center">
+                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="text-gray-500 ml-1 md:ml-2">
+                        {% if property.title %}
+                            {{ property.title }}
+                        {% elif property.rooms == 0 %}
+                            Студия {{ property.area }} м²
+                        {% else %}
+                            {{ property.rooms }}-комнатная квартира {{ property.area }} м²
+                        {% endif %}
+                    </span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+</div>
+
+<div class="max-w-6xl mx-auto px-4 py-8">
+    <!-- Кэшбек баннер -->
+    <div class="bg-gradient-to-r from-[#006699] to-[#0088CC] rounded-2xl p-6 text-white mb-8">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+            <div class="mb-4 md:mb-0">
+                <h2 class="text-2xl font-bold mb-2">Получите кэшбек при покупке этой квартиры!</h2>
+                <p class="opacity-90">Приобретая эту квартиру через наш сервис, вы получите кэшбек до {{ property.cashback_percent or 5 }}% от стоимости.</p>
+            </div>
+            <button onclick="openApplicationModal()" class="bg-white text-[#0088CC] hover:bg-opacity-90 font-semibold px-6 py-3 rounded-xl whitespace-nowrap transition-all">
+                Получить кэшбек
+            </button>
+        </div>
+    </div>
+
+    <!-- Основная карточка -->
+    <div class="bg-white rounded-2xl overflow-hidden shadow-lg mb-8">
+        <!-- Галерея -->
+        <div class="relative">
+            <!-- Favorite Heart Button -->
+            <div class="absolute top-4 right-4 z-20">
+                <div class="favorite-heart" data-property-id="{{ property.id }}" title="Добавить в избранное">
+                    <i class="fas fa-heart"></i>
+                </div>
+            </div>
+            
+            <div class="h-64 md:h-96 bg-gray-200 overflow-hidden gallery-container">
+                <div class="gallery-slides flex h-full transition-transform duration-500">
+                    {% if property.gallery and property.gallery|length > 0 %}
+                        {% for image in property.gallery %}
+                        <div class="gallery-slide min-w-full h-full">
+                            <img alt="{% if property.title %}{{ property.title }}{% else %}{{ property.rooms }}-комнатная квартира{% endif %} - фото {{ loop.index }}" class="w-full h-full object-contain bg-gray-50 cursor-pointer" src="{{ image }}" onclick="openPhotoModal({{ loop.index0 }})"/>
+                        </div>
+                        {% endfor %}
+                    {% elif property.image and 'placeholder' not in property.image %}
+                        <div class="gallery-slide min-w-full h-full">
+                            <img alt="{% if property.title %}{{ property.title }}{% else %}{{ property.rooms }}-комнатная квартира{% endif %}" class="w-full h-full object-contain bg-gray-50 cursor-pointer" src="{{ property.image }}" onclick="openPhotoModal(0)"/>
+                        </div>
+                    {% else %}
+                        <div class="gallery-slide min-w-full h-full">
+                            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-50 to-gray-100">
+                                <div class="text-center text-gray-500">
+                                    <i class="fas fa-home text-4xl mb-2 text-gray-400"></i>
+                                    <p class="text-lg font-medium">{{ property.rooms }}-комнатная квартира</p>
+                                    <p class="text-sm">{{ property.area }} м² • ЖК {{ property.complex_name }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Navigation buttons -->
+                {% if (property.gallery and property.gallery|length > 1) or (property.image and 'placeholder' not in property.image) %}
+                <button onclick="prevPropertySlide()" class="absolute left-4 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-600 hover:bg-white transition-all z-10">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button onclick="nextPropertySlide()" class="absolute right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-600 hover:bg-white transition-all z-10">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                {% endif %}
+                
+                <!-- Dots indicator -->
+                <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
+                    {% if property.gallery and property.gallery|length > 0 %}
+                        {% for image in property.gallery %}
+                        <div class="property-gallery-dot w-2 h-2 bg-white/60 rounded-full cursor-pointer hover:bg-white transition-colors{% if loop.first %} active{% endif %}" onclick="goToPropertySlide({{ loop.index0 }})"></div>
+                        {% endfor %}
+                    {% elif property.image and 'placeholder' not in property.image %}
+                        <div class="property-gallery-dot w-2 h-2 bg-white/60 rounded-full cursor-pointer hover:bg-white transition-colors active" onclick="goToPropertySlide(0)"></div>
+                    {% else %}
+                        <div class="property-gallery-dot w-2 h-2 bg-white/60 rounded-full cursor-pointer hover:bg-white transition-colors active" onclick="goToPropertySlide(0)"></div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-sm font-medium flex items-center">
+                <i class="fas fa-camera mr-2 text-[#0088CC]"></i>
+                <span>{{ property.gallery|length if property.gallery and property.gallery|length > 0 else 1 }} фото</span>
+            </div>
+        </div>
+
+        <!-- Основной контент -->
+        <div class="p-6">
+            <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-6">
+                <!-- Левая колонка -->
+                <div class="flex-1">
+                    <!-- Заголовок и метки -->
+                    <div class="mb-4">
+                        <h1 class="text-2xl md:text-3xl font-bold mb-2">{% if property.title %}{{ property.title }}{% else %}{{ property.rooms }}-комнатная квартира {{ property.area }} м²{% endif %}</h1>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-gray-100 text-[#0088CC] px-3 py-1 rounded-full text-sm">Новостройка</span>
+                            <span class="bg-gray-100 text-[#7e5bef] px-3 py-1 rounded-full text-sm">{{ property.finishing or property.renovation or "Чистовая отделка" }}</span>
+                            <span class="bg-gray-100 text-green-700 px-3 py-1 rounded-full text-sm">{{ property.floor }}/{{ property.total_floors }} этаж</span>
+                            {% if property.balcony %}
+                            <span class="bg-gray-100 text-yellow-700 px-3 py-1 rounded-full text-sm">Балкон {{ property.balcony_area }} м²</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Адрес -->
+                    <div class="mb-6">
+                        <div class="flex items-center text-gray-600 mb-1">
+                            <i class="fas fa-map-marker-alt mr-2 text-[#0088CC]"></i>
+                            <span>{{ property.full_address or property.location or property.address or ((property.complex_name or 'ЖК') + ', ' + (property.district or '')) }}</span>
+                        </div>
+                        <p class="text-sm text-gray-500">Рядом: {{ property.nearby or "торговые центры, парки, школы" }}</p>
+                    </div>
+
+                    <!-- Характеристики -->
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+                        <div>
+                            <p class="text-gray-500 text-sm">Площадь</p>
+                            <p class="font-semibold">{{ property.area }} м²</p>
+                        </div>
+                        {% if property.kitchen_area %}
+                        <div>
+                            <p class="text-gray-500 text-sm">Кухня</p>
+                            <p class="font-semibold">{{ property.kitchen_area }} м²</p>
+                        </div>
+                        {% endif %}
+                        {% if property.living_area %}
+                        <div>
+                            <p class="text-gray-500 text-sm">Жилая площадь</p>
+                            <p class="font-semibold">{{ property.living_area }} м²</p>
+                        </div>
+                        {% endif %}
+                        <div>
+                            <p class="text-gray-500 text-sm">Этаж</p>
+                            <p class="font-semibold">{{ property.floor }} из {{ property.total_floors }}</p>
+                        </div>
+                        {% if property.ceiling_height %}
+                        <div>
+                            <p class="text-gray-500 text-sm">Высота потолков</p>
+                            <p class="font-semibold">{{ property.ceiling_height }} м</p>
+                        </div>
+                        {% endif %}
+                        <div>
+                            <p class="text-gray-500 text-sm">Вид из окна</p>
+                            <p class="font-semibold">{{ property.view or "Двор" }}</p>
+                        </div>
+                        {% if property.complex_building_end_build_quarter and property.complex_building_end_build_year %}
+                        <div>
+                            <p class="text-gray-500 text-sm">Срок сдачи корпуса</p>
+                            <p class="font-semibold">{{ property.complex_building_end_build_quarter }} кв. {{ property.complex_building_end_build_year }}</p>
+                        </div>
+                        {% elif property.complex_end_build_quarter and property.complex_end_build_year %}
+                        <div>
+                            <p class="text-gray-500 text-sm">Срок сдачи ЖК</p>
+                            <p class="font-semibold">{{ property.complex_end_build_quarter }} кв. {{ property.complex_end_build_year }}</p>
+                        </div>
+                        {% endif %}
+                        {% if property.developer %}
+                        <div>
+                            <p class="text-gray-500 text-sm">Застройщик</p>
+                            <p class="font-semibold">{{ property.developer }}</p>
+                        </div>
+                        {% endif %}
+                        {% if property.class_type %}
+                        <div>
+                            <p class="text-gray-500 text-sm">Класс жилья</p>
+                            <p class="font-semibold">{{ property.class_type }}</p>
+                        </div>
+                        {% endif %}
+                        {% if property.complex_building_released is defined %}
+                        <div>
+                            <p class="text-gray-500 text-sm">Статус объекта</p>
+                            <p class="font-semibold {% if property.complex_building_released %}text-green-600{% else %}text-orange-600{% endif %}">
+                                {% if property.complex_building_released %}Сдан в эксплуатацию{% else %}В стадии строительства{% endif %}
+                            </p>
+                        </div>
+                        {% endif %}
+                        {% if property.renovation_display_name %}
+                        <div>
+                            <p class="text-gray-500 text-sm">Отделка</p>
+                            <p class="font-semibold">{{ property.renovation_display_name }}</p>
+                        </div>
+                        {% endif %}
+                        {% if property.published_date %}
+                        <div>
+                            <p class="text-gray-500 text-sm">Размещено</p>
+                            <p class="font-semibold text-xs">
+                                {% if property.published_date and property.published_date.strftime %}
+                                    {{ property.published_date.strftime('%d.%m.%Y') }}
+                                {% else %}
+                                    Недавно
+                                {% endif %}
+                            </p>
+                        </div>
+                        {% endif %}
+                        {% if property.square_price %}
+                        <div>
+                            <p class="text-gray-500 text-sm">Цена за м²</p>
+                            <p class="font-semibold">{{ "{:,.0f}".format(property.square_price).replace(',', ' ') }} ₽/м²</p>
+                        </div>
+                        {% endif %}
+                        {% if property.building_name %}
+                        <div>
+                            <p class="text-gray-500 text-sm">Корпус</p>
+                            <p class="font-semibold">{{ property.building_name }}</p>
+                        </div>
+                        {% endif %}
+                        {% if property.total_floors and property.floor %}
+                        <div>
+                            <p class="text-gray-500 text-sm">Этажи в корпусе</p>
+                            <p class="font-semibold">{{ property.floor }}—{{ property.total_floors }}</p>
+                        </div>
+                        {% endif %}
+                        {% if property.deal_type %}
+                        <div>
+                            <p class="text-gray-500 text-sm">Тип сделки</p>
+                            <p class="font-semibold">
+                                {% if property.deal_type == 'sale' %}Продажа{% else %}{{ property.deal_type }}{% endif %}
+                            </p>
+                        </div>
+                        {% endif %}
+                        {% if property.complex_start_build_year and property.complex_first_build_quarter %}
+                        <div>
+                            <p class="text-gray-500 text-sm">Начало строительства</p>
+                            <p class="font-semibold">{{ property.complex_first_build_quarter }} кв. {{ property.complex_start_build_year }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Ипотека и финансирование -->
+                    <div class="mb-6">
+                        <h3 class="font-bold text-lg mb-4">Ипотека и финансирование</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-blue-50 rounded-lg p-4">
+                                <h4 class="font-semibold mb-3 text-[#0088CC]">Доступные программы</h4>
+                                <div class="space-y-3">
+                                    {% if property.has_mortgage_subsidy %}
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                                        <span class="text-sm">Льготная ипотека до 8%</span>
+                                    </div>
+                                    {% endif %}
+                                    {% if property.has_green_mortgage %}
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                                        <span class="text-sm">Зеленая ипотека до 7%</span>
+                                    </div>
+                                    {% endif %}
+                                    {% if property.complex_has_government_program %}
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                                        <span class="text-sm">Государственная программа</span>
+                                    </div>
+                                    {% endif %}
+                                    {% if property.complex_financing_sber %}
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                                        <span class="text-sm">Финансирование Сбербанк</span>
+                                    </div>
+                                    {% endif %}
+                                    {% if property.has_accreditation %}
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                                        <span class="text-sm">Аккредитован банками</span>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <h4 class="font-semibold mb-3 text-gray-600">Дополнительно</h4>
+                                
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                                    <span class="text-sm">Консультация эксперта</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                                    <span class="text-sm">Помощь с документами</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                                    <span class="text-sm">Юридическое сопровождение</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                                    <span class="text-sm">Расчет кэшбека</span>
+                                </div>
+                                
+                                {% if property.balcony and property.balcony != 'Нет' %}
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                                    <span class="text-sm">Балкон: {{ property.balcony }} {% if property.balcony_area %}{{ property.balcony_area }} м²{% endif %}</span>
+                                </div>
+                                {% endif %}
+                                {% if property.ceiling_height and property.ceiling_height != 'Нет' %}
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                                    <span class="text-sm">Высота потолков: {{ property.ceiling_height }} м</span>
+                                </div>
+                                {% endif %}
+                                {% if property.kitchen_area %}
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                                    <span class="text-sm">Кухня: {{ property.kitchen_area }} м²</span>
+                                </div>
+                                {% endif %}
+                                {% if property.renovation_display_name %}
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                                    <span class="text-sm">Отделка: {{ property.renovation_display_name }}</span>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Контакты застройщика -->
+                    {% if property.sales_phone or property.sales_address %}
+                    <div class="mb-6 bg-gradient-to-r from-gray-50 to-blue-50 rounded-xl p-5">
+                        <h3 class="font-bold text-lg mb-4 text-[#0088CC]">Контакты застройщика</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            {% if property.sales_phone and property.sales_phone != 'Уточняется' %}
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-phone text-gray-600"></i>
+                                <div>
+                                    <p class="text-sm text-gray-600">Отдел продаж</p>
+                                    <a href="tel:+78622793286" class="font-semibold text-gray-700 hover:text-gray-800">
+                                        +7 (862) 279-32-86
+                                    </a>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% if property.sales_address and property.sales_address != 'Уточняется' %}
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-map-marker-alt text-red-500 text-lg"></i>
+                                <div>
+                                    <p class="text-sm text-gray-600">Адрес офиса продаж</p>
+                                    <p class="font-semibold text-gray-700 text-sm">{{ property.sales_address }}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-handshake text-orange-500 text-lg"></i>
+                                <div>
+                                    <p class="text-sm text-gray-600">Кэшбэк с InBack</p>
+                                    <p class="font-bold text-orange-600">
+                                        {% if property.cashback and property.cashback > 0 %}
+                                            {{ "{:,.0f}".format(property.cashback).replace(',', ' ') }} ₽
+                                        {% else %}
+                                            До 3% от стоимости
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Описание -->
+                    {% if property.description or property.detailed_description %}
+                    <div class="mb-6">
+                        <h3 class="font-bold text-lg mb-3">Об этой квартире</h3>
+                        {% if property.description %}
+                        <p class="text-gray-700 mb-3">
+                            {{ property.description }}
+                        </p>
+                        {% endif %}
+                        {% if property.detailed_description %}
+                        <p class="text-gray-700">
+                            {{ property.detailed_description }}
+                        </p>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
+                    <!-- Варианты отделки -->
+                    {% if property.finish_options %}
+                    <div class="mb-6">
+                        <h3 class="font-bold text-lg mb-3">Варианты отделки</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            {% for option in property.finish_options %}
+                            <div class="border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-all">
+                                {% if option.image %}
+                                <div class="h-32 bg-gray-200 overflow-hidden">
+                                    <img src="{{ option.image }}" alt="{{ option.type }}" class="w-full h-full object-cover">
+                                </div>
+                                {% endif %}
+                                <div class="p-4">
+                                    <div class="font-semibold mb-2">{{ option.type }}</div>
+                                    <p class="text-sm text-gray-600 mb-3">{{ option.description }}</p>
+                                    <div class="text-sm space-y-2">
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-500">Стены:</span>
+                                            <span>{{ option.details.walls }}</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-500">Пол:</span>
+                                            <span>{{ option.details.floor }}</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-500">Санузел:</span>
+                                            <span>{{ option.details.bathroom }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="mt-4 text-sm text-gray-500">
+                            <p>Фото отделки представлены для примера. Фактическая отделка может отличаться.</p>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Инфраструктура -->
+                    {% if property.infrastructure %}
+                    <div class="mb-6">
+                        <h3 class="font-bold text-lg mb-3">Инфраструктура</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                            {% for amenity in property.infrastructure %}
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 bg-[#0088CC]/10 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-check text-sm text-[#0088CC]"></i>
+                                </div>
+                                <div>
+                                    <span class="text-sm">{{ amenity }}</span>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Преимущества -->
+                    {% if property.advantages %}
+                    <div class="mb-6">
+                        <h3 class="font-bold text-lg mb-3">Преимущества</h3>
+                        <div class="space-y-3">
+                            {% for advantage in property.advantages %}
+                            <div class="flex items-start gap-3">
+                                <div class="flex-shrink-0 mt-1 text-[#0088CC]">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <p class="text-gray-700">{{ advantage }}</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Правая колонка (цена и кэшбек) -->
+                <div class="md:w-80 flex-shrink-0">
+                    <!-- Цена -->
+                    <div class="bg-gray-50 rounded-xl p-6 mb-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-bold">Стоимость квартиры</h3>
+                        </div>
+                        <div class="text-2xl font-bold mb-4 bg-gradient-to-r from-[#006699] to-[#0088CC] bg-clip-text text-transparent">{{ "{:,.0f}".format(property.price).replace(',', ' ') }} ₽</div>
+                        <div class="text-sm text-gray-500 mb-4">
+                            <div class="flex justify-between mb-1">
+                                <span>Цена за м²</span>
+                                <span class="font-medium">{{ "{:,.0f}".format(property.price / property.area).replace(',', ' ') }} ₽</span>
+                            </div>
+                        </div>
+                        <button onclick="openPropertyApplicationModal()" class="w-full bg-gradient-to-r from-[#006699] to-[#0088CC] hover:bg-opacity-90 text-white font-semibold py-3 px-4 rounded-xl transition-all mb-3">
+                            Посмотреть квартиру
+                        </button>
+                        
+                        <!-- PDF и поделиться -->
+                        <div class="flex gap-2 mb-3">
+                            <a href="{{ url_for('property_pdf', property_id=property.id) }}" target="_blank" class="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-3 rounded-lg text-center text-sm transition-all">
+                                <i class="fas fa-file-pdf mr-1"></i>
+                                PDF
+                            </a>
+                            <button onclick="shareProperty()" class="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 px-3 rounded-lg text-sm transition-all">
+                                <i class="fas fa-share-alt mr-1"></i>
+                                Поделиться
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Кэшбек -->
+                    <div class="bg-blue-50 rounded-xl p-6 mb-6 border border-blue-100">
+                        <h3 class="font-bold text-lg mb-3 text-[#0088CC]">Ваш кэшбек</h3>
+                        <div class="flex items-end gap-2 mb-2">
+                            <span class="text-2xl font-bold text-[#0088CC]">{{ "{:,.0f}".format(property.cashback_amount).replace(',', ' ') }} ₽</span>
+                        </div>
+                        <div class="text-sm text-gray-500 mb-4">
+                            {{ property.cashback_percent }}% от стоимости квартиры
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4">
+                            При покупке этой квартиры через наш сервис вы получаете дополнительный кэшбек на карту после сделки.
+                        </p>
+                        <button class="w-full bg-white hover:bg-gray-50 text-[#0088CC] font-semibold py-3 px-4 rounded-xl border border-[#0088CC] transition-all">
+                            Получить кэшбек
+                        </button>
+                    </div>
+                    
+                    <!-- Ипотечный калькулятор -->
+                    <div class="bg-gray-50 rounded-xl p-5 border border-gray-200">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                            <h3 class="font-bold text-lg text-gray-700">Семейная ипотека</h3>
+                        </div>
+                        
+                        <!-- Стоимость (только показ) -->
+                        <div class="mb-4">
+                            <div class="bg-white rounded-lg p-3 border border-gray-200">
+                                <div class="text-xs text-gray-500 mb-1">Стоимость квартиры</div>
+                                <div class="font-bold text-lg text-gray-800">{{ "{:,.0f}".format(property.price).replace(',', ' ') }} ₽</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Компактные параметры -->
+                        <div class="grid grid-cols-3 gap-3 mb-4">
+                            <!-- ПВ -->
+                            <div>
+                                <label class="block text-xs font-medium text-gray-600 mb-1">ПВ %</label>
+                                <input type="number" id="mortgage-down-payment" value="20" min="10" max="80"
+                                       class="w-full p-2 text-sm border border-gray-200 rounded text-center">
+                            </div>
+                            
+                            <!-- Ставка -->
+                            <div>
+                                <label class="block text-xs font-medium text-gray-600 mb-1">Ставка %</label>
+                                <input type="number" id="mortgage-rate" value="6.0" step="0.1" min="3" max="20"
+                                       class="w-full p-2 text-sm border border-gray-200 rounded text-center">
+                            </div>
+                            
+                            <!-- Срок -->
+                            <div>
+                                <label class="block text-xs font-medium text-gray-600 mb-1">Лет</label>
+                                <input type="number" id="mortgage-term" value="30" min="5" max="30"
+                                       class="w-full p-2 text-sm border border-gray-200 rounded text-center">
+                            </div>
+                        </div>
+                        
+                        <!-- Предупреждение о лимите -->
+                        <div id="family-mortgage-limit-warning" class="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-3 text-sm" style="display: none;">
+                            <div class="flex items-start gap-2">
+                                <i class="fas fa-info-circle text-amber-600 mt-0.5"></i>
+                                <div class="text-amber-800">
+                                    <strong>Лимит семейной ипотеки:</strong> максимум 6 млн ₽. 
+                                    Превышение автоматически добавлено к первоначальному взносу.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Результаты -->
+                        <div class="space-y-2 mb-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-600">Первый взнос:</span>
+                                <span id="mortgage-down-amount" class="font-medium">{{ "{:,.0f}".format(property.price * 0.2).replace(',', ' ') }} ₽</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-600">Сумма кредита:</span>
+                                <span id="loan-amount" class="font-medium">{{ "{:,.0f}".format(property.price * 0.8).replace(',', ' ') }} ₽</span>
+                            </div>
+                            <div class="bg-white rounded-lg p-3 border-2 border-green-200">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm font-medium text-gray-700">Ежемесячный платеж:</span>
+                                    <span id="monthly-payment" class="text-xl font-bold text-gray-700">—</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button onclick="openApplicationModal()" class="w-full bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2.5 px-4 rounded-lg transition-all text-sm">
+                            <i class="fas fa-home mr-2"></i>
+                            Подать заявку на ипотеку
+                        </button>
+                        
+                        <p class="text-xs text-gray-500 mt-3 text-center">
+                            * Предварительный расчет. Окончательные условия определяет банк.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Планировка -->
+    {% if property.layout_image %}
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+        <h2 class="text-2xl font-bold mb-6">Планировка квартиры</h2>
+        <div class="flex justify-center">
+            <img alt="Планировка {{ property.title }}" class="max-w-full h-auto rounded-xl" src="{{ property.layout_image }}"/>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Информация о здании -->
+    {% if property.building_info %}
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+        <h2 class="text-2xl font-bold mb-6">О доме</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div>
+                <p class="text-gray-500 text-sm">Тип дома</p>
+                <p class="font-semibold">{{ property.building_info.type }}</p>
+            </div>
+            <div>
+                <p class="text-gray-500 text-sm">Класс</p>
+                <p class="font-semibold">{{ property.building_info.class }}</p>
+            </div>
+            <div>
+                <p class="text-gray-500 text-sm">Год постройки</p>
+                <p class="font-semibold">{{ property.building_info.year }}</p>
+            </div>
+            <div>
+                <p class="text-gray-500 text-sm">Лифты</p>
+                <p class="font-semibold">{{ property.building_info.elevator }}</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    
+    <!-- О жилом комплексе -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+        <h2 class="text-2xl font-bold mb-6">О жилом комплексе {{ property.complex_name }}</h2>
+        
+        <!-- Фотографии ЖК -->
+        {% if property.gallery and property.gallery|length > 1 %}
+        <div class="mb-6">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                {% for image in property.gallery[:6] %}
+                <div class="aspect-video rounded-lg overflow-hidden cursor-pointer">
+                    <img src="{{ image }}" alt="ЖК {{ property.complex_name }}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" onclick="openPhotoModal({{ loop.index0 }})">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+        
+        <!-- Информация о ЖК -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+                <h4 class="font-semibold mb-3 text-[#0088CC]">Основные характеристики</h4>
+                <div class="space-y-2 text-sm">
+                    {% if property.class_type %}
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Класс недвижимости:</span>
+                        <span class="font-medium">{{ property.class_type }}</span>
+                    </div>
+                    {% endif %}
+                    {% if property.completion_date != 'Уточняется' %}
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Срок завершения:</span>
+                        <span class="font-medium">{{ property.completion_date }}</span>
+                    </div>
+                    {% endif %}
+                    {% if property.developer %}
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Застройщик:</span>
+                        <span class="font-medium">{{ property.developer }}</span>
+                    </div>
+                    {% endif %}
+                    {% if property.complex_name %}
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Название ЖК:</span>
+                        <span class="font-medium">{{ property.complex_name }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div>
+                <h4 class="font-semibold mb-3 text-[#0088CC]">Особенности комплекса</h4>
+                <div class="space-y-2 text-sm">
+                    {% if property.has_accreditation %}
+                    <div class="flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                        <span>Аккредитован банками</span>
+                    </div>
+                    {% endif %}
+                    {% if property.has_green_mortgage %}
+                    <div class="flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                        <span>Зеленая ипотека</span>
+                    </div>
+                    {% endif %}
+                    {% if property.with_renovation %}
+                    <div class="flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                        <span>Квартиры с отделкой</span>
+                    </div>
+                    {% endif %}
+                    {% if property.has_mortgage_subsidy %}
+                    <div class="flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                        <span>Льготная ипотека</span>
+                    </div>
+                    {% endif %}
+                    {% if property.complex_financing_sber %}
+                    <div class="flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                        <span>Финансирование Сбербанк</span>
+                    </div>
+                    {% endif %}
+                    {% if property.complex_has_big_check %}
+                    <div class="flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                        <span>Большая проверка пройдена</span>
+                    </div>
+                    {% endif %}
+                    {% if property.complex_building_accreditation %}
+                    <div class="flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                        <span>Корпус аккредитован</span>
+                    </div>
+                    {% endif %}
+                    {% if property.trade_in_available %}
+                    <div class="flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                        <span>Доступен Trade-in</span>
+                    </div>
+                    {% endif %}
+                    {% if property.chat_available %}
+                    <div class="flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                        <span>Онлайн-консультации</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Статистика по квартирам -->
+        {% if property.complex_total_apartments > 0 %}
+        <div class="bg-blue-50 rounded-lg p-4 mb-6">
+            <h4 class="font-semibold mb-3">В этом ЖК доступно:</h4>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-[#0088CC]">{{ property.complex_total_apartments }}</div>
+                    <div class="text-gray-600">всего квартир</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-[#0088CC]">{{ property.same_type_apartments }}</div>
+                    <div class="text-gray-600">
+                        {% if property.rooms == 0 %}студий
+                        {% elif property.rooms == 1 %}1-комнатных
+                        {% elif property.rooms == 2 %}2-комнатных  
+                        {% elif property.rooms == 3 %}3-комнатных
+                        {% elif property.rooms == 4 %}4-комнатных
+                        {% else %}{{ property.rooms }}-комнатных
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-[#0088CC]">{{ property.complex_buildings_count }}</div>
+                    <div class="text-gray-600">корпусов</div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Другие квартиры в ЖК -->
+        {% if similar_apartments and similar_apartments|length > 0 %}
+        <div class="mt-6">
+            <h4 class="font-semibold mb-4">Другие квартиры в {{ property.complex_name }}</h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-6">
+                {% for apartment in similar_apartments[:8] %}
+                <div class="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow">
+                    <div class="aspect-[4/3] relative overflow-hidden">
+                        <img src="{{ apartment.image }}" alt="{{ apartment.title }}" 
+                             class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                        <div class="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
+                            {{ "{:,.0f}".format(apartment.cashback).replace(',', ' ') }} ₽ кэшбек
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <div class="text-sm font-medium mb-1">{{ apartment.room_type }}</div>
+                        <div class="text-xs text-gray-600 mb-2">{{ apartment.area }} м² • {{ apartment.floor }}/{{ apartment.total_floors }} эт.</div>
+                        <div class="text-lg font-bold text-[#0088CC] mb-2">
+                            {{ "{:,.0f}".format(apartment.price).replace(',', ' ') }} ₽
+                        </div>
+                        <a href="{{ url_for('property_detail', property_id=apartment.id) }}" 
+                           class="block w-full bg-gray-100 hover:bg-[#0088CC] hover:text-white text-center text-sm py-2 rounded-lg transition-all">
+                            Подробнее
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+        <div class="mt-6">
+            <a href="{{ url_for('residential_complex_detail', complex_name=property.complex_name) }}" class="bg-[#0088CC] text-white px-6 py-3 rounded-lg hover:bg-[#0077BB] transition-colors">
+                Подробнее о ЖК
+            </a>
+        </div>
+    </div>
+    
+    <!-- Варианты отделки -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+        <h2 class="text-2xl font-bold mb-4">Варианты отделки в ЖК</h2>
+        <p class="text-gray-600 mb-4">Как может выглядеть отделка</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Чистовая отделка -->
+            <div class="bg-gray-50 rounded-lg p-4">
+                <div class="aspect-[3/2] rounded-lg overflow-hidden mb-3">
+                    <img src="{{ url_for('static', filename='images/fine_finish.jpg') if url_for else '/static/images/fine_finish.jpg' }}" alt="Чистовая отделка" class="w-full h-full object-cover">
+                </div>
+                <h4 class="font-semibold mb-2">Чистовая</h4>
+                <p class="text-sm text-gray-600 mb-2">Квартира готова к переезду: обои, ламинат, сантехника, двери установлены.</p>
+                <a href="#" onclick="event.preventDefault(); openFinishModal('turnkey')" class="text-blue-600 hover:text-blue-700 text-sm font-medium">Подробнее</a>
+            </div>
+            
+            <!-- Черновая отделка -->
+            <div class="bg-gray-50 rounded-lg p-4">
+                <div class="aspect-[3/2] rounded-lg overflow-hidden mb-3">
+                    <img src="{{ url_for('static', filename='images/rough_finish.jpg') }}" alt="Черновая отделка" class="w-full h-full object-cover">
+                </div>
+                <h4 class="font-semibold mb-2">Черновая</h4>
+                <p class="text-sm text-gray-600 mb-2">Стяжка, штукатурка, перегородки. Электричество и отопление подведены.</p>
+                <a href="#" onclick="event.preventDefault(); openFinishModal('rough')" class="text-blue-600 hover:text-blue-700 text-sm font-medium">Подробнее</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Как это работает -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+        <h2 class="text-2xl font-bold mb-8 text-center">Как это работает</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Шаг 1 -->
+            <div class="bg-gray-50 rounded-xl p-6 text-center">
+                <div class="mb-4">
+                    <span class="text-sm text-gray-500">Шаг 1</span>
+                </div>
+                <h3 class="font-semibold mb-4">Выбор квартиры</h3>
+                <div class="w-16 h-16 mx-auto mb-4 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <span class="text-2xl font-bold text-blue-600">1</span>
+                </div>
+                <p class="text-sm text-gray-600 mb-4">Подбираем подходящий вариант из каталога проверенных застройщиков с экспертной поддержкой</p>
+                <a href="#" class="text-blue-600 hover:text-blue-700 text-sm font-medium">Подробнее</a>
+            </div>
+            
+            <!-- Шаг 2 -->
+            <div class="bg-gray-50 rounded-xl p-6 text-center">
+                <div class="mb-4">
+                    <span class="text-sm text-gray-500">Шаг 2</span>
+                </div>
+                <h3 class="font-semibold mb-4">Оформление как клиент</h3>
+                <div class="w-16 h-16 mx-auto mb-4 bg-green-100 rounded-lg flex items-center justify-center">
+                    <span class="text-2xl font-bold text-green-600">2</span>
+                </div>
+                <p class="text-sm text-gray-600 mb-4">Регистрируем вас у застройщика для получения специальных условий и кэшбека</p>
+                <a href="#" class="text-blue-600 hover:text-blue-700 text-sm font-medium">Подробнее</a>
+            </div>
+            
+            <!-- Шаг 3 -->
+            <div class="bg-gray-50 rounded-xl p-6 text-center">
+                <div class="mb-4">
+                    <span class="text-sm text-gray-500">Шаг 3</span>
+                </div>
+                <h3 class="font-semibold mb-4">Сопровождение сделки</h3>
+                <div class="w-16 h-16 mx-auto mb-4 bg-orange-100 rounded-lg flex items-center justify-center">
+                    <span class="text-2xl font-bold text-orange-600">3</span>
+                </div>
+                <p class="text-sm text-gray-600 mb-4">Обеспечиваем юридическую поддержку и ведение всех документов до завершения покупки</p>
+                <a href="#" class="text-blue-600 hover:text-blue-700 text-sm font-medium">Подробнее</a>
+            </div>
+            
+            <!-- Шаг 4 -->
+            <div class="bg-gray-50 rounded-xl p-6 text-center">
+                <div class="mb-4">
+                    <span class="text-sm text-gray-500">Шаг 4</span>
+                </div>
+                <h3 class="font-semibold mb-4">Получение кэшбека</h3>
+                <div class="w-16 h-16 mx-auto mb-4 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <span class="text-2xl font-bold text-purple-600">4</span>
+                </div>
+                <p class="text-sm text-gray-600 mb-4">Перечисляем возврат до 500 000 ₽ на вашу банковскую карту после завершения сделки</p>
+                <a href="#" class="text-blue-600 hover:text-blue-700 text-sm font-medium">Подробнее</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Почему стоит купить эту квартиру -->
+    <div class="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl shadow-lg p-8 mb-8">
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold mb-4 text-gray-800">Почему стоит купить эту квартиру</h2>
+            <p class="text-lg text-gray-600">Инвестиция в ваше будущее с гарантированной выгодой</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Кэшбек -->
+            <div class="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow">
+                <div class="w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full flex items-center justify-center">
+                    <span class="text-2xl">💰</span>
+                </div>
+                <h3 class="font-bold text-lg mb-2">Кэшбек до 500 000 ₽</h3>
+                <p class="text-sm text-gray-600">Получите возврат денег после покупки на вашу карту</p>
+            </div>
+            
+            <!-- Рост цены -->
+            <div class="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow">
+                <div class="w-16 h-16 mx-auto mb-4 bg-blue-100 rounded-full flex items-center justify-center">
+                    <span class="text-2xl">📈</span>
+                </div>
+                <h3 class="font-bold text-lg mb-2">Рост стоимости</h3>
+                <p class="text-sm text-gray-600">Недвижимость в Краснодаре растет в цене на 10-15% в год</p>
+            </div>
+            
+            <!-- Готовность -->
+            <div class="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow">
+                <div class="w-16 h-16 mx-auto mb-4 bg-purple-100 rounded-full flex items-center justify-center">
+                    <span class="text-2xl">🏠</span>
+                </div>
+                <h3 class="font-bold text-lg mb-2">Готова к заселению</h3>
+                <p class="text-sm text-gray-600">Переезжайте сразу после оформления документов</p>
+            </div>
+            
+            <!-- Инфраструктура -->
+            <div class="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow">
+                <div class="w-16 h-16 mx-auto mb-4 bg-orange-100 rounded-full flex items-center justify-center">
+                    <span class="text-2xl">🏪</span>
+                </div>
+                <h3 class="font-bold text-lg mb-2">Развитая инфраструктура</h3>
+                <p class="text-sm text-gray-600">Школы, детские сады, магазины в шаговой доступности</p>
+            </div>
+            
+            <!-- Транспорт -->
+            <div class="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow">
+                <div class="w-16 h-16 mx-auto mb-4 bg-yellow-100 rounded-full flex items-center justify-center">
+                    <span class="text-2xl">🚌</span>
+                </div>
+                <h3 class="font-bold text-lg mb-2">Удобная транспортная развязка</h3>
+                <p class="text-sm text-gray-600">Быстрая поездка в центр города и на работу</p>
+            </div>
+            
+            <!-- Надежность -->
+            <div class="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow">
+                <div class="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
+                    <span class="text-2xl">🛡️</span>
+                </div>
+                <h3 class="font-bold text-lg mb-2">Проверенный застройщик</h3>
+                <p class="text-sm text-gray-600">Надежная компания с опытом и репутацией</p>
+            </div>
+        </div>
+        
+        <!-- Призыв к действию -->
+        <div class="bg-white rounded-xl p-6 text-center">
+            <h3 class="text-xl font-bold mb-3">Не упустите возможность!</h3>
+            <p class="text-gray-600 mb-4">Количество квартир с максимальным кэшбеком ограничено</p>
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                <a href="#" onclick="event.preventDefault(); openApplicationModal({
+                    type: 'property',
+                    id: '{{ property.id }}',
+                    title: '{{ property.title or (property.rooms|string + '-комнатная квартира ' + property.area|string + ' м²') }}',
+                    complex: '{{ property.complex_name }}',
+                    price: '{{ property.price }}',
+                    area: '{{ property.area }}',
+                    rooms: '{{ property.rooms }}',
+                    floor: '{{ property.floor }}',
+                    total_floors: '{{ property.total_floors }}',
+                    district: '{{ property.district }}',
+                    url: '{{ request.url }}'
+                })" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors">
+                    Получить консультацию
+                </a>
+                <a href="#" onclick="event.preventDefault(); openApplicationModal({
+                    type: 'property',
+                    id: '{{ property.id }}',
+                    title: '{{ property.title or (property.rooms|string + '-комнатная квартира ' + property.area|string + ' м²') }}',
+                    complex: '{{ property.complex_name }}',
+                    price: '{{ property.price }}',
+                    area: '{{ property.area }}',
+                    rooms: '{{ property.rooms }}',
+                    floor: '{{ property.floor }}',
+                    total_floors: '{{ property.total_floors }}',
+                    district: '{{ property.district }}',
+                    url: '{{ request.url }}'
+                })" class="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors">
+                    Посмотреть квартиру
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    
+    <!-- Расположение на карте -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+        <h2 class="text-2xl font-bold mb-6">Расположение квартиры</h2>
+        <div class="mb-4">
+            <div class="flex items-center text-gray-600 mb-2">
+                <i class="fas fa-map-marker-alt mr-2 text-[#0088CC]"></i>
+                <span class="font-medium">{{ property.address_locality_display_name or property.district or 'Краснодарский край' }}, {{ property.complex_name }}</span>
+            </div>
+            <p class="text-sm text-gray-500">{{ property.full_address or property.address or ((property.address_locality_display_name or 'Краснодар') + ', ' + (property.complex_name or 'ЖК')) }}</p>
+        </div>
+        
+        <!-- Карта -->
+        <div id="property-map" class="w-full h-80 rounded-xl overflow-hidden mb-4"></div>
+        
+        <!-- Кнопки карты -->
+        <div class="flex gap-3 text-sm">
+            <a href="https://yandex.ru/maps/?ll={{ property.address_position_lon or 39.0 }},{{ property.address_position_lat or 45.0 }}&z=16&pt={{ property.address_position_lon or 39.0 }},{{ property.address_position_lat or 45.0 }}" 
+               target="_blank" 
+               class="flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg transition-colors">
+                <i class="fab fa-yandex"></i>
+                Открыть в Яндекс Картах
+            </a>
+            <a href="https://maps.google.com/?q={{ property.address_position_lat or 45.0 }},{{ property.address_position_lon or 39.0 }}" 
+               target="_blank" 
+               class="flex items-center gap-2 bg-blue-500 hover:bg-[#0088CC] text-white px-4 py-2 rounded-lg transition-colors">
+                <i class="fab fa-google"></i>
+                Открыть в Google Maps
+            </a>
+        </div>
+        
+        <!-- Транспорт и инфраструктура рядом -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 pt-6 border-t border-gray-100">
+            <div>
+                <h4 class="font-semibold mb-3 flex items-center gap-2">
+                    <i class="fas fa-bus text-[#0088CC]"></i>
+                    Транспорт
+                </h4>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Остановка автобуса</span>
+                        <span class="font-medium">200 м</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Станция метро</span>
+                        <span class="font-medium">1.2 км</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Ж/д вокзал</span>
+                        <span class="font-medium">8.5 км</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-3 flex items-center gap-2">
+                    <i class="fas fa-store text-[#0088CC]"></i>
+                    Инфраструктура
+                </h4>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Торговый центр</span>
+                        <span class="font-medium">500 м</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Школа</span>
+                        <span class="font-medium">400 м</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Детский сад</span>
+                        <span class="font-medium">300 м</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Застройщик -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+        <h2 class="text-2xl font-bold mb-6">Застройщик</h2>
+        <div class="flex items-start gap-6">
+            <div class="w-16 h-16 bg-gray-200 rounded-xl flex items-center justify-center">
+                <span class="text-lg font-bold text-[#0088CC]">{{ property.developer[:3].upper() }}</span>
+            </div>
+            <div class="flex-1">
+                <h3 class="text-xl font-semibold mb-2">{{ property.developer }}</h3>
+                <p class="text-gray-600 mb-4">Надежный застройщик с многолетним опытом строительства качественного жилья в Краснодаре. Все объекты сданы в срок.</p>
+                <div class="flex gap-4 text-sm">
+                    <div>
+                        <span class="text-gray-500">Построено объектов:</span>
+                        <span class="font-medium">15+</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500">Опыт работы:</span>
+                        <span class="font-medium">12 лет</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<!-- Яндекс.Карты API -->
+<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=" type="text/javascript"></script>
+
+<script>
+    // Open application modal with property context
+    function openPropertyApplicationModal() {
+        const modal = document.getElementById('applicationModal');
+        if (modal) {
+            // Set property context data
+            window.currentPropertyData = {
+                property_id: '{{ property.id }}',
+                property_name: '{% if property.title %}{{ property.title }}{% else %}{{ property.rooms }}-комнатная квартира {{ property.area }} м²{% endif %}',
+                complex_name: '{{ property.complex_name or "" }}',
+                price: '{{ property.price or 0 }}',
+                area: '{{ property.area or 0 }}',
+                floor: '{{ property.floor or 0 }}',
+                rooms: '{{ property.rooms or 0 }}',
+                district: '{{ property.district or "" }}',
+                address: '{{ property.address or "" }}',
+                property_url: window.location.href
+            };
+            
+            modal.classList.remove('hidden');
+            if (typeof resetQuizForm === 'function') {
+                resetQuizForm();
+            }
+        } else {
+            console.error('Application modal not found');
+        }
+    }
+
+    // Красивый слайдер с эффектами
+    const swiper = new Swiper('.property-slider', {
+        loop: true,
+        autoplay: {
+            delay: 4000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+        },
+        // Убираем fade эффект для лучшего листания
+        effect: 'slide',
+        speed: 600,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+            renderBullet: function (index, className) {
+                return '<span class="' + className + '">' + (index + 1) + '</span>';
+            },
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        keyboard: {
+            enabled: true,
+            onlyInViewport: true
+        },
+        mousewheel: false,
+        touchRatio: 1,
+        touchAngle: 45,
+        grabCursor: true,
+        slidesPerView: 1,
+        spaceBetween: 0,
+        resistance: true,
+        resistanceRatio: 0.85,
+        centeredSlides: false,
+        watchSlidesProgress: true,
+        watchSlidesVisibility: true,
+        preloadImages: false,
+        lazy: {
+            loadPrevNext: true,
+            loadPrevNextAmount: 2
+        },
+        on: {
+            init: function() {
+                console.log('Слайдер инициализирован');
+            },
+            slideChange: function() {
+                // Плавная анимация при смене слайда
+                this.slides.forEach(slide => {
+                    slide.style.opacity = '1';
+                });
+            }
+        }
+    });
+
+    // Initialize Yandex Map
+    ymaps.ready(function() {
+        {% if property.address_position_lat and property.address_position_lon %}
+        const propertyLat = {{ property.address_position_lat }};
+        const propertyLng = {{ property.address_position_lon }};
+        {% else %}
+        const propertyLat = 45.0355;
+        const propertyLng = 38.9753;
+        {% endif %}
+        
+        const map = new ymaps.Map('property-map', {
+            center: [propertyLat, propertyLng],
+            zoom: 15,
+            controls: ['zoomControl', 'fullscreenControl', 'typeSelector']
+        });
+        
+        // Добавляем слой с инфраструктурой
+        const infraLayer = new ymaps.ObjectManager({
+            clusterize: false,
+            gridSize: 32,
+            geoObjectOpenBalloonOnClick: false
+        });
+        
+        // Создаем метку для квартиры
+        const placemark = new ymaps.Placemark([propertyLat, propertyLng], {
+            balloonContentHeader: '{{ property.complex_name }}',
+            balloonContentBody: `
+                <div class="text-center p-2">
+                    <div class="text-sm text-gray-600 mb-2">{{ property.title }}</div>
+                    <div class="text-lg font-bold text-blue-600">{{ "{:,.0f}".format(property.price).replace(',', ' ') }} ₽</div>
+                    <div class="text-xs text-gray-500 mt-1">{{ "{:,.0f}".format(property.price / property.area).replace(',', ' ') }} ₽/м²</div>
+                </div>
+            `,
+            hintContent: '{{ property.complex_name }}'
+        }, {
+            preset: 'islands#redDotIcon',
+            iconColor: '#0088CC'
+        });
+        
+        map.geoObjects.add(placemark);
+        placemark.balloon.open();
+        
+        // Поиск ближайшей инфраструктуры
+        const searchControl = new ymaps.control.SearchControl({
+            options: {
+                provider: 'yandex#search',
+                size: 'small',
+                float: 'left'
+            }
+        });
+        
+        // Показываем объекты инфраструктуры поблизости
+        setTimeout(() => {
+            // Школы
+            ymaps.geocode(`школа около ${propertyLat}, ${propertyLng}`, {
+                results: 3,
+                kind: 'house'
+            }).then(function(res) {
+                res.geoObjects.each(function(obj) {
+                    const coords = obj.geometry.getCoordinates();
+                    const schoolMark = new ymaps.Placemark(coords, {
+                        hintContent: 'Школа'
+                    }, {
+                        preset: 'islands#greenEducationIcon',
+                        iconColor: '#4CAF50'
+                    });
+                    map.geoObjects.add(schoolMark);
+                });
+            });
+            
+            // Детские сады
+            ymaps.geocode(`детский сад около ${propertyLat}, ${propertyLng}`, {
+                results: 3,
+                kind: 'house'
+            }).then(function(res) {
+                res.geoObjects.each(function(obj) {
+                    const coords = obj.geometry.getCoordinates();
+                    const kindergartenMark = new ymaps.Placemark(coords, {
+                        hintContent: 'Детский сад'
+                    }, {
+                        preset: 'islands#yellowIcon',
+                        iconColor: '#FFC107'
+                    });
+                    map.geoObjects.add(kindergartenMark);
+                });
+            });
+            
+            // Больницы
+            ymaps.geocode(`больница около ${propertyLat}, ${propertyLng}`, {
+                results: 2,
+                kind: 'house'
+            }).then(function(res) {
+                res.geoObjects.each(function(obj) {
+                    const coords = obj.geometry.getCoordinates();
+                    const hospitalMark = new ymaps.Placemark(coords, {
+                        hintContent: 'Больница'
+                    }, {
+                        preset: 'islands#redMedicalIcon',
+                        iconColor: '#F44336'
+                    });
+                    map.geoObjects.add(hospitalMark);
+                });
+            });
+            
+            // Магазины
+            ymaps.geocode(`магазин около ${propertyLat}, ${propertyLng}`, {
+                results: 5,
+                kind: 'house'
+            }).then(function(res) {
+                res.geoObjects.each(function(obj) {
+                    const coords = obj.geometry.getCoordinates();
+                    const shopMark = new ymaps.Placemark(coords, {
+                        hintContent: 'Магазин'
+                    }, {
+                        preset: 'islands#blueShoppingIcon',
+                        iconColor: '#2196F3'
+                    });
+                    map.geoObjects.add(shopMark);
+                });
+            });
+        }, 1000);
+    });
+
+    // Share property function
+    function shareProperty() {
+        const url = window.location.href;
+        const title = document.title;
+        
+        if (navigator.share) {
+            navigator.share({
+                title: title,
+                url: url
+            }).catch(error => console.warn('Property detail error:', error));
+        } else if (navigator.clipboard) {
+            navigator.clipboard.writeText(url).then(() => {
+                alert('Ссылка скопирована в буфер обмена!');
+            }).catch(() => {
+                fallbackCopyTextToClipboard(url);
+            });
+        } else {
+            fallbackCopyTextToClipboard(url);
+        }
+    }
+
+    function fallbackCopyTextToClipboard(text) {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        
+        try {
+            document.execCommand('copy');
+            alert('Ссылка скопирована в буфер обмена!');
+        } catch (err) {
+            alert('Не удалось скопировать ссылку. URL: ' + text);
+        }
+        
+        document.body.removeChild(textArea);
+    }
+
+    // Ипотечный калькулятор
+    function calculateMortgage() {
+        const propertyPrice = {{ property.price }};
+        const maxLoanAmount = 6000000; // Максимальная сумма по семейной ипотеке
+        let downPaymentPercent = parseFloat(document.getElementById('mortgage-down-payment').value);
+        const rate = parseFloat(document.getElementById('mortgage-rate').value);
+        const termYears = parseInt(document.getElementById('mortgage-term').value);
+        
+        // Расчет с учетом ограничения семейной ипотеки
+        let loanAmount = propertyPrice * (1 - downPaymentPercent / 100);
+        let downPaymentAmount = propertyPrice * (downPaymentPercent / 100);
+        
+        // Если сумма кредита превышает лимит семейной ипотеки
+        if (loanAmount > maxLoanAmount) {
+            loanAmount = maxLoanAmount;
+            downPaymentAmount = propertyPrice - loanAmount;
+            const actualDownPaymentPercent = (downPaymentAmount / propertyPrice) * 100;
+            
+            // Обновляем поле первоначального взноса
+            document.getElementById('mortgage-down-payment').value = actualDownPaymentPercent.toFixed(1);
+        }
+        
+        const monthlyRate = (rate / 100) / 12;
+        const totalMonths = termYears * 12;
+        
+        // Формула аннуитетного платежа
+        let monthlyPayment;
+        if (rate === 0) {
+            monthlyPayment = loanAmount / totalMonths;
+        } else {
+            monthlyPayment = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, totalMonths)) / 
+                           (Math.pow(1 + monthlyRate, totalMonths) - 1);
+        }
+        
+        // Обновляем интерфейс
+        document.getElementById('mortgage-down-amount').textContent = formatNumber(downPaymentAmount) + ' ₽';
+        document.getElementById('loan-amount').textContent = formatNumber(loanAmount) + ' ₽';
+        document.getElementById('monthly-payment').textContent = formatNumber(monthlyPayment) + ' ₽';
+        
+        // Показываем предупреждение если достигнут лимит
+        const warningElement = document.getElementById('family-mortgage-limit-warning');
+        if (loanAmount >= maxLoanAmount) {
+            if (warningElement) warningElement.style.display = 'block';
+        } else {
+            if (warningElement) warningElement.style.display = 'none';
+        }
+    }
+    
+    function formatNumber(num) {
+        return Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    }
+    
+    // Инициализация калькулятора
+    document.addEventListener('DOMContentLoaded', function() {
+        // Первоначальный расчет
+        calculateMortgage();
+        
+        // Привязка событий к полям ввода
+        const inputs = ['mortgage-down-payment', 'mortgage-rate', 'mortgage-term'];
+        inputs.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.addEventListener('input', calculateMortgage);
+                element.addEventListener('change', calculateMortgage);
+            }
+        });
+    });
+
+    // Property Gallery functionality  
+    let propertyCurrentSlide = 0;
+    let propertySlideInterval;
+    
+    function prevPropertySlide() {
+        const gallery = document.querySelector('.gallery-slides');
+        const dots = document.querySelectorAll('.property-gallery-dot');
+        
+        if (!gallery || !dots.length) return;
+        
+        propertyCurrentSlide = (propertyCurrentSlide - 1 + dots.length) % dots.length;
+        updatePropertyGallery();
+    }
+
+    function nextPropertySlide() {
+        const gallery = document.querySelector('.gallery-slides');
+        const dots = document.querySelectorAll('.property-gallery-dot');
+        
+        if (!gallery || !dots.length) return;
+        
+        propertyCurrentSlide = (propertyCurrentSlide + 1) % dots.length;
+        updatePropertyGallery();
+    }
+
+    function goToPropertySlide(index) {
+        propertyCurrentSlide = index;
+        updatePropertyGallery();
+    }
+
+    function updatePropertyGallery() {
+        const gallery = document.querySelector('.gallery-slides');
+        const dots = document.querySelectorAll('.property-gallery-dot');
+        
+        if (!gallery || !dots.length) return;
+        
+        gallery.style.transform = `translateX(-${propertyCurrentSlide * 100}%)`;
+        
+        dots.forEach((dot, index) => {
+            if (index === propertyCurrentSlide) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
+            }
+        });
+    }
+
+    function startPropertyAutoSlide() {
+        const dots = document.querySelectorAll('.property-gallery-dot');
+        if (dots.length > 1) {
+            propertySlideInterval = setInterval(() => {
+                nextPropertySlide();
+            }, 4000); // Автоматическое переключение каждые 4 секунды
+        }
+    }
+
+    function stopPropertyAutoSlide() {
+        if (propertySlideInterval) {
+            clearInterval(propertySlideInterval);
+        }
+    }
+
+    // Инициализация автослайдера для галереи квартиры
+    document.addEventListener('DOMContentLoaded', function() {
+        startPropertyAutoSlide();
+        
+        // Остановить автослайдер при наведении мыши
+        const galleryContainer = document.querySelector('.gallery-container');
+        if (galleryContainer) {
+            galleryContainer.addEventListener('mouseenter', stopPropertyAutoSlide);
+            galleryContainer.addEventListener('mouseleave', startPropertyAutoSlide);
+        }
+    });
+
+    // Photo modal functionality for property detail
+    let photoModalImages = {{ property.gallery|tojson if property.gallery and property.gallery|length > 0 else ('[\"' + property.image + '\"]' if property.image and 'placeholder' not in property.image else '[]')|safe }};
+    let currentPhotoIndex = 0;
+
+    function openPhotoModal(index = 0) {
+        currentPhotoIndex = index;
+        const modal = document.getElementById('photoModal');
+        const modalImg = document.getElementById('modalImg');
+        const counter = document.getElementById('photoCounter');
+        
+        if (photoModalImages.length > 0) {
+            modalImg.src = photoModalImages[currentPhotoIndex];
+            counter.textContent = `${currentPhotoIndex + 1} из ${photoModalImages.length}`;
+            modal.classList.remove('hidden');
+            // Prevent body scroll using our system
+            if (typeof window.disableBodyScroll === 'function') {
+                window.disableBodyScroll();
+            } else {
+                document.body.style.overflow = 'hidden';
+            }
+        }
+    }
+
+    function closePhotoModal() {
+        const modal = document.getElementById('photoModal');
+        modal.classList.add('hidden');
+        // Restore scroll using our system
+        if (typeof window.restoreBodyScroll === 'function') {
+            window.restoreBodyScroll();
+        } else {
+            document.body.style.overflow = '';
+        }
+    }
+
+    function prevPhoto() {
+        if (photoModalImages.length > 0) {
+            currentPhotoIndex = (currentPhotoIndex - 1 + photoModalImages.length) % photoModalImages.length;
+            openPhotoModal(currentPhotoIndex);
+        }
+    }
+
+    function nextPhoto() {
+        if (photoModalImages.length > 0) {
+            currentPhotoIndex = (currentPhotoIndex + 1) % photoModalImages.length;
+            openPhotoModal(currentPhotoIndex);
+        }
+    }
+
+    // Keyboard navigation for photo modal
+    document.addEventListener('keydown', function(e) {
+        const modal = document.getElementById('photoModal');
+        if (!modal.classList.contains('hidden')) {
+            if (e.key === 'Escape') {
+                closePhotoModal();
+            } else if (e.key === 'ArrowLeft') {
+                prevPhoto();
+            } else if (e.key === 'ArrowRight') {
+                nextPhoto();
+            }
+        }
+    });
+</script>
+
+<!-- Photo Modal -->
+<div id="photoModal" class="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center hidden">
+    <div class="relative max-w-screen-lg max-h-screen w-full h-full flex items-center justify-center p-4">
+        <!-- Close button -->
+        <button onclick="closePhotoModal()" class="absolute top-4 right-4 text-white hover:text-gray-300 z-60">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+        
+        <!-- Previous button -->
+        <button onclick="prevPhoto()" class="absolute left-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 z-60">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+        </button>
+        
+        <!-- Next button -->
+        <button onclick="nextPhoto()" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 z-60">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+        </button>
+        
+        <!-- Image -->
+        <img id="modalImg" src="" alt="Фото квартиры" class="max-w-full max-h-full object-contain">
+        
+        <!-- Counter -->
+        <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-50 text-white px-3 py-1 rounded-full text-sm">
+            <span id="photoCounter">1 из 1</span>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно для отделки -->
+<div id="finishModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h2 id="modalTitle" class="text-2xl font-bold">Отделка квартиры</h2>
+                <button onclick="closeFinishModal()" class="text-gray-400 hover:text-gray-600 text-2xl font-bold">&times;</button>
+            </div>
+            
+            <div id="modalContent">
+                <!-- Контент будет добавлен через JavaScript -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function openFinishModal(type) {
+    const modal = document.getElementById('finishModal');
+    const title = document.getElementById('modalTitle');
+    const content = document.getElementById('modalContent');
+    
+    if (type === 'turnkey') {
+        title.textContent = 'Чистовая отделка';
+        content.innerHTML = `
+            <div class="space-y-6">
+                <img src="{{ url_for('static', filename='images/fine_finish.jpg') if url_for else '/static/images/fine_finish.jpg' }}" 
+                     alt="Чистовая отделка" class="w-full h-64 object-cover rounded-lg">
+                
+                <div class="space-y-4">
+                    <h3 class="text-lg font-semibold">Что включено в чистовую отделку:</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                                <span>Финишная отделка стен и потолков</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                                <span>Напольное покрытие (ламинат/паркет)</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                                <span>Установленная сантехника</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                                <span>Межкомнатные двери</span>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                                <span>Кухонный гарнитур</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                                <span>Освещение и розетки</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                                <span>Плитка в ванной и на кухне</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                                <span>Готова к переезду</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    } else if (type === 'rough') {
+        title.textContent = 'Черновая отделка';
+        content.innerHTML = `
+            <div class="space-y-6">
+                <img src="{{ url_for('static', filename='images/rough_finish.jpg') }}" 
+                     alt="Черновая отделка" class="w-full h-64 object-cover rounded-lg">
+                
+                <div class="space-y-4">
+                    <h3 class="text-lg font-semibold">Что включено в черновую отделку:</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                                <span>Выровненные стены (штукатурка)</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                                <span>Стяжка пола</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                                <span>Перегородки и проемы</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                                <span>Входная дверь</span>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                                <span>Электропроводка и водопровод</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                                <span>Система отопления</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                                <span>Окна установлены</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
+                                <span>Готова к финишной отделке</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeFinishModal() {
+    const modal = document.getElementById('finishModal');
+    modal.classList.add('hidden');
+    document.body.style.overflow = 'auto';
+}
+
+// Закрытие модального окна при клике вне его
+document.getElementById('finishModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeFinishModal();
+    }
+});
+
+// Закрытие модального окна при нажатии Escape
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        const modal = document.getElementById('finishModal');
+        if (!modal.classList.contains('hidden')) {
+            closeFinishModal();
+        }
+    }
+});
+</script>
+
+{% endblock %}

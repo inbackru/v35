@@ -1,0 +1,2742 @@
+{% extends "base.html" %}
+
+{% block title %}ЖК Краснодара - поиск жилых комплексов | inback{% endblock %}
+{% block description %}Каталог всех жилых комплексов Краснодара с кэшбеком до 500 000 ₽. Подробная информация о новостройках, планировки, цены, застройщики.{% endblock %}
+{% block keywords %}жк краснодар, жилые комплексы краснодар, новостройки краснодар, кэшбек жк{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<style>
+    .complex-card {
+        transition: all 0.3s ease;
+    }
+    .complex-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    /* Slider styles */
+    .slider-dot.active {
+        background-color: white !important;
+    }
+    
+    .slider-prev:hover,
+    .slider-next:hover {
+        transform: translateY(-50%) scale(1.1);
+    }
+    
+    .filter-badge {
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        background-color: #0088CC;
+        color: white;
+        border-radius: 50%;
+        width: 18px;
+        height: 18px;
+        font-size: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+    
+    .custom-complex-marker {
+        background: none !important;
+        border: none !important;
+    }
+    
+    .custom-complex-marker div {
+        animation: markerPulse 2s infinite;
+        white-space: nowrap;
+    }
+    
+    @keyframes markerPulse {
+        0% { box-shadow: 0 0 0 0 rgba(0, 136, 204, 0.4); }
+        70% { box-shadow: 0 0 0 6px rgba(0, 136, 204, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(0, 136, 204, 0); }
+    }
+    
+    .leaflet-popup-content-wrapper {
+        border-radius: 12px;
+        padding: 0;
+    }
+    
+    .leaflet-popup-content {
+        margin: 0;
+    }
+    
+    .custom-complex-popup .leaflet-popup-content-wrapper {
+        border-radius: 12px;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    /* Mobile Optimizations */
+    @media (max-width: 768px) {
+        .mobile-optimized {
+            margin-bottom: 16px;
+        }
+        
+        .mobile-optimized .complex-slider {
+            height: 200px;
+        }
+        
+        .mobile-optimized img {
+            height: 200px;
+        }
+        
+        /* Compact stats grid on mobile */
+        .mobile-optimized .grid-cols-2 {
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        
+        /* List view styles */
+        .list-view-card {
+            overflow: visible !important;
+        }
+        
+        .list-view-card .complex-slider {
+            height: 320px !important;
+            width: 100% !important;
+            border-radius: 12px !important;
+            overflow: hidden !important;
+            position: relative !important;
+        }
+        
+        .list-view-card .slider-slide {
+            width: 100% !important;
+            height: 320px !important;
+        }
+        
+        .list-view-card .slider-slide img {
+            height: 320px !important;
+            width: 100% !important;
+            object-fit: cover !important;
+            object-position: center !important;
+            display: block !important;
+        }
+        
+        /* Better touch targets */
+        .mobile-optimized button {
+            min-height: 44px;
+            touch-action: manipulation;
+        }
+        
+        /* Hide some details on mobile */
+        .hidden-mobile {
+            display: none;
+        }
+        
+        /* Mobile filter panel full width */
+        #filters-panel {
+            margin-left: -16px;
+            margin-right: -16px;
+            border-radius: 0;
+        }
+        
+        /* Make filter inputs larger for touch */
+        #filters-panel input,
+        #filters-panel select {
+            min-height: 48px;
+            font-size: 16px; /* Prevents zoom on iOS */
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .mobile-optimized .text-sm {
+            font-size: 13px;
+        }
+        
+        .mobile-optimized .p-6 {
+            padding: 16px;
+        }
+        
+        /* Single column on very small screens */
+        .complexes-container {
+            grid-template-columns: 1fr !important;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block breadcrumbs %}
+<!-- Breadcrumbs -->
+<div class="container mx-auto px-4 py-3 text-sm">
+    <nav class="flex" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+                <a href="{{ url_for('index') }}" class="text-[#0088CC] hover:underline inline-flex items-center">
+                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+                    Главная
+                </a>
+            </li>
+            <li aria-current="page">
+                <div class="flex items-center">
+                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                    <span class="text-gray-500 ml-1 md:ml-2">Жилые комплексы</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="py-12 bg-gradient-to-br from-blue-50 to-white">
+    <div class="container mx-auto px-4">
+        <h1 class="text-3xl md:text-4xl font-bold text-center mb-6">Жилые комплексы Краснодара</h1>
+        <p class="text-xl text-gray-600 text-center mb-8">{{ residential_complexes|length }} жилых комплексов с кэшбэком до 500 000 ₽</p>
+        
+        <!-- Search Section -->
+        <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+            <div class="flex flex-col md:flex-row md:items-center space-y-3 md:space-y-0 md:space-x-3">
+                <div class="relative flex-grow">
+                    <input id="complex-search" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0088CC] focus:border-[#0088CC] text-sm" placeholder="Поиск ЖК по названию, застройщику или району" type="text"/>
+                    <div class="absolute left-3 top-3 text-gray-400">
+                        <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path clip-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" fill-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <!-- Search Suggestions -->
+                    <div id="complex-searchSuggestions" class="hidden absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-lg mt-1 shadow-lg z-50 max-h-64 overflow-y-auto">
+                        <!-- Suggestions will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <button class="bg-gradient-to-r from-[#006699] to-[#0088CC] text-white px-6 py-3 rounded-xl font-medium hover:opacity-90 transition" onclick="searchComplexes()">
+                    Найти ЖК
+                </button>
+                <a href="/complexes-map" class="flex items-center justify-center text-[#0088CC] hover:text-white bg-white hover:bg-[#0088CC] px-4 py-2.5 rounded-lg text-sm font-medium border border-[#0088CC] transition-all duration-200 shadow-sm hover:shadow-md">
+                    <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
+                    </svg>
+                    Карта ЖК
+                </a>
+                <a href="{{ url_for('properties') }}" class="flex items-center justify-center text-[#0088CC] hover:text-white bg-white hover:bg-[#0088CC] px-4 py-2.5 rounded-lg text-sm font-medium border border-[#0088CC] transition-all duration-200 shadow-sm hover:shadow-md">
+                    <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
+                    </svg>
+                    Поиск квартир
+                </a>
+                <button class="flex items-center text-gray-600 hover:text-[#0088CC] px-3 py-1 rounded-lg text-sm relative" onclick="toggleFilters()">
+                    <div id="activeFilterBadge" class="filter-badge hidden">0</div>
+                    <svg class="h-5 w-5 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"></path>
+                    </svg>
+                    Фильтры
+                </button>
+            </div>
+            
+            <!-- Expanded Filters -->
+            <div id="filtersPanel" class="hidden mt-6 pt-6 border-t border-gray-200">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- District Filter -->
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2">Район</label>
+                        <select id="district-filter" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] outline-none">
+                            <option value="">Все районы</option>
+                            {% for district in districts %}
+                            <option value="{{ district }}">{{ district }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <!-- Developer Filter -->
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2">Застройщик</label>
+                        <select id="developer-filter" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] outline-none">
+                            <option value="">Все застройщики</option>
+                            {% for developer in developers %}
+                            <option value="{{ developer }}">{{ developer }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <!-- Status Filter -->
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2">Статус строительства</label>
+                        <select id="status-filter" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] outline-none">
+                            <option value="">Любой статус</option>
+                            <option value="Строится">Строится</option>
+                            <option value="Сдан">Сдан</option>
+                            <option value="Скоро">Скоро в продаже</option>
+                        </select>
+                    </div>
+                    
+                    <!-- New Filters Row -->
+                    <div class="col-span-full">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mt-4 pt-4 border-t border-gray-200">
+                            <!-- Object Class Filter -->
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">⭐ Класс жилья</label>
+                                <select id="object-class-filter" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] outline-none">
+                                    <option value="">Любой</option>
+                                    <option value="Премиум">Премиум</option>
+                                    <option value="Бизнес">Бизнес</option>
+                                    <option value="Комфорт">Комфорт</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Year Filter -->
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">📅 Год сдачи</label>
+                                <select id="completion-year-filter" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] outline-none">
+                                    <option value="">Любой</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2025">2025</option>
+                                    <option value="2026">2026</option>
+                                    <option value="2028">2028</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Floors Filter -->
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">🏢 Этажность</label>
+                                <select id="floors-filter" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] outline-none">
+                                    <option value="">Любая</option>
+                                    <option value="low">1-5 этажей</option>
+                                    <option value="medium">6-10 этажей</option>
+                                    <option value="high">10+ этажей</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Price Range Filter -->
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">💰 Цена, млн ₽</label>
+                                <div class="flex gap-2">
+                                    <input type="number" id="price-range-from" placeholder="от" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] outline-none text-sm" min="0" step="0.5">
+                                    <input type="number" id="price-range-to" placeholder="до" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] outline-none text-sm" min="0" step="0.5">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Map View (hidden by default) -->
+<section id="mapSection" class="hidden bg-white">
+    <div class="h-screen relative">
+        <!-- Map container -->
+        <div id="complexesMap" class="h-full w-full" style="margin-left: 320px;"></div>
+        
+        <!-- Floating Drawing Controls -->
+        <div class="absolute top-4 right-4 flex flex-col space-y-2" style="z-index: 1000;">
+            <button id="drawComplexAreaBtn" class="bg-white shadow-lg hover:shadow-xl border border-gray-200 text-gray-700 hover:text-[#0088CC] px-4 py-2 rounded-lg text-sm font-medium transition-all">
+                <i class="fas fa-draw-polygon mr-2"></i>Выделить область
+            </button>
+            <button id="clearComplexAreaBtn" class="bg-white shadow-lg hover:shadow-xl border border-gray-200 text-[#0088CC] hover:text-red-700 px-4 py-2 rounded-lg text-sm font-medium transition-all hidden">
+                <i class="fas fa-times mr-2"></i>Очистить область
+            </button>
+        </div>
+        
+        <!-- Floating controls -->
+        <div class="absolute top-4 right-4 z-30" style="left: 340px;">
+            <div class="bg-white rounded-xl shadow-lg p-4">
+                <div class="flex flex-col md:flex-row md:items-center space-y-3 md:space-y-0 md:space-x-3">
+                    <div class="relative flex-grow">
+                        <input id="map-search" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0088CC] focus:border-[#0088CC] text-sm" placeholder="Поиск ЖК на карте" type="text"/>
+                        <div class="absolute left-3 top-3 text-gray-400">
+                            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path clip-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" fill-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <button class="bg-gradient-to-r from-[#006699] to-[#0088CC] text-white px-6 py-3 rounded-xl font-medium hover:opacity-90 transition" onclick="searchComplexesOnMap()">
+                        Найти на карте
+                    </button>
+                    <button class="flex items-center text-gray-600 hover:text-[#0088CC] px-3 py-1 rounded-lg text-sm border border-gray-300 hover:border-[#0088CC] transition" onclick="toggleMapView()">
+                        <svg class="h-5 w-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"></path>
+                        </svg>
+                        Вернуться к списку
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Left sidebar with complex cards -->
+        <div id="mapSidebar" class="absolute left-4 top-4 bottom-4 w-80 bg-white rounded-xl shadow-lg overflow-hidden z-20">
+            <div class="p-4 border-b border-gray-200">
+                <h3 class="font-semibold text-gray-900">ЖК на карте</h3>
+                <p class="text-sm text-gray-600" id="mapResultsCount">Найдено 0 комплексов</p>
+            </div>
+            <div class="overflow-y-auto" id="mapComplexesList" style="height: calc(100% - 70px);">
+                <!-- Complex cards will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Complexes Grid -->
+<section id="gridSection" class="py-12 bg-white">
+    <div class="container mx-auto px-4">
+        <!-- Results summary and controls -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900">
+                Найдено <span id="results-count">{{ residential_complexes|length }}</span> ЖК
+            </h2>
+            <div class="flex items-center gap-6">
+                <!-- View mode toggle -->
+                <div class="flex items-center gap-3">
+                    <span class="text-sm text-gray-600">Отображение:</span>
+                    <div class="flex bg-gray-100 rounded-lg p-1">
+                        <button id="grid-view-btn" class="flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors bg-white text-gray-900 shadow-sm" onclick="switchToGridView()">
+                            <i class="fas fa-th-large mr-2"></i>
+                            Сетка
+                        </button>
+                        <button id="list-view-btn" class="flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors text-gray-600 hover:text-gray-900" onclick="switchToListView()">
+                            <i class="fas fa-list mr-2"></i>
+                            Список
+                        </button>
+                    </div>
+                </div>
+                <!-- Sort -->
+                <div class="flex items-center gap-3">
+                    <span class="text-sm text-gray-600">Сортировка:</span>
+                    <select id="sort-select" class="border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                        <option value="name-asc">По названию ↑</option>
+                        <option value="name-desc">По названию ↓</option>
+                        <option value="price-asc">По цене ↑</option>
+                        <option value="price-desc">По цене ↓</option>
+                        <option value="completion-asc">По сроку сдачи ↑</option>
+                        <option value="completion-desc">По сроку сдачи ↓</option>
+                        <option value="apartments-desc">По количеству квартир ↓</option>
+                        <option value="apartments-asc">По количеству квартир ↑</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Complexes Container - 3 Cards Per Row on Desktop -->
+        <div id="complexes-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {% for complex in residential_complexes %}
+            <div class="complex-card bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-300 mobile-optimized cursor-pointer group" data-complex-id="{{ complex.id }}" onclick="handleCardClick(event, '/zk/{{ complex.name|slug }}')">
+                <!-- Complex Image Slider -->
+                <div class="relative h-56 overflow-hidden complex-slider" data-complex-id="{{ complex.id }}">
+                    <div class="slider-container">
+                        <div class="slider-track flex transition-transform duration-300 ease-in-out">
+                            {% if complex.images and complex.images|length > 1 %}
+                                {% for image in complex.images[1:] %}
+                                <div class="slider-slide min-w-full">
+                                    <img src="{{ image }}" alt="{{ complex.name }} - фото {{ loop.index + 1 }}" class="w-full h-56 object-contain bg-gray-50">
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="slider-slide min-w-full">
+                                    <img src="{{ complex.image }}" alt="{{ complex.name }}" class="w-full h-56 object-contain bg-gray-50">
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Slider navigation -->
+                    <button class="slider-prev absolute left-2 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-600 hover:bg-white transition-all z-10" onclick="prevSlide('{{ complex.id }}')">
+                        <i class="fas fa-chevron-left text-sm"></i>
+                    </button>
+                    <button class="slider-next absolute right-2 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-600 hover:bg-white transition-all z-10" onclick="nextSlide('{{ complex.id }}')">
+                        <i class="fas fa-chevron-right text-sm"></i>
+                    </button>
+                    
+                    <!-- Slider dots -->
+                    {% if complex.images and complex.images|length > 2 %}
+                    <div class="absolute bottom-1 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                        {% for image in complex.images[1:] %}
+                        <div class="slider-dot w-2 h-2 bg-white/60 rounded-full cursor-pointer hover:bg-white transition-colors {% if loop.first %}active{% endif %}" onclick="goToSlide('{{ complex.id }}', {{ loop.index0 }})"></div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Status badges -->
+                    <div class="absolute top-3 left-3 z-10">
+                        {% if complex.status == 'Сдан' %}
+                        <span class="bg-green-50 text-gray-600 px-3 py-1 rounded-full text-sm font-medium">Готов</span>
+                        {% else %}
+                        <span class="bg-blue-50 text-gray-600 px-3 py-1 rounded-full text-sm font-medium">Строится</span>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Price badge -->
+                    <div class="absolute top-3 right-3 bg-orange-50 text-gray-600 px-3 py-1 rounded-full text-sm font-bold z-10">
+                        от {{ "{:.1f}".format((complex.real_price_from or 0) / 1000000) }} млн ₽
+                    </div>
+                    
+                    <!-- Favorite heart and comparison buttons -->
+                    <div class="absolute bottom-3 left-3 z-20 flex gap-2">
+                        <div class="favorite-heart w-10 h-10 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center cursor-pointer hover:bg-white transition-all duration-200 shadow-lg hover:shadow-xl" data-complex-id="{{ complex.id }}">
+                            <i class="fas fa-heart text-lg text-gray-400 hover:text-red-500 transition-colors duration-200"></i>
+                        </div>
+                        <div class="comparison-btn w-10 h-10 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center cursor-pointer hover:bg-white hover:scale-110 transition-all duration-200 shadow-lg hover:shadow-xl" data-complex-id="{{ complex.id }}" title="Добавить к сравнению" onclick="addToComplexCompare({{ complex.id }}); event.stopPropagation();">
+                            <i class="fas fa-balance-scale text-gray-600 hover:text-blue-500 text-base transition-colors duration-200"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Complex Info -->
+                <div class="p-5">
+                    <!-- Title -->
+                    <div class="mb-3">
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">{{ complex.name }}</h3>
+                        {% if complex.developer_id %}
+                        <a href="/developer/{{ complex.developer|developer_slug }}" class="text-[#0088CC] hover:text-[#006699] text-sm hover:underline transition-colors">{{ complex.developer }}</a>
+                        {% else %}
+                        <p class="text-gray-500 text-sm">{{ complex.developer }}</p>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Description -->
+                    <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ complex.description }}</p>
+                    
+                    <!-- Location -->
+                    <div class="flex items-center text-sm text-gray-600 mb-4">
+                        <i class="fas fa-map-marker-alt mr-2 text-[#0088CC]"></i>
+                        <span>{{ complex.district }}, {{ complex.location }}</span>
+                    </div>
+                    
+                    <!-- Amenities -->
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs">Детская площадка</span>
+                        <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs">Фитнес-центр</span>
+                        {% if loop.index0 % 2 == 0 %}
+                        <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs">+2</span>
+                        {% else %}
+                        <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs">+3</span>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Stats grid -->
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div class="flex items-center">
+                            <i class="fas fa-building mr-2 text-gray-400"></i>
+                            <div>
+                                <span class="text-gray-500">Корпусов</span>
+                                <div class="font-medium">{{ complex.buildings_count or 1 }}</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-home mr-2 text-gray-400"></i>
+                            <div>
+                                <span class="text-gray-500">Квартир</span>
+                                <div class="font-medium">{{ complex.available_apartments or complex.apartments_count }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Apartment types with selection -->
+                    <div class="border-t border-gray-100 pt-4 mb-4">
+                        <div class="text-xs text-gray-500 mb-3">Выберите тип квартиры</div>
+                        <div class="grid grid-cols-2 gap-2 text-sm">
+                            {% if complex.real_room_distribution %}
+                                {% for room_type, count in complex.real_room_distribution.items() %}
+                                {% set room_detail = complex.room_details.get(room_type, {}) %}
+                                <button onclick="showApartments({{ complex.id }}, '{{ room_type }}')" 
+                                        class="p-2 border border-gray-200 rounded-lg hover:border-[#0088CC] hover:bg-blue-50 transition-colors text-left">
+                                    <div class="font-medium text-gray-800">{{ room_type }}</div>
+                                    <div class="text-xs text-gray-500">
+                                        {% if room_detail.area_from and room_detail.area_to %}
+                                            {% if room_detail.area_from != room_detail.area_to %}
+                                                {{ room_detail.area_from }}-{{ room_detail.area_to }} м²
+                                            {% else %}
+                                                {{ room_detail.area_from }} м²
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                    <div class="text-xs font-medium text-[#0088CC]">
+                                        {% if room_detail.price_from %}
+                                            от {{ "{:.1f}".format(room_detail.price_from / 1000000) }} млн
+                                        {% endif %}
+                                    </div>
+                                    <div class="text-xs text-green-600">{{ count }} шт</div>
+                                </button>
+                                {% endfor %}
+                            {% else %}
+                                <div class="col-span-2 text-center py-3 text-gray-500 text-sm">
+                                    Информация о квартирах будет доступна позже
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Date and Status -->
+                    <div class="flex items-center justify-between text-sm mb-4">
+                        <div class="flex items-center text-gray-500">
+                            <i class="fas fa-calendar mr-2"></i>
+                            <span>{{ complex.completion_date }}</span>
+                        </div>
+                        <span class="{% if complex.status == 'Сдан' %}bg-green-50{% else %}bg-orange-50{% endif %} text-gray-600 px-2 py-1 rounded-full text-xs font-medium">
+                            {{ complex.status }}
+                        </span>
+                    </div>
+                    
+                    <!-- Action buttons -->
+                    <div class="flex gap-2">
+                        <!-- Recommendation button (only for managers) -->
+                        {% if session.manager_id %}
+                        <button onclick="openRecommendModal('complex', {{ complex.id }}, '{{ complex.name }}')" 
+                                class="recommend-btn flex-1 px-4 py-3 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition-colors" 
+                                data-item-type="complex"
+                                data-item-id="{{ complex.id }}"
+                                data-item-name="{{ complex.name }}"
+                                title="Рекомендовать ЖК клиенту">
+                            <i class="fas fa-paper-plane mr-2"></i>
+                            Рекомендовать
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- No results message -->
+        <div id="no-results" class="hidden text-center py-12">
+            <div class="text-gray-400 text-6xl mb-4">🏢</div>
+            <h3 class="text-xl font-semibold text-gray-600 mb-2">ЖК не найдены</h3>
+            <p class="text-gray-500">Попробуйте изменить параметры поиска</p>
+        </div>
+        
+        <!-- Pagination -->
+        {% if pagination and pagination.total_pages > 1 %}
+        <div class="flex justify-center mt-12">
+            <div class="flex items-center gap-2">
+                <!-- Previous Page Button -->
+                {% if pagination.has_prev %}
+                <a href="{{ url_for('residential_complexes', page=pagination.prev_page) }}" 
+                   class="px-4 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50 flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                    Предыдущая
+                </a>
+                {% else %}
+                <span class="px-4 py-2 border border-gray-200 rounded-lg text-sm text-gray-400 flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                    Предыдущая
+                </span>
+                {% endif %}
+                
+                <!-- Page Numbers -->
+                {% set start_page = [1, pagination.page - 2]|max %}
+                {% set end_page = [pagination.total_pages, pagination.page + 2]|min %}
+                
+                {% if start_page > 1 %}
+                <a href="{{ url_for('residential_complexes', page=1) }}" 
+                   class="px-3 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50">1</a>
+                {% if start_page > 2 %}
+                <span class="px-2 text-gray-400">...</span>
+                {% endif %}
+                {% endif %}
+                
+                {% for page_num in range(start_page, end_page + 1) %}
+                <a href="{{ url_for('residential_complexes', page=page_num) }}" 
+                   class="px-3 py-2 border rounded-lg text-sm 
+                          {% if page_num == pagination.page %}bg-[#0088CC] text-white border-[#0088CC]{% else %}border-gray-300 hover:bg-gray-50{% endif %}">
+                    {{ page_num }}
+                </a>
+                {% endfor %}
+                
+                {% if end_page < pagination.total_pages %}
+                {% if end_page < pagination.total_pages - 1 %}
+                <span class="px-2 text-gray-400">...</span>
+                {% endif %}
+                <a href="{{ url_for('residential_complexes', page=pagination.total_pages) }}" 
+                   class="px-3 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50">{{ pagination.total_pages }}</a>
+                {% endif %}
+                
+                <!-- Next Page Button -->
+                {% if pagination.has_next %}
+                <a href="{{ url_for('residential_complexes', page=pagination.next_page) }}" 
+                   class="px-4 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50 flex items-center gap-2">
+                    Следующая
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </a>
+                {% else %}
+                <span class="px-4 py-2 border border-gray-200 rounded-lg text-sm text-gray-400 flex items-center gap-2">
+                    Следующая
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </span>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Results Info -->
+        <div class="text-center mt-4 text-sm text-gray-600">
+            Показано {{ (pagination.page - 1) * pagination.per_page + 1 }}–{{ [pagination.page * pagination.per_page, pagination.total]|min }} 
+            из {{ pagination.total }} ЖК
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Apartments Modal -->
+<div id="apartmentsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+        <!-- Modal Header -->
+        <div class="bg-gradient-to-r from-[#006699] to-[#0088CC] text-white p-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h3 id="modalComplexName" class="text-xl font-bold"></h3>
+                    <p id="modalApartmentType" class="text-blue-100"></p>
+                </div>
+                <button onclick="closeApartmentsModal()" class="text-white hover:text-gray-200 text-2xl">&times;</button>
+            </div>
+        </div>
+        
+        <!-- Modal Content -->
+        <div class="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
+            <!-- Liters Filter -->
+            <div class="mb-6">
+                <div class="text-sm font-medium text-gray-700 mb-3">Фильтр по литерам:</div>
+                <div id="literFilters" class="flex flex-wrap gap-2">
+                    <!-- Динамически заполняется -->
+                </div>
+            </div>
+            
+            <!-- Apartments Grid -->
+            <div id="apartmentsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Динамически заполняется -->
+            </div>
+            
+            <!-- No Apartments Message -->
+            <div id="noApartments" class="hidden text-center py-8 text-gray-500">
+                <div class="text-4xl mb-2">🏠</div>
+                <p>В выбранных литерах нет квартир данного типа</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let allComplexes = {{ all_complexes|tojson|safe }};
+let displayedComplexes = {{ residential_complexes|tojson|safe }};
+let filteredComplexes = [...allComplexes];
+
+// Search functionality
+function setupComplexSearch() {
+    const searchInput = document.getElementById('complex-search');
+    const suggestionsContainer = document.getElementById('complex-searchSuggestions');
+    
+    // Create search suggestions
+    const suggestions = [];
+    allComplexes.forEach(complex => {
+        suggestions.push(complex.name);
+        suggestions.push(complex.developer);
+        suggestions.push(complex.district);
+        suggestions.push(complex.location);
+    });
+    
+    const uniqueSuggestions = [...new Set(suggestions)].filter(Boolean);
+    
+    searchInput.addEventListener('input', function() {
+        const query = this.value.toLowerCase().trim();
+        
+        if (query.length < 2) {
+            suggestionsContainer.classList.add('hidden');
+            // Auto-apply filters when search is cleared
+            if (query.length === 0) {
+                applyComplexFilters();
+            }
+            return;
+        }
+        
+        const matchedSuggestions = uniqueSuggestions
+            .filter(suggestion => suggestion.toLowerCase().includes(query))
+            .slice(0, 6);
+        
+        if (matchedSuggestions.length > 0) {
+            const suggestionHTML = matchedSuggestions
+                .map(suggestion => `<div class="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm" onclick="selectComplexSuggestion('${suggestion.replace(/'/g, "\\'").replace(/"/g, "&quot;")}')">
+                    <i class="fas fa-search mr-2 text-gray-400"></i>${suggestion.replace(/"/g, '&quot;')}
+                </div>`)
+                .join('');
+            
+            suggestionsContainer.innerHTML = suggestionHTML;
+            suggestionsContainer.classList.remove('hidden');
+        } else {
+            suggestionsContainer.classList.add('hidden');
+        }
+    });
+    
+    // Hide suggestions when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!searchInput.contains(e.target) && !suggestionsContainer.contains(e.target)) {
+            suggestionsContainer.classList.add('hidden');
+        }
+    });
+}
+
+function selectComplexSuggestion(suggestion) {
+    document.getElementById('complex-search').value = suggestion;
+    document.getElementById('complex-searchSuggestions').classList.add('hidden');
+    applyComplexFilters();
+}
+
+// Helper function to parse completion dates for sorting
+function parseCompletionDate(dateString) {
+    if (!dateString) return new Date('2030-12-31'); // Future date for unknown dates
+    
+    // Handle different date formats
+    const str = dateString.toLowerCase().trim();
+    
+    // Extract year and quarter
+    const yearMatch = str.match(/(\d{4})/);
+    const quarterMatch = str.match(/(\d)\s*кв/);
+    
+    if (yearMatch) {
+        const year = parseInt(yearMatch[1]);
+        let month = 12; // Default to end of year
+        
+        if (quarterMatch) {
+            const quarter = parseInt(quarterMatch[1]);
+            // Convert quarter to month (end of quarter)
+            month = quarter * 3;
+        }
+        
+        return new Date(year, month - 1, 1); // month is 0-indexed
+    }
+    
+    // Try to parse as regular date
+    const parsed = new Date(dateString);
+    return isNaN(parsed.getTime()) ? new Date('2030-12-31') : parsed;
+}
+
+// Apply filters
+function applyComplexFilters() {
+    // Start with all complexes, not just displayed ones
+    let filtered = [...allComplexes];
+    
+    // Search filter
+    const searchQuery = document.getElementById('complex-search').value.toLowerCase().trim();
+    if (searchQuery) {
+        filtered = filtered.filter(complex => {
+            return complex.name.toLowerCase().includes(searchQuery) ||
+                   complex.developer.toLowerCase().includes(searchQuery) ||
+                   complex.district.toLowerCase().includes(searchQuery) ||
+                   complex.location.toLowerCase().includes(searchQuery);
+        });
+    }
+    
+    // District filter
+    const district = document.getElementById('district-filter').value;
+    if (district) {
+        filtered = filtered.filter(complex => complex.district === district);
+    }
+    
+    // Developer filter
+    const developer = document.getElementById('developer-filter').value;
+    if (developer) {
+        filtered = filtered.filter(complex => complex.developer === developer);
+    }
+    
+    // Status filter - fix to use completion_date
+    const status = document.getElementById('status-filter').value;
+    if (status) {
+        filtered = filtered.filter(complex => {
+            if (status === 'Сдан') {
+                return complex.status === 'Сдан';
+            } else if (status === 'Строится') {
+                return complex.status !== 'Сдан';
+            }
+            return true;
+        });
+    }
+    
+    // Object Class filter
+    const objectClass = document.getElementById('object-class-filter').value;
+    if (objectClass) {
+        filtered = filtered.filter(complex => 
+            complex.object_class === objectClass || 
+            complex.housing_class === objectClass ||
+            complex.class === objectClass
+        );
+    }
+    
+    // Completion Year filter
+    const completionYear = document.getElementById('completion-year-filter').value;
+    if (completionYear) {
+        filtered = filtered.filter(complex => {
+            const year = complex.completion_year || complex.construction_end_year;
+            return year && year.toString() === completionYear;
+        });
+    }
+    
+    // Floors filter
+    const floors = document.getElementById('floors-filter').value;
+    if (floors) {
+        filtered = filtered.filter(complex => {
+            const floorCount = complex.max_floors || complex.floors || complex.floors_count || 0;
+            if (floors === 'low') return floorCount >= 1 && floorCount <= 5;
+            if (floors === 'medium') return floorCount >= 6 && floorCount <= 10;
+            if (floors === 'high') return floorCount > 10;
+            return true;
+        });
+    }
+    
+    // Price range filter
+    const priceFrom = parseFloat(document.getElementById('price-range-from').value);
+    const priceTo = parseFloat(document.getElementById('price-range-to').value);
+    if (!isNaN(priceFrom) || !isNaN(priceTo)) {
+        filtered = filtered.filter(complex => {
+            const price = (complex.real_price_from || complex.price_from || 0) / 1000000;
+            let matches = true;
+            if (!isNaN(priceFrom)) matches = matches && price >= priceFrom;
+            if (!isNaN(priceTo)) matches = matches && price <= priceTo;
+            return matches;
+        });
+    }
+    
+    // Sort
+    const sortType = document.getElementById('sort-select').value;
+    switch (sortType) {
+        case 'name-asc':
+            filtered.sort((a, b) => a.name.localeCompare(b.name));
+            break;
+        case 'name-desc':
+            filtered.sort((a, b) => b.name.localeCompare(a.name));
+            break;
+        case 'price-asc':
+            filtered.sort((a, b) => {
+                const priceA = a.real_price_from || a.price_from || 0;
+                const priceB = b.real_price_from || b.price_from || 0;
+                return priceA - priceB;
+            });
+            break;
+        case 'price-desc':
+            filtered.sort((a, b) => {
+                const priceA = a.real_price_from || a.price_from || 0;
+                const priceB = b.real_price_from || b.price_from || 0;
+                return priceB - priceA;
+            });
+            break;
+        case 'completion-asc':
+            filtered.sort((a, b) => {
+                const dateA = parseCompletionDate(a.completion_date);
+                const dateB = parseCompletionDate(b.completion_date);
+                return dateA - dateB;
+            });
+            break;
+        case 'completion-desc':
+            filtered.sort((a, b) => {
+                const dateA = parseCompletionDate(a.completion_date);
+                const dateB = parseCompletionDate(b.completion_date);
+                return dateB - dateA;
+            });
+            break;
+        case 'apartments-desc':
+            filtered.sort((a, b) => b.apartments_count - a.apartments_count);
+            break;
+        case 'apartments-asc':
+            filtered.sort((a, b) => a.apartments_count - b.apartments_count);
+            break;
+    }
+    
+    filteredComplexes = filtered;
+    updateComplexesList(filtered);
+    updateResultsCount(filtered.length);
+    
+    // Filter sidebar objects by visible map bounds
+    filterObjectsByMapBounds();
+}
+
+// Update complexes list display
+function updateComplexesList(complexes) {
+    const container = document.getElementById('complexes-container');
+    const noResults = document.getElementById('no-results');
+    
+    if (complexes.length === 0) {
+        // Hide all cards and show no results
+        container.querySelectorAll('.complex-card').forEach(card => card.style.display = 'none');
+        noResults.classList.remove('hidden');
+        return;
+    }
+    
+    noResults.classList.add('hidden');
+    
+    // Get all existing cards and sort them according to filtered list
+    const allCards = Array.from(container.querySelectorAll('.complex-card'));
+    const complexIds = complexes.map(c => c.id);
+    
+    // Hide cards not in filtered list
+    allCards.forEach(card => {
+        const complexId = parseInt(card.getAttribute('data-complex-id'));
+        if (complexIds.includes(complexId)) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+    
+    // Sort visible cards according to the filtered order
+    const visibleCards = allCards.filter(card => {
+        const complexId = parseInt(card.getAttribute('data-complex-id'));
+        return complexIds.includes(complexId);
+    });
+    
+    // Sort cards by the order in complexes array
+    visibleCards.sort((a, b) => {
+        const idA = parseInt(a.getAttribute('data-complex-id'));
+        const idB = parseInt(b.getAttribute('data-complex-id'));
+        const indexA = complexIds.indexOf(idA);
+        const indexB = complexIds.indexOf(idB);
+        return indexA - indexB;
+    });
+    
+    // Re-append cards in correct order
+    visibleCards.forEach(card => {
+        container.appendChild(card);
+    });
+}
+
+// Helper function to create SEO-friendly slug
+function createSlug(name) {
+    if (!name) return "unknown";
+    return name
+        .replace(/["\'"]/g, '')  // Remove quotes
+        .replace(/[^\w\s-]/g, '') // Remove special chars except spaces and hyphens
+        .replace(/[-\s]+/g, '-')  // Replace spaces/multiple hyphens with single hyphen
+        .toLowerCase()
+        .replace(/^-+|-+$/g, '');  // Trim hyphens
+}
+
+// Create HTML for a complex card
+function createComplexCardHTML(complex, index) {
+    const hasApartments = complex.available_apartments > 0;
+    const apartmentText = hasApartments ? 
+        `${complex.available_apartments} ${getApartmentWordForm(complex.available_apartments)}` : 
+        'Нет в продаже';
+    
+    return `
+        <div class="complex-card bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-300 group" data-complex-id="${complex.id}">
+            <!-- Complex Image Slider -->
+            <div class="relative h-56 overflow-hidden complex-slider" data-complex-id="${complex.id}">
+                <div class="slider-container">
+                    <div class="slider-track flex transition-transform duration-300 ease-in-out">
+                        <div class="slider-slide min-w-full">
+                            <img src="${complex.image}" alt="${complex.name}" class="w-full h-56 object-cover">
+                        </div>
+                        <div class="slider-slide min-w-full">
+                            <img src="${complex.image.replace('photo-1545324418', 'photo-1560448204-e02f11c3d0e2')}" alt="${complex.name} - вид 2" class="w-full h-56 object-cover" onerror="this.src='${complex.image}'">
+                        </div>
+                        <div class="slider-slide min-w-full">
+                            <img src="${complex.image.replace('photo-1545324418', 'photo-1484154218962')}" alt="${complex.name} - вид 3" class="w-full h-56 object-cover" onerror="this.src='${complex.image}'">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Slider navigation -->
+                <button class="slider-prev absolute left-2 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-600 hover:bg-white transition-all z-10" onclick="prevSlide('${complex.id}')">
+                    <i class="fas fa-chevron-left text-sm"></i>
+                </button>
+                <button class="slider-next absolute right-2 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-600 hover:bg-white transition-all z-10" onclick="nextSlide('${complex.id}')">
+                    <i class="fas fa-chevron-right text-sm"></i>
+                </button>
+                
+                <!-- Slider dots -->
+                <div class="absolute bottom-1 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div class="slider-dot w-2 h-2 bg-white/60 rounded-full cursor-pointer hover:bg-white transition-colors active" onclick="goToSlide('${complex.id}', 0)"></div>
+                    <div class="slider-dot w-2 h-2 bg-white/60 rounded-full cursor-pointer hover:bg-white transition-colors" onclick="goToSlide('${complex.id}', 1)"></div>
+                    <div class="slider-dot w-2 h-2 bg-white/60 rounded-full cursor-pointer hover:bg-white transition-colors" onclick="goToSlide('${complex.id}', 2)"></div>
+                </div>
+                
+                <!-- Status badges -->
+                <div class="absolute top-3 left-3 z-10">
+                    ${complex.status === 'Сдан' ? 
+                        '<span class="bg-green-50 text-gray-600 px-3 py-1 rounded-full text-sm font-medium">Готов</span>' : 
+                        '<span class="bg-blue-50 text-gray-600 px-3 py-1 rounded-full text-sm font-medium">Строится</span>'
+                    }
+                </div>
+                
+                <!-- Price badge -->
+                <div class="absolute top-3 right-3 bg-orange-50 text-gray-600 px-3 py-1 rounded-full text-sm font-bold z-10">
+                    от ${((complex.real_price_from || 0) / 1000000).toFixed(1)} млн ₽
+                </div>
+                
+                <!-- Favorite heart and comparison buttons -->
+                <div class="absolute bottom-3 left-3 z-20 flex gap-2">
+                    <div class="favorite-heart w-10 h-10 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center cursor-pointer hover:bg-white transition-all duration-200 shadow-lg hover:shadow-xl" data-complex-id="${complex.id}">
+                        <i class="fas fa-heart text-lg text-gray-400 hover:text-red-500 transition-colors duration-200"></i>
+                    </div>
+                    <div class="comparison-btn w-10 h-10 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center cursor-pointer hover:bg-white hover:scale-110 transition-all duration-200 shadow-lg hover:shadow-xl" data-complex-id="${complex.id}" title="Добавить к сравнению" onclick="addToComplexCompare(${complex.id}); event.stopPropagation();">
+                        <i class="fas fa-balance-scale text-gray-600 hover:text-blue-500 text-base transition-colors duration-200"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Complex Info -->
+            <div class="p-5">
+                <!-- Title -->
+                <div class="mb-3">
+                    <h3 class="text-lg font-bold text-gray-900 mb-1">${complex.name}</h3>
+                    <p class="text-gray-500 text-sm">${complex.developer || 'Не указан'}</p>
+                </div>
+                
+                <!-- Description -->
+                <p class="text-gray-600 text-sm mb-4 line-clamp-2">${complex.description || complex.address || 'Современный жилой комплекс'}</p>
+                
+                <!-- Location -->
+                <div class="flex items-center text-sm text-gray-600 mb-4">
+                    <i class="fas fa-map-marker-alt mr-2 text-[#0088CC]"></i>
+                    <span>${complex.district || 'Краснодар'}, ${complex.location || complex.address || 'Адрес не указан'}</span>
+                </div>
+                
+                <!-- Amenities -->
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs">Детская площадка</span>
+                    <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs">Фитнес-центр</span>
+                    <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs">+2</span>
+                </div>
+                
+                <!-- Stats grid -->
+                <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                    <div class="flex items-center">
+                        <i class="fas fa-building mr-2 text-gray-400"></i>
+                        <div>
+                            <span class="text-gray-500">Корпусов</span>
+                            <div class="font-medium">${((index || 0) % 3) + 2}</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-home mr-2 text-gray-400"></i>
+                        <div>
+                            <span class="text-gray-500">Квартир</span>
+                            <div class="font-medium">${complex.apartments_count || complex.available_apartments || 0}</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Apartment types with prices -->
+                <div class="border-t border-gray-100 pt-4 mb-4">
+                    <div class="text-xs text-gray-500 mb-2">Диапазон цен</div>
+                    <div class="space-y-1 text-sm">
+                        ${complex.apartments ? complex.apartments.map(apartment => `
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">${apartment.type}</span>
+                                <span class="font-medium">${(apartment.price_from / 1000000).toFixed(1)} - ${(apartment.price_from * 1.3 / 1000000).toFixed(1)} млн</span>
+                            </div>
+                        `).join('') : `
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Студия</span>
+                                <span class="font-medium">${((complex.real_price_from || 0) / 1000000).toFixed(1)} - ${((complex.real_price_from || 0) * 1.2 / 1000000).toFixed(1)} млн</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">1-комн</span>
+                                <span class="font-medium">${((complex.real_price_from || 0) * 1.2 / 1000000).toFixed(1)} - ${((complex.real_price_from || 0) * 1.5 / 1000000).toFixed(1)} млн</span>
+                            </div>
+                        `}
+                    </div>
+                </div>
+                
+                <!-- Date -->
+                <div class="flex items-center text-sm text-gray-500 mb-4">
+                    <i class="fas fa-calendar mr-2"></i>
+                    <span>${complex.completion_date}</span>
+                </div>
+                
+                <!-- Action buttons -->
+                <div class="flex gap-2">
+                    <!-- Recommendation button (only for managers) -->
+                    ${window.isManagerAuthenticated ? `
+                    <button onclick="openRecommendModal('complex', ${complex.id}, '${complex.name}')" 
+                            class="recommend-btn flex-1 px-4 py-3 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition-colors" 
+                            data-item-type="complex"
+                            data-item-id="${complex.id}"
+                            data-item-name="${complex.name}"
+                            title="Рекомендовать ЖК клиенту">
+                        <i class="fas fa-paper-plane mr-2"></i>
+                        Рекомендовать
+                    </button>
+                    ` : ''}
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// Helper function to get proper word form for apartments count
+function getApartmentWordForm(count) {
+    if (count % 10 === 1 && count % 100 !== 11) {
+        return 'квартира';
+    } else if ([2, 3, 4].includes(count % 10) && ![12, 13, 14].includes(count % 100)) {
+        return 'квартиры';
+    } else {
+        return 'квартир';
+    }
+}
+
+// Initialize event listeners for complex cards
+function initializeComplexCardListeners() {
+    // Re-initialize sliders and other functionality
+    setTimeout(() => {
+        initAllSliders();
+        if (typeof favoritesManager !== 'undefined') {
+            favoritesManager.updateFavoritesUI();
+            favoritesManager.updateComplexFavoritesUI();
+            favoritesManager.updateFavoritesCounter();
+        }
+        if (typeof updateComplexCompareButtons === 'function') {
+            updateComplexCompareButtons();
+        }
+    }, 100);
+}
+
+// Update results count
+function updateResultsCount(count) {
+    const countElement = document.getElementById('results-count');
+    if (countElement) {
+        countElement.textContent = count.toLocaleString('ru-RU');
+    }
+}
+
+// Toggle filters panel
+function toggleFilters() {
+    const panel = document.getElementById('filtersPanel');
+    if (panel.classList.contains('hidden')) {
+        panel.classList.remove('hidden');
+    } else {
+        panel.classList.add('hidden');
+    }
+}
+
+function searchComplexes() {
+    applyComplexFilters();
+}
+
+// Map functionality
+let complexesMap;
+let complexMarkers = [];
+let isMapView = false;
+
+function toggleMapView() {
+    const mapSection = document.getElementById('mapSection');
+    const gridSection = document.getElementById('gridSection');
+    
+    if (isMapView) {
+        // Switch to grid view
+        mapSection.classList.add('hidden');
+        gridSection.classList.remove('hidden');
+        isMapView = false;
+    } else {
+        // Switch to map view
+        mapSection.classList.remove('hidden');
+        gridSection.classList.add('hidden');
+        isMapView = true;
+        
+        // Initialize map if not already initialized
+        if (!complexesMap) {
+            initializeComplexesMap();
+        }
+    }
+}
+
+function initializeComplexesMap() {
+    // Initialize Leaflet map centered on Krasnodar
+    complexesMap = L.map('complexesMap').setView([45.0355, 38.9753], 11);
+    
+    // Add tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(complexesMap);
+    
+    // Add markers for all complexes with coordinates
+    const complexesWithCoords = allComplexes.filter(c => c.coordinates);
+    addComplexMarkersToMap(complexesWithCoords);
+    updateMapSidebar(complexesWithCoords);
+    
+    // Add zoom event listener to update markers
+    complexesMap.on('zoomend', function() {
+        addComplexMarkersToMap(complexesWithCoords);
+        // Only filter by bounds if no polygon is drawn
+        if (!drawnComplexPolygon) {
+            filterObjectsByMapBounds();
+        } else {
+            filterComplexesByPolygon();
+        }
+    });
+    
+    // Add move end handler to filter objects by visible area
+    complexesMap.on('moveend', function() {
+        // Only filter by bounds if no polygon is drawn
+        if (!drawnComplexPolygon) {
+            filterObjectsByMapBounds();
+        } else {
+            filterComplexesByPolygon();
+        }
+    });
+    
+    // Set up drawing buttons
+    document.getElementById('drawComplexAreaBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        if (!isComplexDrawing) {
+            enableComplexDrawing();
+        }
+    });
+    
+    document.getElementById('clearComplexAreaBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        clearComplexDrawnArea();
+    });
+}
+
+function addComplexMarkersToMap(complexes) {
+    // Clear existing markers
+    complexMarkers.forEach(marker => complexesMap.removeLayer(marker));
+    complexMarkers = [];
+    
+    complexes.forEach(complex => {
+        if (complex.coordinates && complex.coordinates.length === 2) {
+            const [lat, lng] = complex.coordinates;
+            
+            // Get current zoom level to determine marker style
+            const zoom = complexesMap.getZoom();
+            let markerHtml;
+            
+            if (zoom < 13) {
+                // Simple dot marker for distant view
+                markerHtml = `
+                    <div class="w-3 h-3 bg-gradient-to-r from-[#006699] to-[#0088CC] rounded-full border-2 border-white shadow-lg"></div>
+                `;
+            } else {
+                // Detailed marker for close view
+                markerHtml = `
+                    <div class="bg-gradient-to-r from-[#006699] to-[#0088CC] text-white px-2 py-1 rounded-lg shadow-lg border border-white">
+                        <div class="text-center text-xs font-medium whitespace-nowrap">
+                            <div class="font-bold">${complex.apartments_count} кв.</div>
+                            <div class="opacity-90">${complex.name.slice(3, 10)}...</div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            const iconSize = complexesMap.getZoom() < 13 ? [12, 12] : [70, 30];
+            const iconAnchor = complexesMap.getZoom() < 13 ? [6, 6] : [35, 30];
+            
+            const marker = L.marker([lat, lng], {
+                icon: L.divIcon({
+                    html: markerHtml,
+                    className: 'custom-complex-marker',
+                    iconSize: iconSize,
+                    iconAnchor: iconAnchor
+                })
+            }).addTo(complexesMap);
+            
+            // Add popup with complex info (improved design)
+            const popupContent = `
+                <div class="w-80 bg-white rounded-lg overflow-hidden">
+                    <div class="relative h-40">
+                        <img src="${complex.image}" alt="${complex.name}" class="w-full h-full object-cover">
+                        <div class="absolute top-2 right-2 bg-orange-50 text-gray-600 px-2 py-1 rounded-full text-xs font-bold">
+                            от ${((complex.real_price_from || 0) / 1000000).toFixed(1)} млн ₽
+                        </div>
+                        <div class="absolute top-2 left-2 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">
+                            Кэшбэк ${complex.cashback_percent}%
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-gray-900 text-lg mb-1">${complex.name}</h3>
+                        <p class="text-[#0088CC] text-sm mb-2 font-medium">${complex.developer}</p>
+                        <div class="flex items-center text-sm text-gray-600 mb-3">
+                            <i class="fas fa-map-marker-alt mr-2 text-[#0088CC]"></i>
+                            <span>${complex.district}, ${complex.location}</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 mb-3 text-sm">
+                            <div class="flex items-center">
+                                <i class="fas fa-home mr-2 text-gray-400"></i>
+                                <div>
+                                    <span class="text-gray-500">Квартир</span>
+                                    <div class="font-medium">${complex.apartments_count}</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-calendar mr-2 text-gray-400"></i>
+                                <div>
+                                    <span class="text-gray-500">Сдача</span>
+                                    <div class="font-medium ${complex.status === 'Сдан' ? 'text-green-600' : 'text-[#0088CC]'}">${complex.completion_date}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-gray-100">
+                            <button class="w-full bg-gradient-to-r from-[#006699] to-[#0088CC] text-white py-2 px-4 rounded-lg font-medium hover:opacity-90 transition">
+                                Подробнее о ЖК
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            marker.bindPopup(popupContent, {
+                maxWidth: 320,
+                className: 'custom-complex-popup',
+                closeButton: true,
+                autoPan: true
+            });
+            
+            complexMarkers.push(marker);
+        }
+    });
+}
+
+function searchComplexesOnMap() {
+    const searchQuery = document.getElementById('map-search').value.toLowerCase().trim();
+    let filteredComplexes = [...allComplexes.filter(c => c.coordinates)];
+    
+    if (searchQuery) {
+        filteredComplexes = filteredComplexes.filter(complex => {
+            return complex.name.toLowerCase().includes(searchQuery) ||
+                   complex.developer.toLowerCase().includes(searchQuery) ||
+                   complex.district.toLowerCase().includes(searchQuery) ||
+                   complex.location.toLowerCase().includes(searchQuery);
+        });
+    }
+    
+    // Update markers on map
+    addComplexMarkersToMap(filteredComplexes);
+    
+    // Update sidebar with complex cards
+    updateMapSidebar(filteredComplexes);
+    
+    // Fit map to show all results
+    if (filteredComplexes.length > 1 && complexMarkers.length > 1) {
+        const group = new L.featureGroup(complexMarkers);
+        complexesMap.fitBounds(group.getBounds().pad(0.1));
+    } else if (filteredComplexes.length === 1 && filteredComplexes[0].coordinates) {
+        complexesMap.setView(filteredComplexes[0].coordinates, 15);
+    }
+}
+
+function updateMapSidebar(complexes) {
+    const complexesList = document.getElementById('mapComplexesList');
+    const resultsCount = document.getElementById('mapResultsCount');
+    
+    resultsCount.textContent = `Найдено ${complexes.length} комплексов`;
+    
+    if (complexes.length > 0) {
+        const complexesHtml = complexes.map(complex => `
+            <div class="p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer transition-colors" onclick="focusOnComplex([${complex.coordinates}])">
+                <div class="flex space-x-3">
+                    <div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                        <img src="${complex.image}" alt="${complex.name}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h4 class="font-semibold text-gray-900 text-sm mb-1 truncate">${complex.name}</h4>
+                        <p class="text-xs text-gray-600 mb-2">${complex.developer}</p>
+                        <div class="flex items-center text-xs text-gray-600 mb-2">
+                            <i class="fas fa-map-marker-alt mr-1 text-[#0088CC]"></i>
+                            <span class="truncate">${complex.district}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div class="flex flex-col">
+                                <span class="text-[#0088CC] font-bold text-sm">от ${((complex.real_price_from || 0) / 1000000).toFixed(1)} млн ₽</span>
+                                <span class="text-xs text-gray-500">${complex.apartments_count} квартир</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-green-600 font-medium text-xs">кэшбэк ${complex.cashback_percent}%</span>
+                                <div class="text-xs ${complex.status === 'Сдан' ? 'text-green-600' : 'text-[#0088CC]'}">${complex.completion_date}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+        
+        complexesList.innerHTML = complexesHtml;
+    } else {
+        complexesList.innerHTML = '<div class="p-4 text-center text-gray-500">ЖК не найдены</div>';
+    }
+}
+
+function focusOnComplex(coordinates) {
+    if (coordinates && coordinates.length === 2) {
+        complexesMap.setView(coordinates, 16);
+    }
+}
+
+// Filter objects by visible map bounds
+function filterObjectsByMapBounds() {
+    if (!complexesMap || !isMapView) {
+        return;
+    }
+    
+    try {
+        const bounds = complexesMap.getBounds();
+        const visibleComplexes = filteredComplexes.filter(complex => {
+            if (!complex.coordinates || complex.coordinates.length !== 2) {
+                return false;
+            }
+            const [lat, lng] = complex.coordinates;
+            return bounds.contains([lat, lng]);
+        });
+        
+        updateMapSidebar(visibleComplexes);
+        console.log(`Filtered to ${visibleComplexes.length} complexes in map bounds`);
+    } catch(e) {
+        console.warn('Error filtering objects by map bounds:', e);
+    }
+}
+
+// Drawing functionality for complexes
+let isComplexDrawing = false;
+let drawnComplexPolygon = null;
+let complexDrawingHandler = null;
+
+function enableComplexDrawing() {
+    if (!complexesMap) return;
+    
+    isComplexDrawing = true;
+    const btn = document.getElementById('drawComplexAreaBtn');
+    btn.classList.add('bg-orange-500', 'text-white', 'shadow-xl');
+    btn.classList.remove('text-gray-700', 'hover:text-[#0088CC]');
+    btn.innerHTML = '<i class="fas fa-hand-paper mr-2"></i>Кликните точки. Соедините с первой';
+    
+    complexesMap.getContainer().style.cursor = 'crosshair';
+    
+    // Create temporary polygon for drawing
+    const drawingPoints = [];
+    const drawingMarkers = [];
+    let tempPolygon = null;
+    let previewLine = null;
+    
+    complexDrawingHandler = {
+        click: function(e) {
+            const clickPoint = [e.latlng.lat, e.latlng.lng];
+            
+            // Check if clicking on first point to close polygon (if we have at least 3 points)
+            if (drawingPoints.length >= 3) {
+                const firstPoint = drawingPoints[0];
+                const distance = Math.sqrt(
+                    Math.pow(e.latlng.lat - firstPoint[0], 2) + 
+                    Math.pow(e.latlng.lng - firstPoint[1], 2)
+                );
+                
+                // If clicking close to first point (within reasonable distance), close polygon
+                if (distance < 0.005) { // ~500m threshold
+                    finishComplexDrawing(drawingPoints, drawingMarkers, tempPolygon, previewLine);
+                    return;
+                }
+            }
+            
+            drawingPoints.push(clickPoint);
+            
+            // Add visible point marker with special styling for first point
+            const isFirstPoint = drawingPoints.length === 1;
+            const pointMarker = L.circleMarker([e.latlng.lat, e.latlng.lng], {
+                color: isFirstPoint ? '#00aa44' : '#ff6b35',
+                fillColor: isFirstPoint ? '#00aa44' : '#ff6b35',
+                fillOpacity: 1,
+                radius: isFirstPoint ? 8 : 6,
+                weight: isFirstPoint ? 3 : 2
+            }).addTo(complexesMap);
+            
+            // Add tooltip for first point
+            if (isFirstPoint) {
+                pointMarker.bindTooltip('Начальная точка<br>Кликните сюда для завершения', {
+                    permanent: false,
+                    direction: 'top'
+                });
+            }
+            
+            drawingMarkers.push(pointMarker);
+            
+            // Update temporary polygon
+            if (tempPolygon) {
+                complexesMap.removeLayer(tempPolygon);
+            }
+            
+            if (drawingPoints.length >= 3) {
+                // Show polygon preview but don't auto-complete
+                tempPolygon = L.polygon(drawingPoints, {
+                    color: '#ff6b35',
+                    fillColor: '#ff6b35',
+                    fillOpacity: 0.2,
+                    weight: 2,
+                    dashArray: '5, 5'
+                }).addTo(complexesMap);
+            } else if (drawingPoints.length === 2) {
+                // Show line between first two points
+                tempPolygon = L.polyline(drawingPoints, {
+                    color: '#ff6b35',
+                    weight: 2,
+                    dashArray: '5, 5'
+                }).addTo(complexesMap);
+            }
+        },
+        dblclick: function(e) {
+            // Prevent default double-click behavior
+            e.originalEvent.preventDefault();
+            // Double-click only finishes if we have enough points, but doesn't auto-complete
+            if (drawingPoints.length >= 3) {
+                finishComplexDrawing(drawingPoints, drawingMarkers, tempPolygon, previewLine);
+            }
+        },
+        mousemove: function(e) {
+            if (drawingPoints.length > 0) {
+                // Remove previous preview line
+                if (previewLine) {
+                    complexesMap.removeLayer(previewLine);
+                }
+                
+                const lastPoint = drawingPoints[drawingPoints.length - 1];
+                const currentPoint = [e.latlng.lat, e.latlng.lng];
+                
+                // If we have 3+ points, check if cursor is near first point
+                if (drawingPoints.length >= 3) {
+                    const firstPoint = drawingPoints[0];
+                    const distanceToFirst = Math.sqrt(
+                        Math.pow(e.latlng.lat - firstPoint[0], 2) + 
+                        Math.pow(e.latlng.lng - firstPoint[1], 2)
+                    );
+                    
+                    // If close to first point, show preview to close polygon
+                    if (distanceToFirst < 0.005) {
+                        previewLine = L.polyline([lastPoint, firstPoint], {
+                            color: '#00aa44',
+                            weight: 3,
+                            dashArray: '8, 8',
+                            opacity: 0.8
+                        }).addTo(complexesMap);
+                        
+                        // Change cursor style
+                        complexesMap.getContainer().style.cursor = 'pointer';
+                        return;
+                    }
+                }
+                
+                // Default preview line to cursor
+                previewLine = L.polyline([lastPoint, currentPoint], {
+                    color: '#ff6b35',
+                    weight: 2,
+                    dashArray: '8, 8',
+                    opacity: 0.7
+                }).addTo(complexesMap);
+                
+                // Reset cursor
+                complexesMap.getContainer().style.cursor = 'crosshair';
+            }
+        }
+    };
+    
+    complexesMap.on('click', complexDrawingHandler.click);
+    complexesMap.on('dblclick', complexDrawingHandler.dblclick);
+    complexesMap.on('mousemove', complexDrawingHandler.mousemove);
+}
+
+function finishComplexDrawing(points, markers, tempPoly, previewLine) {
+    if (!complexesMap || points.length < 3) return;
+    
+    // Remove temporary polygon, markers and preview line
+    if (tempPoly) {
+        complexesMap.removeLayer(tempPoly);
+    }
+    if (previewLine) {
+        complexesMap.removeLayer(previewLine);
+    }
+    markers.forEach(marker => complexesMap.removeLayer(marker));
+    
+    // Remove event handlers
+    complexesMap.off('click', complexDrawingHandler.click);
+    complexesMap.off('dblclick', complexDrawingHandler.dblclick);
+    complexesMap.off('mousemove', complexDrawingHandler.mousemove);
+    
+    // Create final polygon
+    if (drawnComplexPolygon) {
+        complexesMap.removeLayer(drawnComplexPolygon);
+    }
+    
+    drawnComplexPolygon = L.polygon(points, {
+        color: '#ff6b35',
+        fillColor: '#ff6b35',
+        fillOpacity: 0.15,
+        weight: 3
+    }).addTo(complexesMap);
+    
+    // Reset drawing state
+    isComplexDrawing = false;
+    complexesMap.getContainer().style.cursor = '';
+    
+    // Update buttons
+    const btn = document.getElementById('drawComplexAreaBtn');
+    btn.classList.remove('bg-orange-500', 'text-white', 'shadow-xl');
+    btn.classList.add('text-gray-700', 'hover:text-[#0088CC]');
+    btn.innerHTML = '<i class="fas fa-draw-polygon mr-2"></i>Выделить область';
+    document.getElementById('clearComplexAreaBtn').classList.remove('hidden');
+    
+    // Filter complexes by drawn polygon
+    filterComplexesByPolygon();
+    
+    console.log('Complex drawing completed with', points.length, 'points');
+}
+
+function clearComplexDrawnArea() {
+    if (drawnComplexPolygon) {
+        complexesMap.removeLayer(drawnComplexPolygon);
+        drawnComplexPolygon = null;
+    }
+    
+    // Hide clear button
+    document.getElementById('clearComplexAreaBtn').classList.add('hidden');
+    
+    // Reset filters and show all complexes
+    filterObjectsByMapBounds();
+    
+    console.log('Complex drawn area cleared');
+}
+
+function filterComplexesByPolygon() {
+    if (!drawnComplexPolygon || !filteredComplexes) return;
+    
+    try {
+        const polygonBounds = drawnComplexPolygon.getBounds();
+        const complexesInPolygon = filteredComplexes.filter(complex => {
+            if (!complex.coordinates || complex.coordinates.length !== 2) {
+                return false;
+            }
+            
+            const [lat, lng] = complex.coordinates;
+            const point = L.latLng(lat, lng);
+            return polygonBounds.contains(point);
+        });
+        
+        // Update sidebar with only complexes in polygon
+        updateMapSidebar(complexesInPolygon);
+        
+        console.log(`Filtered to ${complexesInPolygon.length} complexes in drawn polygon`);
+    } catch(e) {
+        console.warn('Error filtering complexes by polygon:', e);
+    }
+}
+
+// Slider functionality
+let sliders = {};
+
+function nextSlide(complexId) {
+    if (!sliders[complexId]) initSlider(complexId);
+    const slider = sliders[complexId];
+    slider.currentSlide = (slider.currentSlide + 1) % slider.totalSlides;
+    updateSlider(complexId);
+}
+
+function prevSlide(complexId) {
+    if (!sliders[complexId]) initSlider(complexId);
+    const slider = sliders[complexId];
+    slider.currentSlide = (slider.currentSlide - 1 + slider.totalSlides) % slider.totalSlides;
+    updateSlider(complexId);
+}
+
+function goToSlide(complexId, slideIndex) {
+    if (!sliders[complexId]) initSlider(complexId);
+    sliders[complexId].currentSlide = slideIndex;
+    updateSlider(complexId);
+}
+
+function initSlider(complexId) {
+    // Динамически определяем количество слайдов
+    const slides = document.querySelectorAll(`[data-complex-id="${complexId}"] .slider-slide`);
+    sliders[complexId] = {
+        currentSlide: 0,
+        totalSlides: slides.length
+    };
+}
+
+function updateSlider(complexId) {
+    const slider = sliders[complexId];
+    const sliderElement = document.querySelector(`[data-complex-id="${complexId}"] .slider-track`);
+    const dots = document.querySelectorAll(`[data-complex-id="${complexId}"] .slider-dot`);
+    
+    if (sliderElement) {
+        sliderElement.style.transform = `translateX(-${slider.currentSlide * 100}%)`;
+    }
+    
+    // Update dots
+    dots.forEach((dot, index) => {
+        if (index === slider.currentSlide) {
+            dot.classList.add('active');
+        } else {
+            dot.classList.remove('active');
+        }
+    });
+}
+
+// Initialize sliders for existing cards
+function initAllSliders() {
+    document.querySelectorAll('.complex-slider').forEach(slider => {
+        const complexId = slider.getAttribute('data-complex-id');
+        if (complexId && !sliders[complexId]) {
+            initSlider(complexId);
+        }
+    });
+}
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    setupComplexSearch();
+    
+    // Set up filter event listeners - auto-apply filters on any change
+    document.getElementById('district-filter')?.addEventListener('change', applyComplexFilters);
+    document.getElementById('developer-filter')?.addEventListener('change', applyComplexFilters);
+    document.getElementById('status-filter')?.addEventListener('change', applyComplexFilters);
+    document.getElementById('sort-select')?.addEventListener('change', applyComplexFilters);
+    
+    // Add event listeners for new filters
+    document.getElementById('object-class-filter')?.addEventListener('change', applyComplexFilters);
+    document.getElementById('completion-year-filter')?.addEventListener('change', applyComplexFilters);
+    document.getElementById('floors-filter')?.addEventListener('change', applyComplexFilters);
+    document.getElementById('price-range-from')?.addEventListener('input', applyComplexFilters);
+    document.getElementById('price-range-to')?.addEventListener('input', applyComplexFilters);
+    
+    // Setup global variables for filtering but DON'T apply filters initially
+    displayedComplexes = {{ residential_complexes|tojson }};
+    allComplexes = {{ all_complexes|tojson }};
+    
+    // DON'T apply filters on initial load - use server-rendered HTML
+    // applyComplexFilters(); // Apply initial filters
+    
+    // Initialize sliders and favorites
+    setTimeout(() => {
+        initAllSliders();
+        if (typeof favoritesManager !== 'undefined') {
+            favoritesManager.updateFavoritesUI();
+            favoritesManager.updateComplexFavoritesUI();
+            favoritesManager.updateFavoritesCounter();
+        }
+    }, 100);
+});
+
+// Apartments Modal Functions
+let currentComplexData = null;
+let currentApartmentType = null;
+let selectedLiters = [];
+
+function showApartments(complexId, apartmentType) {
+    // Find complex data
+    currentComplexData = allComplexes.find(c => c.id === complexId);
+    currentApartmentType = apartmentType;
+    
+    if (!currentComplexData || !currentComplexData.apartment_types) {
+        alert('Информация о квартирах недоступна');
+        return;
+    }
+    
+    // Find apartment type data
+    const typeData = currentComplexData.apartment_types.find(t => t.type === apartmentType);
+    if (!typeData) {
+        alert('Данный тип квартир не найден');
+        return;
+    }
+    
+    // Update modal header
+    document.getElementById('modalComplexName').textContent = currentComplexData.name;
+    document.getElementById('modalApartmentType').textContent = `${apartmentType} • ${typeData.area_from}-${typeData.area_to} м² • от ${(typeData.price_from / 1000000).toFixed(1)} млн ₽`;
+    
+    // Show modal
+    document.getElementById('apartmentsModal').classList.remove('hidden');
+    
+    // Initialize filters and apartments
+    initializeLiterFilters();
+    updateApartmentsDisplay();
+    
+    // Prevent body scroll using our system
+    if (typeof window.disableBodyScroll === 'function') {
+        window.disableBodyScroll();
+    } else {
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeApartmentsModal() {
+    document.getElementById('apartmentsModal').classList.add('hidden');
+    // Restore scroll using our system
+    if (typeof window.restoreBodyScroll === 'function') {
+        window.restoreBodyScroll();
+    } else {
+        document.body.style.overflow = '';
+    }
+    currentComplexData = null;
+    currentApartmentType = null;
+    selectedLiters = [];
+}
+
+function initializeLiterFilters() {
+    const filtersContainer = document.getElementById('literFilters');
+    
+    if (!currentComplexData.liters) {
+        filtersContainer.innerHTML = '<div class="text-gray-500 text-sm">Информация о литерах недоступна</div>';
+        return;
+    }
+    
+    // Get all available liters for current apartment type
+    const typeData = currentComplexData.apartment_types.find(t => t.type === currentApartmentType);
+    const availableLifters = [];
+    
+    typeData.layouts.forEach(layout => {
+        layout.available_liters.forEach(liter => {
+            if (!availableLifters.includes(liter)) {
+                availableLifters.push(liter);
+            }
+        });
+    });
+    
+    // Create filter buttons
+    let filtersHTML = `
+        <button onclick="toggleLiterFilter('all')" 
+                class="liter-filter px-3 py-2 border rounded-lg text-sm transition-colors bg-[#0088CC] text-white border-[#0088CC]" 
+                data-liter="all">
+            Все литеры
+        </button>
+    `;
+    
+    availableLifters.forEach(liter => {
+        const literData = currentComplexData.liters.find(l => l.id === liter);
+        const literName = literData ? literData.name : `Литер ${liter}`;
+        
+        filtersHTML += `
+            <button onclick="toggleLiterFilter('${liter}')" 
+                    class="liter-filter px-3 py-2 border border-gray-300 rounded-lg text-sm hover:border-[#0088CC] hover:bg-blue-50 transition-colors" 
+                    data-liter="${liter}">
+                ${literName}
+            </button>
+        `;
+    });
+    
+    filtersContainer.innerHTML = filtersHTML;
+    selectedLiters = ['all'];
+}
+
+function toggleLiterFilter(liter) {
+    if (liter === 'all') {
+        selectedLiters = ['all'];
+    } else {
+        if (selectedLiters.includes('all')) {
+            selectedLiters = [liter];
+        } else {
+            const index = selectedLiters.indexOf(liter);
+            if (index > -1) {
+                selectedLiters.splice(index, 1);
+                if (selectedLiters.length === 0) {
+                    selectedLiters = ['all'];
+                }
+            } else {
+                selectedLiters.push(liter);
+            }
+        }
+    }
+    
+    // Update button states
+    document.querySelectorAll('.liter-filter').forEach(btn => {
+        const btnLiter = btn.getAttribute('data-liter');
+        if (selectedLiters.includes(btnLiter)) {
+            btn.className = 'liter-filter px-3 py-2 border rounded-lg text-sm transition-colors bg-[#0088CC] text-white border-[#0088CC]';
+        } else {
+            btn.className = 'liter-filter px-3 py-2 border border-gray-300 rounded-lg text-sm hover:border-[#0088CC] hover:bg-blue-50 transition-colors';
+        }
+    });
+    
+    updateApartmentsDisplay();
+}
+
+function updateApartmentsDisplay() {
+    const apartmentsGrid = document.getElementById('apartmentsGrid');
+    const noApartments = document.getElementById('noApartments');
+    
+    const typeData = currentComplexData.apartment_types.find(t => t.type === currentApartmentType);
+    if (!typeData) return;
+    
+    // Filter layouts based on selected liters
+    let filteredLayouts = typeData.layouts;
+    if (!selectedLiters.includes('all')) {
+        filteredLayouts = typeData.layouts.filter(layout => 
+            layout.available_liters.some(liter => selectedLiters.includes(liter))
+        );
+    }
+    
+    if (filteredLayouts.length === 0) {
+        apartmentsGrid.innerHTML = '';
+        noApartments.classList.remove('hidden');
+        return;
+    }
+    
+    noApartments.classList.add('hidden');
+    
+    // Generate apartments grid
+    let apartmentsHTML = '';
+    filteredLayouts.forEach((layout, index) => {
+        const availableInSelectedLiters = selectedLiters.includes('all') 
+            ? layout.available_liters 
+            : layout.available_liters.filter(liter => selectedLiters.includes(liter));
+            
+        const cashback = layout.price * 0.05;
+        
+        apartmentsHTML += `
+            <div class="border border-gray-200 rounded-lg p-4 hover:border-[#0088CC] hover:shadow-md transition-all">
+                <!-- Area and Price -->
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <div class="text-lg font-bold text-gray-900">${layout.area} м²</div>
+                        <div class="text-sm text-gray-500">${layout.floor_range} этаж</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-lg font-bold text-[#0088CC]">${(layout.price / 1000000).toFixed(1)} млн ₽</div>
+                        <div class="text-xs text-gray-500">${Math.round(layout.price / layout.area).toLocaleString()} ₽/м²</div>
+                    </div>
+                </div>
+                
+                <!-- Available Liters -->
+                <div class="mb-3">
+                    <div class="text-xs text-gray-500 mb-1">Доступно в литерах:</div>
+                    <div class="flex flex-wrap gap-1">
+                        ${availableInSelectedLiters.map(liter => {
+                            const literData = currentComplexData.liters.find(l => l.id === liter);
+                            const literName = literData ? literData.name : `Литер ${liter}`;
+                            return `<span class="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded">${literName}</span>`;
+                        }).join('')}
+                    </div>
+                </div>
+                
+                <!-- Cashback -->
+                <div class="bg-orange-50 border border-orange-200 rounded-lg p-2 mb-3">
+                    <div class="text-xs text-orange-700 font-medium">Кэшбек ${currentComplexData.cashback_percent}%</div>
+                    <div class="text-sm font-bold text-orange-800">${Math.round(cashback).toLocaleString()} ₽</div>
+                </div>
+                
+                <!-- Availability -->
+                <div class="flex justify-between items-center mb-3">
+                    <div class="text-xs text-gray-500">Доступно квартир:</div>
+                    <div class="text-sm font-medium text-green-600">${layout.available_count} шт</div>
+                </div>
+                
+                <!-- Action Button -->
+                <button onclick="selectApartment(${index})" 
+                        class="w-full bg-[#0088CC] text-white py-2 px-4 rounded-lg text-sm font-medium hover:bg-[#006699] transition-colors">
+                    Выбрать квартиру
+                </button>
+            </div>
+        `;
+    });
+    
+    apartmentsGrid.innerHTML = apartmentsHTML;
+}
+
+function selectApartment(layoutIndex) {
+    const typeData = currentComplexData.apartment_types.find(t => t.type === currentApartmentType);
+    const layout = typeData.layouts[layoutIndex];
+    
+    // Here you can add logic to handle apartment selection
+    // For now, just show an alert
+    alert(`Выбрана квартира:\n${currentApartmentType}, ${layout.area} м²\nЦена: ${(layout.price / 1000000).toFixed(1)} млн ₽\nЭтажи: ${layout.floor_range}\nКэшбек: ${Math.round(layout.price * 0.05).toLocaleString()} ₽`);
+    
+    // You could redirect to a detailed apartment page or open a contact form
+    // window.location.href = `/apartment/${currentComplexData.id}/${layoutIndex}`;
+}
+
+// Close modal when clicking outside
+document.addEventListener('click', function(e) {
+    if (e.target.id === 'apartmentsModal') {
+        closeApartmentsModal();
+    }
+});
+
+// Authentication status for manager features  
+window.isManagerAuthenticated = {{ 'true' if session.manager_id else 'false' }};
+
+console.log('Manager authenticated for complex recommendations:', window.isManagerAuthenticated);
+
+// Initialize recommendation system for complexes
+document.addEventListener('DOMContentLoaded', function() {
+    if (window.isManagerAuthenticated) {
+        console.log('Initializing complex recommendation buttons');
+        initComplexRecommendationButtons();
+    }
+});
+
+function initComplexRecommendationButtons() {
+    // Count existing complex recommendation buttons
+    const complexButtons = document.querySelectorAll('.recommend-btn[data-item-type="complex"]');
+    console.log('Complex recommendation buttons initialized for', complexButtons.length, 'complexes');
+}
+
+// Recommendation modal functions (shared with properties.html)
+function openRecommendModal(itemType, itemId, itemName) {
+    // Check if modal already exists
+    let modal = document.getElementById('recommendModal');
+    if (!modal) {
+        modal = createRecommendModal();
+    }
+    
+    // Fill form with item data
+    document.getElementById('recommendType').value = itemType;
+    document.getElementById('recommendItemId').value = itemId;
+    document.getElementById('recommendItemName').value = itemName;
+    
+    // Set default title based on type
+    const titleInput = document.getElementById('recommendTitle');
+    if (itemType === 'complex') {
+        titleInput.value = `Рекомендую ЖК "${itemName}"`;
+    } else {
+        titleInput.value = `Рекомендую объект "${itemName}"`;
+    }
+    
+    // Show modal
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    
+    // Load clients list
+    loadClientsForRecommendation();
+}
+
+function createRecommendModal() {
+    const modal = document.createElement('div');
+    modal.id = 'recommendModal';
+    modal.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center';
+    
+    modal.innerHTML = `
+        <div class="bg-white rounded-xl p-6 w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold">Отправить рекомендацию</h3>
+                <button onclick="closeRecommendModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="recommendForm" class="space-y-4">
+                <input type="hidden" id="recommendType" value="">
+                <input type="hidden" id="recommendItemId" value="">
+                <input type="hidden" id="recommendItemName" value="">
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Выберите клиента *</label>
+                    <select id="recommendClientSelect" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#0088CC] focus:border-blue-500" required>
+                        <option value="">Загрузка клиентов...</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Email клиента</label>
+                    <input type="email" id="recommendClientEmail" class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-100" readonly>
+                </div>
+                
+                <div id="categorySection" class="hidden">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Категория рекомендации</label>
+                    <div class="space-y-2">
+                        <select id="recommendCategorySelect" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#0088CC] focus:border-blue-500">
+                            <option value="">Без категории</option>
+                            <option value="new">+ Создать новую категорию</option>
+                        </select>
+                        <div id="newCategoryInput" class="hidden">
+                            <input type="text" id="recommendCategoryName" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#0088CC] focus:border-blue-500" placeholder="Например: ЖК с детскими садами, Центральный район">
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Заголовок рекомендации *</label>
+                    <input type="text" id="recommendTitle" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#0088CC] focus:border-blue-500" required>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Описание</label>
+                    <textarea id="recommendDescription" rows="3" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#0088CC] focus:border-blue-500" placeholder="Почему этот объект подходит клиенту..."></textarea>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Заметки менеджера</label>
+                    <textarea id="recommendNotes" rows="2" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#0088CC] focus:border-blue-500" placeholder="Внутренние заметки..."></textarea>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Приоритет</label>
+                    <select id="recommendPriority" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#0088CC] focus:border-blue-500">
+                        <option value="medium">Обычный</option>
+                        <option value="high">Высокий</option>
+                        <option value="low">Низкий</option>
+                    </select>
+                </div>
+                
+                <div class="flex gap-3 pt-4">
+                    <button type="submit" id="submitRecommendBtn" class="flex-1 bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed">
+                        <i class="fas fa-paper-plane mr-2" id="submitIcon"></i>
+                        <span class="loading-spinner hidden mr-2">
+                            <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </span>
+                        <span id="submitText">Отправить рекомендацию</span>
+                    </button>
+                    <button type="button" onclick="closeRecommendModal()" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                        Отмена
+                    </button>
+                </div>
+            </form>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Add form submit handler
+    document.getElementById('recommendForm').addEventListener('submit', handleRecommendSubmit);
+    
+    return modal;
+}
+
+// Load clients for recommendation dropdown
+async function loadClientsForRecommendation() {
+    try {
+        const response = await fetch('/api/manager/clients');
+        const data = await response.json();
+        
+        const select = document.getElementById('recommendClientSelect');
+        select.innerHTML = '<option value="">Выберите клиента...</option>';
+        
+        if (data.success && data.clients) {
+            data.clients.forEach(client => {
+                const option = document.createElement('option');
+                option.value = client.id;
+                option.textContent = `${client.full_name} (${client.email})`;
+                option.dataset.email = client.email;
+                select.appendChild(option);
+            });
+            
+            // Add change handler
+            select.addEventListener('change', function() {
+                const selectedOption = this.options[this.selectedIndex];
+                const emailInput = document.getElementById('recommendClientEmail');
+                const categorySection = document.getElementById('categorySection');
+                
+                if (selectedOption.dataset.email) {
+                    emailInput.value = selectedOption.dataset.email;
+                    categorySection.classList.remove('hidden');
+                    loadRecommendationCategories(this.value);
+                } else {
+                    emailInput.value = '';
+                    categorySection.classList.add('hidden');
+                }
+            });
+        }
+    } catch (error) {
+        console.error('Error loading clients:', error);
+    }
+}
+
+// Load recommendation categories for selected client
+async function loadRecommendationCategories(clientId) {
+    try {
+        const response = await fetch(`/api/manager/recommendation-categories/${clientId}`);
+        const data = await response.json();
+        
+        const select = document.getElementById('recommendCategorySelect');
+        select.innerHTML = '<option value="">Без категории</option><option value="new">+ Создать новую категорию</option>';
+        
+        if (data.success && data.categories) {
+            data.categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category.id;
+                option.textContent = `${category.name} (${category.recommendations_count})`;
+                select.appendChild(option);
+            });
+        }
+        
+        // Add change handler for category selection
+        select.addEventListener('change', function() {
+            const newCategoryInput = document.getElementById('newCategoryInput');
+            if (this.value === 'new') {
+                newCategoryInput.classList.remove('hidden');
+            } else {
+                newCategoryInput.classList.add('hidden');
+            }
+        });
+        
+    } catch (error) {
+        console.error('Error loading categories:', error);
+    }
+}
+
+function closeRecommendModal() {
+    const modal = document.getElementById('recommendModal');
+    if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.getElementById('recommendForm').reset();
+        
+        // Reset button state
+        const submitBtn = document.getElementById('submitRecommendBtn');
+        const submitIcon = document.getElementById('submitIcon');
+        const submitText = document.getElementById('submitText');
+        const spinner = submitBtn.querySelector('.loading-spinner');
+        
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('bg-green-500');
+        submitBtn.classList.add('bg-orange-500', 'hover:bg-orange-600');
+        spinner.classList.add('hidden');
+        submitIcon.classList.remove('hidden');
+        submitIcon.className = 'fas fa-paper-plane mr-2';
+        submitText.textContent = 'Отправить рекомендацию';
+    }
+}
+
+async function handleRecommendSubmit(e) {
+    e.preventDefault();
+    
+    const clientSelect = document.getElementById('recommendClientSelect');
+    const selectedClientId = clientSelect.value;
+    
+    if (!selectedClientId) {
+        alert('Выберите клиента для отправки рекомендации');
+        return;
+    }
+    
+    const categorySelect = document.getElementById('recommendCategorySelect');
+    const categoryValue = categorySelect ? categorySelect.value : '';
+    const categoryName = categoryValue === 'new' ? document.getElementById('recommendCategoryName').value.trim() : '';
+    
+    const formData = {
+        recommendation_type: document.getElementById('recommendType').value,
+        item_id: document.getElementById('recommendItemId').value,
+        item_name: document.getElementById('recommendItemName').value,
+        title: document.getElementById('recommendTitle').value.trim(),
+        client_id: selectedClientId,
+        client_email: document.getElementById('recommendClientEmail').value.trim(),
+        description: document.getElementById('recommendDescription').value.trim(),
+        manager_notes: document.getElementById('recommendNotes').value.trim(),
+        priority_level: document.getElementById('recommendPriority').value,
+        category_id: categoryValue,
+        category_name: categoryName,
+        highlighted_features: [], 
+        item_data: {}
+    };
+    
+    if (!formData.title) {
+        alert('Введите заголовок рекомендации');
+        return;
+    }
+    
+    // Show loading state
+    showRecommendationLoading();
+    
+    try {
+        const response = await fetch('/api/manager/send_recommendation', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showRecommendationSuccess();
+            setTimeout(() => {
+                closeRecommendModal();
+            }, 1500);
+        } else {
+            showRecommendationError('Ошибка: ' + result.error);
+        }
+    } catch (error) {
+        showRecommendationError('Ошибка отправки рекомендации: ' + error.message);
+    }
+}
+
+function showRecommendationLoading() {
+    const submitBtn = document.getElementById('submitRecommendBtn');
+    const submitIcon = document.getElementById('submitIcon');
+    const submitText = document.getElementById('submitText');
+    const spinner = submitBtn.querySelector('.loading-spinner');
+    
+    submitBtn.disabled = true;
+    submitIcon.classList.add('hidden');
+    spinner.classList.remove('hidden');
+    submitText.textContent = 'Отправка...';
+}
+
+function showRecommendationSuccess() {
+    const submitBtn = document.getElementById('submitRecommendBtn');
+    const submitIcon = document.getElementById('submitIcon');
+    const submitText = document.getElementById('submitText');
+    const spinner = submitBtn.querySelector('.loading-spinner');
+    
+    spinner.classList.add('hidden');
+    submitIcon.classList.remove('hidden');
+    submitIcon.className = 'fas fa-check mr-2';
+    submitText.textContent = 'Отправлено!';
+    submitBtn.classList.remove('bg-orange-500', 'hover:bg-orange-600');
+    submitBtn.classList.add('bg-green-500');
+}
+
+function showRecommendationError(message) {
+    const submitBtn = document.getElementById('submitRecommendBtn');
+    const submitIcon = document.getElementById('submitIcon');
+    const submitText = document.getElementById('submitText');
+    const spinner = submitBtn.querySelector('.loading-spinner');
+    
+    submitBtn.disabled = false;
+    spinner.classList.add('hidden');
+    submitIcon.classList.remove('hidden');
+    submitIcon.className = 'fas fa-paper-plane mr-2';
+    submitText.textContent = 'Отправить рекомендацию';
+    
+    alert(message);
+}
+
+// Add comparison functionality directly to this page
+function addToComparison(type, id) {
+    const idStr = id.toString();
+    
+    if (type === 'complex') {
+        // Use the same localStorage keys as dashboard
+        let complexes = JSON.parse(localStorage.getItem('comparison_complexes') || '[]');
+        
+        if (!complexes.includes(idStr)) {
+            if (complexes.length >= 3) {
+                showNotification('Можно сравнивать максимум 3 ЖК', 'warning');
+                return;
+            }
+            complexes.push(idStr);
+            localStorage.setItem('comparison_complexes', JSON.stringify(complexes));
+            showNotification('ЖК добавлен в сравнение', 'success');
+            console.log('Complex added to comparison:', id);
+        } else {
+            showNotification('ЖК уже в сравнении', 'info');
+        }
+    } else if (type === 'property') {
+        let properties = JSON.parse(localStorage.getItem('comparison_properties') || '[]');
+        
+        if (!properties.includes(idStr)) {
+            if (properties.length >= 3) {
+                showNotification('Можно сравнивать максимум 3 квартиры', 'warning');
+                return;
+            }
+            properties.push(idStr);
+            localStorage.setItem('comparison_properties', JSON.stringify(properties));
+            showNotification('Квартира добавлена в сравнение', 'success');
+        } else {
+            showNotification('Квартира уже в сравнении', 'info');
+        }
+    }
+    
+    // Update UI if comparison counter exists
+    updateComparisonCounter();
+}
+
+// Simple notification function
+function showNotification(message, type = 'info') {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `fixed top-4 right-4 px-4 py-2 rounded-lg text-white z-50 transition-all duration-300 ${
+        type === 'success' ? 'bg-green-500' : 
+        type === 'warning' ? 'bg-yellow-500' : 
+        type === 'error' ? 'bg-red-500' : 'bg-blue-500'
+    }`;
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
+
+// Update comparison counter
+function updateComparisonCounter() {
+    const properties = JSON.parse(localStorage.getItem('comparison_properties') || '[]');
+    const complexes = JSON.parse(localStorage.getItem('comparison_complexes') || '[]');
+    const totalCount = properties.length + complexes.length;
+    
+    // Update any comparison counters on the page
+    const counters = document.querySelectorAll('[data-comparison-counter]');
+    counters.forEach(counter => {
+        counter.textContent = totalCount;
+        counter.style.display = totalCount > 0 ? 'inline' : 'none';
+    });
+}
+
+// Initialize comparison counter on page load
+document.addEventListener('DOMContentLoaded', function() {
+    updateComparisonCounter();
+});
+
+// View mode switching
+let currentViewMode = 'grid'; // Default to grid
+
+function switchToGridView() {
+    currentViewMode = 'grid';
+    const container = document.getElementById('complexes-container');
+    const gridBtn = document.getElementById('grid-view-btn');
+    const listBtn = document.getElementById('list-view-btn');
+    
+    // Update container classes
+    container.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6';
+    
+    // Update button states
+    gridBtn.className = 'flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors bg-white text-gray-900 shadow-sm';
+    listBtn.className = 'flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors text-gray-600 hover:text-gray-900';
+    
+    // Restore original card structure and styles
+    const cards = container.querySelectorAll('.complex-card');
+    cards.forEach(card => {
+        // Restore original structure if it was saved
+        if (card.dataset.originalStructure) {
+            card.innerHTML = card.dataset.originalStructure;
+            delete card.dataset.originalStructure;
+        }
+        card.className = 'complex-card bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-300 mobile-optimized';
+    });
+    
+    console.log('Switched to grid view');
+}
+
+function switchToListView() {
+    currentViewMode = 'list';
+    const container = document.getElementById('complexes-container');
+    const gridBtn = document.getElementById('grid-view-btn');
+    const listBtn = document.getElementById('list-view-btn');
+    
+    // Update container classes
+    container.className = 'space-y-6';
+    
+    // Update button states
+    gridBtn.className = 'flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors text-gray-600 hover:text-gray-900';
+    listBtn.className = 'flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors bg-white text-gray-900 shadow-sm';
+    
+    // Update card styles for list view
+    const cards = container.querySelectorAll('.complex-card');
+    cards.forEach(card => {
+        card.className = 'complex-card bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-all duration-300 list-view-card';
+        // Restructure card layout for list view
+        restructureCardForList(card);
+    });
+    
+    console.log('Switched to list view');
+}
+
+function restructureCardForList(card) {
+    // Check if already restructured for list view
+    if (card.querySelector('.list-layout')) return;
+    
+    // Get data from card
+    const complexId = card.dataset.complexId;
+    const imageSlider = card.querySelector('.complex-slider');
+    const nameElement = card.querySelector('h3');
+    const developerElement = card.querySelector('a[href*="developer"], p.text-gray-500');
+    const descriptionElement = card.querySelector('p.text-gray-600.line-clamp-2');
+    const locationElement = card.querySelector('.fa-map-marker-alt').parentElement;
+    const completionElement = card.querySelector('.fa-calendar').parentElement;
+    const statusElement = card.querySelector('.bg-green-100, .bg-orange-100');
+    const statsGrid = card.querySelector('.grid.grid-cols-2');
+    const apartmentTypes = card.querySelector('.border-t');
+    const buttons = card.querySelector('.flex.gap-2');
+    
+    if (!imageSlider || !nameElement) return;
+    
+    // Save original structure for potential switch back
+    if (!card.dataset.originalStructure) {
+        card.dataset.originalStructure = card.innerHTML;
+    }
+    
+    // Create horizontal layout
+    const newLayout = document.createElement('div');
+    newLayout.className = 'list-layout flex gap-6 p-6';
+    
+    // Left side - Image (much larger to match content properly)
+    const imageContainer = document.createElement('div');
+    imageContainer.className = 'flex-shrink-0 w-96';
+    const clonedSlider = imageSlider.cloneNode(true);
+    clonedSlider.style.height = '320px';
+    clonedSlider.style.width = '100%';
+    clonedSlider.style.borderRadius = '12px';
+    clonedSlider.style.overflow = 'hidden';
+    clonedSlider.style.position = 'relative';
+    
+    // Force all images to fill the container
+    const images = clonedSlider.querySelectorAll('img');
+    images.forEach(img => {
+        img.style.width = '100%';
+        img.style.height = '320px';
+        img.style.objectFit = 'cover';
+        img.style.display = 'block';
+    });
+    
+    // Completion date will be added to content block instead of slider
+    
+    imageContainer.appendChild(clonedSlider);
+    
+    // Right side - All content with relative positioning for completion date
+    const contentContainer = document.createElement('div');
+    contentContainer.className = 'flex-1 space-y-4 relative';
+    
+    // Header with name, developer and location (completion date moved to slider)
+    const header = document.createElement('div');
+    const developerText = developerElement ? developerElement.textContent : '';
+    const locationText = locationElement ? locationElement.textContent.replace(/^\s*/, '') : '';
+    const descriptionText = descriptionElement ? descriptionElement.textContent : '';
+    
+    header.innerHTML = `
+        <h3 class="text-xl font-bold text-gray-900 mb-1">${nameElement.textContent}</h3>
+        ${developerText ? `<div class="text-sm text-[#0088CC] mb-2">${developerText}</div>` : ''}
+        <div class="flex items-center text-gray-600 mb-2">
+            <i class="fas fa-map-marker-alt mr-2"></i>
+            <span>${locationText}</span>
+        </div>
+        ${descriptionText ? `<p class="text-sm text-gray-600 mb-3">${descriptionText}</p>` : ''}
+    `;
+    
+    // Stats in horizontal layout
+    const statsContainer = document.createElement('div');
+    statsContainer.className = 'flex flex-wrap gap-6 text-sm';
+    if (statsGrid) {
+        const statItems = statsGrid.querySelectorAll('.flex.items-center');
+        statItems.forEach(item => {
+            const cloned = item.cloneNode(true);
+            statsContainer.appendChild(cloned);
+        });
+    }
+    
+    // Apartment types with prices in horizontal layout
+    const apartmentContainer = document.createElement('div');
+    if (apartmentTypes) {
+        const roomButtons = apartmentTypes.querySelectorAll('button');
+        if (roomButtons.length > 0) {
+            apartmentContainer.innerHTML = '<div class="text-sm text-gray-600 mb-3">Квартиры:</div>';
+            const roomsContainer = document.createElement('div');
+            roomsContainer.className = 'flex flex-wrap gap-3';
+            
+            roomButtons.forEach(btn => {
+                const roomType = btn.querySelector('.font-medium')?.textContent || '';
+                const area = btn.querySelector('.text-xs.text-gray-500')?.textContent || '';
+                const price = btn.querySelector('.text-xs.font-medium.text-\\[\\#0088CC\\]')?.textContent || '';
+                const count = btn.querySelector('.text-xs.text-green-600')?.textContent || '';
+                
+                const roomCard = document.createElement('div');
+                roomCard.className = 'flex items-center justify-between bg-gray-50 rounded-lg p-3 min-w-[200px] cursor-pointer hover:bg-gray-100 transition-colors';
+                roomCard.onclick = () => btn.click(); // Preserve original functionality
+                
+                roomCard.innerHTML = `
+                    <div>
+                        <div class="font-medium text-gray-900">${roomType}</div>
+                        ${area ? `<div class="text-xs text-gray-500">${area}</div>` : ''}
+                        ${count ? `<div class="text-xs text-green-600">${count}</div>` : ''}
+                    </div>
+                    ${price ? `<div class="text-sm font-bold text-[#0088CC]">${price}</div>` : ''}
+                `;
+                
+                roomsContainer.appendChild(roomCard);
+            });
+            apartmentContainer.appendChild(roomsContainer);
+        }
+    }
+    
+    // Action buttons (only manager recommendation button)
+    const actionsContainer = document.createElement('div');
+    const managerButtons = card.querySelector('.recommend-btn');
+    if (managerButtons) {
+        const clonedManagerButtons = managerButtons.cloneNode(true);
+        actionsContainer.appendChild(clonedManagerButtons);
+    }
+    
+    // Add completion date badge in top right of content area (minimalist style)
+    const completionText = completionElement ? completionElement.textContent.replace(/^\s*/, '') : '';
+    const statusText = statusElement ? statusElement.textContent.trim() : '';
+    if (completionText) {
+        const dateBadge = document.createElement('div');
+        dateBadge.className = `absolute top-0 right-0 ${statusText === 'Сдан' ? 'bg-gray-100 text-gray-700' : 'bg-gray-100 text-gray-700'} px-3 py-1 rounded-bl text-xs font-medium`;
+        dateBadge.textContent = completionText;
+        contentContainer.appendChild(dateBadge);
+    }
+    
+    // Assemble content
+    contentContainer.appendChild(header);
+    contentContainer.appendChild(statsContainer);
+    contentContainer.appendChild(apartmentContainer);
+    contentContainer.appendChild(actionsContainer);
+    
+    // Replace card content
+    card.innerHTML = '';
+    newLayout.appendChild(imageContainer);
+    newLayout.appendChild(contentContainer);
+    card.appendChild(newLayout);
+    
+    // JavaScript version of create_slug function
+    function createSlug(name) {
+        if (!name) return "unknown";
+        
+        // Transliteration map
+        const translitMap = {
+            'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'yo',
+            'ж': 'zh', 'з': 'z', 'и': 'i', 'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm',
+            'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u',
+            'ф': 'f', 'х': 'h', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'sch', 'ъ': '',
+            'ы': 'y', 'ь': '', 'э': 'e', 'ю': 'yu', 'я': 'ya',
+            'А': 'A', 'Б': 'B', 'В': 'V', 'Г': 'G', 'Д': 'D', 'Е': 'E', 'Ё': 'Yo',
+            'Ж': 'Zh', 'З': 'Z', 'И': 'I', 'Й': 'Y', 'К': 'K', 'Л': 'L', 'М': 'M',
+            'Н': 'N', 'О': 'O', 'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T', 'У': 'U',
+            'Ф': 'F', 'Х': 'H', 'Ц': 'Ts', 'Ч': 'Ch', 'Ш': 'Sh', 'Щ': 'Sch', 'Ъ': '',
+            'Ы': 'Y', 'Ь': '', 'Э': 'E', 'Ю': 'Yu', 'Я': 'Ya'
+        };
+        
+        // Remove ЖК prefix and quotes
+        name = name.replace(/^ЖК\s*["']?/i, '').replace(/["']/g, '');
+        
+        // Transliterate
+        let slug = '';
+        for (let char of name) {
+            slug += translitMap[char] || char;
+        }
+        
+        // Clean up
+        slug = slug.replace(/[^\w\s-]/g, '').replace(/[-\s]+/g, '-').toLowerCase().replace(/^-+|-+$/g, '');
+        
+        return slug;
+    }
+
+    // Add click handler for card navigation
+    const complexName = nameElement.textContent;
+    card.style.cursor = 'pointer';
+    card.onclick = (event) => handleCardClick(event, `/zk/${createSlug(complexName)}`);
+    
+    // Reinitialize sliders for the cloned elements
+    reinitializeSlider(clonedSlider);
+}
+
+function reinitializeSlider(sliderElement) {
+    // Find slider controls and re-attach event listeners
+    const complexId = sliderElement.dataset.complexId;
+    if (complexId) {
+        const prevBtn = sliderElement.querySelector('.slider-prev');
+        const nextBtn = sliderElement.querySelector('.slider-next');
+        
+        if (prevBtn) prevBtn.onclick = () => prevSlide(complexId);
+        if (nextBtn) nextBtn.onclick = () => nextSlide(complexId);
+    }
+}
+
+// Handle card clicks for navigation while preserving button functionality
+function handleCardClick(event, url) {
+    // Check if click was on a button or interactive element
+    const target = event.target;
+    const isButton = target.tagName === 'BUTTON' || target.closest('button');
+    const isLink = target.tagName === 'A' || target.closest('a');
+    const isInteractive = target.closest('.apartment-types') || target.closest('.favorites-btn') || target.hasAttribute('onclick');
+    
+    // If click was on interactive element, don't navigate
+    if (isButton || isLink || isInteractive) {
+        return;
+    }
+    
+    // Navigate to complex detail page
+    window.location.href = url;
+}
+
+</script>
+
+{% endblock %}

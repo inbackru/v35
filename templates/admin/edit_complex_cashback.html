@@ -1,0 +1,229 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Редактировать кешбек ЖК - Админ панель | InBack{% endblock %}
+{% block page_title %}Редактировать кешбек ЖК{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Page Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Редактировать кешбек ЖК</h1>
+            <p class="text-gray-600 mt-1">Изменение настроек кешбека для {{ complex.complex_name or 'ЖК' }}</p>
+        </div>
+        <div class="mt-4 sm:mt-0 space-x-2">
+            <a href="{{ url_for('admin_complex_cashback') }}" 
+               class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-medium inline-block">
+                <i class="fas fa-arrow-left mr-2"></i>Назад к списку
+            </a>
+        </div>
+    </div>
+
+    <!-- Edit Form -->
+    <div class="bg-white rounded-lg shadow-sm">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h2 class="text-lg font-semibold text-gray-900">Основная информация</h2>
+        </div>
+        
+        <form method="POST" class="p-6 space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Complex Name -->
+                <div>
+                    <label for="complex_name" class="block text-sm font-medium text-gray-700 mb-2">
+                        Название ЖК <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text" 
+                           name="complex_name" 
+                           id="complex_name" 
+                           value="{{ complex.complex_name or '' }}"
+                           required
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                </div>
+
+                <!-- Complex ID -->
+                <div>
+                    <label for="complex_id" class="block text-sm font-medium text-gray-700 mb-2">
+                        ID ЖК
+                    </label>
+                    <input type="number" 
+                           name="complex_id" 
+                           id="complex_id" 
+                           value="{{ complex.complex_id or '' }}"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                    <p class="text-xs text-gray-500 mt-1">ID из базы данных ЖК (необязательно)</p>
+                </div>
+
+                <!-- Developer Name -->
+                <div>
+                    <label for="developer_name" class="block text-sm font-medium text-gray-700 mb-2">
+                        Застройщик
+                    </label>
+                    <input type="text" 
+                           name="developer_name" 
+                           id="developer_name" 
+                           value="{{ complex.developer_name or '' }}"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                </div>
+
+                <!-- District -->
+                <div>
+                    <label for="district" class="block text-sm font-medium text-gray-700 mb-2">
+                        Район
+                    </label>
+                    <select name="district" id="district" 
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">Выберите район</option>
+                        <option value="Центральный" {% if complex.district == 'Центральный' %}selected{% endif %}>Центральный</option>
+                        <option value="Западный" {% if complex.district == 'Западный' %}selected{% endif %}>Западный</option>
+                        <option value="Прикубанский" {% if complex.district == 'Прикубанский' %}selected{% endif %}>Прикубанский</option>
+                        <option value="Карасунский" {% if complex.district == 'Карасунский' %}selected{% endif %}>Карасунский</option>
+                        <option value="Фестивальный" {% if complex.district == 'Фестивальный' %}selected{% endif %}>Фестивальный</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Cashback Settings -->
+            <div class="border-t border-gray-200 pt-6">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Настройки кешбека</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Cashback Percent -->
+                    <div>
+                        <label for="cashback_percent" class="block text-sm font-medium text-gray-700 mb-2">
+                            Процент кешбека <span class="text-red-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <input type="number" 
+                                   name="cashback_percent" 
+                                   id="cashback_percent" 
+                                   value="{{ complex.cashback_percent or '5.0' }}"
+                                   step="0.1"
+                                   min="0"
+                                   max="15"
+                                   required
+                                   class="w-full px-3 py-2 pr-8 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <span class="absolute right-3 top-2 text-gray-500">%</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">От 0% до 15%</p>
+                    </div>
+
+                    <!-- Min Purchase Amount -->
+                    <div>
+                        <label for="min_purchase_amount" class="block text-sm font-medium text-gray-700 mb-2">
+                            Мин. сумма покупки
+                        </label>
+                        <div class="relative">
+                            <input type="number" 
+                                   name="min_purchase_amount" 
+                                   id="min_purchase_amount" 
+                                   value="{{ complex.min_purchase_amount or '' }}"
+                                   min="0"
+                                   class="w-full px-3 py-2 pr-8 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <span class="absolute right-3 top-2 text-gray-500">₽</span>
+                        </div>
+                    </div>
+
+                    <!-- Max Cashback Amount -->
+                    <div>
+                        <label for="max_cashback_amount" class="block text-sm font-medium text-gray-700 mb-2">
+                            Макс. сумма кешбека
+                        </label>
+                        <div class="relative">
+                            <input type="number" 
+                                   name="max_cashback_amount" 
+                                   id="max_cashback_amount" 
+                                   value="{{ complex.max_cashback_amount or '' }}"
+                                   min="0"
+                                   class="w-full px-3 py-2 pr-8 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <span class="absolute right-3 top-2 text-gray-500">₽</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">Оставьте пустым для отсутствия лимита</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Special Conditions -->
+            <div class="border-t border-gray-200 pt-6">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Дополнительно</h3>
+                
+                <div class="space-y-4">
+                    <!-- Special Conditions -->
+                    <div>
+                        <label for="special_conditions" class="block text-sm font-medium text-gray-700 mb-2">
+                            Особые условия
+                        </label>
+                        <textarea name="special_conditions" 
+                                  id="special_conditions" 
+                                  rows="3"
+                                  placeholder="Описание особых условий кешбека для данного ЖК..."
+                                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">{{ complex.special_conditions or '' }}</textarea>
+                    </div>
+
+                    <!-- Active Status -->
+                    <div class="flex items-center">
+                        <input type="checkbox" 
+                               name="is_active" 
+                               id="is_active" 
+                               value="1"
+                               {% if complex.is_active %}checked{% endif %}
+                               class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <label for="is_active" class="ml-2 block text-sm text-gray-900">
+                            Активен (кешбек доступен для этого ЖК)
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="border-t border-gray-200 pt-6 flex justify-end space-x-4">
+                <a href="{{ url_for('admin_complex_cashback') }}" 
+                   class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-2 rounded-lg font-medium">
+                    Отмена
+                </a>
+                <button type="submit" 
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium">
+                    <i class="fas fa-save mr-2"></i>Сохранить изменения
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Current Status Card -->
+    <div class="bg-white rounded-lg shadow-sm p-6">
+        <h3 class="text-lg font-medium text-gray-900 mb-4">Текущий статус</h3>
+        <div class="text-center py-4">
+            <p class="text-gray-600">Настройки кешбека для данного ЖК</p>
+        </div>
+    </div>
+</div>
+
+<script>
+// Real-time cashback calculator
+document.getElementById('cashback_percent').addEventListener('input', function() {
+    updateCalculator();
+});
+
+document.getElementById('max_cashback_amount').addEventListener('input', function() {
+    updateCalculator();
+});
+
+function updateCalculator() {
+    const percent = parseFloat(document.getElementById('cashback_percent').value) || 0;
+    const maxAmount = parseInt(document.getElementById('max_cashback_amount').value) || null;
+    
+    // Sample calculation for display
+    const samplePrices = [5000000, 8000000, 12000000];
+    let examples = '';
+    
+    samplePrices.forEach(price => {
+        let cashback = price * percent / 100;
+        if (maxAmount && cashback > maxAmount) {
+            cashback = maxAmount;
+        }
+        examples += `${price.toLocaleString()}₽ → ${Math.round(cashback).toLocaleString()}₽ кешбек<br>`;
+    });
+    
+    // You could add a preview section if needed
+}
+</script>
+{% endblock %}

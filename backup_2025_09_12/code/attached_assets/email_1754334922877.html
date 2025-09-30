@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TON Property - Email</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/4a9fa069dc.js" crossorigin="anonymous"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5f7;
+            color: #181818;
+        }
+        
+        .ton-gradient {
+            background: linear-gradient(135deg, #0088cc 0%, #7a53c2 100%);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #0088cc 0%, #7a53c2 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -10px rgba(0, 136, 204, 0.6);
+        }
+        
+        .property-card {
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .property-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Main Container -->
+    <div class="max-w-2xl mx-auto my-8 bg-white rounded-xl shadow-md overflow-hidden">
+        <!-- Header -->
+        <div class="ton-gradient p-6 text-white">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2L1 7l11 5 10-5-10-5zm0 7L1 14l11 5 10-5-10-5z"/>
+                    </svg>
+                    <span class="text-xl font-bold">TON Property</span>
+                </div>
+                <span class="text-sm opacity-80">Сервис новостроек с кешбеком</span>
+            </div>
+        </div>
+        
+        <!-- Dynamic Content - Manager Introduction -->
+        <div class="p-6">
+            <h2 class="text-2xl font-bold mb-4">Добрый день!</h2>
+            <p class="mb-4">Меня зовут Анна, я ваш персональный менеджер в TON Property. Рада познакомиться!</p>
+            
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded-lg">
+                <div class="flex items-start">
+                    <img src="https://ton.org/assets/img/manager.svg" alt="Manager" class="h-12 mr-4">
+                    <div>
+                        <p class="font-medium text-blue-800">Я помогу вам:</p>
+                        <ul class="list-disc pl-5 mt-2 space-y-1">
+                            <li>Подобрать идеальную квартиру</li>
+                            <li>Оформить договор и получить кешбек</li>
+                            <li>Ответить на все вопросы о сервисе</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 class="text-xl font-bold mb-3 mt-6">Новые ЖК в нашем каталоге:</h3>
+            
+            <div class="grid md:grid-cols-2 gap-4 mb-6">
+                <div class="property-card p-4 rounded-xl">
+                    <img src="https://ton.org/assets/img/property1.jpg" alt="ЖК Северное Сияние" class="w-full h-40 object-cover rounded-lg mb-3">
+                    <h4 class="font-bold">ЖК Северное Сияние</h4>
+                    <p class="text-sm text-gray-600">от 120 000 ₽/м²</p>
+                    <p class="text-sm mt-2">Заключить договор до 30.11 - кешбек 3%</p>
+                </div>
+                
+                <div class="property-card p-4 rounded-xl">
+                    <img src="https://ton.org/assets/img/property2.jpg" alt="ЖК Зеленый Квартал" class="w-full h-40 object-cover rounded-lg mb-3">
+                    <h4 class="font-bold">ЖК Зеленый Квартал</h4>
+                    <p class="text-sm text-gray-600">от 98 000 ₽/м²</p>
+                    <p class="text-sm mt-2">Акция: 2% кешбека + бесплатная парковка</p>
+                </div>
+            </div>
+            
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-lg mb-6">
+                <div class="flex items-start">
+                    <img src="https://ton.org/assets/img/cashback.svg" alt="Cashback" class="h-8 mr-3">
+                    <div>
+                        <h4 class="font-bold text-yellow-800">Не забудьте оформить кешбек!</h4>
+                        <p class="text-sm mt-1">Если вы уже приобрели квартиру через TON Property, загрузите документы в личном кабинете для получения кешбека.</p>
+                        <a href="#" class="inline-block mt-2 text-blue-600 font-medium text-sm">Перейти в личный кабинет →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gray-50 p-5 rounded-lg mb-6">
+                <h4 class="font-bold mb-3">Мои контакты:</h4>
+                <div class="grid grid-cols-2 gap-3 text-sm">
+                    <a href="https://wa.me/79991234567" class="flex items-center hover:bg-gray-100 p-2 rounded transition-all">
+                        <i class="fab fa-whatsapp mr-2 text-green-600 text-lg"></i>
+                        <span>WhatsApp: +7 (999) 123-45-67</span>
+                    </a>
+                    <a href="https://t.me/annatonproperty" class="flex items-center hover:bg-gray-100 p-2 rounded transition-all">
+                        <i class="fab fa-telegram mr-2 text-blue-500 text-lg"></i>
+                        <span>Telegram: @annatonproperty</span>
+                    </a>
+                    <a href="tel:+74951234567" class="flex items-center hover:bg-gray-100 p-2 rounded transition-all">
+                        <i class="fas fa-phone mr-2 text-gray-600 text-lg"></i>
+                        <span>Телефон: +7 (495) 123-45-67</span>
+                    </a>
+                    <a href="mailto:anna@tonproperty.com" class="flex items-center hover:bg-gray-100 p-2 rounded transition-all">
+                        <i class="fas fa-envelope mr-2 text-blue-400 text-lg"></i>
+                        <span>Email: anna@tonproperty.com</span>
+                    </a>
+                </div>
+                <p class="mt-3 text-sm text-gray-600">Пишите в любой удобный мессенджер - отвечаю быстро!</p>
+            </div>
+            
+            <div class="text-center mb-4">
+                <a href="#" class="btn-primary inline-block px-6 py-3 rounded-lg text-white font-medium mb-2">
+                    Посмотреть все новостройки
+                </a>
+            </div>
+            
+            <div class="text-sm text-gray-500 mt-6">
+                <p>Вы получили это письмо, потому что зарегистрированы в сервисе TON Property.</p>
+                <p class="mt-2">Вы всегда можете ответить на это письмо, если у вас есть вопросы.</p>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="bg-gray-50 p-6 border-t">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2L1 7l11 5 10-5-10-5z"/>
+                    </svg>
+                    <span class="font-medium">TON Property</span>
+                </div>
+                
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-500 hover:text-blue-600">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-blue-600">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-blue-600">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="mt-4 text-center md:text-left text-xs text-gray-400">
+                <p>© 2023 TON Property. Все права защищены.</p>
+                <p class="mt-1">Это письмо было отправлено вам, потому что вы зарегистрированы в сервисе TON Property.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // No initialization needed for single email template
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,253 @@
+{% extends "admin/base.html" %}
+{% block title %}Редактировать вакансию - Административная панель{% endblock %}
+
+{% block page_header %}
+<div class="flex justify-between items-center mb-8">
+    <div>
+        <h1 class="text-3xl font-bold text-gray-900">Редактировать вакансию</h1>
+        <p class="text-gray-600">{{ vacancy.title }}</p>
+    </div>
+    <a href="{{ url_for('admin_careers') }}" class="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition duration-200">
+        <i class="fas fa-arrow-left mr-2"></i>
+        Назад к списку
+    </a>
+</div>
+{% endblock %}
+
+{% block content %}
+<form method="POST" class="space-y-8">
+    <!-- Основная информация -->
+    <div class="bg-white p-6 rounded-lg shadow-sm border">
+        <h3 class="text-lg font-semibold text-gray-900 mb-6">Основная информация</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="md:col-span-2">
+                <label for="title" class="block text-sm font-medium text-gray-700 mb-2">Название вакансии *</label>
+                <input type="text" id="title" name="title" required value="{{ vacancy.title }}"
+                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+            
+            <div>
+                <label for="department" class="block text-sm font-medium text-gray-700 mb-2">Отдел *</label>
+                <select id="department" name="department" required
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <option value="">Выберите отдел</option>
+                    {% for dept in ['IT', 'Продажи', 'Маркетинг', 'HR', 'Финансы', 'Юридический', 'Административный', 'Поддержка'] %}
+                        <option value="{{ dept }}" {% if vacancy.department == dept %}selected{% endif %}>{{ dept }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div>
+                <label for="location" class="block text-sm font-medium text-gray-700 mb-2">Локация *</label>
+                <input type="text" id="location" name="location" required value="{{ vacancy.location }}"
+                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+            
+            <div>
+                <label for="employment_type" class="block text-sm font-medium text-gray-700 mb-2">Тип занятости *</label>
+                <select id="employment_type" name="employment_type" required
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <option value="">Выберите тип</option>
+                    {% for type in ['Полная занятость', 'Частичная занятость', 'Стажировка', 'Фриланс', 'Проект'] %}
+                        <option value="{{ type }}" {% if vacancy.employment_type == type %}selected{% endif %}>{{ type }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div>
+                <label for="experience_level" class="block text-sm font-medium text-gray-700 mb-2">Уровень опыта *</label>
+                <select id="experience_level" name="experience_level" required
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <option value="">Выберите уровень</option>
+                    {% for level in ['Без опыта', 'Junior', 'Middle', 'Senior', 'Lead'] %}
+                        <option value="{{ level }}" {% if vacancy.experience_level == level %}selected{% endif %}>{{ level }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div>
+                <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Статус *</label>
+                <select id="status" name="status" required
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    {% for status in ['active', 'paused', 'closed'] %}
+                        <option value="{{ status }}" {% if vacancy.status == status %}selected{% endif %}>
+                            {% if status == 'active' %}Активна{% elif status == 'paused' %}На паузе{% else %}Закрыта{% endif %}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <!-- Настройки -->
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="flex items-center">
+                <input type="checkbox" id="is_featured" name="is_featured" value="1" {% if vacancy.is_featured %}checked{% endif %}
+                       class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                <label for="is_featured" class="ml-2 text-sm text-gray-700">Рекомендуемая вакансия</label>
+            </div>
+            <div class="flex items-center">
+                <input type="checkbox" id="is_remote" name="is_remote" value="1" {% if vacancy.is_remote %}checked{% endif %}
+                       class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                <label for="is_remote" class="ml-2 text-sm text-gray-700">Удаленная работа</label>
+            </div>
+            <div class="flex items-center">
+                <input type="checkbox" id="is_urgent" name="is_urgent" value="1" {% if vacancy.is_urgent %}checked{% endif %}
+                       class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                <label for="is_urgent" class="ml-2 text-sm text-gray-700">Срочная вакансия</label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Описание вакансии -->
+    <div class="bg-white p-6 rounded-lg shadow-sm border">
+        <h3 class="text-lg font-semibold text-gray-900 mb-6">Описание вакансии</h3>
+        
+        <div class="space-y-6">
+            <div>
+                <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Общее описание *</label>
+                <textarea id="description" name="description" rows="4" required
+                          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">{{ vacancy.description }}</textarea>
+            </div>
+            
+            <div>
+                <label for="responsibilities" class="block text-sm font-medium text-gray-700 mb-2">Обязанности *</label>
+                <textarea id="responsibilities" name="responsibilities" rows="6" required
+                          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">{{ vacancy.responsibilities }}</textarea>
+                <p class="mt-1 text-sm text-gray-500">Каждую обязанность с новой строки, используйте символ • для списка</p>
+            </div>
+            
+            <div>
+                <label for="requirements" class="block text-sm font-medium text-gray-700 mb-2">Требования *</label>
+                <textarea id="requirements" name="requirements" rows="6" required
+                          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">{{ vacancy.requirements }}</textarea>
+                <p class="mt-1 text-sm text-gray-500">Каждое требование с новой строки, используйте символ • для списка</p>
+            </div>
+            
+            <div>
+                <label for="benefits" class="block text-sm font-medium text-gray-700 mb-2">Условия и льготы</label>
+                <textarea id="benefits" name="benefits" rows="4"
+                          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">{{ vacancy.benefits or '' }}</textarea>
+                <p class="mt-1 text-sm text-gray-500">Каждую льготу с новой строки, используйте символ • для списка</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Зарплата -->
+    <div class="bg-white p-6 rounded-lg shadow-sm border">
+        <h3 class="text-lg font-semibold text-gray-900 mb-6">Зарплата</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+                <label for="salary_min" class="block text-sm font-medium text-gray-700 mb-2">Минимальная зарплата (₽)</label>
+                <input type="number" id="salary_min" name="salary_min" min="0" step="1000" value="{{ vacancy.salary_min or '' }}"
+                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+            
+            <div>
+                <label for="salary_max" class="block text-sm font-medium text-gray-700 mb-2">Максимальная зарплата (₽)</label>
+                <input type="number" id="salary_max" name="salary_max" min="0" step="1000" value="{{ vacancy.salary_max or '' }}"
+                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+            
+            <div>
+                <label for="salary_note" class="block text-sm font-medium text-gray-700 mb-2">Примечание к зарплате</label>
+                <input type="text" id="salary_note" name="salary_note" value="{{ vacancy.salary_note or '' }}"
+                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+        </div>
+    </div>
+
+    <!-- Контакты -->
+    <div class="bg-white p-6 rounded-lg shadow-sm border">
+        <h3 class="text-lg font-semibold text-gray-900 mb-6">Контактная информация</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label for="contact_email" class="block text-sm font-medium text-gray-700 mb-2">Email для отправки резюме</label>
+                <input type="email" id="contact_email" name="contact_email" value="{{ vacancy.contact_email or '' }}"
+                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+            
+            <div>
+                <label for="contact_phone" class="block text-sm font-medium text-gray-700 mb-2">Телефон для связи</label>
+                <input type="tel" id="contact_phone" name="contact_phone" value="{{ vacancy.contact_phone or '' }}"
+                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+            
+            <div>
+                <label for="application_deadline" class="block text-sm font-medium text-gray-700 mb-2">Срок подачи заявок</label>
+                <input type="date" id="application_deadline" name="application_deadline" 
+                       value="{{ vacancy.application_deadline.strftime('%Y-%m-%d') if vacancy.application_deadline else '' }}"
+                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+        </div>
+    </div>
+
+    <!-- SEO -->
+    <div class="bg-white p-6 rounded-lg shadow-sm border">
+        <h3 class="text-lg font-semibold text-gray-900 mb-6">SEO настройки</h3>
+        
+        <div class="space-y-6">
+            <div>
+                <label for="meta_title" class="block text-sm font-medium text-gray-700 mb-2">Meta Title</label>
+                <input type="text" id="meta_title" name="meta_title" maxlength="60" value="{{ vacancy.meta_title or '' }}"
+                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                <p class="mt-1 text-sm text-gray-500">Рекомендуется до 60 символов</p>
+            </div>
+            
+            <div>
+                <label for="meta_description" class="block text-sm font-medium text-gray-700 mb-2">Meta Description</label>
+                <textarea id="meta_description" name="meta_description" rows="2" maxlength="160"
+                          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">{{ vacancy.meta_description or '' }}</textarea>
+                <p class="mt-1 text-sm text-gray-500">Рекомендуется до 160 символов</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Статистика (только для просмотра) -->
+    <div class="bg-gray-50 p-6 rounded-lg border">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Статистика</h3>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="text-center">
+                <div class="text-2xl font-bold text-blue-600">{{ vacancy.views_count }}</div>
+                <div class="text-sm text-gray-500">Просмотров</div>
+            </div>
+            <div class="text-center">
+                <div class="text-2xl font-bold text-green-600">{{ vacancy.applications_count }}</div>
+                <div class="text-sm text-gray-500">Откликов</div>
+            </div>
+            <div class="text-center">
+                <div class="text-sm font-medium text-gray-600">Создана</div>
+                <div class="text-sm text-gray-500">{{ vacancy.created_at.strftime('%d.%m.%Y') }}</div>
+            </div>
+            <div class="text-center">
+                <div class="text-sm font-medium text-gray-600">Обновлена</div>
+                <div class="text-sm text-gray-500">{{ vacancy.updated_at.strftime('%d.%m.%Y') }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Действия -->
+    <div class="flex justify-between">
+        <div>
+            <a href="{{ url_for('vacancy_details', vacancy_id=vacancy.id) }}" target="_blank"
+               class="inline-flex items-center px-6 py-3 border border-blue-300 text-blue-700 bg-blue-50 rounded-lg hover:bg-blue-100 transition duration-200">
+                <i class="fas fa-external-link-alt mr-2"></i>
+                Просмотреть публичную страницу
+            </a>
+        </div>
+        <div class="flex space-x-4">
+            <a href="{{ url_for('admin_careers') }}" 
+               class="px-6 py-3 border border-gray-300 text-gray-700 bg-white rounded-lg hover:bg-gray-50 transition duration-200">
+                Отмена
+            </a>
+            <button type="submit" 
+                    class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200">
+                <i class="fas fa-save mr-2"></i>
+                Сохранить изменения
+            </button>
+        </div>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,772 @@
+{% extends "base.html" %}
+
+{% block title %}Страхование жизни и имущества по ипотеке в Краснодаре | InBack{% endblock %}
+{% block description %}Страхование жизни и имущества по ипотеке в Краснодаре. Обязательное и добровольное страхование. Подбор лучших условий от ведущих страховых компаний. Консультации и оформление полисов.{% endblock %}
+{% block keywords %}страхование ипотеки, страхование жизни ипотека, страхование имущества ипотека, ипотечное страхование Краснодар, страховка по ипотеке, полис ипотеки{% endblock %}
+
+{% block head %}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "InsuranceAgency",
+      "name": "InBack - Ипотечные услуги и страхование",
+      "image": "{{ url_for('static', filename='img/logo.png', _external=True) }}",
+      "description": "InBack - ведущая компания в сфере ипотечных услуг в Краснодаре. Помогаем с получением ипотеки, страхованием жизни и имущества по выгодным условиям.",
+      "priceRange": "₽₽",
+      "areaServed": {
+        "@type": "AdministrativeArea",
+        "name": "Краснодар и Краснодарский край"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "ул. Красная, 176",
+        "addressLocality": "Краснодар",
+        "addressRegion": "Краснодарский край",
+        "postalCode": "350000"
+      },
+      "telephone": "+7 (861) 290-85-85",
+      "url": "{{ url_for('index', _external=True) }}",
+      "email": "info@inback.ru",
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "09:00",
+        "closes": "19:00"
+      },
+      "sameAs": [
+        "https://vk.com/inback_krasnodar",
+        "https://t.me/inback_official"
+      ]
+    }
+    </script>
+{% endblock %}
+
+{% block content %}
+<section class="bg-gradient-to-b from-white to-gray-50 pt-20 pb-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Left Content -->
+                <div>
+                    <div class="inline-flex items-center px-4 py-2 bg-gray-100 rounded-full text-gray-700 text-sm font-medium mb-6">
+                        <i class="fas fa-shield-alt mr-2 text-[#0088CC]"></i>
+                        Страхование по ипотеке
+                    </div>
+                    <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+                        Страхование <span class="text-[#0088CC]">жизни и имущества</span> по ипотеке
+                    </h1>
+                    <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                        Оформляем страховые полисы для ипотечных кредитов. Подбираем оптимальные условия, оформляем документы, взаимодействуем со страховыми компаниями.
+                    </p>
+                    
+                    <!-- Key Benefits -->
+                    <div class="grid sm:grid-cols-2 gap-4 mb-8">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-hand-holding-heart text-[#0088CC] text-sm"></i>
+                            </div>
+                            <span class="text-gray-700">Страхование жизни</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-home text-[#0088CC] text-sm"></i>
+                            </div>
+                            <span class="text-gray-700">Страхование имущества</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-handshake text-[#0088CC] text-sm"></i>
+                            </div>
+                            <span class="text-gray-700">Работа с банками</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-phone text-[#0088CC] text-sm"></i>
+                            </div>
+                            <span class="text-gray-700">Бесплатная консультация</span>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button onclick="openInsuranceModal()" class="bg-gradient-to-r from-[#0088CC] to-[#006699] hover:shadow-lg text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all transform hover:scale-[1.02]">
+                            Подать заявку
+                        </button>
+                        <button onclick="openCalculatorModal()" class="border-2 border-[#0088CC] text-[#0088CC] hover:bg-[#0088CC] hover:text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all transform hover:scale-[1.02]">
+                            Рассчитать стоимость
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Content - Image -->
+                <div class="relative">
+                    <div class="bg-white rounded-2xl shadow-xl p-8 relative z-10">
+                        <div class="text-center mb-6">
+                            <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-shield-alt text-[#0088CC] text-3xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900">Защита по ипотеке</h3>
+                            <p class="text-lg font-semibold text-[#0088CC] mt-2">Полная поддержка</p>
+                            <p class="text-gray-600">от заявки до полиса</p>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                                <span class="text-gray-600">Оформление:</span>
+                                <span class="font-semibold">1-2 дня</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                                <span class="text-gray-600">Консультация:</span>
+                                <span class="font-semibold">Бесплатно</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                                <span class="text-gray-600">Документооборот:</span>
+                                <span class="font-semibold">На нас</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2">
+                                <span class="text-gray-600">Поддержка:</span>
+                                <span class="font-semibold">24/7</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Background decorative element -->
+                    <div class="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-[#0088CC] to-[#006699] rounded-full opacity-10"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Important Info Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <!-- Фирменный бейдж - единый стандарт как в index -->
+                <div class="w-fit px-4 py-1 bg-black bg-opacity-5 rounded-full mb-6 mx-auto">
+                    <span class="text-sm font-medium uppercase">Основы страхования</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Что важно знать о страховании</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Разбираемся в видах страхования и их влиянии на ипотечный кредит
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12">
+                <div class="bg-red-50 border border-red-200 rounded-xl p-8">
+                    <div class="flex items-start mb-4">
+                        <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center mr-3 mt-1">
+                            <i class="fas fa-home text-red-600 text-sm"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-red-900 mb-2">Обязательное страхование</h3>
+                            <p class="text-red-800 font-medium">Страхование имущества (конструктива)</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-red-700">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-red-600 text-sm mr-2 mt-1"></i>
+                            Требуется всеми банками без исключения
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-red-600 text-sm mr-2 mt-1"></i>
+                            Покрывает ущерб квартире от пожара, затопления, взрыва
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-red-600 text-sm mr-2 mt-1"></i>
+                            Оформляется после получения права собственности
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-blue-50 border border-blue-200 rounded-xl p-8">
+                    <div class="flex items-start mb-4">
+                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3 mt-1">
+                            <i class="fas fa-hand-holding-heart text-blue-600 text-sm"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-blue-900 mb-2">Добровольное страхование</h3>
+                            <p class="text-blue-800 font-medium">Страхование жизни и здоровья</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-blue-700">
+                        <li class="flex items-start">
+                            <i class="fas fa-info text-blue-600 text-sm mr-2 mt-1"></i>
+                            Не является обязательным, но рекомендуется банками
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-info text-blue-600 text-sm mr-2 mt-1"></i>
+                            Снижает процентную ставку на 1% и более
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-info text-blue-600 text-sm mr-2 mt-1"></i>
+                            Защищает наследников от долговых обязательств
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-8 p-6 bg-yellow-50 border border-yellow-200 rounded-xl">
+                <div class="flex items-start">
+                    <i class="fas fa-exclamation-triangle text-yellow-600 text-xl mr-3 mt-1"></i>
+                    <div>
+                        <h4 class="font-semibold text-yellow-900 mb-2">Важно помнить</h4>
+                        <p class="text-yellow-800">
+                            При отказе от страхования жизни банк увеличивает процентную ставку на 1% и более. 
+                            Страховка гарантирует банку полную выплату ипотечных средств в случае установления 
+                            инвалидности I, II группы или смерти страхователя без обременения наследников.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Process Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <!-- Фирменный бейдж - единый стандарт как в index -->
+                <div class="w-fit px-4 py-1 bg-black bg-opacity-5 rounded-full mb-6 mx-auto">
+                    <span class="text-sm font-medium uppercase">Процесс работы</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Как мы работаем</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Простой процесс оформления страхования для вашего удобства
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12 mb-12">
+                <!-- Независимая сделка -->
+                <div class="bg-white rounded-xl shadow-lg p-8">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-[#0088CC] rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-handshake text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900">Самостоятельная сделка</h3>
+                            <p class="text-gray-600">Обращение напрямую к нам</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3 mt-1 text-sm font-semibold text-[#0088CC]">1</div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Заявка</h4>
+                                <p class="text-gray-600 text-sm">Отправляете нам заявку через форму</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3 mt-1 text-sm font-semibold text-[#0088CC]">2</div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Консультация</h4>
+                                <p class="text-gray-600 text-sm">Связываемся, уточняем детали</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3 mt-1 text-sm font-semibold text-[#0088CC]">3</div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Расчет</h4>
+                                <p class="text-gray-600 text-sm">Подбираем оптимальную программу</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3 mt-1 text-sm font-semibold text-[#0088CC]">4</div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Оформление</h4>
+                                <p class="text-gray-600 text-sm">Берем на себя все взаимодействие со страховой</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Сделка через InBack -->
+                <div class="bg-white rounded-xl shadow-lg p-8">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-r from-[#0088CC] to-[#006699] rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-building text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900">Сделка через InBack</h3>
+                            <p class="text-gray-600">Комплексное обслуживание</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3 mt-1 text-sm font-semibold text-[#006699]">1</div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Автоматическая консультация</h4>
+                                <p class="text-gray-600 text-sm">Связываемся в процессе ипотечной сделки</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3 mt-1 text-sm font-semibold text-[#006699]">2</div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Подбор программы</h4>
+                                <p class="text-gray-600 text-sm">Учитываем банк и условия ипотеки</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3 mt-1 text-sm font-semibold text-[#006699]">3</div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Интегрированное оформление</h4>
+                                <p class="text-gray-600 text-sm">Страхование в рамках общей сделки</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Cost Factors Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <!-- Фирменный бейдж - единый стандарт как в index -->
+                <div class="w-fit px-4 py-1 bg-black bg-opacity-5 rounded-full mb-6 mx-auto">
+                    <span class="text-sm font-medium uppercase">Стоимость страхования</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">От чего зависит стоимость страхования?</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Основные факторы, влияющие на размер страховой премии
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Factor 1 -->
+                <div class="bg-gray-50 rounded-xl p-6">
+                    <div class="flex items-start mb-4">
+                        <div class="w-8 h-8 bg-[#0088CC] rounded-full flex items-center justify-center mr-3 text-white font-bold text-sm">1</div>
+                        <h3 class="text-lg font-bold text-gray-900">Пол и возраст</h3>
+                    </div>
+                    <p class="text-gray-700 text-sm">
+                        Из-за разницы в продолжительности жизни для женщин страхование дешевле. 
+                        Стоимость растет с возрастом: после 35 лет у мужчин, после 40 — у женщин.
+                    </p>
+                </div>
+
+                <!-- Factor 2 -->
+                <div class="bg-gray-50 rounded-xl p-6">
+                    <div class="flex items-start mb-4">
+                        <div class="w-8 h-8 bg-[#0088CC] rounded-full flex items-center justify-center mr-3 text-white font-bold text-sm">2</div>
+                        <h3 class="text-lg font-bold text-gray-900">Политика банка</h3>
+                    </div>
+                    <p class="text-gray-700 text-sm">
+                        Некоторые банки лоббируют свои страховые компании, не давая выбора. 
+                        Стоимость может достигать 1% от суммы кредита.
+                    </p>
+                </div>
+
+                <!-- Factor 3 -->
+                <div class="bg-gray-50 rounded-xl p-6">
+                    <div class="flex items-start mb-4">
+                        <div class="w-8 h-8 bg-[#0088CC] rounded-full flex items-center justify-center mr-3 text-white font-bold text-sm">3</div>
+                        <h3 class="text-lg font-bold text-gray-900">Профессия</h3>
+                    </div>
+                    <p class="text-gray-700 text-sm">
+                        Стоимость повышается для рисковых профессий: водители, медики, 
+                        работники энергетики, охранники, геологи и др.
+                    </p>
+                </div>
+
+                <!-- Factor 4 -->
+                <div class="bg-gray-50 rounded-xl p-6">
+                    <div class="flex items-start mb-4">
+                        <div class="w-8 h-8 bg-[#0088CC] rounded-full flex items-center justify-center mr-3 text-white font-bold text-sm">4</div>
+                        <h3 class="text-lg font-bold text-gray-900">Индекс массы тела</h3>
+                    </div>
+                    <p class="text-gray-700 text-sm">
+                        При значительно повышенном или пониженном ИМТ процент страхования 
+                        увеличивается из-за возросших рисков заболеваний.
+                    </p>
+                </div>
+
+                <!-- Factor 5 -->
+                <div class="bg-gray-50 rounded-xl p-6">
+                    <div class="flex items-start mb-4">
+                        <div class="w-8 h-8 bg-[#0088CC] rounded-full flex items-center justify-center mr-3 text-white font-bold text-sm">5</div>
+                        <h3 class="text-lg font-bold text-gray-900">Беременность</h3>
+                    </div>
+                    <p class="text-gray-700 text-sm">
+                        Обычно не афишируется в банке, но есть страховые компании, 
+                        готовые принять беременную женщину на страхование.
+                    </p>
+                </div>
+
+                <!-- Factor 6 -->
+                <div class="bg-gray-50 rounded-xl p-6">
+                    <div class="flex items-start mb-4">
+                        <div class="w-8 h-8 bg-[#0088CC] rounded-full flex items-center justify-center mr-3 text-white font-bold text-sm">6</div>
+                        <h3 class="text-lg font-bold text-gray-900">Хронические заболевания</h3>
+                    </div>
+                    <p class="text-gray-700 text-sm">
+                        При наличии заболеваний стоимость повышается. 
+                        Требуется согласование и медицинские справки.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Rejection Cases Section -->
+<section class="py-16 bg-red-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <!-- Фирменный бейдж - единый стандарт как в index -->
+                <div class="w-fit px-4 py-1 bg-red-100 rounded-full mb-6 mx-auto">
+                    <span class="text-sm font-medium uppercase text-red-700">Ограничения</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-red-900 mb-4">В каких случаях могут отказать в страховании?</h2>
+                <p class="text-xl text-red-700 max-w-3xl mx-auto">
+                    Ситуации, при которых страховые компании не принимают заявки
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl p-6 border border-red-200">
+                    <div class="flex items-start mb-3">
+                        <i class="fas fa-times-circle text-red-500 text-lg mr-3 mt-1"></i>
+                        <h3 class="font-semibold text-red-900">Существующая инвалидность</h3>
+                    </div>
+                    <p class="text-red-700 text-sm">Любая группа инвалидности является основанием для отказа</p>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 border border-red-200">
+                    <div class="flex items-start mb-3">
+                        <i class="fas fa-times-circle text-red-500 text-lg mr-3 mt-1"></i>
+                        <h3 class="font-semibold text-red-900">Критическое отклонение ИМТ</h3>
+                    </div>
+                    <p class="text-red-700 text-sm">Значительное несоответствие индекса массы тела нормам</p>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 border border-red-200">
+                    <div class="flex items-start mb-3">
+                        <i class="fas fa-times-circle text-red-500 text-lg mr-3 mt-1"></i>
+                        <h3 class="font-semibold text-red-900">Онкологические заболевания</h3>
+                    </div>
+                    <p class="text-red-700 text-sm">Даже в состоянии ремиссии являются противопоказанием</p>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 border border-red-200">
+                    <div class="flex items-start mb-3">
+                        <i class="fas fa-times-circle text-red-500 text-lg mr-3 mt-1"></i>
+                        <h3 class="font-semibold text-red-900">Тяжелые хронические заболевания</h3>
+                    </div>
+                    <p class="text-red-700 text-sm">С высоким риском инвалидности I-II группы или летального исхода</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-16 bg-gradient-to-r from-[#0088CC] to-[#006699]">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <!-- Фирменный бейдж - единый стандарт как в index -->
+            <div class="w-fit px-4 py-1 bg-white bg-opacity-20 rounded-full mb-6 mx-auto">
+                <span class="text-sm font-medium uppercase text-white">Консультация экспертов</span>
+            </div>
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+                Нужна консультация по страхованию?
+            </h2>
+            <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+                Проконсультируйтесь со специалистом для расчета полной стоимости ипотечных расходов
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button onclick="openInsuranceModal()" class="bg-white text-[#0088CC] hover:bg-gray-100 px-8 py-4 rounded-xl font-semibold text-lg transition-all transform hover:scale-[1.02]">
+                    Получить консультацию
+                </button>
+                <button onclick="openCalculatorModal()" class="border-2 border-white text-white hover:bg-white hover:text-[#0088CC] px-8 py-4 rounded-xl font-semibold text-lg transition-all transform hover:scale-[1.02]">
+                    Рассчитать стоимость
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Insurance Application Modal -->
+<div id="insuranceModal" class="modal hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="modal-overlay fixed inset-0 bg-black bg-opacity-50"></div>
+    <div class="modal-container relative bg-white mx-auto my-8 max-w-lg rounded-xl shadow-xl">
+        <div class="modal-header flex justify-between items-center p-6 border-b">
+            <h3 class="text-xl font-bold text-gray-900">Заявка на страхование</h3>
+            <button onclick="closeInsuranceModal()" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+        </div>
+        
+        <form id="insuranceForm" method="POST" action="{{ url_for('submit_insurance_application') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <div class="modal-body p-6">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Ваше имя *</label>
+                        <input type="text" name="name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Телефон *</label>
+                        <input type="tel" name="phone" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent" placeholder="+7 (999) 999-99-99">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Банк *</label>
+                        <select name="bank" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent">
+                            <option value="">Выберите банк</option>
+                            <option value="Сбербанк">Сбербанк</option>
+                            <option value="ВТБ">ВТБ</option>
+                            <option value="Газпромбанк">Газпромбанк</option>
+                            <option value="Альфа-Банк">Альфа-Банк</option>
+                            <option value="Россельхозбанк">Россельхозбанк</option>
+                            <option value="ДОМ.РФ">ДОМ.РФ</option>
+                            <option value="Абсолют Банк">Абсолют Банк</option>
+                            <option value="Другой">Другой банк</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Сумма кредита *</label>
+                        <input type="number" name="credit_amount" required min="200000" max="50000000" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent" placeholder="3000000">
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Дата рождения *</label>
+                            <input type="date" name="birth_date" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Пол *</label>
+                            <select name="gender" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent">
+                                <option value="">Выберите</option>
+                                <option value="Мужчина">Мужчина</option>
+                                <option value="Женщина">Женщина</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Комментарий</label>
+                        <textarea name="comment" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent" placeholder="Дополнительные пожелания или информация"></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer p-6 border-t">
+                <button type="submit" class="w-full bg-gradient-to-r from-[#0088CC] to-[#006699] text-white py-3 px-6 rounded-lg font-semibold hover:shadow-lg transition-all">
+                    Отправить заявку
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Calculator Modal -->
+<div id="calculatorModal" class="modal hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="modal-overlay fixed inset-0 bg-black bg-opacity-50"></div>
+    <div class="modal-container relative bg-white mx-auto my-8 max-w-lg rounded-xl shadow-xl">
+        <div class="modal-header flex justify-between items-center p-6 border-b">
+            <h3 class="text-xl font-bold text-gray-900">Калькулятор страхования</h3>
+            <button onclick="closeCalculatorModal()" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+        </div>
+        
+        <div class="modal-body p-6">
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Сумма кредита</label>
+                    <input type="number" id="calc-amount" min="200000" max="50000000" value="3000000" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent" oninput="calculateInsurance()">
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Возраст</label>
+                        <input type="number" id="calc-age" min="18" max="65" value="30" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent" oninput="calculateInsurance()">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Пол</label>
+                        <select id="calc-gender" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent" onchange="calculateInsurance()">
+                            <option value="male">Мужчина</option>
+                            <option value="female">Женщина</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <h4 class="font-semibold text-gray-900 mb-3">Примерная стоимость:</h4>
+                    <div class="space-y-2">
+                        <div class="flex justify-between">
+                            <span class="text-gray-700">Страхование жизни:</span>
+                            <span id="life-cost" class="font-semibold text-[#0088CC]">-</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-700">Страхование имущества:</span>
+                            <span id="property-cost" class="font-semibold text-[#0088CC]">-</span>
+                        </div>
+                        <div class="border-t pt-2 flex justify-between">
+                            <span class="font-semibold text-gray-900">Итого в год:</span>
+                            <span id="total-cost" class="font-bold text-[#0088CC] text-lg">-</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-xs text-gray-500">
+                    * Расчет является ориентировочным. Точная стоимость определяется после андеррайтинга.
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal-footer p-6 border-t">
+            <button onclick="openInsuranceModalFromCalc()" class="w-full bg-gradient-to-r from-[#0088CC] to-[#006699] text-white py-3 px-6 rounded-lg font-semibold hover:shadow-lg transition-all">
+                Оформить страховку
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+// Insurance modal functions
+function openInsuranceModal() {
+    document.getElementById('insuranceModal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeInsuranceModal() {
+    document.getElementById('insuranceModal').classList.add('hidden');
+    // ИСПРАВЛЕНИЕ: Принудительно восстанавливаем скролл
+    document.body.style.overflow = '';
+    document.body.style.overflowX = '';
+    document.body.style.overflowY = '';
+}
+
+// Calculator modal functions
+function openCalculatorModal() {
+    document.getElementById('calculatorModal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    calculateInsurance();
+}
+
+function closeCalculatorModal() {
+    document.getElementById('calculatorModal').classList.add('hidden');
+    // ИСПРАВЛЕНИЕ: Принудительно восстанавливаем скролл
+    document.body.style.overflow = '';
+    document.body.style.overflowX = '';
+    document.body.style.overflowY = '';
+}
+
+function openInsuranceModalFromCalc() {
+    closeCalculatorModal();
+    setTimeout(() => {
+        openInsuranceModal();
+        // Pre-fill some data from calculator
+        const amount = document.getElementById('calc-amount').value;
+        const birthYear = new Date().getFullYear() - document.getElementById('calc-age').value;
+        const gender = document.getElementById('calc-gender').value === 'female' ? 'Женщина' : 'Мужчина';
+        
+        document.querySelector('[name="credit_amount"]').value = amount;
+        document.querySelector('[name="birth_date"]').value = `${birthYear}-01-01`;
+        document.querySelector('[name="gender"]').value = gender;
+    }, 300);
+}
+
+// Insurance calculator
+function calculateInsurance() {
+    const amount = parseFloat(document.getElementById('calc-amount').value) || 0;
+    const age = parseInt(document.getElementById('calc-age').value) || 30;
+    const gender = document.getElementById('calc-gender').value;
+    
+    if (amount < 200000) {
+        document.getElementById('life-cost').textContent = '-';
+        document.getElementById('property-cost').textContent = '-';
+        document.getElementById('total-cost').textContent = '-';
+        return;
+    }
+    
+    // Basic calculation logic (simplified)
+    let lifeRate = 0.003; // Base 0.3%
+    
+    // Age adjustment
+    if (age > 40) lifeRate += 0.001;
+    if (age > 50) lifeRate += 0.001;
+    
+    // Gender adjustment
+    if (gender === 'male') lifeRate += 0.0005;
+    
+    const lifeCost = Math.round(amount * lifeRate);
+    const propertyCost = Math.round(amount * 0.001); // 0.1% for property
+    const totalCost = lifeCost + propertyCost;
+    
+    document.getElementById('life-cost').textContent = lifeCost.toLocaleString('ru-RU') + ' ₽';
+    document.getElementById('property-cost').textContent = propertyCost.toLocaleString('ru-RU') + ' ₽';
+    document.getElementById('total-cost').textContent = totalCost.toLocaleString('ru-RU') + ' ₽';
+}
+
+// Form submission handling
+document.getElementById('insuranceForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    
+    // ИСПРАВЛЕНИЕ: Убираем X-CSRFToken header - токен уже в FormData из HTML формы
+    fetch('{{ url_for("submit_insurance_application") }}', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Заявка успешно отправлена! Мы свяжемся с вами в ближайшее время.');
+            closeInsuranceModal();
+            this.reset();
+            // ИСПРАВЛЕНИЕ: Принудительно восстанавливаем скролл в успешном случае
+            document.body.style.overflow = '';
+        } else {
+            alert('Ошибка при отправке заявки: ' + (data.error || 'Неизвестная ошибка'));
+            // ИСПРАВЛЕНИЕ: Восстанавливаем скролл при ошибке тоже
+            document.body.style.overflow = '';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Ошибка при отправке заявки. Пожалуйста, попробуйте еще раз.');
+        // ИСПРАВЛЕНИЕ: Принудительно восстанавливаем скролл при ошибке
+        document.body.style.overflow = '';
+        document.body.style.overflowX = '';
+        document.body.style.overflowY = '';
+    });
+});
+
+// Close modals on outside click
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('modal-overlay')) {
+        if (!document.getElementById('insuranceModal').classList.contains('hidden')) {
+            closeInsuranceModal();
+        }
+        if (!document.getElementById('calculatorModal').classList.contains('hidden')) {
+            closeCalculatorModal();
+        }
+    }
+});
+
+// Initialize calculator on page load
+document.addEventListener('DOMContentLoaded', function() {
+    calculateInsurance();
+});
+</script>
+
+{% endblock %}

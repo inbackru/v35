@@ -1,0 +1,772 @@
+{% extends "base.html" %}
+
+{% block title %}{{ article.title }} | Блог InBack{% endblock %}
+{% block description %}{{ article.meta_description }}{% endblock %}
+{% block keywords %}{{ article.seo_keywords }}{% endblock %}
+
+{% block head %}
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://inback.ru/blog/{{ article.slug }}">
+    <meta property="og:title" content="{{ article.title }}">
+    <meta property="og:description" content="{{ article.excerpt }}">
+    <meta property="og:image" content="{{ article.image }}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://inback.ru/blog/{{ article.slug }}">
+    <meta property="twitter:title" content="{{ article.title }}">
+    <meta property="twitter:description" content="{{ article.excerpt }}">
+    <meta property="twitter:image" content="{{ article.image }}">
+
+    <!-- Schema.org for Article -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "{{ article.title }}",
+      "description": "{{ article.excerpt }}",
+      "image": "{{ article.image }}",
+      "author": {
+        "@type": "Person",
+        "name": "{{ article.author }}"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "InBack",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://inback.ru/logo.jpg"
+        }
+      },
+      "datePublished": "{{ article.date }}",
+      "dateModified": "{{ article.date }}",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://inback.ru/blog/{{ article.slug }}"
+      }
+    }
+    </script>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+.article-content {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.8;
+    color: #374151;
+}
+
+.article-content h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    color: #111827;
+    line-height: 1.2;
+}
+
+.article-content h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    color: #111827;
+    border-bottom: 3px solid #0088CC;
+    padding-bottom: 0.5rem;
+}
+
+.article-content h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #1f2937;
+    position: relative;
+}
+
+.article-content h3::before {
+    content: '';
+    position: absolute;
+    left: -1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 1.5rem;
+    background: linear-gradient(135deg, #0088CC, #006699);
+    border-radius: 2px;
+}
+
+.article-content p {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.article-content ul, .article-content ol {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+}
+
+.article-content li {
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
+
+.article-content ul li {
+    list-style: none;
+    position: relative;
+}
+
+.article-content ul li::before {
+    content: '→';
+    color: #0088CC;
+    font-weight: bold;
+    position: absolute;
+    left: -1.5rem;
+}
+
+.article-content ol li {
+    list-style-type: decimal;
+    color: #0088CC;
+    font-weight: 600;
+}
+
+.article-content strong {
+    font-weight: 700;
+    color: #111827;
+    background: linear-gradient(120deg, rgba(0, 136, 204, 0.1) 0%, rgba(0, 136, 204, 0.05) 100%);
+    padding: 0.1rem 0.3rem;
+    border-radius: 0.25rem;
+}
+
+.article-content blockquote {
+    border-left: 4px solid #0088CC;
+    background: linear-gradient(135deg, rgba(0, 136, 204, 0.05), rgba(0, 136, 204, 0.02));
+    padding: 1.5rem;
+    margin: 2rem 0;
+    border-radius: 0.5rem;
+    font-style: italic;
+    font-size: 1.1rem;
+    position: relative;
+}
+
+.article-content blockquote::before {
+    content: '"';
+    font-size: 4rem;
+    color: #0088CC;
+    position: absolute;
+    top: -0.5rem;
+    left: 1rem;
+    opacity: 0.3;
+}
+
+.table-of-contents {
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin: 2rem 0;
+}
+
+.cta-box {
+    background: linear-gradient(135deg, #0088CC, #006699);
+    color: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    margin: 3rem 0;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 136, 204, 0.3);
+}
+
+.highlight-box {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05));
+    border: 1px solid rgba(34, 197, 94, 0.2);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    position: relative;
+}
+
+.highlight-box::before {
+    content: '💡';
+    position: absolute;
+    top: -0.5rem;
+    left: 1rem;
+    background: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.highlight-section {
+    position: relative;
+}
+
+.highlight-section::before {
+    content: '📋';
+    position: absolute;
+    top: -0.5rem;
+    left: -0.5rem;
+    background: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid #3b82f6;
+}
+
+.info-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.warning-box {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05));
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    position: relative;
+}
+
+.warning-box::before {
+    content: '⚠️';
+    position: absolute;
+    top: -0.5rem;
+    left: 1rem;
+    background: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.reading-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(90deg, #0088CC, #006699);
+    z-index: 1000;
+    transition: width 0.1s ease;
+}
+
+@media (max-width: 768px) {
+    .article-content h1 {
+        font-size: 2rem;
+    }
+    
+    .article-content h2 {
+        font-size: 1.5rem;
+        margin-top: 2rem;
+    }
+    
+    .article-content h3 {
+        font-size: 1.25rem;
+    }
+    
+    .article-content p {
+        font-size: 1rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Reading Progress Bar -->
+<div class="reading-progress" id="reading-progress"></div>
+
+<!-- Breadcrumbs -->
+<div class="container mx-auto px-4 py-3 text-sm">
+    <nav aria-label="Breadcrumb" class="flex">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+                <a class="text-[#0088CC] hover:underline inline-flex items-center" href="{{ url_for('index') }}">
+                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                    </svg>
+                    Главная
+                </a>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path clip-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" fill-rule="evenodd"></path>
+                    </svg>
+                    <a class="text-[#0088CC] hover:underline ml-1 md:ml-2" href="{{ url_for('blog') }}">Блог</a>
+                </div>
+            </li>
+            <li aria-current="page">
+                <div class="flex items-center">
+                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path clip-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" fill-rule="evenodd"></path>
+                    </svg>
+                    <span class="text-gray-500 ml-1 md:ml-2 truncate max-w-xs">{{ article.title }}</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+</div>
+
+<!-- Main Content -->
+<article class="container mx-auto px-4 py-8 max-w-4xl">
+    <div class="grid lg:grid-cols-3 gap-8">
+        <!-- Article Content -->
+        <div class="lg:col-span-2">
+            <!-- Article Header -->
+            <header class="mb-8">
+                <!-- Category Badge -->
+                <div class="mb-4">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-700">
+                        <i class="fas fa-tag mr-2"></i>
+                        {% if article.category == 'cashback' %}Кэшбек
+                        {% elif article.category == 'districts' %}Районы
+                        {% elif article.category == 'mortgage' %}Ипотека
+                        {% elif article.category == 'investments' %}Инвестиции
+                        {% elif article.category == 'new-buildings' %}Новостройки
+                        {% elif article.category == 'developers' %}Застройщики
+                        {% else %}Недвижимость
+                        {% endif %}
+                    </span>
+                </div>
+
+                <!-- Title -->
+                <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+                    {{ article.title }}
+                </h1>
+
+                <!-- Meta Information -->
+                <div class="flex flex-wrap items-center gap-6 text-sm text-gray-600 mb-6">
+                    <div class="flex items-center">
+                        <i class="fas fa-calendar mr-2 text-[#0088CC]"></i>
+                        <time datetime="{{ article.date }}">{{ article.date }}</time>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-clock mr-2 text-[#0088CC]"></i>
+                        <span>{{ article.reading_time }} мин чтения</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-eye mr-2 text-[#0088CC]"></i>
+                        <span>{{ article.views }} просмотров</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-user mr-2 text-[#0088CC]"></i>
+                        <span>{{ article.author }}</span>
+                    </div>
+                </div>
+
+                <!-- Featured Image -->
+                <div class="relative overflow-hidden rounded-xl mb-8">
+                    <img src="{{ article.image }}" alt="{{ article.title }}" class="w-full h-64 lg:h-96 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                </div>
+
+                <!-- Article Summary -->
+                <div class="bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200 rounded-lg p-6 mb-8">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-3">
+                        <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>
+                        Краткое содержание
+                    </h2>
+                    <p class="text-gray-700 leading-relaxed">{{ article.excerpt }}</p>
+                </div>
+            </header>
+
+            <!-- Table of Contents -->
+            <div class="table-of-contents mb-8">
+                <h3 class="text-lg font-semibold mb-4 flex items-center">
+                    <i class="fas fa-list text-[#0088CC] mr-2"></i>
+                    Содержание статьи
+                </h3>
+                <nav class="space-y-2" id="table-of-contents">
+                    <!-- Will be populated by JavaScript -->
+                </nav>
+            </div>
+
+            <!-- Article Content -->
+            <div class="article-content prose prose-lg max-w-none">
+                <p class="text-lg text-gray-700 leading-relaxed mb-8">
+                    При покупке квартиры в новостройке в Краснодаре можно получить кэшбек до 500 000 рублей. 
+                    Размер кэшбека зависит от стоимости квартиры и выбранного застройщика.
+                </p>
+
+                <h2 class="text-2xl font-bold mt-10 mb-6 text-gray-900">Как рассчитывается кэшбек</h2>
+                
+                <div class="bg-gray-50 rounded-lg p-6 mb-8">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Стандартные ставки кэшбека:</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center p-3 bg-white rounded border">
+                            <span class="text-gray-700">Квартиры до 3 млн ₽</span>
+                            <span class="font-bold text-[#0088CC]">5% от стоимости</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-white rounded border">
+                            <span class="text-gray-700">Квартиры от 3 до 5 млн ₽</span>
+                            <span class="font-bold text-[#0088CC]">7% от стоимости</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-white rounded border">
+                            <span class="text-gray-700">Квартиры свыше 5 млн ₽</span>
+                            <span class="font-bold text-[#0088CC]">10% от стоимости (максимум 500 000 ₽)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="text-2xl font-bold mt-10 mb-6 text-gray-900">ТОП-5 застройщиков с максимальным кэшбеком</h2>
+                
+                <div class="bg-white border rounded-lg overflow-hidden mb-8">
+                    <div class="divide-y divide-gray-200">
+                        <div class="p-4 flex items-center justify-between hover:bg-gray-50">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-8 h-8 bg-[#0088CC] text-white rounded-full flex items-center justify-center text-sm font-bold">1</div>
+                                <span class="font-medium text-gray-900">ЮгСтройИмпериал</span>
+                            </div>
+                            <span class="text-green-600 font-semibold">кэшбек до 8%</span>
+                        </div>
+                        <div class="p-4 flex items-center justify-between hover:bg-gray-50">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-8 h-8 bg-[#0088CC] text-white rounded-full flex items-center justify-center text-sm font-bold">2</div>
+                                <span class="font-medium text-gray-900">Мегастрой-Юг</span>
+                            </div>
+                            <span class="text-green-600 font-semibold">кэшбек до 7%</span>
+                        </div>
+                        <div class="p-4 flex items-center justify-between hover:bg-gray-50">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-8 h-8 bg-[#0088CC] text-white rounded-full flex items-center justify-center text-sm font-bold">3</div>
+                                <span class="font-medium text-gray-900">ЛСР Юг</span>
+                            </div>
+                            <span class="text-green-600 font-semibold">кэшбек до 6%</span>
+                        </div>
+                        <div class="p-4 flex items-center justify-between hover:bg-gray-50">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-8 h-8 bg-[#0088CC] text-white rounded-full flex items-center justify-center text-sm font-bold">4</div>
+                                <span class="font-medium text-gray-900">Краснодар Девелопмент</span>
+                            </div>
+                            <span class="text-green-600 font-semibold">кэшбек до 7%</span>
+                        </div>
+                        <div class="p-4 flex items-center justify-between hover:bg-gray-50">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-8 h-8 bg-[#0088CC] text-white rounded-full flex items-center justify-center text-sm font-bold">5</div>
+                                <span class="font-medium text-gray-900">Премьер</span>
+                            </div>
+                            <span class="text-green-600 font-semibold">кэшбек до 6%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="text-2xl font-bold mt-10 mb-6 text-gray-900">Дополнительные способы увеличения кэшбека</h2>
+                
+                <div class="space-y-4 mb-8">
+                    <div class="border-l-4 border-blue-500 pl-4">
+                        <h3 class="font-semibold text-gray-900 mb-2">Акции застройщиков</h3>
+                        <p class="text-gray-700">Многие девелоперы проводят сезонные акции, увеличивающие размер кэшбека на 1-2%.</p>
+                    </div>
+                    <div class="border-l-4 border-blue-500 pl-4">
+                        <h3 class="font-semibold text-gray-900 mb-2">Ипотечные программы</h3>
+                        <p class="text-gray-700">При использовании семейной ипотеки или IT-ипотеки размер кэшбека может быть увеличен.</p>
+                    </div>
+                    <div class="border-l-4 border-blue-500 pl-4">
+                        <h3 class="font-semibold text-gray-900 mb-2">Покупка на этапе котлована</h3>
+                        <p class="text-gray-700">Самые выгодные условия кэшбека действуют на стадии начала строительства.</p>
+                    </div>
+                </div>
+
+                <!-- CTA блок -->
+                <div class="bg-[#0088CC] text-white rounded-lg p-8 text-center my-10">
+                    <h3 class="text-2xl font-bold mb-4">Получите максимальный кэшбек</h3>
+                    <p class="text-lg mb-6 opacity-90">
+                        Наши эксперты помогут выбрать квартиру с максимальной выгодой и оформить кэшбек до 500 000 рублей
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button onclick="openApplicationModal()" class="bg-white text-[#0088CC] px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                            Получить консультацию
+                        </button>
+                        <a href="{{ url_for('properties') }}" class="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-[#0088CC] transition-colors">
+                            Смотреть объекты
+                        </a>
+                    </div>
+                </div>
+
+                <h2 class="text-2xl font-bold mt-10 mb-6 text-gray-900">Когда приходит кэшбек</h2>
+                
+                <div class="bg-gray-50 rounded-lg p-6 mb-8">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Средние сроки получения кэшбека в Краснодаре:</h3>
+                    <ul class="space-y-3">
+                        <li class="flex justify-between">
+                            <span class="text-gray-700">После регистрации права собственности:</span>
+                            <span class="font-semibold text-[#0088CC]">30-60 дней</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span class="text-gray-700">При покупке в ипотеку:</span>
+                            <span class="font-semibold text-[#0088CC]">60-90 дней</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span class="text-gray-700">При участии в долевом строительстве:</span>
+                            <span class="font-semibold text-[#0088CC]">после сдачи дома</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <h2 class="text-2xl font-bold mt-10 mb-6 text-gray-900">Реальные примеры</h2>
+                
+                <div class="space-y-6 mb-8">
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-6">
+                        <h3 class="font-semibold text-green-900 mb-2">Семья Ивановых</h3>
+                        <p class="text-green-800">Купили 2-комнатную квартиру в ЖК 'Гвардейский' за 4,2 млн ₽, получили кэшбек 294 000 ₽.</p>
+                    </div>
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                        <h3 class="font-semibold text-blue-900 mb-2">Программист Алексей</h3>
+                        <p class="text-gray-700">Приобрел студию в ЖК 'Smart Home' за 2,8 млн ₽ по IT-ипотеке, кэшбек составил 168 000 ₽.</p>
+                    </div>
+                </div>
+
+                <h2 class="text-2xl font-bold mt-10 mb-6 text-gray-900">Как оформить кэшбек</h2>
+                
+                <div class="space-y-3 mb-8">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-6 h-6 bg-[#0088CC] text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 mt-1">1</div>
+                        <p class="text-gray-700">Зарегистрируйтесь на нашем сайте</p>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <div class="w-6 h-6 bg-[#0088CC] text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 mt-1">2</div>
+                        <p class="text-gray-700">Выберите квартиру из каталога</p>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <div class="w-6 h-6 bg-[#0088CC] text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 mt-1">3</div>
+                        <p class="text-gray-700">Получите персональный промокод</p>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <div class="w-6 h-6 bg-[#0088CC] text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 mt-1">4</div>
+                        <p class="text-gray-700">Оформите покупку через нашего менеджера</p>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <div class="w-6 h-6 bg-[#0088CC] text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 mt-1">5</div>
+                        <p class="text-gray-700">Получите кэшбек после регистрации собственности</p>
+                    </div>
+                </div>
+
+                <!-- Highlight Box -->
+                <div class="highlight-box">
+                    <h4 class="font-semibold text-lg mb-2 text-green-800">💰 Экономьте с умом</h4>
+                    <p class="text-green-700">
+                        С InBack вы получаете не только квартиру мечты, но и возврат до 3% от стоимости недвижимости. 
+                        Это реальная возможность сэкономить сотни тысяч рублей!
+                    </p>
+                </div>
+
+                <!-- Warning Box -->
+                <div class="warning-box">
+                    <h4 class="font-semibold text-lg mb-2 text-red-800">⚠️ Важно знать</h4>
+                    <p class="text-red-700">
+                        Условия кэшбека могут изменяться в зависимости от застройщика и акций. 
+                        Обязательно уточняйте актуальную информацию у наших специалистов.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Tags -->
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <h3 class="text-sm font-medium text-gray-900 mb-3">Теги:</h3>
+                <div class="flex flex-wrap gap-2">
+                    {% if article.tags %}
+                        {% for tag in article.tags %}
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 hover:bg-gray-200 transition-colors cursor-pointer">
+                            #{{ tag }}
+                        </span>
+                        {% endfor %}
+                    {% else %}
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">#недвижимость</span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">#кэшбек</span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">#краснодар</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Social Share -->
+            <div class="mt-6 pt-6 border-t border-gray-200">
+                <h3 class="text-sm font-medium text-gray-900 mb-3">Поделиться статьей:</h3>
+                <div class="flex gap-3">
+                    <a href="https://vk.com/share.php?url={{ request.url if request else 'https://inback.ru' }}&title={{ article.title }}" target="_blank" 
+                       class="flex items-center justify-center w-10 h-10 bg-[#0088CC] text-white rounded-full hover:bg-[#006699] transition-colors">
+                        <i class="fab fa-vk"></i>
+                    </a>
+                    <a href="https://t.me/share/url?url={{ request.url if request else 'https://inback.ru' }}&text={{ article.title }}" target="_blank"
+                       class="flex items-center justify-center w-10 h-10 bg-blue-500 text-white rounded-full hover:bg-[#0088CC] transition-colors">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                    <a href="https://wa.me/?text={{ article.title }} {{ request.url if request else 'https://inback.ru' }}" target="_blank"
+                       class="flex items-center justify-center w-10 h-10 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <button onclick="copyToClipboard(`{{ request.url if request else 'https://inback.ru' }}`)"
+                            class="flex items-center justify-center w-10 h-10 bg-gray-500 text-white rounded-full hover:bg-gray-600 transition-colors">
+                        <i class="fas fa-link"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="lg:col-span-1">
+            <div class="sticky top-4 space-y-6">
+                <!-- Quick CTA -->
+                <div class="bg-[#0088CC] text-white p-6 rounded-lg">
+                    <h3 class="font-bold text-lg mb-3">Нужна помощь?</h3>
+                    <p class="text-sm mb-4 opacity-90">
+                        Получите бесплатную консультацию от наших экспертов
+                    </p>
+                    <button onclick="openApplicationModal()" class="w-full bg-white text-[#0088CC] py-3 px-4 rounded font-semibold hover:bg-gray-100 transition-colors">
+                        Связаться с нами
+                    </button>
+                    <div class="text-xs opacity-75 mt-2 text-center">
+                        Ответим в течение 5 минут
+                    </div>
+                </div>
+
+                <!-- Popular Articles -->
+                {% if related_articles %}
+                <div class="bg-white border border-gray-200 rounded-lg p-6">
+                    <h3 class="font-semibold text-lg mb-4 flex items-center">
+                        <i class="fas fa-fire text-orange-500 mr-2"></i>
+                        Похожие статьи
+                    </h3>
+                    <div class="space-y-4">
+                        {% for related in related_articles %}
+                        <article class="border-b border-gray-100 pb-4 last:border-b-0 last:pb-0">
+                            <h4 class="font-medium text-sm mb-2 line-clamp-2">
+                                <a href="{{ url_for('blog_article', slug=related.slug) }}" class="text-gray-900 hover:text-[#0088CC] transition-colors">
+                                    {{ related.title }}
+                                </a>
+                            </h4>
+                            <div class="flex items-center text-xs text-gray-500">
+                                <i class="fas fa-clock mr-1"></i>
+                                <span>{{ related.reading_time }} мин</span>
+                                <span class="mx-2">•</span>
+                                <i class="fas fa-eye mr-1"></i>
+                                <span>{{ related.views }}</span>
+                            </div>
+                        </article>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Calculator Widget -->
+                <div class="bg-green-50 border border-green-200 rounded-lg p-6">
+                    <h3 class="font-bold text-lg text-green-900 mb-4">Калькулятор кэшбека</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Стоимость квартиры (₽)</label>
+                            <input type="number" id="property-price" placeholder="5000000" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Процент кэшбека</label>
+                            <select id="cashback-percent" class="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                                <option value="1">1%</option>
+                                <option value="2" selected>2%</option>
+                                <option value="3">3%</option>
+                            </select>
+                        </div>
+                        <div class="bg-white p-4 rounded border">
+                            <div class="text-center">
+                                <div class="text-sm text-gray-600">Ваш кэшбек:</div>
+                                <div id="cashback-result" class="text-xl font-bold text-green-600">100 000 ₽</div>
+                            </div>
+                        </div>
+                        <button onclick="openApplicationModal()" class="w-full bg-green-600 text-white py-2 px-4 rounded font-semibold hover:bg-green-700 transition-colors">
+                            Узнать подробнее
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Reading progress bar
+    const progressBar = document.getElementById('reading-progress');
+    const articleContent = document.querySelector('.article-content');
+    
+    function updateProgress() {
+        const scrolled = window.pageYOffset;
+        const maxScroll = document.body.scrollHeight - window.innerHeight;
+        const progress = (scrolled / maxScroll) * 100;
+        progressBar.style.width = progress + '%';
+    }
+    
+    window.addEventListener('scroll', updateProgress);
+    
+    // Table of Contents generation
+    const toc = document.getElementById('table-of-contents');
+    const headings = articleContent.querySelectorAll('h2, h3');
+    
+    headings.forEach((heading, index) => {
+        const id = 'heading-' + index;
+        heading.id = id;
+        
+        const tocItem = document.createElement('a');
+        tocItem.href = '#' + id;
+        tocItem.textContent = heading.textContent;
+        tocItem.className = heading.tagName === 'H2' 
+            ? 'block text-sm font-medium text-gray-900 hover:text-[#0088CC] py-1 transition-colors'
+            : 'block text-sm text-gray-600 hover:text-[#0088CC] py-1 ml-4 transition-colors';
+        
+        toc.appendChild(tocItem);
+    });
+    
+    // Smooth scrolling for TOC links
+    document.querySelectorAll('#table-of-contents a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    });
+    
+    // Cashback calculator
+    const priceInput = document.getElementById('property-price');
+    const percentSelect = document.getElementById('cashback-percent');
+    const resultDiv = document.getElementById('cashback-result');
+    
+    function calculateCashback() {
+        const price = parseFloat(priceInput.value) || 5000000;
+        const percent = parseFloat(percentSelect.value) || 2;
+        const cashback = (price * percent) / 100;
+        
+        resultDiv.textContent = new Intl.NumberFormat('ru-RU', {
+            style: 'currency',
+            currency: 'RUB',
+            maximumFractionDigits: 0
+        }).format(cashback);
+    }
+    
+    priceInput.addEventListener('input', calculateCashback);
+    percentSelect.addEventListener('change', calculateCashback);
+    
+    // Initial calculation
+    calculateCashback();
+});
+
+// Copy to clipboard function
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(function() {
+        // Show success message
+        const button = event.target.closest('button');
+        const originalIcon = button.innerHTML;
+        button.innerHTML = '<i class="fas fa-check"></i>';
+        button.classList.add('bg-green-500');
+        button.classList.remove('bg-gray-500');
+        
+        setTimeout(() => {
+            button.innerHTML = originalIcon;
+            button.classList.remove('bg-green-500');
+            button.classList.add('bg-gray-500');
+        }, 2000);
+    });
+}
+</script>
+{% endblock %}

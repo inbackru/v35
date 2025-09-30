@@ -1,0 +1,426 @@
+Access to fetch at 'https://imgdmclkru.klassified.ru/vitrina/20/8d/208d4a0f16c51de608365e7b9c82b3cceb0bf80e.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+imgdmclkru.klassified.ru/vitrina/20/8d/208d4a0f16c51de608365e7b9c82b3cceb0bf80e.webp:1  Failed to load resource: net::ERR_FAILED
+Console.js:61 🔧 Service Worker registered successfully
+Console.js:61 ✅ Performance Optimizer initialized
+Console.js:61 Cache SW failed: SecurityError: Failed to register a ServiceWorker for scope ('https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev/') with script ('https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev/static/js/sw-cache.js'): The path of the provided scope ('/') is not under the max scope allowed ('/static/js/'). Adjust the scope, move the Service Worker script, or use the Service-Worker-Allowed HTTP header to allow the scope.
+complexes-map:1 Access to fetch at 'https://imgdmclkru.klassified.ru/vitrina/41/d1/41d1a8051076ea92ca99cfc3daec62621e5aa604.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+imgdmclkru.klassified.ru/vitrina/41/d1/41d1a8051076ea92ca99cfc3daec62621e5aa604.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://imgdmclkru.klassified.ru/vitrina/20/18/2018e36d81b55afe91758c5524207919ef72e23a.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+imgdmclkru.klassified.ru/vitrina/20/18/2018e36d81b55afe91758c5524207919ef72e23a.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://imgdmclkru.klassified.ru/ZHK/7a/05/7a05ad1308d0f1048730810d09a6d1845555695b.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+imgdmclkru.klassified.ru/ZHK/7a/05/7a05ad1308d0f1048730810d09a6d1845555695b.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://imgdmclkru.klassified.ru/vitrina/ab/c9/abc9847dd36c236f0ff5ef0be70428c636422dc1.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+imgdmclkru.klassified.ru/vitrina/ab/c9/abc9847dd36c236f0ff5ef0be70428c636422dc1.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://imgdmclkru.klassified.ru/vitrina/f7/e1/f7e180b478207de45ac76951c5eea9c843e4882c.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+imgdmclkru.klassified.ru/vitrina/f7/e1/f7e180b478207de45ac76951c5eea9c843e4882c.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://imgdmclkru.klassified.ru/vitrina/22/08/2208db397b13facee86bd795b1c4140e153770ea.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+imgdmclkru.klassified.ru/vitrina/22/08/2208db397b13facee86bd795b1c4140e153770ea.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://imgdmclkru.klassified.ru/ZHK/c3/b7/c3b799fac924ed3446ed5d2da052a2b0ebb8f758.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+imgdmclkru.klassified.ru/ZHK/c3/b7/c3b799fac924ed3446ed5d2da052a2b0ebb8f758.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://imgdmclkru.klassified.ru/vitrina/c3/e0/c3e0cb46f2c0cfff1365f951a45b27df81abbd04.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+imgdmclkru.klassified.ru/vitrina/c3/e0/c3e0cb46f2c0cfff1365f951a45b27df81abbd04.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://imgdmclkru.klassified.ru/vitrina/d8/f0/d8f0471482f666d1ca9f2c9ddab8f287be8dcd4a.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+imgdmclkru.klassified.ru/vitrina/d8/f0/d8f0471482f666d1ca9f2c9ddab8f287be8dcd4a.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://imgdmclkru.klassified.ru/vitrina/be/88/be8829ec201bb5d45cecfe31e7145b25591bd95f.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+imgdmclkru.klassified.ru/vitrina/be/88/be8829ec201bb5d45cecfe31e7145b25591bd95f.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://b.tile.openstreetmap.org/10/624/373.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+b.tile.openstreetmap.org/10/624/373.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://c.tile.openstreetmap.org/10/625/373.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+c.tile.openstreetmap.org/10/625/373.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://c.tile.openstreetmap.org/10/624/374.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+c.tile.openstreetmap.org/10/624/374.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://a.tile.openstreetmap.org/10/625/374.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+a.tile.openstreetmap.org/10/625/374.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://a.tile.openstreetmap.org/10/624/372.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+a.tile.openstreetmap.org/10/624/372.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://b.tile.openstreetmap.org/10/625/372.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+b.tile.openstreetmap.org/10/625/372.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://a.tile.openstreetmap.org/10/623/373.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+a.tile.openstreetmap.org/10/623/373.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://a.tile.openstreetmap.org/10/626/373.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+a.tile.openstreetmap.org/10/626/373.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://b.tile.openstreetmap.org/10/623/374.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+b.tile.openstreetmap.org/10/623/374.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://b.tile.openstreetmap.org/10/626/374.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+b.tile.openstreetmap.org/10/626/374.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://a.tile.openstreetmap.org/10/624/375.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+a.tile.openstreetmap.org/10/624/375.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://b.tile.openstreetmap.org/10/625/375.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+b.tile.openstreetmap.org/10/625/375.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://c.tile.openstreetmap.org/10/623/372.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+c.tile.openstreetmap.org/10/623/372.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://c.tile.openstreetmap.org/10/626/372.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+c.tile.openstreetmap.org/10/626/372.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://c.tile.openstreetmap.org/10/623/375.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+c.tile.openstreetmap.org/10/623/375.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://c.tile.openstreetmap.org/10/626/375.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+c.tile.openstreetmap.org/10/626/375.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://c.tile.openstreetmap.org/10/622/373.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+c.tile.openstreetmap.org/10/622/373.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://b.tile.openstreetmap.org/10/627/373.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+b.tile.openstreetmap.org/10/627/373.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://a.tile.openstreetmap.org/10/622/374.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+a.tile.openstreetmap.org/10/622/374.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://c.tile.openstreetmap.org/10/627/374.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+c.tile.openstreetmap.org/10/627/374.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://b.tile.openstreetmap.org/10/622/372.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+b.tile.openstreetmap.org/10/622/372.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://a.tile.openstreetmap.org/10/627/372.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+a.tile.openstreetmap.org/10/627/372.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://b.tile.openstreetmap.org/10/622/375.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+b.tile.openstreetmap.org/10/622/375.webp:1  Failed to load resource: net::ERR_FAILED
+complexes-map:1 Access to fetch at 'https://a.tile.openstreetmap.org/10/627/375.webp' from origin 'https://80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+a.tile.openstreetmap.org/10/627/375.webp:1  Failed to load resource: net::ERR_FAILED
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Console.js:61 📊 Page Load Time: 2301ms
+80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev/api/favorites/count:1  Failed to load resource: the server responded with a status of 401 (Unauthorized)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+Network.js:219   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (Network.js:219:37)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+80c66124-9a57-40d0-b0ff-6edad22d0948-00-2romvt1kky1w0.riker.replit.dev/api/metrics:1  Failed to load resource: the server responded with a status of 500 (Internal Server Error)

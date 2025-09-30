@@ -1,0 +1,231 @@
+[
+  {
+    "id": 1,
+    "name": "ЖК «Первое место»",
+    "developer": "ГК «Инвестстройкуб»",
+    "developer_id": 1,
+    "location": "ул. Уральская, 169",
+    "full_address": "Краснодар, Прикубанский округ, ул. Уральская, 169",
+    "description": "Современный жилой комплекс бизнес-класса в Прикубанском округе с развитой инфраструктурой и удобным расположением",
+    "detailed_description": "ЖК «Первое место» — это новый стандарт комфортного проживания в Краснодаре. Комплекс состоит из 3 корпусов высотой до 25 этажей. На территории предусмотрены детские и спортивные площадки, зоны отдыха, подземный паркинг.",
+    "image": "https://cdn.domclick.ru/resize/800x0/images/flats/10b/10bda24f-992f-48f3-a226-2c6a69a13a77.jpg",
+    "district": "Прикубанский округ",
+    "building_class": "бизнес",
+    "apartments_count": 456,
+    "buildings_count": 3,
+    "floors_min": 17,
+    "floors_max": 25,
+    "completion_date": "4 кв. 2024",
+    "price_from": 7055000,
+    "price_to": 15800000,
+    "price_per_sqm_from": 165000,
+    "price_per_sqm_to": 235000,
+    "cashback_percent": 5.0,
+    "mortgage_rate": 5.7,
+    "ceiling_height": "от 3.2 м",
+    "parking": "подземный",
+    "construction_technology": "монолитно-кирпичная",
+    "coordinates": [45.0355, 38.9753],
+    "status": "building",
+    "infrastructure": [
+      {"name": "Детский сад", "icon": "school"},
+      {"name": "Спортплощадка", "icon": "basketball-ball"},
+      {"name": "Зеленый двор", "icon": "leaf"},
+      {"name": "Торговые точки", "icon": "store"},
+      {"name": "Подземный паркинг", "icon": "car"},
+      {"name": "Консьерж", "icon": "concierge-bell"}
+    ],
+    "advantages": [
+      "Собственная управляющая компания",
+      "Круглосуточная охрана",
+      "Видеонаблюдение",
+      "Благоустроенная территория",
+      "Близость к парку «Краснодар»"
+    ],
+    "apartments": [
+      {"type": "1-комн", "count": 156, "area_from": 35.2, "area_to": 48.8, "price_from": 7055000, "price_to": 8900000},
+      {"type": "2-комн", "count": 178, "area_from": 58.3, "area_to": 74.5, "price_from": 9640000, "price_to": 12350000},
+      {"type": "3-комн", "count": 89, "area_from": 78.6, "area_to": 95.4, "price_from": 13000000, "price_to": 15800000},
+      {"type": "4+ комн", "count": 33, "area_from": 105.2, "area_to": 135.8, "price_from": 17400000, "price_to": 22500000}
+    ]
+  },
+  {
+    "id": 2,
+    "name": "ЖК Гранд Люкс",
+    "developer": "Гарантия-Инвест",
+    "developer_id": 1,
+    "location": "ул. Красных Партизан",
+    "description": "Премиальный жилой комплекс в центре города",
+    "image": "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "district": "Центральный",
+    "coordinates": [45.0428, 38.9769],
+    "apartments_count": 84,
+    "completion_date": "2 кв. 2024",
+    "price_from": 8200000,
+    "cashback_percent": 5.2,
+    "apartments": [
+      {"type": "1-комн", "count": 18, "area_from": 45, "price_from": 4500000},
+      {"type": "2-комн", "count": 32, "area_from": 62, "price_from": 6200000},
+      {"type": "3-комн", "count": 24, "area_from": 78, "price_from": 8200000},
+      {"type": "4+ комн", "count": 10, "area_from": 104, "price_from": 12800000}
+    ]
+  },
+  {
+    "id": 3,
+    "name": "ЖК Небесный",
+    "developer": "Эталон Юг",
+    "developer_id": 5,
+    "location": "ул. 40 лет Победы",
+    "description": "Современный жилой комплекс комфорт-класса",
+    "image": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "district": "Прикубанский",
+    "coordinates": [45.0398, 38.9845],
+    "apartments_count": 127,
+    "completion_date": "1 кв. 2025",
+    "price_from": 6800000,
+    "cashback_percent": 3.8,
+    "apartments": [
+      {"type": "Студия", "count": 25, "area_from": 28, "price_from": 2800000},
+      {"type": "1-комн", "count": 45, "area_from": 38, "price_from": 3800000},
+      {"type": "2-комн", "count": 38, "area_from": 58, "price_from": 6800000},
+      {"type": "3-комн", "count": 19, "area_from": 78, "price_from": 8700000}
+    ]
+  },
+  {
+    "id": 4,
+    "name": "ЖК Триумфальная Арка",
+    "developer": "ПИК-Юг",
+    "developer_id": 2,
+    "location": "ул. Тургенева",
+    "description": "Элитный жилой комплекс с уникальной архитектурой",
+    "image": "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "district": "Центральный",
+    "coordinates": [45.0402, 38.9765],
+    "apartments_count": 76,
+    "completion_date": "Сдан",
+    "price_from": 6200000,
+    "cashback_percent": 4.2,
+    "apartments": [
+      {"type": "1-комн", "count": 22, "area_from": 42, "price_from": 4200000},
+      {"type": "2-комн", "count": 31, "area_from": 54, "price_from": 6200000},
+      {"type": "3-комн", "count": 18, "area_from": 75, "price_from": 8500000},
+      {"type": "4+ комн", "count": 5, "area_from": 96, "price_from": 11200000}
+    ]
+  },
+  {
+    "id": 5,
+    "name": "ЖК Солнечная Долина",
+    "developer": "Гарантия-Инвест",
+    "developer_id": 1,
+    "location": "пр. Чекистов",
+    "description": "Современный жилой комплекс в экологически чистом районе",
+    "image": "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "district": "Карасунский",
+    "coordinates": [45.0712, 39.0156],
+    "apartments_count": 156,
+    "completion_date": "4 кв. 2024",
+    "price_from": 4500000,
+    "cashback_percent": 3.5,
+    "apartments": [
+      {"type": "Студия", "count": 38, "area_from": 25, "price_from": 2500000},
+      {"type": "1-комн", "count": 52, "area_from": 35, "price_from": 3500000},
+      {"type": "2-комн", "count": 45, "area_from": 52, "price_from": 4500000},
+      {"type": "3-комн", "count": 21, "area_from": 68, "price_from": 6200000}
+    ]
+  },
+  {
+    "id": 6,
+    "name": "ЖК Парковый",
+    "developer": "МР Групп",
+    "developer_id": 3,
+    "location": "ул. Селезнева",
+    "description": "Жилой комплекс с большой парковой зоной",
+    "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "district": "Прикубанский",
+    "apartments_count": 98,
+    "completion_date": "2 кв. 2025",
+    "price_from": 5200000,
+    "cashback_percent": 4.0,
+    "apartments": [
+      {"type": "1-комн", "count": 28, "area_from": 41, "price_from": 4100000},
+      {"type": "2-комн", "count": 42, "area_from": 58, "price_from": 5200000},
+      {"type": "3-комн", "count": 23, "area_from": 72, "price_from": 7800000},
+      {"type": "4+ комн", "count": 5, "area_from": 92, "price_from": 10500000}
+    ]
+  },
+  {
+    "id": 7,
+    "name": "ЖК Южный Берег",
+    "developer": "ЮгСтройИнвест",
+    "location": "ул. Кубанская набережная",
+    "description": "Жилой комплекс с видом на реку",
+    "image": "https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "district": "Центральный",
+    "apartments_count": 134,
+    "completion_date": "1 кв. 2026",
+    "price_from": 7800000,
+    "cashback_percent": 4.8,
+    "apartments": [
+      {"type": "1-комн", "count": 35, "area_from": 46, "price_from": 4600000},
+      {"type": "2-комн", "count": 48, "area_from": 65, "price_from": 7800000},
+      {"type": "3-комн", "count": 38, "area_from": 82, "price_from": 9500000},
+      {"type": "4+ комн", "count": 13, "area_from": 110, "price_from": 14200000}
+    ]
+  },
+  {
+    "id": 8,
+    "name": "ЖК Академический",
+    "developer": "Академия Строй",
+    "location": "ул. Академика Лукьяненко",
+    "description": "Инновационный жилой комплекс рядом с университетом",
+    "image": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "district": "Карасунский",
+    "apartments_count": 89,
+    "completion_date": "3 кв. 2025",
+    "price_from": 5600000,
+    "cashback_percent": 3.9,
+    "apartments": [
+      {"type": "Студия", "count": 15, "area_from": 32, "price_from": 3200000},
+      {"type": "1-комн", "count": 31, "area_from": 44, "price_from": 4400000},
+      {"type": "2-комн", "count": 28, "area_from": 56, "price_from": 5600000},
+      {"type": "3-комн", "count": 15, "area_from": 76, "price_from": 7600000}
+    ]
+  },
+  {
+    "id": 9,
+    "name": "ЖК Зеленый Квартал",
+    "developer": "ЭкоСтрой",
+    "location": "ул. Береговая",
+    "description": "Экологичный жилой комплекс с зелеными технологиями",
+    "image": "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "district": "Западный",
+    "apartments_count": 112,
+    "completion_date": "4 кв. 2025",
+    "price_from": 4800000,
+    "cashback_percent": 3.2,
+    "apartments": [
+      {"type": "1-комн", "count": 38, "area_from": 39, "price_from": 3900000},
+      {"type": "2-комн", "count": 41, "area_from": 55, "price_from": 4800000},
+      {"type": "3-комн", "count": 25, "area_from": 71, "price_from": 6800000},
+      {"type": "4+ комн", "count": 8, "area_from": 88, "price_from": 9200000}
+    ]
+  },
+  {
+    "id": 10,
+    "name": "ЖК Золотые Ключи",
+    "developer": "Премиум Девелопмент",
+    "location": "ул. Красная",
+    "description": "Премиальный жилой комплекс в историческом центре",
+    "image": "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "district": "Центральный",
+    "apartments_count": 67,
+    "completion_date": "1 кв. 2025",
+    "price_from": 9500000,
+    "cashback_percent": 5.5,
+    "apartments": [
+      {"type": "2-комн", "count": 18, "area_from": 68, "price_from": 6800000},
+      {"type": "3-комн", "count": 28, "area_from": 85, "price_from": 9500000},
+      {"type": "4+ комн", "count": 21, "area_from": 115, "price_from": 15800000}
+    ]
+  }
+]

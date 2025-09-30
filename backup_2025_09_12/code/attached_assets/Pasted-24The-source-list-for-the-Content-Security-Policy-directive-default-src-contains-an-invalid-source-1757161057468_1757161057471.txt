@@ -1,0 +1,221 @@
+24The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+24The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+24The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+v19#templates/about.html:1 The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+v19#templates/about.html:1 The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+v19#templates/about.html:1 The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+_app-bb123b5614defcb2.js:38 
+      /////////////////////
+   ///////////////////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////        Curious and driven?
+  ///////////////@@@@@@@///////        Work with us!
+  ///////////////@@@@@@@///////
+  ///////////////@@@@@@@///////        https://join.replit.com/hack.with.us
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@#//////////////
+   ///////////////////////////
+      /////////////////////
+      
+_app-bb123b5614defcb2.js:38 [LaunchDarkly] LaunchDarkly client initialized
+v19#templates/about.html:1 Banner not shown: beforeinstallpromptevent.preventDefault() called. The page must call beforeinstallpromptevent.prompt() to show the banner.
+stallwart.build.js:1 stallwart: failed ping 1
+stallwart.build.js:1 stallwart: failed ping 2
+attached_assets/image_1757154553807.png:1  Failed to load resource: the server responded with a status of 404 ()
+13Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+framework-55e0cf1dcc3bddb5.js:1 Unrecognized feature: 'ambient-light-sensor'.
+_ @ framework-55e0cf1dcc3bddb5.js:1
+framework-55e0cf1dcc3bddb5.js:1 Unrecognized feature: 'battery'.
+_ @ framework-55e0cf1dcc3bddb5.js:1
+framework-55e0cf1dcc3bddb5.js:1 Unrecognized feature: 'execution-while-not-rendered'.
+_ @ framework-55e0cf1dcc3bddb5.js:1
+framework-55e0cf1dcc3bddb5.js:1 Unrecognized feature: 'execution-while-out-of-viewport'.
+_ @ framework-55e0cf1dcc3bddb5.js:1
+framework-55e0cf1dcc3bddb5.js:1 Unrecognized feature: 'layout-animations'.
+_ @ framework-55e0cf1dcc3bddb5.js:1
+framework-55e0cf1dcc3bddb5.js:1 Unrecognized feature: 'legacy-image-formats'.
+_ @ framework-55e0cf1dcc3bddb5.js:1
+framework-55e0cf1dcc3bddb5.js:1 Unrecognized feature: 'navigation-override'.
+_ @ framework-55e0cf1dcc3bddb5.js:1
+framework-55e0cf1dcc3bddb5.js:1 Unrecognized feature: 'oversized-images'.
+_ @ framework-55e0cf1dcc3bddb5.js:1
+framework-55e0cf1dcc3bddb5.js:1 Unrecognized feature: 'publickey-credentials'.
+_ @ framework-55e0cf1dcc3bddb5.js:1
+framework-55e0cf1dcc3bddb5.js:1 Unrecognized feature: 'speaker-selection'.
+_ @ framework-55e0cf1dcc3bddb5.js:1
+framework-55e0cf1dcc3bddb5.js:1 Unrecognized feature: 'unoptimized-images'.
+_ @ framework-55e0cf1dcc3bddb5.js:1
+framework-55e0cf1dcc3bddb5.js:1 Unrecognized feature: 'unsized-media'.
+_ @ framework-55e0cf1dcc3bddb5.js:1
+framework-55e0cf1dcc3bddb5.js:1 Unrecognized feature: 'pointer-lock'.
+_ @ framework-55e0cf1dcc3bddb5.js:1
+framework-55e0cf1dcc3bddb5.js:1 Allow attribute will take precedence over 'allowfullscreen'.
+_ @ framework-55e0cf1dcc3bddb5.js:1
+framework-55e0cf1dcc3bddb5.js:1 Allow attribute will take precedence over 'allowpaymentrequest'.
+_ @ framework-55e0cf1dcc3bddb5.js:1
+logs.browser-intake-us5-datadoghq.com/api/v2/logs?ddsource=browser&ddtags=sdk_version%3A4.46.0%2Capi%3Afetch%2Cenv%3Aproduction%2Cservice%3Awebsite%2Cversion%3A15fbf51b&dd-api-key=pub31a5047a3a4692afb84a423db984dc57&dd-evp-origin-version=4.46.0&dd-evp-origin=browser&dd-request-id=c315ca58-c33a-411c-a3ae-30d0a3dd8aec:1  Failed to load resource: net::ERR_CONNECTION_CLOSED
+_app-bb123b5614defcb2.js:38 task queue exceeded allotted deadline by 94ms
+(anonymous) @ _app-bb123b5614defcb2.js:38
+workspace_iframe.html?initialPath=%2F&id=%3Arpg%3A:32 Unrecognized feature: 'ambient-light-sensor'.
+workspace_iframe.html?initialPath=%2F&id=%3Arpg%3A:32 Unrecognized feature: 'battery'.
+workspace_iframe.html?initialPath=%2F&id=%3Arpg%3A:32 Unrecognized feature: 'execution-while-not-rendered'.
+workspace_iframe.html?initialPath=%2F&id=%3Arpg%3A:32 Unrecognized feature: 'execution-while-out-of-viewport'.
+workspace_iframe.html?initialPath=%2F&id=%3Arpg%3A:32 Unrecognized feature: 'layout-animations'.
+workspace_iframe.html?initialPath=%2F&id=%3Arpg%3A:32 Unrecognized feature: 'legacy-image-formats'.
+workspace_iframe.html?initialPath=%2F&id=%3Arpg%3A:32 Unrecognized feature: 'navigation-override'.
+workspace_iframe.html?initialPath=%2F&id=%3Arpg%3A:32 Unrecognized feature: 'oversized-images'.
+workspace_iframe.html?initialPath=%2F&id=%3Arpg%3A:32 Unrecognized feature: 'publickey-credentials'.
+workspace_iframe.html?initialPath=%2F&id=%3Arpg%3A:32 Unrecognized feature: 'speaker-selection'.
+workspace_iframe.html?initialPath=%2F&id=%3Arpg%3A:32 Unrecognized feature: 'unoptimized-images'.
+workspace_iframe.html?initialPath=%2F&id=%3Arpg%3A:32 Unrecognized feature: 'unsized-media'.
+workspace_iframe.html?initialPath=%2F&id=%3Arpg%3A:32 Allow attribute will take precedence over 'allowfullscreen'.
+workspace_iframe.html?initialPath=%2F&id=%3Arpg%3A:32 Allow attribute will take precedence over 'allowpaymentrequest'.
+2eruda.js:sourcemap:2 cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation
+Mt.forEach.n.<computed> @ eruda.js:sourcemap:2
+eruda.js:sourcemap:2 Header: openApplicationModal function defined
+eruda.js:sourcemap:2 Hero search fully disabled - SuperSearch handles everything
+eruda.js:sourcemap:2 Hero search handlers removed - SuperSearch manages everything
+eruda.js:sourcemap:2 Fixing find button...
+eruda.js:sourcemap:2 Found buttons: 0
+eruda.js:sourcemap:2 DOM Helper initialized - safe DOM operations available
+2eruda.js:sourcemap:2 Phone formatting setup for: phone
+eruda.js:sourcemap:2 InBack form validation initialized
+eruda.js:sourcemap:2 Performance optimizations initialized
+eruda.js:sourcemap:2 CSS optimization: Found 4 stylesheets
+eruda.js:sourcemap:2 Turbo loader initialized
+eruda.js:sourcemap:2 Cache optimizer initialized
+eruda.js:sourcemap:2 Image compressor initialized - WebP support: true
+eruda.js:sourcemap:2 🚀 Performance Optimizer v2.0 - Starting...
+eruda.js:sourcemap:2 🖼️ Lazy loading initialized for 0 images
+eruda.js:sourcemap:2 🚀 SuperSearch v2.0 - Initializing...
+eruda.js:sourcemap:2 Found 1 search inputs
+eruda.js:sourcemap:2 Initializing smart search...
+eruda.js:sourcemap:2 Hero search initialized
+eruda.js:sourcemap:2 Form validation initialized
+(index):1 Access to fetch at 'https://imgdmclkru.klassified.ru/vitrina/79/47/7947b2e6806c83585e166cd15fef1d5600795ea4.webp' from origin 'https://f00a2174-e4da-4e00-9ab3-10adf0dd0a58-00-dasv17vgujp1.spock.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+7947b2e6806c83585e166cd15fef1d5600795ea4.webp:1  Failed to load resource: net::ERR_FAILED
+eruda.js:sourcemap:2 🔧 Service Worker registered successfully
+eruda.js:sourcemap:2 ✅ Performance Optimizer initialized
+eruda.js:sourcemap:2 Cache SW failed: SecurityError: Failed to register a ServiceWorker for scope ('https://f00a2174-e4da-4e00-9ab3-10adf0dd0a58-00-dasv17vgujp1.spock.replit.dev/') with script ('https://f00a2174-e4da-4e00-9ab3-10adf0dd0a58-00-dasv17vgujp1.spock.replit.dev/static/js/sw-cache.js'): The path of the provided scope ('/') is not under the max scope allowed ('/static/js/'). Adjust the scope, move the Service Worker script, or use the Service-Worker-Allowed HTTP header to allow the scope.
+(index):1 Access to fetch at 'https://imgdmclkru.klassified.ru/vitrina/e9/66/e9668f5e30f8aec99e363b1f11b1f59f24b91ffc.webp' from origin 'https://f00a2174-e4da-4e00-9ab3-10adf0dd0a58-00-dasv17vgujp1.spock.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+e9668f5e30f8aec99e363b1f11b1f59f24b91ffc.webp:1  Failed to load resource: net::ERR_FAILED
+(index):1 Access to fetch at 'https://imgdmclkru.klassified.ru/vitrina/42/d4/42d46cb07ed4acab96d830960a2367d7893f7a7a.webp' from origin 'https://f00a2174-e4da-4e00-9ab3-10adf0dd0a58-00-dasv17vgujp1.spock.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+42d46cb07ed4acab96d830960a2367d7893f7a7a.webp:1  Failed to load resource: net::ERR_FAILED
+(index):1 Access to fetch at 'https://imgdmclkru.klassified.ru/vitrina/4f/1b/4f1bae91014bbcc0b999644b66e99f09c84beb4e.webp' from origin 'https://f00a2174-e4da-4e00-9ab3-10adf0dd0a58-00-dasv17vgujp1.spock.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+4f1bae91014bbcc0b999644b66e99f09c84beb4e.webp:1  Failed to load resource: net::ERR_FAILED
+(index):1 Access to fetch at 'https://imgdmclkru.klassified.ru/vitrina/3c/84/3c84da98f6c3b826c524ad3946aff9106c7cf412.webp' from origin 'https://f00a2174-e4da-4e00-9ab3-10adf0dd0a58-00-dasv17vgujp1.spock.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+3c84da98f6c3b826c524ad3946aff9106c7cf412.webp:1  Failed to load resource: net::ERR_FAILED
+(index):1 Access to fetch at 'https://imgdmclkru.klassified.ru/vitrina/8f/28/8f28923bb976544de7796f0bdfa82fcb9d6bd416.webp' from origin 'https://f00a2174-e4da-4e00-9ab3-10adf0dd0a58-00-dasv17vgujp1.spock.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+8f28923bb976544de7796f0bdfa82fcb9d6bd416.webp:1  Failed to load resource: net::ERR_FAILED
+(index):1 Access to fetch at 'https://imgdmclkru.klassified.ru/ZHK/38/71/3871bb506e06aaa5d6d987f1036f94d9edaf3a57.webp' from origin 'https://f00a2174-e4da-4e00-9ab3-10adf0dd0a58-00-dasv17vgujp1.spock.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+3871bb506e06aaa5d6d987f1036f94d9edaf3a57.webp:1  Failed to load resource: net::ERR_FAILED
+(index):1 Access to fetch at 'https://imgdmclkru.klassified.ru/ZHK/95/e3/95e35537199edc117a079c047f5179507eb63e97.webp' from origin 'https://f00a2174-e4da-4e00-9ab3-10adf0dd0a58-00-dasv17vgujp1.spock.replit.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+95e35537199edc117a079c047f5179507eb63e97.webp:1  Failed to load resource: net::ERR_FAILED
+eruda.js:sourcemap:2   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (eruda.js:sourcemap:2:218642)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+eruda.js:sourcemap:2   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (eruda.js:sourcemap:2:218642)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+eruda.js:sourcemap:2   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (eruda.js:sourcemap:2:218642)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+eruda.js:sourcemap:2   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (eruda.js:sourcemap:2:218642)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+eruda.js:sourcemap:2   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (eruda.js:sourcemap:2:218642)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+eruda.js:sourcemap:2   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (eruda.js:sourcemap:2:218642)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+eruda.js:sourcemap:2   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (eruda.js:sourcemap:2:218642)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+eruda.js:sourcemap:2   Uncaught (in promise) TypeError: Failed to fetch
+    at window.fetch (eruda.js:sourcemap:2:218642)
+    at Object.apply (injected.js:253:39)
+    at PerformanceOptimizer.checkImageExists (performance_optimizer.js:212:36)
+    at performance_optimizer.js:185:26
+    at NodeList.forEach (<anonymous>)
+    at PerformanceOptimizer.optimizeImages (performance_optimizer.js:180:20)
+    at PerformanceOptimizer.init (performance_optimizer.js:43:18)
+    at new PerformanceOptimizer (performance_optimizer.js:26:14)
+    at HTMLDocument.<anonymous> (performance_optimizer.js:346:28)
+f00a2174-e4da-4e00-9ab3-10adf0dd0a58-00-dasv17vgujp1.spock.replit.dev/api/favorites/count:1  Failed to load resource: the server responded with a status of 401 (Unauthorized)
+eruda.js:sourcemap:2 📊 Page Load Time: 16965ms
+f00a2174-e4da-4e00-9ab3-10adf0dd0a58-00-dasv17vgujp1.spock.replit.dev/api/metrics:1  Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+eruda.js:sourcemap:2 📦 Preloaded: /static/css/styles.css
+eruda.js:sourcemap:2 📦 Preloaded: /static/js/super_search.js
+eruda.js:sourcemap:2 📦 Preloaded: /static/js/main.js
+eruda.js:sourcemap:2 Memory usage: Object
+eruda.js:sourcemap:2 Preloaded 5 popular queries
+eruda.js:sourcemap:2 ✅ SuperSearch initialized successfully
+eruda.js:sourcemap:2 Emergency scroll check stopped
+eruda.js:sourcemap:2 Memory usage: Object
+eruda.js:sourcemap:2 Memory usage: Object
+eruda.js:sourcemap:2 Error loading featured properties: TypeError: Cannot set properties of null (setting 'innerHTML')
+    at (index):3483:53
+Mt.forEach.n.<computed> @ eruda.js:sourcemap:2
+eruda.js:sourcemap:2 Memory usage: Object
+eruda.js:sourcemap:2 Memory usage: Object
+eruda.js:sourcemap:2 Memory usage: Object
+eruda.js:sourcemap:2 Memory usage: Object
+eruda.js:sourcemap:2 Memory usage: Object
+eruda.js:sourcemap:2 Memory usage: Object
+eruda.js:sourcemap:2 Memory usage: Object
+eruda.js:sourcemap:2 Memory usage: Object
+eruda.js:sourcemap:2 🎨 First Contentful Paint: 161308ms
+eruda.js:sourcemap:2 Memory usage: Object
+/ai/auth:1  Failed to load resource: net::ERR_CONNECTION_CLOSED

@@ -1,0 +1,479 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Редактировать статью - Админ панель | InBack{% endblock %}
+{% block page_title %}Редактирование статьи{% endblock %}
+
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/tinymce@7/tinymce.min.js"></script>
+<style>
+.category-create-section {
+    display: none;
+    margin-top: 10px;
+    padding: 15px;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+.image-upload-container {
+    border: 2px dashed #e5e5e5;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    transition: border-color 0.3s ease;
+}
+.image-upload-container:hover {
+    border-color: #ef4444;
+}
+.image-preview {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <!-- Page Header -->
+    <div class="flex items-center justify-between mb-6">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Редактирование статьи</h1>
+            <p class="text-gray-600 mt-1">{{ post.title }}</p>
+        </div>
+        <div class="flex space-x-2">
+            {% if post.slug %}
+            <a href="{{ url_for('blog_post', slug=post.slug) }}" target="_blank" class="bg-blue-500 hover:bg-[#1e40af] text-white px-4 py-2 rounded-lg">
+                <i class="fas fa-eye mr-2"></i>Просмотр
+            </a>
+            {% endif %}
+            <a href="{{ url_for('admin_blog') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg">
+                <i class="fas fa-arrow-left mr-2"></i>Назад к блогу
+            </a>
+        </div>
+    </div>
+
+    <!-- Edit Form -->
+    <div class="bg-white rounded-lg shadow p-6">
+        <form method="POST" enctype="multipart/form-data">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Main Content -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Title -->
+                    <div>
+                        <label for="title" class="block text-sm font-medium text-gray-700 mb-2">
+                            Заголовок <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" 
+                               name="title" 
+                               id="title" 
+                               required
+                               value="{{ post.title }}"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500"
+                               placeholder="Введите заголовок статьи">
+                    </div>
+
+                    <!-- Excerpt -->
+                    <div>
+                        <label for="excerpt" class="block text-sm font-medium text-gray-700 mb-2">
+                            Краткое описание
+                        </label>
+                        <textarea name="excerpt" 
+                                  id="excerpt" 
+                                  rows="3"
+                                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500"
+                                  placeholder="Краткое описание статьи для превью">{{ post.excerpt or '' }}</textarea>
+                        <p class="text-xs text-gray-500 mt-1">Используется для превью и SEO (рекомендуется 150-160 символов)</p>
+                    </div>
+
+                    <!-- Content -->
+                    <div>
+                        <label for="content" class="block text-sm font-medium text-gray-700 mb-2">
+                            Содержание <span class="text-red-500">*</span>
+                        </label>
+                        <div class="border border-gray-300 rounded-md">
+                            <textarea name="content" 
+                                      id="content" 
+                                      required
+                                      class="w-full px-3 py-2 border-0 focus:ring-0 focus:outline-none"
+                                      rows="20"
+                                      placeholder="Напишите содержание статьи...">{{ post.content }}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="space-y-6">
+                    <!-- Article Info -->
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-gray-900 mb-4">Информация</h3>
+                        
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Создано:</span>
+                                <span>{{ post.created_at.strftime('%d.%m.%Y %H:%M') if post.created_at else 'Неизвестно' }}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Обновлено:</span>
+                                <span>{{ post.updated_at.strftime('%d.%m.%Y %H:%M') if post.updated_at else 'Неизвестно' }}</span>
+                            </div>
+                            {% if post.published_at %}
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Опубликовано:</span>
+                                <span>{{ post.published_at.strftime('%d.%m.%Y %H:%M') }}</span>
+                            </div>
+                            {% endif %}
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Просмотры:</span>
+                                <span>{{ post.views_count or 0 }}</span>
+                            </div>
+                            {% if post.reading_time %}
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Время чтения:</span>
+                                <span>{{ post.reading_time }} мин</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Publish Settings -->
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-gray-900 mb-4">Публикация</h3>
+                        
+                        <div class="space-y-4">
+                            <!-- Status -->
+                            <div>
+                                <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Статус</label>
+                                <select name="status" id="status" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500">
+                                    <option value="draft" {% if post.status == 'draft' %}selected{% endif %}>Черновик</option>
+                                    <option value="published" {% if post.status == 'published' %}selected{% endif %}>Опубликовано</option>
+                                    <option value="scheduled" {% if post.status == 'scheduled' %}selected{% endif %}>Запланировано</option>
+                                    <option value="archived" {% if post.status == 'archived' %}selected{% endif %}>Архив</option>
+                                </select>
+                            </div>
+
+                            <!-- Category -->
+                            <div>
+                                <label for="category" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Категория <span class="text-red-500">*</span>
+                                </label>
+                                <select name="category" id="category" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500">
+                                    <option value="">Выберите категорию</option>
+                                    {% for category in categories %}
+                                    <option value="{{ category.name }}" {% if post.category == category.name %}selected{% endif %}>{{ category.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <button type="button" id="add-category-btn" class="mt-2 text-sm text-[#1e40af] hover:text-red-800">
+                                    + Создать новую категорию
+                                </button>
+                                
+                                <div id="category-create-section" class="category-create-section">
+                                    <h4 class="font-medium text-gray-900 mb-2">Создать новую категорию</h4>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <input type="text" id="new-category-name" placeholder="Название категории" class="px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500">
+                                        <input type="text" id="new-category-slug" placeholder="URL (slug)" class="px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500">
+                                    </div>
+                                    <textarea id="new-category-description" placeholder="Описание категории" rows="2" class="w-full mt-2 px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500"></textarea>
+                                    <div class="flex gap-2 mt-2">
+                                        <button type="button" id="save-category-btn" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 text-sm">Создать</button>
+                                        <button type="button" id="cancel-category-btn" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 text-sm">Отмена</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Featured -->
+                            <div class="flex items-center">
+                                <input type="checkbox" 
+                                       name="is_featured" 
+                                       id="is_featured" 
+                                       {% if post.is_featured %}checked{% endif %}
+                                       class="h-4 w-4 text-[#1e40af] focus:ring-red-500 border-gray-300 rounded">
+                                <label for="is_featured" class="ml-2 block text-sm text-gray-700">
+                                    Рекомендуемая статья
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Featured Image -->
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-gray-900 mb-4">Превью изображение</h3>
+                        
+                        <div class="image-upload-container" onclick="document.getElementById('image-file').click()">
+                            <div id="image-preview-container">
+                                {% if post.featured_image %}
+                                <img src="{{ post.featured_image }}" alt="Featured image" class="image-preview" id="image-preview">
+                                <p class="text-sm text-gray-600 mt-2">Нажмите для изменения изображения</p>
+                                {% else %}
+                                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <p class="text-sm text-gray-600">Нажмите для загрузки изображения</p>
+                                <p class="text-xs text-gray-400">PNG, JPG до 5MB</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <input type="file" id="image-file" accept="image/*" style="display: none;">
+                        <input type="hidden" name="featured_image" id="featured_image" value="{{ post.featured_image or '' }}">
+                        
+                        <div class="mt-3">
+                            <label for="image_url" class="block text-sm font-medium text-gray-700 mb-1">Или вставьте URL</label>
+                            <input type="url" 
+                                   id="image_url" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500"
+                                   placeholder="https://example.com/image.jpg"
+                                   value="{{ post.featured_image or '' }}">
+                        </div>
+                    </div>
+
+                    <!-- SEO -->
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-gray-900 mb-4">SEO</h3>
+                        
+                        <div class="space-y-3">
+                            <div>
+                                <label for="meta_title" class="block text-sm font-medium text-gray-700 mb-1">Meta заголовок</label>
+                                <input type="text" 
+                                       name="meta_title" 
+                                       id="meta_title" 
+                                       value="{{ post.meta_title or '' }}"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500"
+                                       placeholder="SEO заголовок">
+                            </div>
+                            
+                            <div>
+                                <label for="meta_description" class="block text-sm font-medium text-gray-700 mb-1">Meta описание</label>
+                                <textarea name="meta_description" 
+                                          id="meta_description" 
+                                          rows="2"
+                                          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500"
+                                          placeholder="SEO описание">{{ post.meta_description or '' }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="flex space-x-3">
+                        <button type="submit" class="flex-1 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium">
+                            <i class="fas fa-save mr-2"></i>Сохранить
+                        </button>
+                        <a href="{{ url_for('admin_blog') }}" class="flex-1 bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-medium text-center">
+                            Отмена
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+// TinyMCE Editor initialization
+tinymce.init({
+    selector: '#content',
+    height: 500,
+    menubar: true,
+    plugins: [
+        'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+        'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+        'insertdatetime', 'media', 'table', 'help', 'wordcount'
+    ],
+    toolbar: 'undo redo | blocks | ' +
+    'bold italic backcolor | alignleft aligncenter ' +
+    'alignright alignjustify | bullist numlist outdent indent | ' +
+    'removeformat | help | link image media | fullscreen preview',
+    content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif; font-size: 14px; }',
+    setup: function (editor) {
+        editor.on('change', function () {
+            editor.save();
+        });
+    },
+    images_upload_handler: function (blobInfo, success, failure, progress) {
+        // Create form data
+        var formData = new FormData();
+        formData.append('file', blobInfo.blob(), blobInfo.filename());
+        
+        // Upload to server
+        fetch('/api/upload/image', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                success(data.url);
+            } else {
+                failure('Upload failed: ' + (data.error || 'Unknown error'));
+            }
+        })
+        .catch(error => {
+            failure('Upload failed: ' + error.message);
+        });
+    },
+    file_picker_callback: function (callback, value, meta) {
+        if (meta.filetype === 'image') {
+            var input = document.createElement('input');
+            input.setAttribute('type', 'file');
+            input.setAttribute('accept', 'image/*');
+            
+            input.addEventListener('change', function (e) {
+                var file = e.target.files[0];
+                var reader = new FileReader();
+                reader.addEventListener('load', function () {
+                    callback(reader.result, {
+                        alt: file.name
+                    });
+                });
+                reader.readAsDataURL(file);
+            });
+            
+            input.click();
+        }
+    }
+});
+
+// Category management
+document.getElementById('add-category-btn').addEventListener('click', function() {
+    document.getElementById('category-create-section').style.display = 'block';
+});
+
+document.getElementById('cancel-category-btn').addEventListener('click', function() {
+    document.getElementById('category-create-section').style.display = 'none';
+    document.getElementById('new-category-name').value = '';
+    document.getElementById('new-category-slug').value = '';
+    document.getElementById('new-category-description').value = '';
+});
+
+// Auto-generate slug from name
+document.getElementById('new-category-name').addEventListener('input', function() {
+    const name = this.value;
+    const slug = name.toLowerCase()
+        .replace(/[а-я]/g, function(char) {
+            const map = {
+                'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'yo', 'ж': 'zh', 'з': 'z',
+                'и': 'i', 'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r',
+                'с': 's', 'т': 't', 'у': 'u', 'ф': 'f', 'х': 'h', 'ц': 'c', 'ч': 'ch', 'ш': 'sh', 'щ': 'sch',
+                'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ю': 'yu', 'я': 'ya'
+            };
+            return map[char] || char;
+        })
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .trim('-');
+    document.getElementById('new-category-slug').value = slug;
+});
+
+// Save new category
+document.getElementById('save-category-btn').addEventListener('click', function() {
+    const name = document.getElementById('new-category-name').value.trim();
+    const slug = document.getElementById('new-category-slug').value.trim();
+    const description = document.getElementById('new-category-description').value.trim();
+    
+    if (!name) {
+        alert('Введите название категории');
+        return;
+    }
+    
+    fetch('/api/admin/blog/categories', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: name,
+            slug: slug,
+            description: description
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Add to dropdown
+            const select = document.getElementById('category');
+            const option = document.createElement('option');
+            option.value = data.category.name;
+            option.text = data.category.name;
+            option.selected = true;
+            select.appendChild(option);
+            
+            // Hide creation form
+            document.getElementById('cancel-category-btn').click();
+            
+            alert('Категория успешно создана!');
+        } else {
+            alert('Ошибка при создании категории: ' + (data.error || 'Unknown error'));
+        }
+    })
+    .catch(error => {
+        alert('Ошибка: ' + error.message);
+    });
+});
+
+// Featured image handling
+document.getElementById('image-file').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        // Create preview
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const container = document.getElementById('image-preview-container');
+            container.innerHTML = `
+                <img src="${e.target.result}" alt="Preview" class="image-preview" id="image-preview">
+                <p class="text-sm text-gray-600 mt-2">Нажмите для изменения изображения</p>
+            `;
+        };
+        reader.readAsDataURL(file);
+        
+        // Upload file
+        const formData = new FormData();
+        formData.append('file', file);
+        
+        fetch('/api/upload/image', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('featured_image').value = data.url;
+                document.getElementById('image_url').value = data.url;
+            } else {
+                alert('Ошибка загрузки изображения: ' + (data.error || 'Unknown error'));
+            }
+        })
+        .catch(error => {
+            alert('Ошибка загрузки: ' + error.message);
+        });
+    }
+});
+
+// URL input handling
+document.getElementById('image_url').addEventListener('input', function() {
+    const url = this.value;
+    document.getElementById('featured_image').value = url;
+    
+    if (url) {
+        const container = document.getElementById('image-preview-container');
+        container.innerHTML = `
+            <img src="${url}" alt="Preview" class="image-preview" id="image-preview">
+            <p class="text-sm text-gray-600 mt-2">Нажмите для изменения изображения</p>
+        `;
+    } else {
+        const container = document.getElementById('image-preview-container');
+        container.innerHTML = `
+            <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <p class="text-sm text-gray-600">Нажмите для загрузки изображения</p>
+            <p class="text-xs text-gray-400">PNG, JPG до 5MB</p>
+        `;
+    }
+});
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script>
+{% endblock %}

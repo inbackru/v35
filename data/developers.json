@@ -1,0 +1,232 @@
+[
+  {
+    "id": 1,
+    "name": "ГК «Инвестстройкуб»",
+    "short_name": "ИСК",
+    "logo": "https://cdn.domclick.ru/builders/11004/11004_1563443/11004_c30d585e-e7b5-439b-8bd1-0c5cc1d51c21.jpg",
+    "founded_year": 2010,
+    "rating": 4.8,
+    "total_projects": 12,
+    "completed_projects": 8,
+    "in_construction": 4,
+    "total_apartments_sold": 5000,
+    "address": "Краснодар, ул. Красная, 180",
+    "phone": "+7 (861) 205-55-77",
+    "website": "stroyinvest-yug.ru",
+    "email": "info@stroyinvest-yug.ru",
+    "description": "Крупный застройщик Юга России с портфелем из 12 жилых комплексов. Специализируется на строительстве комфортного жилья для семей.",
+    "detailed_description": "ООО «Стройинвест-ЮГ» — один из ведущих застройщиков Краснодарского края с 12-летней историей. Компания реализовала 12 жилых комплексов общей площадью свыше 1 млн м². В портфолио — проекты различного уровня: от эконом до комфорт-класса.",
+    "advantages": [
+      "Опережение сроков сдачи в среднем на 3 месяца",
+      "Собственная проектная организация",
+      "Контроль качества на всех этапах строительства",
+      "Развитая социальная инфраструктура в проектах"
+    ],
+    "specialization": "Комфорт-класс",
+    "construction_technology": "Монолитно-кирпичная",
+    "warranty_years": 5,
+    "status": "reliable",
+    "badges": [
+      "Ипотека 3%",
+      "Скидки",
+      "Кэшбек 5%"
+    ],
+    "complex_ids": [
+      1,
+      2
+    ]
+  },
+  {
+    "id": 2,
+    "name": "ПИК",
+    "short_name": "ПИК",
+    "logo": "https://cdn.domclick.ru/builders/2345/logo.jpg",
+    "founded_year": 2005,
+    "rating": 4.6,
+    "total_projects": 24,
+    "completed_projects": 18,
+    "in_construction": 6,
+    "total_apartments_sold": 12000,
+    "address": "Краснодар, ул. Ставропольская, 149",
+    "phone": "+7 (861) 123-45-67",
+    "website": "pik.ru",
+    "email": "info@pik.ru",
+    "description": "Крупнейший застройщик России. 15 лет на рынке Краснодара.",
+    "detailed_description": "ПИК — ведущая российская девелоперская компания, один из крупнейших застройщиков в стране. В Краснодаре работает с 2005 года, реализовал 24 жилых комплекса различного класса.",
+    "advantages": [
+      "Крупнейший застройщик России",
+      "Собственное производство строительных материалов",
+      "Цифровые технологии в строительстве",
+      "Развитая сеть продаж и сервиса"
+    ],
+    "specialization": "Массовое жилье",
+    "construction_technology": "Панельно-монолитная",
+    "warranty_years": 3,
+    "status": "reliable",
+    "badges": [
+      "Ипотека 3%",
+      "Скидки"
+    ],
+    "complex_ids": [
+      3
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Самолет Девелопмент",
+    "short_name": "СР",
+    "logo": "https://cdn.domclick.ru/builders/3456/logo.jpg",
+    "founded_year": 2012,
+    "rating": 4.7,
+    "total_projects": 31,
+    "completed_projects": 25,
+    "in_construction": 6,
+    "total_apartments_sold": 8500,
+    "address": "Краснодар, ул. Северная, 310",
+    "phone": "+7 (861) 234-56-78",
+    "website": "samolet.ru",
+    "email": "info@samolet.ru",
+    "description": "Один из лидеров рынка. Специализируется на комфорт-классе.",
+    "detailed_description": "Самолет Девелопмент — динамично развивающаяся девелоперская компания, специализирующаяся на создании жилых комплексов комфорт-класса с развитой инфраструктурой.",
+    "advantages": [
+      "Инновационные архитектурные решения",
+      "Развитая инфраструктура в проектах",
+      "Экологичные материалы",
+      "Современные технологии строительства"
+    ],
+    "specialization": "Комфорт-класс",
+    "construction_technology": "Монолитная",
+    "warranty_years": 5,
+    "status": "partner",
+    "badges": [
+      "Кэшбек 5%",
+      "Акция"
+    ],
+    "complex_ids": []
+  },
+  {
+    "id": 4,
+    "name": "Эталон",
+    "short_name": "Э",
+    "logo": "https://cdn.domclick.ru/builders/4567/logo.jpg",
+    "founded_year": 2008,
+    "rating": 4.9,
+    "total_projects": 15,
+    "completed_projects": 12,
+    "in_construction": 3,
+    "total_apartments_sold": 6000,
+    "address": "Краснодар, ул. Красная, 76",
+    "phone": "+7 (861) 345-67-89",
+    "website": "etalon-group.ru",
+    "email": "info@etalon.ru",
+    "description": "Крупная девелоперская компания. Качественные ЖК бизнес-класса.",
+    "detailed_description": "Эталон — премиальный застройщик, специализирующийся на создании жилых комплексов бизнес и премиум-класса. Известен высоким качеством строительства и уникальными архитектурными решениями.",
+    "advantages": [
+      "Эксклюзивные архитектурные проекты",
+      "Премиальные материалы отделки",
+      "Персональный сервис для клиентов",
+      "Высокие стандарты качества"
+    ],
+    "specialization": "Бизнес-класс",
+    "construction_technology": "Монолитная",
+    "warranty_years": 7,
+    "status": "reliable",
+    "badges": [
+      "Ипотека",
+      "Рассрочка"
+    ],
+    "complex_ids": [
+      4
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Эталон Юг",
+    "short_name": "ЭЮ",
+    "logo": "https://cdn.domclick.ru/builders/5678/logo.jpg",
+    "founded_year": 2015,
+    "rating": 4.4,
+    "total_projects": 8,
+    "completed_projects": 5,
+    "in_construction": 3,
+    "total_apartments_sold": 2500,
+    "address": "Краснодар, ул. 40 лет Победы, 85",
+    "phone": "+7 (861) 456-78-90",
+    "website": "etalon-yug.ru",
+    "email": "info@etalon-yug.ru",
+    "description": "Региональное подразделение группы Эталон. Семейные комплексы.",
+    "detailed_description": "Эталон Юг — региональное подразделение девелоперской группы Эталон, специализирующееся на создании семейных жилых комплексов в пригородных районах Краснодара.",
+    "advantages": [
+      "Семейная направленность проектов",
+      "Экологически чистые районы",
+      "Доступные цены",
+      "Близость к природе"
+    ],
+    "specialization": "Комфорт-класс",
+    "construction_technology": "Кирпично-монолитная",
+    "warranty_years": 5,
+    "status": "reliable",
+    "badges": [
+      "Семейные ЖК",
+      "Эко-проекты"
+    ],
+    "complex_ids": []
+  },
+  {
+    "id": 6,
+    "name": "ГК «Юг-Инвест»",
+    "description": "Застройщик Краснодарского края",
+    "founded_year": 2015,
+    "projects_count": 5,
+    "phone": "+7 (861) 123-45-67",
+    "email": "info@yug-invest.ru",
+    "website": "yug-invest.ru",
+    "address": "Краснодар, ул. Красная, 120"
+  },
+  {
+    "id": 7,
+    "name": "ГК «Флагман»",
+    "description": "Современное жилищное строительство",
+    "founded_year": 2012,
+    "projects_count": 8,
+    "phone": "+7 (861) 234-56-78",
+    "email": "info@flagman-kr.ru",
+    "website": "flagman-kr.ru",
+    "address": "Краснодар, ул. Красная, 140"
+  },
+  {
+    "id": 8,
+    "name": "Группа компаний «Аквилон»",
+    "description": "Федеральный застройщик",
+    "founded_year": 1999,
+    "projects_count": 50,
+    "phone": "+7 (861) 345-67-89",
+    "email": "info@aquilon.ru",
+    "website": "aquilon.ru",
+    "address": "Краснодар, ул. Красная, 160"
+  },
+  {
+    "id": 9,
+    "name": "Гарантия",
+    "description": "Застройщик премиум-класса с 15-летним опытом строительства элитного жилья в Краснодаре. Специализируется на комплексах бизнес и премиум-класса с развитой инфраструктурой.",
+    "founded_year": 2009,
+    "projects_count": 12,
+    "phone": "+7 (861) 555-77-00",
+    "email": "info@garantia-krd.ru",
+    "website": "garantia-krd.ru",
+    "address": "г. Краснодар, ул. Красная, 155",
+    "rating": 4.8,
+    "construction_technology": "Монолитно-каркасная",
+    "warranty_years": 7,
+    "advantages": [
+      "Премиум локации в центре города",
+      "Собственная управляющая компания",
+      "Гарантия 7 лет на все работы",
+      "Европейские стандарты качества",
+      "Подземный паркинг в каждом проекте"
+    ],
+    "total_apartments_sold": 850,
+    "projects_completed": 12,
+    "years_experience": 15
+  }
+]

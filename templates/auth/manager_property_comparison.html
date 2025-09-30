@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+
+{% block title %}Сравнение объектов | Панель менеджера{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+    <!-- Manager Header -->
+    <div class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between py-4">
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#0088CC] to-[#006699] flex items-center justify-center">
+                            <span class="text-white font-semibold">{{ current_manager.full_name[0] }}</span>
+                        </div>
+                        <div>
+                            <p class="text-lg font-semibold text-gray-900">{{ current_manager.full_name }}</p>
+                            <p class="text-sm text-gray-500">Сравнение объектов недвижимости</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="{{ url_for('manager_dashboard') }}" class="text-gray-500 hover:text-gray-700 text-sm flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/>
+                        </svg>
+                        К панели
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Comparison Header with Tabs -->
+        <div class="flex justify-between items-center mb-8">
+            <div class="flex items-center space-x-8">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">Сравнение</h1>
+                    <p class="text-gray-600 mt-2">Сравнивайте характеристики для клиентов</p>
+                </div>
+                <div class="flex border border-gray-200 rounded-lg">
+                    <button id="properties-tab" class="px-6 py-3 text-sm font-medium text-white bg-[#0088CC] rounded-l-lg">
+                        Квартиры
+                    </button>
+                    <button id="complexes-tab" class="px-6 py-3 text-sm font-medium text-gray-700 bg-gray-100 rounded-r-lg hover:bg-gray-200">
+                        ЖК
+                    </button>
+                </div>
+            </div>
+            <div class="flex gap-4">
+                <button id="clear-comparison-btn" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                    Очистить все
+                </button>
+                <button id="export-comparison-btn" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                    Экспорт в PDF
+                </button>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-2 bg-blue-100 rounded-lg">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">В сравнении</p>
+                        <p class="text-2xl font-semibold text-gray-900" id="comparison-count">0</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-2 bg-green-100 rounded-lg">
+                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Средняя цена</p>
+                        <p class="text-2xl font-semibold text-gray-900" id="average-price">-</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-2 bg-purple-100 rounded-lg">
+                        <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Средняя площадь</p>
+                        <p class="text-2xl font-semibold text-gray-900" id="average-area">-</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparison Table Container -->
+        <div class="bg-white rounded-lg shadow overflow-hidden" id="comparison-container">
+            <div id="empty-comparison" class="text-center py-16">
+                <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Нет объектов для сравнения</h3>
+                <p class="text-gray-600 mb-6">Добавьте объекты к сравнению на страницах объектов и ЖК</p>
+                <a href="/properties" class="inline-flex items-center px-6 py-3 bg-[#0088CC] text-white rounded-lg hover:bg-[#006699] transition-colors">
+                    Перейти к объектам
+                </a>
+            </div>
+
+            <!-- Comparison Table -->
+            <div id="comparison-table" class="hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50 border-b">
+                            <tr>
+                                <th class="px-6 py-4 text-left text-sm font-medium text-gray-500 w-48">Характеристика</th>
+                                <th class="px-6 py-4 text-center text-sm font-medium text-gray-500 min-w-80">Объект 1</th>
+                                <th class="px-6 py-4 text-center text-sm font-medium text-gray-500 min-w-80">Объект 2</th>
+                                <th class="px-6 py-4 text-center text-sm font-medium text-gray-500 min-w-80">Объект 3</th>
+                                <th class="px-6 py-4 text-center text-sm font-medium text-gray-500 min-w-80">Объект 4</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200" id="comparison-body">
+                            <!-- Dynamic content will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="px-6 py-4 bg-gray-50 border-t flex justify-between items-center">
+                    <div class="flex space-x-4">
+                        <button id="send-comparison-btn" class="px-4 py-2 bg-[#0088CC] text-white rounded-lg hover:bg-[#006699] transition-colors">
+                            Отправить клиенту
+                        </button>
+                        <button id="save-template-btn" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                            Сохранить как шаблон
+                        </button>
+                    </div>
+                    <div class="text-sm text-gray-500">
+                        Последнее обновление: <span id="last-updated">сейчас</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Send to Client Modal -->
+<div id="sendClientModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg max-w-md w-full mx-4 relative">
+        <!-- Modal Header -->
+        <div class="flex items-center justify-between p-6 border-b border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-900">Отправить клиенту</h3>
+            <button id="closeSendClientModalBtn" class="text-gray-400 hover:text-gray-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="p-6">
+            <form id="sendClientForm">
+                <!-- Recipient Name -->
+                <div class="mb-4">
+                    <label for="recipientName" class="block text-sm font-medium text-gray-700 mb-2">
+                        Имя получателя
+                    </label>
+                    <input type="text" id="recipientName" name="recipientName" 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0088CC] focus:border-transparent"
+                           placeholder="Введите имя клиента" required>
+                </div>
+
+                <!-- Message Notes -->
+                <div class="mb-4">
+                    <label for="messageNotes" class="block text-sm font-medium text-gray-700 mb-2">
+                        Сообщение (заметки)
+                    </label>
+                    <textarea id="messageNotes" name="messageNotes" rows="3"
+                              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0088CC] focus:border-transparent resize-none"
+                              placeholder="Дополнительные заметки для клиента (необязательно)"></textarea>
+                </div>
+
+                <!-- Hide Options -->
+                <div class="mb-6">
+                    <p class="text-sm font-medium text-gray-700 mb-3">Скрыть в документе:</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center">
+                            <input type="checkbox" id="hideComplexNames" name="hideComplexNames" 
+                                   class="rounded border-gray-300 text-[#0088CC] focus:ring-[#0088CC]">
+                            <span class="ml-2 text-sm text-gray-600">Названия жилых комплексов</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" id="hideDeveloperNames" name="hideDeveloperNames" 
+                                   class="rounded border-gray-300 text-[#0088CC] focus:ring-[#0088CC]">
+                            <span class="ml-2 text-sm text-gray-600">Названия застройщиков</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" id="hideAddresses" name="hideAddresses" 
+                                   class="rounded border-gray-300 text-[#0088CC] focus:ring-[#0088CC]">
+                            <span class="ml-2 text-sm text-gray-600">Адреса объектов</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex justify-end space-x-3">
+                    <button type="button" id="cancelSendClientBtn"
+                            class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                        Отмена
+                    </button>
+                    <button type="submit" 
+                            class="px-4 py-2 bg-[#0088CC] text-white rounded-lg hover:bg-[#006699] transition-colors">
+                        Создать PDF
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Photo Zoom Modal -->
+<div id="photoZoomModal" class="fixed inset-0 bg-black bg-opacity-75 hidden z-50 flex items-center justify-center p-4" onclick="closePhotoZoom()">
+    <div class="relative max-w-5xl max-h-full">
+        <button onclick="closePhotoZoom()" class="absolute -top-12 right-0 text-white text-4xl hover:text-gray-300 z-10">&times;</button>
+        <img id="zoomedPhoto" src="" alt="Увеличенное фото" class="max-w-full max-h-full object-contain rounded-lg shadow-2xl" onclick="event.stopPropagation()">
+    </div>
+</div>
+
+<!-- Manager Session Flag -->
+<script>
+// Устанавливаем флаг менеджера для системы сравнения
+sessionStorage.setItem('is_manager', 'true');
+console.log('🔑 Manager session flag set: true');
+</script>
+
+<!-- External JavaScript for comparison functionality -->
+<script src="{{ url_for('static', filename='js/manager_comparison.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/photo_zoom.js') }}" defer></script>
+{% endblock %}

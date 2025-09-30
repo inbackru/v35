@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block title %}Редактирование координат районов - Админ панель | InBack{% endblock %}
+
+{% block additional_js %}
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+    <div class="container mx-auto px-4 py-8">
+        
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Редактирование координат районов</h1>
+            <p class="text-gray-600">Нажмите на карту, чтобы установить точные координаты района</p>
+            <div class="mt-4">
+                <a href="/districts" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                    ← Вернуться к районам
+                </a>
+            </div>
+        </div>
+
+        <!-- Districts List -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+            {% for district in districts %}
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                
+                <!-- District Info -->
+                <div class="mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-1">{{ district.name }}</h3>
+                    <p class="text-sm text-gray-600">ID: {{ district.id }} | Slug: {{ district.slug }}</p>
+                    <p class="text-sm text-blue-600">
+                        Расстояние: <span id="distance-{{ district.id }}">{{ "%.1f"|format(district.distance_to_center or 0) }}</span> км
+                    </p>
+                </div>
+
+                <!-- Static Mini Map -->
+                <div class="mb-4">
+                    <div class="w-full h-48 rounded-lg border bg-cover bg-center" 
+                         style="background-image: url('https://static-maps.yandex.ru/1.x/?ll={{ district.longitude or 38.977414 }},{{ district.latitude or 45.035180 }}&size=400,200&z=14&l=map&pt={{ district.longitude or 38.977414 }},{{ district.latitude or 45.035180 }},pm2rdm');">
+                        <div class="w-full h-full bg-black bg-opacity-20 rounded-lg flex items-center justify-center">
+                            <div class="text-white text-center">
+                                <i class="fas fa-map-marker-alt text-2xl mb-2"></i>
+                                <p class="text-sm">{{ district.name }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coordinates Form -->
+                <form class="coordinate-form" data-district-id="{{ district.id }}">
+                    <div class="grid grid-cols-2 gap-3 mb-3">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-700 mb-1">Широта</label>
+                            <input type="number" 
+                                   step="0.000001" 
+                                   name="latitude" 
+                                   id="lat-{{ district.id }}"
+                                   value="{{ district.latitude or 45.035180 }}"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-700 mb-1">Долгота</label>
+                            <input type="number" 
+                                   step="0.000001" 
+                                   name="longitude" 
+                                   id="lon-{{ district.id }}"
+                                   value="{{ district.longitude or 38.977414 }}"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-2">
+                        <button type="submit" 
+                                class="flex-1 bg-blue-600 text-white py-2 px-4 rounded-md text-sm font-medium hover:bg-blue-700 transition-colors">
+                            Сохранить
+                        </button>
+                        <button type="button" 
+                                onclick="resetToCenter({{ district.id }})"
+                                class="bg-gray-500 text-white py-2 px-4 rounded-md text-sm font-medium hover:bg-gray-600 transition-colors">
+                            Центр
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Status -->
+                <div id="status-{{ district.id }}" class="mt-3 text-sm"></div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Обработчики форм координат
+    document.querySelectorAll('.coordinate-form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const districtId = form.dataset.districtId;
+            const formData = new FormData(form);
+            formData.append('district_id', districtId);
+
+            const statusDiv = document.getElementById(`status-${districtId}`);
+            statusDiv.innerHTML = '<span class="text-blue-600">🔄 Сохранение...</span>';
+
+            fetch('/admin/update-coordinates', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    statusDiv.innerHTML = `<span class="text-green-600">✅ ${data.message}</span>`;
+                    document.getElementById(`distance-${districtId}`).textContent = data.distance;
+                    
+                    // Обновляем карту с новыми координатами
+                    const lat = formData.get('latitude');
+                    const lon = formData.get('longitude');
+                    const mapDiv = form.closest('.bg-white').querySelector('[style*="background-image"]');
+                    if (mapDiv) {
+                        mapDiv.style.backgroundImage = `url('https://static-maps.yandex.ru/1.x/?ll=${lon},${lat}&size=400,200&z=14&l=map&pt=${lon},${lat},pm2rdm')`;
+                    }
+                } else {
+                    statusDiv.innerHTML = `<span class="text-red-600">❌ ${data.message}</span>`;
+                }
+                
+                setTimeout(() => {
+                    statusDiv.innerHTML = '';
+                }, 3000);
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                statusDiv.innerHTML = '<span class="text-red-600">❌ Ошибка соединения</span>';
+                setTimeout(() => {
+                    statusDiv.innerHTML = '';
+                }, 3000);
+            });
+        });
+    });
+});
+
+function resetToCenter(districtId) {
+    // Устанавливаем координаты центра Краснодара
+    document.getElementById(`lat-${districtId}`).value = 45.035180;
+    document.getElementById(`lon-${districtId}`).value = 38.977414;
+}
+</script>
+
+{% endblock %}

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ property.name or 'Объект недвижимости' }} - Печать</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; }
+            .print-break { page-break-after: always; }
+        }
+        .property-image-container {
+            height: 300px;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        .characteristic-item {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+    </style>
+</head>
+<body class="bg-white font-sans">
+    
+    <!-- Print Header -->
+    <div class="max-w-4xl mx-auto p-6">
+        
+        <!-- Print Action Button -->
+        <div class="no-print mb-6 flex items-center justify-between">
+            <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center">
+                <i class="fas fa-print mr-2"></i>
+                Печать
+            </button>
+            <button onclick="window.close()" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg flex items-center">
+                <i class="fas fa-times mr-2"></i>
+                Закрыть
+            </button>
+        </div>
+
+        <!-- Property Header -->
+        <div class="border-b-2 border-gray-200 pb-6 mb-6">
+            <div class="flex items-center gap-4 mb-4">
+                <div class="bg-blue-600 text-white p-3 rounded-lg">
+                    <i class="fas fa-building text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">{{ property.name or 'Объект недвижимости' }}</h1>
+                    <p class="text-xl text-gray-600">{{ property.complex_name or 'ЖК не указан' }}</p>
+                    {% if property.address %}
+                    <p class="text-gray-500">{{ property.address }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Price and Key Info -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 bg-gray-50 p-4 rounded-lg">
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-green-600">{{ "{:,.0f}".format(property.price or 0) }} ₽</div>
+                    <div class="text-sm text-gray-500">Цена</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-xl font-bold text-blue-600">{{ property.rooms or 0 }}</div>
+                    <div class="text-sm text-gray-500">Комнат</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-xl font-bold text-purple-600">{{ property.area or 0 }} м²</div>
+                    <div class="text-sm text-gray-500">Площадь</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-xl font-bold text-orange-600">{{ "{:,.0f}".format(property.price_per_sqm or 0) }} ₽/м²</div>
+                    <div class="text-sm text-gray-500">За м²</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Property Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            <!-- Left Column: Images and Details -->
+            <div class="space-y-6">
+                
+                <!-- Property Images -->
+                {% set photos = property.property_info.get('photos') if property.property_info else [] %}
+                {% if photos %}
+                    {% if photos is string %}
+                        {% set photo_list = photos | from_json %}
+                    {% else %}
+                        {% set photo_list = photos %}
+                    {% endif %}
+                    
+                    {% if photo_list and photo_list | length > 0 %}
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                            <i class="fas fa-camera text-blue-600 mr-2"></i>
+                            Фотографии объекта
+                        </h3>
+                        <div class="grid grid-cols-2 gap-3">
+                            {% for photo in photo_list[:4] %}
+                            <div class="property-image-container">
+                                <img src="{{ photo }}" 
+                                     alt="Фото {{ loop.index }}"
+                                     class="w-full h-full object-cover rounded-lg">
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% if photo_list | length > 4 %}
+                        <p class="text-sm text-gray-500 mt-2">И еще {{ photo_list | length - 4 }} фотографий</p>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                {% endif %}
+
+                <!-- Layout Plan -->
+                {% set layout_image = property.property_info.get('layout_image') if property.property_info else null %}
+                {% if layout_image %}
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                        <i class="fas fa-drafting-compass text-green-600 mr-2"></i>
+                        Планировка
+                    </h3>
+                    <div class="property-image-container bg-gray-100">
+                        <img src="{{ layout_image }}" 
+                             alt="Планировка"
+                             class="w-full h-full object-contain rounded-lg">
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Residential Complex Photos -->
+                {% if property.complex_name %}
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                        <i class="fas fa-building text-indigo-600 mr-2"></i>
+                        Фото ЖК
+                    </h3>
+                    <!-- Mock development photos for demo - will be replaced with real data -->
+                    <div class="grid grid-cols-3 gap-3">
+                        {% for i in range(9) %}
+                        <div class="bg-gray-200 rounded-lg overflow-hidden" style="height: 120px;">
+                            <div class="w-full h-full flex items-center justify-center text-gray-400">
+                                <i class="fas fa-image text-2xl"></i>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Right Column: Characteristics and Info -->
+            <div class="space-y-6">
+                
+                <!-- Key Characteristics -->
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                        <i class="fas fa-list text-purple-600 mr-2"></i>
+                        Характеристики
+                    </h3>
+                    <div class="grid grid-cols-1 gap-3">
+                        <div class="characteristic-item">
+                            <i class="fas fa-door-open text-blue-600"></i>
+                            <span class="font-medium">Комнат:</span>
+                            <span>{{ property.rooms or 'Не указано' }}</span>
+                        </div>
+                        <div class="characteristic-item">
+                            <i class="fas fa-expand-arrows-alt text-green-600"></i>
+                            <span class="font-medium">Площадь:</span>
+                            <span>{{ property.area or 'Не указано' }} м²</span>
+                        </div>
+                        <div class="characteristic-item">
+                            <i class="fas fa-building text-purple-600"></i>
+                            <span class="font-medium">Этаж:</span>
+                            <span>{{ property.floor or 'Не указан' }} из {{ property.floors_total or 'н/д' }}</span>
+                        </div>
+                        <div class="characteristic-item">
+                            <i class="fas fa-home text-orange-600"></i>
+                            <span class="font-medium">Тип:</span>
+                            <span>{{ property.property_type or 'Квартира' }}</span>
+                        </div>
+                        {% if property.balcony %}
+                        <div class="characteristic-item">
+                            <i class="fas fa-door-closed text-gray-600"></i>
+                            <span class="font-medium">Балкон:</span>
+                            <span>{{ property.balcony }}</span>
+                        </div>
+                        {% endif %}
+                        {% if property.renovation %}
+                        <div class="characteristic-item">
+                            <i class="fas fa-hammer text-yellow-600"></i>
+                            <span class="font-medium">Отделка:</span>
+                            <span>{{ property.renovation }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Complex Information -->
+                {% if property.complex_name %}
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                        <i class="fas fa-city text-indigo-600 mr-2"></i>
+                        Жилой комплекс
+                    </h3>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-lg text-gray-900 mb-2">{{ property.complex_name }}</h4>
+                        {% if property.developer_name %}
+                        <p class="text-gray-600 mb-2">
+                            <i class="fas fa-hard-hat text-gray-500 mr-2"></i>
+                            Застройщик: {{ property.developer_name }}
+                        </p>
+                        {% endif %}
+                        {% if property.district %}
+                        <p class="text-gray-600 mb-2">
+                            <i class="fas fa-map-marker-alt text-gray-500 mr-2"></i>
+                            Район: {{ property.district }}
+                        </p>
+                        {% endif %}
+                        {% if property.completion_date %}
+                        <p class="text-gray-600">
+                            <i class="fas fa-calendar text-gray-500 mr-2"></i>
+                            Сдача: {{ property.completion_date }}
+                        </p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Manager Comment -->
+                {% if collection_property and collection_property.manager_note %}
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                        <i class="fas fa-comment text-blue-600 mr-2"></i>
+                        Комментарий менеджера
+                    </h3>
+                    <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+                        <p class="text-gray-700">{{ collection_property.manager_note }}</p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-8 pt-6 border-t border-gray-200 text-center text-gray-500">
+            <div class="flex items-center justify-center gap-4 mb-2">
+                <div class="bg-blue-600 text-white p-2 rounded-lg">
+                    <i class="fas fa-building text-lg"></i>
+                </div>
+                <div>
+                    <p class="font-semibold">InBack - Недвижимость в Краснодаре</p>
+                    <p class="text-sm">Презентация: {{ presentation.title }}</p>
+                </div>
+            </div>
+            <p class="text-xs">Документ создан сегодня</p>
+        </div>
+    </div>
+
+    <script>
+        // Auto print on mobile
+        if (window.matchMedia('print').matches) {
+            window.print();
+        }
+    </script>
+</body>
+</html>

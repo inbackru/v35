@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <!-- CSRF token for security -->
+    <meta name="csrf-token" content="{{ csrf_token() if csrf_token else 'no-token' }}">
+    
+    {% block meta %}
+    <title>{% block title %}Кэшбек за новостройки в Краснодаре до 500 000 ₽ | InBack.ru{% endblock %}</title>
+    <meta content="{% block description %}Получите до 10% кэшбека при покупке новостройки в Краснодаре. Проверенные застройщики, юридическое сопровождение. ✅ Выгода до 500 000 ₽{% endblock %}" name="description"/>
+    <meta content="{% block keywords %}новостройки Краснодар, кэшбек за квартиру, возврат денег при покупке недвижимости, застройщики Краснодара, ипотека{% endblock %}" name="keywords"/>
+    <meta content="InBack.ru" name="author"/>
+    <meta content="index, follow" name="robots"/>
+    <meta content="1-3 days" name="revisit-after"/>
+    <meta content="general" name="rating"/>
+    <meta content="Краснодар, Россия" name="geo.placename"/>
+    <meta content="45.0355;38.9753" name="geo.position"/>
+    <meta content="InBack.ru - кэшбек сервис для покупки недвижимости" name="subject"/>
+    <meta content="кэшбек, новостройки, недвижимость, Краснодар, ипотека, застройщики" name="classification"/>
+    {% endblock %}
+    
+    <!-- Social Meta Tags -->
+    <meta property="og:title" content="{% block og_title %}Кэшбек за новостройки в Краснодаре до 500 000 ₽ | InBack.ru{% endblock %}"/>
+    <meta property="og:description" content="{% block og_description %}Получите до 10% кэшбека при покупке новостройки в Краснодаре. Проверенные застройщики, юридическое сопровождение. Выгода до 500 000 ₽{% endblock %}"/>
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}"/>
+    <meta property="og:url" content="{{ request.url if request else 'https://inback.ru' }}"/>
+    <meta property="og:image" content="https://inback.ru/static/images/social-preview.jpg"/>
+    <meta property="og:image:width" content="1200"/>
+    <meta property="og:image:height" content="630"/>
+    <meta property="og:site_name" content="InBack.ru"/>
+    <meta property="og:locale" content="ru_RU"/>
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:title" content="{% block twitter_title %}Кэшбек за новостройки в Краснодаре | InBack.ru{% endblock %}"/>
+    <meta name="twitter:description" content="{% block twitter_description %}Получите до 10% кэшбека при покупке новостройки в Краснодаре{% endblock %}"/>
+    <meta name="twitter:image" content="https://inback.ru/static/images/social-preview.jpg"/>
+    
+    <!-- Additional SEO -->
+    <link rel="canonical" href="{% block canonical %}https://inback.ru{{ request.path if request else '' }}{% endblock %}"/>
+    {% if request and 'replit' in request.host %}
+    <meta name="robots" content="noindex, nofollow">
+    {% endif %}
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon.png') }}"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon.png') }}"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='favicon.png') }}"/>
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "InBack.ru",
+      "url": "https://inback.ru",
+      "logo": "https://inback.ru/static/images/logo.png",
+      "description": "Сервис возврата кэшбека при покупке недвижимости в Краснодаре",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "ул. Красная, 176",
+        "addressLocality": "Краснодар", 
+        "addressRegion": "Краснодарский край",
+        "addressCountry": "RU"
+      },
+      "telephone": "+7 (800) 123-45-67",
+      "email": "info@inback.ru",
+      "sameAs": [
+        "https://t.me/inback_krd",
+        "https://wa.me/78001234567",
+        "https://vk.com/inback_krd"
+      ],
+      "openingHours": "Mo-Fr 09:00-19:00",
+      "priceRange": "$$",
+      "areaServed": {
+        "@type": "City",
+        "name": "Краснодар"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Новостройки с кэшбеком",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Product",
+              "name": "Кэшбек за покупку новостроек",
+              "description": "Возврат до 500 000 ₽ при покупке квартиры в новостройке"
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "price": "0",
+              "priceCurrency": "RUB"
+            }
+          }
+        ]
+      }
+    }
+    </script>
+    
+    <meta content="index, follow" name="robots"/>
+    
+    <!-- Performance Hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
+    
+    <!-- Critical Resource Preloading -->
+    <link rel="preload" href="{{ url_for('static', filename='css/styles.css') }}" as="style">
+    <link rel="preload" href="{{ url_for('static', filename='js/main.js') }}" as="script">
+    
+    <!-- Essential Resources Only -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"></noscript>
+    
+    <!-- Essential CSS -->
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+    
+    
+    {% block head %}{% endblock %}
+    {% block extra_head %}{% endblock %}
+    
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function(m,e,t,r,i,k,a){
+            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();
+            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+        })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=104270300', 'ym');
+
+        ym(104270300, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/104270300" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+</head>
+<body class="bg-white">
+    {% include 'top_bar.html' %}
+    {% include 'header.html' %}
+
+    {% block breadcrumbs %}{% endblock %}
+
+    {% block content %}{% endblock %}
+
+    <!-- Contact Strip Above Footer -->
+    <section class="bg-gray-100 py-4">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-6">
+                    <div class="text-lg font-bold text-gray-800">8 861 238 85 36</div>
+                    <div class="text-gray-600">Нужна консультация по недвижимости?</div>
+                </div>
+                <button onclick="openApplicationModal()" class="px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-semibold transition-colors">
+                    Получить консультацию
+                </button>
+            </div>
+        </div>
+    </section>
+
+    {% include 'footer.html' %}
+
+    <!-- Essential JavaScript Only -->
+    <script src="{{ url_for('static', filename='js/form-validation.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/modals.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/performance_optimizer.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/super_search.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/header_search.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/favorites.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+    
+    <!-- Initialize Favorites Manager globally -->
+    <script>
+    // Global function to update favorites count in header
+    function updateHeaderFavoritesCount() {
+        const headerElement = document.getElementById('favorites-count-header');
+        if (!headerElement) return;
+        
+        // Получаем общее количество избранного (квартиры + ЖК)
+        const properties = JSON.parse(localStorage.getItem('favorites') || '[]');
+        const complexes = JSON.parse(localStorage.getItem('complex_favorites') || '[]');
+        const totalCount = properties.length + complexes.length;
+        
+        if (totalCount > 0) {
+            headerElement.textContent = totalCount;
+            headerElement.classList.remove('hidden');
+        } else {
+            headerElement.classList.add('hidden');
+        }
+    }
+    
+    window.addEventListener('DOMContentLoaded', function() {
+        // Wait for all scripts to load
+        setTimeout(() => {
+            if (typeof FavoritesManager !== 'undefined' && !window.favoritesManager) {
+                window.favoritesManager = new FavoritesManager();
+                console.log('Global favorites system initialized');
+            }
+            
+            // Update header favorites count on page load
+            updateHeaderFavoritesCount();
+            
+            // Обновляем счетчик при изменении localStorage
+            window.addEventListener('storage', updateHeaderFavoritesCount);
+            
+        }, 100);
+    });
+    </script>
+
+
+    
+    <!-- Callback Modal -->
+    <div id="callback-modal-container" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+        <div class="absolute inset-0 bg-black bg-opacity-50" onclick="closeCallbackModal()"></div>
+        
+        <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto transform transition-all duration-300">
+            <!-- Close button -->
+            <button onclick="closeCallbackModal()" class="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            
+            <!-- Callback Content Container -->
+            <div id="callback-content">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}?v=202508061"></script>
+    <script>
+        // Global quiz variables - accessible immediately
+        let currentStep = 0;
+        const totalSteps = 4;
+        const formData = {};
+        
+        // Telegram notifications handled server-side only for security
+        // No client-side bot tokens - all Telegram interactions via backend API
+
+        // Global function accessible immediately when page loads - opens working modal
+        window.openApplicationModal = function(propertyData = null) {
+            console.log('Opening application modal...', propertyData);
+            
+            // Store property data globally for form submission
+            window.currentPropertyData = propertyData;
+            
+            // Try callback modal first
+            if (typeof openCallbackModal === 'function') {
+                openCallbackModal();
+                console.log('Opened callback modal');
+                return;
+            }
+            
+            // Fallback to simple application modal
+            const modal = document.getElementById('applicationModal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                // Disable body scroll
+                document.body.style.overflow = 'hidden';
+                console.log('Opened simple application modal');
+                return;
+            }
+            
+            console.warn('No modal elements found - modal functionality not available on this page');
+        };
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Modal elements
+            const modal = document.getElementById('quiz-modal');
+            const backdrop = document.getElementById('modal-backdrop');
+            const modalContainer = document.getElementById('modal-container');
+            const closeBtn = document.getElementById('close-modal');
+            
+            // Form elements
+            const form = document.getElementById('quiz-form');
+            const steps = document.querySelectorAll('.step');
+            const progressFill = document.getElementById('progress-fill');
+            const currentStepDisplay = document.getElementById('current-step-display');
+            const nextButtons = document.querySelectorAll('.next-step');
+            const prevButtons = document.querySelectorAll('.prev-step');
+            const optionCards = document.querySelectorAll('.option-card');
+            
+            // Modal is now ready - no need to redefine function
+
+            // Close modal function
+            function closeModal() {
+                if (modal) {
+                    modal.classList.remove('scale-100', 'opacity-100');
+                    modal.classList.add('scale-95', 'opacity-0');
+                    setTimeout(() => {
+                        if (modalContainer) modalContainer.classList.add('hidden');
+                        // Use global scroll restoration
+                        if (typeof window.restoreBodyScroll === 'function') {
+                            window.restoreBodyScroll();
+                        } else {
+                            // Aggressive fallback scroll restoration
+                            document.body.style.cssText = '';
+                            document.documentElement.style.cssText = '';
+                            document.body.className = document.body.className.replace(/modal-open|no-scroll|overflow-hidden|scroll-disabled/g, '').trim();
+                        }
+                    }, 300);
+                }
+            }
+
+            // Event listeners with safety checks
+            if (closeBtn) closeBtn.addEventListener('click', closeModal);
+            if (backdrop) backdrop.addEventListener('click', closeModal);
+            
+            // Next step buttons with safety checks
+            if (nextButtons.length > 0) {
+                nextButtons.forEach(button => {
+                    if (button) {
+                        button.addEventListener('click', function() {
+                            if (validateStep(currentStep)) {
+                                goToStep(currentStep + 1);
+                            }
+                        });
+                    }
+                });
+            }
+            
+            // Previous step buttons with safety checks  
+            if (prevButtons.length > 0) {
+                prevButtons.forEach(button => {
+                    if (button) {
+                        button.addEventListener('click', function() {
+                            goToStep(currentStep - 1);
+                        });
+                    }
+                });
+            }
+            
+            // Option card selection with safety checks
+            if (optionCards.length > 0) {
+                optionCards.forEach(card => {
+                    if (card) {
+                        card.addEventListener('click', function() {
+                    const stepEl = this && this.closest ? this.closest('.step') : null;
+                    const stepId = stepEl ? stepEl.id : null;
+                    const value = this.getAttribute('data-value');
+                    
+                    // Remove selection from all cards in current step
+                    const allCardsInStep = stepEl ? stepEl.querySelectorAll('.option-card') : [];
+                    allCardsInStep.forEach(c => {
+                        c.classList.remove('border-[#0088CC]', 'bg-blue-50');
+                        c.classList.add('border-gray-200');
+                    });
+                    
+                    // Select current card
+                    this.classList.remove('border-gray-200');
+                    this.classList.add('border-[#0088CC]', 'bg-blue-50');
+                    
+                    // Save selected value
+                    switch(stepId) {
+                        case 'step-1':
+                            formData.districts = value;
+                            break;
+                        case 'step-2':
+                            formData.rooms = value;
+                            break;
+                        case 'step-3':
+                            formData.budget = value;
+                            break;
+                    }
+                        });
+                    }
+                });
+            }
+            
+            // Step validation
+            function validateStep(stepIndex) {
+                switch(stepIndex) {
+                    case 0:
+                        if (!formData.districts) {
+                            showNotification('Пожалуйста, выберите район', 'warning');
+                            return false;
+                        }
+                        return true;
+                    case 1:
+                        if (!formData.rooms) {
+                            showNotification('Пожалуйста, выберите количество комнат', 'warning');
+                            return false;
+                        }
+                        return true;
+                    case 2:
+                        if (!formData.budget) {
+                            showNotification('Пожалуйста, выберите примерный бюджет', 'warning');
+                            return false;
+                        }
+                        return true;
+                    case 3:
+                        const name = document.getElementById('name').value;
+                        const phone = document.getElementById('phone').value;
+                        const consent = document.getElementById('consent').checked;
+                        
+                        if (!name || !phone) {
+                            showNotification('Пожалуйста, заполните обязательные поля', 'error');
+                            return false;
+                        }
+                        
+                        if (!consent) {
+                            showNotification('Необходимо согласие на обработку данных', 'error');
+                            return false;
+                        }
+                        
+                        formData.name = name;
+                        formData.phone = phone;
+                        formData.email = document.getElementById('email').value;
+                        return true;
+                    default:
+                        return true;
+                }
+            }
+
+            // Show notification
+            function showNotification(message, type = 'info') {
+                // Remove existing notification
+                const existing = document.getElementById('quiz-notification');
+                if (existing) existing.remove();
+
+                const notification = document.createElement('div');
+                notification.id = 'quiz-notification';
+                notification.className = `fixed top-4 right-4 z-50 px-4 py-3 rounded-lg shadow-lg transition-all duration-300 ${
+                    type === 'error' ? 'bg-red-500 text-white' : 
+                    type === 'warning' ? 'bg-yellow-500 text-white' : 
+                    type === 'success' ? 'bg-green-500 text-white' : 
+                    'bg-blue-500 text-white'
+                }`;
+                notification.innerHTML = `
+                    <div class="flex items-center">
+                        <i class="fas fa-${type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : type === 'success' ? 'check-circle' : 'info-circle'} mr-2"></i>
+                        <span>${message}</span>
+                    </div>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.classList.add('opacity-0');
+                    setTimeout(() => notification.remove(), 300);
+                }, 3000);
+            }
+            
+            // Go to step function
+            function goToStep(stepIndex) {
+                if (stepIndex < 0 || stepIndex > totalSteps) return;
+                
+                // Hide all steps
+                steps.forEach((step, index) => {
+                    if (step) {
+                        step.style.display = index === stepIndex ? 'block' : 'none';
+                    }
+                });
+                
+                // Update current step
+                currentStep = stepIndex;
+                
+                // Update progress bar - calculate correctly for 4 steps + thank you
+                const progressPercent = stepIndex >= totalSteps ? 100 : ((stepIndex + 1) / totalSteps) * 100;
+                if (progressFill) {
+                    progressFill.style.width = `${progressPercent}%`;
+                }
+                
+                // Update step display
+                if (currentStepDisplay && stepIndex < totalSteps) {
+                    currentStepDisplay.textContent = stepIndex + 1;
+                } else if (currentStepDisplay && stepIndex >= totalSteps) {
+                    currentStepDisplay.textContent = 'Готово';
+                }
+                
+                console.log('Moved to step:', stepIndex + 1);
+            }
+            
+            // Form submission with safety check - exclude company check form
+            if (form && !form.classList.contains('company-check-form')) {
+                form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const submitBtn = document.getElementById('submit-btn');
+                const submitText = document.getElementById('submit-text');
+                const submitSpinner = document.getElementById('submit-spinner');
+                
+                // Show loading (with null checks)
+                if (submitBtn) submitBtn.disabled = true;
+                if (submitText) submitText.classList.add('hidden');
+                if (submitSpinner) submitSpinner.classList.remove('hidden');
+                
+                if (validateStep(currentStep)) {
+                    // Collect all form data
+                    const finalFormData = {
+                        districts: getSelectedOptionText('step-1') || 'Не указано',
+                        rooms: getSelectedOptionText('step-2') || 'Не указано',
+                        budget: getSelectedOptionText('step-3') || 'Не указано',
+                        name: document.getElementById('name').value,
+                        phone: document.getElementById('phone').value,
+                        email: document.getElementById('email').value || 'Не указано'
+                    };
+
+                    // Get current date and time
+                    const now = new Date();
+                    const dateTime = now.toLocaleString('ru-RU', {
+                        day: '2-digit',
+                        month: '2-digit', 
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+
+                    // Create Telegram message
+                    const telegramMessage = `🏠 *НОВАЯ ЗАЯВКА НА ПОДБОР ЖИЛЬЯ*
+
+⏰ *Дата и время*: ${dateTime}
+
+👤 *КОНТАКТНАЯ ИНФОРМАЦИЯ:*
+• *Имя*: ${finalFormData.name}
+• *Телефон*: ${finalFormData.phone}
+• *Email*: ${finalFormData.email}
+
+🎯 *КРИТЕРИИ ПОИСКА:*
+• *Район*: ${finalFormData.districts}
+• *Количество комнат*: ${finalFormData.rooms}
+• *Бюджет*: ${finalFormData.budget} млн ₽
+
+🎁 *ПОТЕНЦИАЛЬНЫЙ КЭШБЕК*:
+${getBudgetCashback(formData.budget)}
+
+📋 *СЛЕДУЮЩИЕ ШАГИ*:
+✅ Связаться с клиентом в течение 15 минут
+✅ Подобрать варианты по критериям
+✅ Рассчитать точную сумму кэшбека
+
+💬 *Источник*: Форма заявки на сайте InBack.ru`;
+
+                    // Send to Telegram
+                    axios.post(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+                        chat_id: TELEGRAM_CHAT_ID,
+                        text: telegramMessage,
+                        parse_mode: 'Markdown'
+                    })
+                    .then(() => {
+                        console.log('Сообщение отправлено в Telegram');
+                        showNotification('Заявка успешно отправлена!', 'success');
+                    })
+                    .catch(error => {
+                        console.warn('Ошибка отправки в Telegram:', error);
+                        showNotification('Ошибка отправки. Попробуйте еще раз.', 'error');
+                    });
+
+                    // Go to thank you step
+                    goToStep(totalSteps);
+                    
+                    // Reset button (with null checks)
+                    if (submitBtn) submitBtn.disabled = false;
+                    if (submitText) submitText.classList.remove('hidden');
+                    if (submitSpinner) submitSpinner.classList.add('hidden');
+                } else {
+                    // Reset button (with null checks)
+                    if (submitBtn) submitBtn.disabled = false;
+                    if (submitText) submitText.classList.remove('hidden');
+                    if (submitSpinner) submitSpinner.classList.add('hidden');
+                }
+                });
+            }
+
+            // Get selected option text
+            function getSelectedOptionText(stepId) {
+                const step = document.getElementById(stepId);
+                if (!step) return null;
+                const selectedCard = step.querySelector('.option-card.border-\\[\\#0088CC\\]');
+                if (!selectedCard) return null;
+                return selectedCard.querySelector('h3').textContent;
+            }
+            
+            // Get cashback info based on budget
+            function getBudgetCashback(budget) {
+                switch(budget) {
+                    case '3-5': return 'до 150 000 ₽';
+                    case '5-7': return 'до 210 000 ₽';
+                    case '7-10': return 'до 300 000 ₽';
+                    case '10+': return 'до 500 000 ₽';
+                    default: return 'уточняется индивидуально';
+                }
+            }
+
+            // Phone mask
+            const phoneInput = document.getElementById('phone');
+            if (phoneInput) {
+                phoneInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    let formattedValue = '';
+                    
+                    if (value.length > 0) {
+                        if (value.length <= 1) {
+                            formattedValue = '+7';
+                        } else if (value.length <= 4) {
+                            formattedValue = '+7 (' + value.substring(1);
+                        } else if (value.length <= 7) {
+                            formattedValue = '+7 (' + value.substring(1, 4) + ') ' + value.substring(4);
+                        } else if (value.length <= 9) {
+                            formattedValue = '+7 (' + value.substring(1, 4) + ') ' + value.substring(4, 7) + '-' + value.substring(7);
+                        } else {
+                            formattedValue = '+7 (' + value.substring(1, 4) + ') ' + value.substring(4, 7) + '-' + value.substring(7, 9) + '-' + value.substring(9, 11);
+                        }
+                    }
+                    
+                    e.target.value = formattedValue;
+                });
+                
+                // Set default +7 when focused
+                phoneInput.addEventListener('focus', function(e) {
+                    if (!e.target.value) {
+                        e.target.value = '+7 ';
+                    }
+                });
+            }
+        });
+    </script>
+
+    <style>
+        .step {
+            display: none;
+        }
+        .step.active {
+            display: block;
+        }
+        .option-card.selected {
+            border-color: #0088CC !important;
+            background-color: rgb(239 246 255) !important;
+        }
+    </style>
+
+    <!-- Optimized Scripts -->
+    <script src="{{ url_for('static', filename='js/dom-helper.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/performance-lite.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/form-validation-lite.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/turbo-loader.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/cache-optimizer.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/image-compressor.js') }}" defer></script>
+
+    <!-- Manager Contact Modal -->
+    <div id="applicationModal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-6 md:p-8 max-w-lg w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-900">Связь с менеджером</h3>
+                <button onclick="closeApplicationModal()" class="text-gray-500 hover:text-gray-700 text-2xl">
+                    ×
+                </button>
+            </div>
+            
+            <form id="contactManagerForm">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Ваше имя *</label>
+                        <input type="text" name="name" required 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                               placeholder="Введите ваше имя">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Телефон *</label>
+                        <input type="tel" name="phone" required 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                               placeholder="+7 (900) 123-45-67">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        <input type="email" name="email" 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                               placeholder="Ваш email (необязательно)">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Удобное время для звонка</label>
+                        <select name="contact_time" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <option value="">Не важно</option>
+                            <option value="morning">Утром (9:00-12:00)</option>
+                            <option value="afternoon">Днем (12:00-17:00)</option>
+                            <option value="evening">Вечером (17:00-20:00)</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Сообщение</label>
+                        <textarea name="message" rows="3" 
+                                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                  placeholder="Расскажите, чем можем помочь..."></textarea>
+                    </div>
+                </div>
+                
+                <div class="flex gap-3 mt-6">
+                    <button type="button" onclick="closeApplicationModal()" 
+                            class="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition">
+                        Отмена
+                    </button>
+                    <button type="submit" id="submitContactBtn"
+                            class="flex-1 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition disabled:opacity-50">
+                        <span id="submitText">Отправить заявку</span>
+                        <span id="submitSpinner" class="hidden">
+                            <svg class="animate-spin h-4 w-4 mx-auto" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="m12 6v6l4-2"></path>
+                            </svg>
+                        </span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Cookie Notice - TrendAgent Style -->
+    <div id="cookieNotice" class="fixed bottom-4 right-4 bg-white rounded-xl shadow-2xl border border-gray-100 z-50 max-w-sm transform translate-x-full transition-all duration-500 ease-out" style="display: none;">
+        <div class="p-6">
+            <div class="mb-4">
+                <h3 class="font-bold text-gray-900 text-lg mb-2">Уведомление о cookie</h3>
+                <p class="text-sm text-gray-600 leading-relaxed">
+                    Мы используем файлы cookie с тем чтобы сделать ваше взаимодействие с сайтом более персональным и помочь нам улучшить общее впечатление.
+                </p>
+            </div>
+            
+            <div class="space-y-3">
+                <button 
+                    onclick="acceptAllCookies()" 
+                    class="w-full bg-[#0088CC] text-white py-3 px-4 rounded-lg text-sm font-semibold hover:bg-[#0077BB] transition-colors duration-200 flex items-center justify-center">
+                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                    </svg>
+                    Принять все файлы cookie
+                </button>
+                
+                <div class="text-center">
+                    <button 
+                        onclick="acceptNecessaryCookies()" 
+                        class="text-[#0088CC] text-sm font-medium hover:text-[#0077BB] transition-colors duration-200">
+                        Принять только необходимые файлы cookie
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cookie notice functionality
+        function checkCookieConsent() {
+            const consent = localStorage.getItem('cookieConsent');
+            
+            if (!consent) {
+                showCookieNotice();
+            } else {
+                // Apply stored consent settings
+                try {
+                    const consentData = JSON.parse(consent);
+                    applyCookieConsent(consentData);
+                } catch (e) {
+                    // Handle legacy consent format
+                    if (consent === 'accepted') {
+                        applyCookieConsent({ type: 'all', analytics: true, marketing: true });
+                    }
+                }
+            }
+        }
+        
+        function applyCookieConsent(consentData) {
+            // Apply analytics settings
+            if (typeof gtag !== 'undefined') {
+                gtag('consent', 'update', {
+                    'analytics_storage': consentData.analytics ? 'granted' : 'denied',
+                    'ad_storage': consentData.marketing ? 'granted' : 'denied',
+                    'functionality_storage': 'granted',
+                    'personalization_storage': consentData.preferences ? 'granted' : 'denied'
+                });
+            }
+        }
+
+        function showCookieNotice() {
+            const notice = document.getElementById('cookieNotice');
+            
+            if (notice) {
+                notice.style.display = 'block';
+                setTimeout(() => {
+                    notice.classList.remove('translate-x-full');
+                }, 100);
+            }
+        }
+
+        function hideCookieNotice() {
+            const notice = document.getElementById('cookieNotice');
+            if (notice) {
+                notice.classList.add('translate-x-full');
+                setTimeout(() => {
+                    notice.style.display = 'none';
+                }, 500);
+            }
+        }
+
+        function acceptAllCookies() {
+            const consentData = {
+                necessary: true,
+                analytics: true,
+                marketing: true,
+                preferences: true,
+                date: new Date().toISOString(),
+                type: 'all'
+            };
+            
+            localStorage.setItem('cookieConsent', JSON.stringify(consentData));
+            setCookies(consentData);
+            hideCookieNotice();
+            
+            // Enable all analytics
+            if (typeof gtag !== 'undefined') {
+                gtag('consent', 'update', {
+                    'analytics_storage': 'granted',
+                    'ad_storage': 'granted',
+                    'functionality_storage': 'granted',
+                    'personalization_storage': 'granted'
+                });
+            }
+        }
+        
+        function acceptNecessaryCookies() {
+            const consentData = {
+                necessary: true,
+                analytics: false,
+                marketing: false,
+                preferences: false,
+                date: new Date().toISOString(),
+                type: 'necessary'
+            };
+            
+            localStorage.setItem('cookieConsent', JSON.stringify(consentData));
+            setCookies(consentData);
+            hideCookieNotice();
+            
+            // Only enable necessary functionality
+            if (typeof gtag !== 'undefined') {
+                gtag('consent', 'update', {
+                    'analytics_storage': 'denied',
+                    'ad_storage': 'denied',
+                    'functionality_storage': 'granted',
+                    'personalization_storage': 'denied'
+                });
+            }
+        }
+        
+        function setCookies(consentData) {
+            // Set necessary cookies
+            if (consentData.necessary) {
+                document.cookie = `user_session=active; max-age=31536000; path=/; secure; samesite=strict`;
+            }
+            
+            // Set analytics cookies
+            if (consentData.analytics) {
+                document.cookie = `analytics_enabled=true; max-age=31536000; path=/; secure; samesite=strict`;
+            }
+            
+            // Set marketing cookies  
+            if (consentData.marketing) {
+                document.cookie = `marketing_enabled=true; max-age=31536000; path=/; secure; samesite=strict`;
+            }
+            
+            // Set preference cookies
+            if (consentData.preferences) {
+                document.cookie = `preferences_enabled=true; max-age=31536000; path=/; secure; samesite=strict`;
+                // Save user preferences like theme, language etc.
+                const preferences = {
+                    theme: 'light',
+                    language: 'ru',
+                    notifications: true
+                };
+                localStorage.setItem('userPreferences', JSON.stringify(preferences));
+            }
+            
+            // Set consent record cookie
+            document.cookie = `cookie_consent=${consentData.type}; max-age=31536000; path=/; secure; samesite=strict`;
+        }
+        
+        // Legacy function for backwards compatibility
+        function acceptCookies() {
+            acceptAllCookies();
+        }
+
+        // Show cookie notice on page load if not already accepted
+        document.addEventListener('DOMContentLoaded', function() {
+            // Delay showing to avoid interfering with page load
+            setTimeout(checkCookieConsent, 1000);
+        });
+        
+        // Modal functions
+        function openApplicationModal() {
+            document.getElementById('applicationModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeApplicationModal() {
+            const modal = document.getElementById('applicationModal');
+            if (modal) {
+                modal.classList.add('hidden');
+            }
+            
+            // ПРИНУДИТЕЛЬНОЕ восстановление скролла - исправлено!
+            // Сначала убираем все проблемные стили
+            document.body.style.overflow = '';
+            document.body.style.paddingRight = '';
+            document.body.style.position = '';
+            document.body.style.height = '';
+            document.documentElement.style.overflow = '';
+            document.documentElement.style.paddingRight = '';
+            document.documentElement.style.position = '';
+            
+            // Убираем все классы которые могут блокировать скролл
+            document.body.className = document.body.className
+                .replace(/modal-open|no-scroll|overflow-hidden|scroll-disabled/g, '')
+                .trim();
+                
+            // Дополнительная проверка - если скролл все еще не работает
+            setTimeout(() => {
+                if (document.body.style.overflow === 'hidden') {
+                    document.body.style.overflow = '';
+                }
+                if (document.documentElement.style.overflow === 'hidden') {
+                    document.documentElement.style.overflow = '';
+                }
+            }, 100);
+        }
+        
+        // Handle contact manager form submission
+        document.addEventListener('DOMContentLoaded', function() {
+            const contactForm = document.getElementById('contactManagerForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const formData = new FormData(this);
+                    const data = Object.fromEntries(formData.entries());
+                    
+                    // Validate required fields
+                    if (!data.name || !data.phone) {
+                        alert('Пожалуйста, заполните имя и телефон');
+                        return;
+                    }
+                    
+                    // Show loading state
+                    const submitBtn = document.getElementById('submitContactBtn');
+                    const submitText = document.getElementById('submitText');
+                    const submitSpinner = document.getElementById('submitSpinner');
+                    
+                    if (submitBtn) submitBtn.disabled = true;
+                    if (submitText) submitText.classList.add('hidden');
+                    if (submitSpinner) submitSpinner.classList.remove('hidden');
+                    
+                    // Submit to API
+                    fetch('/api/contact-manager', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success) {
+                            alert(result.message || 'Заявка отправлена! Менеджер свяжется с вами.');
+                            
+                            // АГРЕССИВНОЕ восстановление скролла после отправки - исправлено!
+                            closeApplicationModal();
+                            
+                            // Принудительно убираем все проблемные стили через несколько интервалов
+                            const forceScrollRestore = () => {
+                                document.body.style.overflow = '';
+                                document.body.style.paddingRight = '';
+                                document.body.style.position = '';
+                                document.body.style.height = '';
+                                document.documentElement.style.overflow = '';
+                                document.documentElement.style.paddingRight = '';
+                                
+                                // Убираем все возможные классы блокировки скролла
+                                document.body.className = document.body.className
+                                    .replace(/modal-open|no-scroll|overflow-hidden|scroll-disabled|modal-body/g, '')
+                                    .trim();
+                            };
+                            
+                            // Вызываем несколько раз для надежности
+                            forceScrollRestore();
+                            setTimeout(forceScrollRestore, 50);
+                            setTimeout(forceScrollRestore, 150);
+                            setTimeout(forceScrollRestore, 300);
+                            
+                            contactForm.reset();
+                        } else {
+                            alert(result.error || 'Ошибка при отправке заявки');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Произошла ошибка. Попробуйте позже.');
+                    })
+                    .finally(() => {
+                        // Reset button state (with null checks)
+                        if (submitBtn) submitBtn.disabled = false;
+                        if (submitText) submitText.classList.remove('hidden');
+                        if (submitSpinner) submitSpinner.classList.add('hidden');
+                    });
+                });
+            }
+        });
+    </script>
+
+    <!-- Gamification Cashback Popup System -->
+    <script src="{{ url_for('static', filename='js/cashback-popup.js') }}" defer></script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

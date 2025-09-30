@@ -1,0 +1,1113 @@
+{% extends "base.html" %}
+
+{% block title %}IT ипотека 2024: льготные условия для программистов | InBack{% endblock %}
+{% block description %}IT ипотека 2024: ставка от 3,5% годовых для IT-специалистов. Сумма до 9 млн ₽, первый взнос от 15%. Одобрение за 1 день без справок. Льготная программа до 2025 года.{% endblock %}
+{% block keywords %}IT ипотека 2024, IT ипотека условия, ипотека для программистов, льготная ипотека IT специалистам, IT ипотека без справок, ипотека для IT компаний, максимальная сумма IT ипотеки, документы для IT ипотеки{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://inback.ru/it-mortgage/">
+    <meta property="og:title" content="IT ипотека 2024: льготные условия для программистов | Inback">
+    <meta property="og:description" content="Оформите IT ипотеку со ставкой от 3,5% годовых. Для разработчиков, тестировщиков, аналитиков. Максимальная сумма до 9 млн ₽. Одобрение за 1 день.">
+    <meta property="og:image" content="https://inback.ru/images/it-ipoteka-social.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://inback.ru/it-mortgage/">
+    <meta property="twitter:title" content="IT ипотека 2024: льготные условия для программистов | Inback">
+    <meta property="twitter:description" content="Оформите выгодную IT ипотеку со ставкой от 3,5% годовых. Максимальная сумма кредита 9 млн ₽. Первый взнос от 15%. Одобрение за 1 день без справок.">
+    <meta property="twitter:image" content="https://inback.ru/images/it-ipoteka-social.jpg">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://inback.ru/it-mortgage/" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "RealEstateAgent",
+      "name": "Inback",
+      "image": "https://inback.ru/logo.jpg",
+      "description": "Официальный сервис возврата кэшбека при покупке недвижимости в Краснодаре и других городах России",
+      "priceRange": "$",
+      "areaServed": {
+        "@type": "AdministrativeArea",
+        "name": "Краснодар и Краснодарский край"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "ул. Красная, 32",
+        "addressLocality": "Краснодар",
+        "addressRegion": "Краснодарский край" 
+      },
+      "telephone": "+78001231212",
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "09:00",
+        "closes": "19:00"
+      }
+    }
+    </script>
+{% endblock %}
+
+{% block content %}
+<section class="bg-gradient-to-b from-white to-gray-50 pt-20 pb-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Left Content -->
+                <div>
+                    <div class="inline-flex items-center px-4 py-2 bg-gray-100 rounded-full text-gray-700 text-sm font-medium mb-6">
+                        <i class="fas fa-code mr-2 text-[#0088CC]"></i>
+                        IT ипотека
+                    </div>
+                    <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+                        IT ипотека 3,5% - <span class="text-[#0088CC]">для айтишников</span>
+                    </h1>
+                    <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                        Государственная программа льготной ипотеки для IT-специалистов: ставка от 3,5%, сумма до 9 млн ₽, срок до 30 лет.
+                    </p>
+                    
+                    <!-- Key Benefits -->
+                    <div class="grid sm:grid-cols-2 gap-4 mb-8">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-percentage text-[#0088CC] text-sm"></i>
+                            </div>
+                            <span class="text-gray-700">Ставка от 3,5%</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-coins text-[#0088CC] text-sm"></i>
+                            </div>
+                            <span class="text-gray-700">До 9 млн ₽</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-clock text-[#0088CC] text-sm"></i>
+                            </div>
+                            <span class="text-gray-700">Без справок о доходе</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-wallet text-[#0088CC] text-sm"></i>
+                            </div>
+                            <span class="text-gray-700">Взнос от 15%</span>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button onclick="openApplicationModal()" class="bg-gradient-to-r from-[#0088CC] to-[#006699] hover:shadow-lg text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all transform hover:scale-[1.02]">
+                            Подать заявку
+                        </button>
+                        <button onclick="openCompanyCheckModal()" class="border-2 border-[#0088CC] text-[#0088CC] hover:bg-[#0088CC] hover:text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all transform hover:scale-[1.02]">
+                            Проверить компанию
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Content - Code Animation -->
+                <div class="relative">
+                    <div class="bg-gray-900 rounded-2xl shadow-xl p-6 relative z-10">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex space-x-2">
+                                <div class="w-3 h-3 bg-gray-400 rounded-full"></div>
+                                <div class="w-3 h-3 bg-gray-500 rounded-full"></div>
+                                <div class="w-3 h-3 bg-gray-600 rounded-full"></div>
+                            </div>
+                            <span class="text-gray-400 text-sm">it_mortgage.js</span>
+                        </div>
+                        
+                        <div class="text-gray-300 font-mono text-sm leading-relaxed">
+                            <div class="mb-2">
+                                <span class="text-gray-400">const</span> <span class="text-[#0088CC]">itMortgage</span> <span class="text-white">=</span> <span class="text-gray-400">{</span>
+                            </div>
+                            <div class="ml-4 mb-2">
+                                <span class="text-gray-300">rate</span><span class="text-white">:</span> <span class="text-[#0088CC]">'5%'</span><span class="text-white">,</span>
+                            </div>
+                            <div class="ml-4 mb-2">
+                                <span class="text-gray-300">maxAmount</span><span class="text-white">:</span> <span class="text-[#0088CC]">18000000</span><span class="text-white">,</span>
+                            </div>
+                            <div class="ml-4 mb-2">
+                                <span class="text-gray-300">minDownPayment</span><span class="text-white">:</span> <span class="text-[#0088CC]">'15%'</span><span class="text-white">,</span>
+                            </div>
+                            <div class="ml-4 mb-2">
+                                <span class="text-gray-300">approved</span><span class="text-white">:</span> <span class="text-[#0088CC]">true</span>
+                            </div>
+                            <div class="mb-4">
+                                <span class="text-gray-400">}</span><span class="text-white">;</span>
+                            </div>
+                            
+                            <div class="text-gray-500">// Льготы действуют до 2025 года</div>
+                        </div>
+                        
+                        <div class="mt-6 bg-gradient-to-r from-[#0088CC] to-[#006699] rounded-lg p-4 text-center">
+                            <div class="text-white font-bold text-xl">Ставка 3,5%</div>
+                            <div class="text-white/80 text-sm">для IT-специалистов</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Decorative elements -->
+                    <div class="absolute -top-4 -right-4 w-24 h-24 bg-gray-200 rounded-full opacity-20"></div>
+                    <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-gray-300 rounded-full opacity-20"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Requirements Section -->
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                    Кто может получить IT ипотеку
+                </h2>
+                <p class="text-xl text-gray-600">
+                    Требования для получения льготной ставки 5%
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <!-- IT Professions -->
+                <div class="bg-gray-50 rounded-xl p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                        <i class="fas fa-laptop-code text-[#0088CC] mr-3"></i>
+                        IT-специальности
+                    </h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Разработчики (Frontend, Backend, Fullstack)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Тестировщики (QA, QC)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Системные аналитики</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>DevOps инженеры</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Data Scientists</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Архитекторы ПО</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Company Requirements -->
+                <div class="bg-gray-50 rounded-xl p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                        <i class="fas fa-building text-[#0088CC] mr-3"></i>
+                        Требования к работодателю
+                    </h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Аккредитованная Минцифры IT-компания</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Трудовой договор от 6 месяцев</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Подтверждение IT-деятельности</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Статус резидента IT-парка</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Или собственная IT-компания</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Financial Conditions -->
+            <div class="bg-gray-50 rounded-xl p-8">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">Финансовые условия</h3>
+                <div class="grid md:grid-cols-4 gap-6">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-percentage text-[#0088CC] text-2xl"></i>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">Ставка</h4>
+                        <p class="text-2xl font-bold text-[#0088CC]">от 3,5%</p>
+                        <p class="text-gray-600 text-sm">годовых</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-money-bill-wave text-[#0088CC] text-2xl"></i>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">Сумма</h4>
+                        <p class="text-2xl font-bold text-[#0088CC]">до 9 млн</p>
+                        <p class="text-gray-600 text-sm">рублей</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-wallet text-[#0088CC] text-2xl"></i>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">Взнос</h4>
+                        <p class="text-2xl font-bold text-[#0088CC]">от 20%</p>
+                        <p class="text-gray-600 text-sm">первоначальный</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-clock text-[#0088CC] text-2xl"></i>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">Срок</h4>
+                        <p class="text-2xl font-bold text-[#0088CC]">до 30 лет</p>
+                        <p class="text-gray-600 text-sm">кредитования</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Calculator Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                    Калькулятор IT ипотеки
+                </h2>
+                <p class="text-xl text-gray-600">
+                    Рассчитайте ваш ежемесячный платеж по ставке 5%
+                </p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl p-8">
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <!-- Calculator Controls -->
+                    <div class="space-y-6">
+                        <!-- Property Price -->
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <label class="text-gray-700 font-medium">Стоимость недвижимости</label>
+                                <div class="text-xl font-bold text-[#0088CC]" id="itPropertyPrice">15 000 000 ₽</div>
+                            </div>
+                            <input type="range" 
+                                   min="1000000" 
+                                   max="50000000" 
+                                   step="100000" 
+                                   value="15000000" 
+                                   class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                                   id="itPropertyPriceRange">
+                            <div class="flex justify-between text-sm text-gray-500 mt-1">
+                                <span>1 млн ₽</span>
+                                <span>50 млн ₽</span>
+                            </div>
+                        </div>
+
+                        <!-- Down Payment -->
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <label class="text-gray-700 font-medium">Первоначальный взнос</label>
+                                <div class="text-xl font-bold text-[#0088CC]" id="itDownPayment">1 600 000 ₽ (20%)</div>
+                            </div>
+                            <input type="range" 
+                                   min="20" 
+                                   max="80" 
+                                   step="5" 
+                                   value="20" 
+                                   class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                                   id="itDownPaymentRange">
+                            <div class="flex justify-between text-sm text-gray-500 mt-1">
+                                <span>20%</span>
+                                <span>80%</span>
+                            </div>
+                        </div>
+
+                        <!-- Loan Term -->
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <label class="text-gray-700 font-medium">Срок кредита</label>
+                                <div class="text-xl font-bold text-[#0088CC]" id="itLoanTerm">25 лет</div>
+                            </div>
+                            <input type="range" 
+                                   min="1" 
+                                   max="30" 
+                                   step="1" 
+                                   value="25" 
+                                   class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                                   id="itLoanTermRange">
+                            <div class="flex justify-between text-sm text-gray-500 mt-1">
+                                <span>1 год</span>
+                                <span>30 лет</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Results -->
+                    <div class="bg-gradient-to-r from-[#0088CC] to-[#006699] rounded-xl p-6 text-white">
+                        <div class="text-center mb-6">
+                            <h3 class="text-2xl font-bold mb-2">Ваш платеж</h3>
+                            <div class="text-4xl font-bold" id="itMonthlyPayment">35 200 ₽</div>
+                            <p class="text-white/80">в месяц</p>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center py-2 border-b border-white/20">
+                                <span class="text-white/80">Ставка:</span>
+                                <span class="font-semibold">5.0%</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-white/20">
+                                <span class="text-white/80">Сумма кредита:</span>
+                                <span class="font-semibold" id="itLoanAmount">6 400 000 ₽</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-white/20">
+                                <span class="text-white/80">Переплата:</span>
+                                <span class="font-semibold" id="itOverpayment">4 160 000 ₽</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2">
+                                <span class="text-white/80">Кэшбек 2.5%:</span>
+                                <span class="font-semibold" id="itCashback">200 000 ₽</span>
+                            </div>
+                        </div>
+
+                        <button onclick="openApplicationModal()" class="w-full bg-white text-[#0088CC] py-3 rounded-lg font-semibold mt-6 hover:bg-gray-50 transition-colors">
+                            Подать заявку
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12">Преимущества нашего сервиса</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="bg-gray-50 rounded-xl p-6 card-hover">
+                <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-percent text-[#0088CC] text-xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Ставка от 3,5% годовых</h3>
+                <p class="text-gray-600">Льготная ставка для разработчиков, тестировщиков, аналитиков</p>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-6 card-hover">
+                <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-ruble-sign text-[#0088CC] text-xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">До 9 млн ₽</h3>
+                <p class="text-gray-600">Максимальная сумма кредита для IT-специалистов - в 2 раза выше стандартной</p>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-6 card-hover">
+                <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-shield-alt text-[#0088CC] text-xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Безопасность</h3>
+                <p class="text-gray-600">Официальные партнеры ведущих застройщиков и банков Краснодара</p>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-6 card-hover">
+                <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-lock text-[#0088CC] text-xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Конфиденциальность</h3>
+                <p class="text-gray-600">Ваши данные защищены и не передаются третьим лицам</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- IT Mortgage Benefits Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col lg:flex-row items-center">
+            <div class="lg:w-1/2 mb-10 lg:mb-0 lg:pr-10">
+                <h2 class="text-3xl font-bold mb-6">IT-ипотека - особые условия для айтишников</h2>
+                <p class="text-lg mb-6">Эксклюзивные программы льготного кредитования для IT-специалистов. Получите квартиру по специальной ставке без переплат:</p>
+                <ul class="space-y-3 mb-8">
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-[#0088CC] mt-1 mr-3"></i>
+                        <span>Ежегодные выплаты до 280 000 рублей</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-[#0088CC] mt-1 mr-3"></i>
+                        <span>Ипотека без первоначального взноса</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-[#0088CC] mt-1 mr-3"></i>
+                        <span>Льготная процентная ставка от 3,5%</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-[#0088CC] mt-1 mr-3"></i>
+                        <span>Подтверждение дохода только справкой из банка</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-[#0088CC] mt-1 mr-3"></i>
+                        <span>Одобрение за 1 день без посещения банка</span>
+                    </li>
+                </ul>
+                <button onclick="openApplicationModal()" class="bg-gradient-to-r from-[#0088CC] to-[#006699] hover:shadow-lg text-white font-bold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-[1.02]">Получить IT-ипотеку</button>
+            </div>
+            <div class="lg:w-1/2">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-2xl font-bold mb-6">Условия IT-ипотеки 2024</h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between py-3 border-b border-gray-200">
+                            <span class="text-gray-600">Процентная ставка:</span>
+                            <span class="font-semibold text-[#0088CC]">от 3,5% годовых</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-gray-200">
+                            <span class="text-gray-600">Максимальная сумма:</span>
+                            <span class="font-semibold">до 9 млн ₽</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-gray-200">
+                            <span class="text-gray-600">Первый взнос:</span>
+                            <span class="font-semibold">от 15%</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-gray-200">
+                            <span class="text-gray-600">Срок кредита:</span>
+                            <span class="font-semibold">до 30 лет</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-gray-200">
+                            <span class="text-gray-600">Возраст заемщика:</span>
+                            <span class="font-semibold">от 21 до 65 лет</span>
+                        </div>
+                        <div class="flex justify-between py-3">
+                            <span class="text-gray-600">Подтверждение дохода:</span>
+                            <span class="font-semibold">справка из банка</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Banks Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12">Банки с IT-ипотекой</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+            <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-center h-24 hover:shadow-md transition-shadow">
+                <img alt="Сбер IT ипотека" class="max-h-12" src="https://via.placeholder.com/150x60/009639/ffffff?text=Сбер"/>
+            </div>
+            <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-center h-24 hover:shadow-md transition-shadow">
+                <img alt="ВТБ Для IT" class="max-h-12" src="https://via.placeholder.com/150x60/0023A3/ffffff?text=ВТБ"/>
+            </div>
+            <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-center h-24 hover:shadow-md transition-shadow">
+                <img alt="Газпромбанк" class="max-h-12" src="https://via.placeholder.com/150x60/004987/ffffff?text=ГПБ"/>
+            </div>
+            <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-center h-24 hover:shadow-md transition-shadow">
+                <img alt="Альфа-Банк" class="max-h-12" src="https://via.placeholder.com/150x60/EF3124/ffffff?text=Альфа"/>
+            </div>
+            <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-center h-24 hover:shadow-md transition-shadow">
+                <img alt="Россельхозбанк" class="max-h-12" src="https://via.placeholder.com/150x60/007B3A/ffffff?text=РСХБ"/>
+            </div>
+            <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-center h-24 hover:shadow-md transition-shadow">
+                <img alt="Открытие" class="max-h-12" src="https://via.placeholder.com/150x60/00B2A9/ffffff?text=ФК Открытие"/>
+            </div>
+        </div>
+        <div class="text-center mt-8">
+            <p class="text-gray-600 mb-4">Подберем лучшее предложение из всех банков</p>
+            <button onclick="openApplicationModal()" class="bg-gradient-to-r from-[#0088CC] to-[#006699] hover:shadow-lg text-white font-bold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-[1.02]">Сравнить условия</button>
+        </div>
+    </div>
+</section>
+
+<!-- Detailed Content Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold mb-8">IT-ипотека в Краснодаре 2024 - льготы для программистов</h2>
+            <p class="text-lg text-gray-700 mb-8">Краснодар — один из крупнейших IT-хабов юга России с более чем 150 IT-компаниями. Специально для программистов и IT-специалистов доступна льготная ипотека со ставкой от 3,5% годовых.</p>
+            
+            <h3 class="text-2xl font-bold mb-6">Топ-5 ЖК в Краснодаре для IT-специалистов</h3>
+            <div class="grid md:grid-cols-1 gap-4 mb-8">
+                <div class="bg-gray-50 rounded-lg p-4 border-l-4 border-[#0088CC]">
+                    <h4 class="font-semibold text-gray-900">ЖК "Технопарк" (Западный район)</h4>
+                    <p class="text-gray-600">рядом с IT-кластером "Сколково-Краснодар", готовые офисы и коворкинги</p>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-4 border-l-4 border-[#0088CC]">
+                    <h4 class="font-semibold text-gray-900">ЖК "Digital City" (ЮМР)</h4>
+                    <p class="text-gray-600">современная инфраструктура, оптоволокно 1 Гбит/с в каждой квартире</p>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-4 border-l-4 border-[#0088CC]">
+                    <h4 class="font-semibold text-gray-900">ЖК "Smart Home" (Центр)</h4>
+                    <p class="text-gray-600">система "умный дом", рядом с офисами Яндекс и VK</p>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-4 border-l-4 border-[#0088CC]">
+                    <h4 class="font-semibold text-gray-900">ЖК "Code Valley" (ФМР)</h4>
+                    <p class="text-gray-600">IT-кампус с креативными пространствами и конференц-залами</p>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-4 border-l-4 border-[#0088CC]">
+                    <h4 class="font-semibold text-gray-900">ЖК "Innovation Park" (Прикубанский)</h4>
+                    <p class="text-gray-600">экологичный район, рядом с технопарком "Сколково-Краснодар"</p>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold mb-6">Как получить IT-ипотеку в Краснодаре - пошаговый план</h3>
+            <div class="space-y-4 mb-8">
+                <div class="flex items-start">
+                    <div class="bg-[#0088CC] text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1">1</div>
+                    <div>
+                        <h4 class="font-semibold">Подтвердите статус IT-специалиста</h4>
+                        <p class="text-gray-600">справка с работы или выписка из реестра ПВТ</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="bg-[#0088CC] text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1">2</div>
+                    <div>
+                        <h4 class="font-semibold">Соберите документы о доходах</h4>
+                        <p class="text-gray-600">справки 2-НДФЛ за последние 2 года или выписка из банка</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="bg-[#0088CC] text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1">3</div>
+                    <div>
+                        <h4 class="font-semibold">Выберите квартиру в аккредитованном ЖК</h4>
+                        <p class="text-gray-600">поможем подобрать оптимальный вариант рядом с IT-компаниями</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="bg-[#0088CC] text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1">4</div>
+                    <div>
+                        <h4 class="font-semibold">Подайте заявку в банк-партнер</h4>
+                        <p class="text-gray-600">онлайн-заявка, рассмотрение за 2-3 дня</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="bg-[#0088CC] text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1">5</div>
+                    <div>
+                        <h4 class="font-semibold">Получите одобрение и оформите сделку</h4>
+                        <p class="text-gray-600">электронная регистрация сделки через МФЦ</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-gray-50 rounded-lg p-4 mb-8">
+                <p class="text-gray-700"><strong>Одобрение IT-ипотеки: 85% заявок получают положительное решение за 3 дня!</strong></p>
+            </div>
+
+            <h3 class="text-2xl font-bold mb-6">IT-компании Краснодара — ваши будущие соседи</h3>
+            <div class="bg-gray-50 rounded-lg p-6 mb-8">
+                <p class="mb-4"><strong>В Краснодаре работают ведущие IT-компании:</strong></p>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <ul class="space-y-2">
+                            <li>• Яндекс.Лавка (центр разработки)</li>
+                            <li>• VK (южный офис)</li>
+                            <li>• Тинькофф (R&D центр)</li>
+                            <li>• EPAM (крупнейший офис на юге)</li>
+                            <li>• Luxoft (центр автомобильных решений)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul class="space-y-2">
+                            <li>• Сбер (технологический хаб)</li>
+                            <li>• Grid Dynamics (девелопмент центр)</li>
+                            <li>• Auriga (embedded разработка)</li>
+                            <li>• DataArt (аутсорсинг проекты)</li>
+                            <li>• Более 100 стартапов и аутсорс-компаний</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mt-4">
+                    <p class="text-gray-700"><strong>Зарплаты в IT:</strong> Средняя зарплата программиста в Краснодаре — 120-180 тыс. ₽, что делает IT-ипотеку доступной для большинства специалистов.</p>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-r from-[#0088CC] to-[#006699] rounded-lg p-6 text-white text-center">
+                <h3 class="text-xl font-bold mb-4">Начните карьеру в IT и получите свою квартиру!</h3>
+                <div class="grid md:grid-cols-5 gap-4 text-sm">
+                    <div>
+                        <div class="bg-white/20 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">1</div>
+                        <p>Подтвердите статус IT-специалиста</p>
+                    </div>
+                    <div>
+                        <div class="bg-white/20 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">2</div>
+                        <p>Подайте заявку онлайн</p>
+                    </div>
+                    <div>
+                        <div class="bg-white/20 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">3</div>
+                        <p>Выберите квартиру рядом с офисом</p>
+                    </div>
+                    <div>
+                        <div class="bg-white/20 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">4</div>
+                        <p>Получите одобрение за 3 дня</p>
+                    </div>
+                    <div>
+                        <div class="bg-white/20 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">5</div>
+                        <p>Получите кэшбэк от нас!</p>
+                    </div>
+                </div>
+                <button onclick="openApplicationModal()" class="bg-white text-[#0088CC] border-2 border-[#0088CC] font-bold py-3 px-8 rounded-lg mt-6 hover:bg-[#0088CC] hover:text-white transition duration-300">Получить IT-ипотеку</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Requirements Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12">Требования для получения IT-ипотеки</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-xl p-6 shadow-sm">
+                    <h3 class="text-xl font-bold mb-4 text-gray-900">Требования к заемщику</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Возраст от 21 до 65 лет</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Работа в аккредитованной IT-компании</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Стаж в IT-сфере от 6 месяцев</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Подтверждение дохода справкой из банка</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Гражданство РФ</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm">
+                    <h3 class="text-xl font-bold mb-4 text-gray-900">Необходимые документы</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-file text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Паспорт гражданина РФ</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-file text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Трудовой договор с IT-компанией</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-file text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Справка о доходах или выписка из банка</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-file text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Документы на приобретаемую недвижимость</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-file text-[#0088CC] mt-1 mr-3"></i>
+                            <span>Справка об аккредитации компании</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6" style="background: linear-gradient(135deg, #0088CC 0%, #006699 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">Часто задаваемые вопросы</h1>
+            <p class="text-xl text-gray-600">Найдите ответы на популярные вопросы о IT ипотеке и кешбеке за новостройки.</p>
+        </div>
+        
+        <div class="max-w-3xl mx-auto space-y-4">
+            <!-- IT Mortgage Questions -->
+            <h2 class="text-2xl font-bold mt-8 mb-4" style="background: linear-gradient(135deg, #0088CC 0%, #006699 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">Вопросы по IT ипотеке</h2>
+            
+            <div class="bg-gray-50 rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100">
+                <button class="flex justify-between items-center w-full text-left group" onclick="toggleFAQ(1)">
+                    <h3 class="text-lg font-medium group-hover:text-[#0088CC] transition-colors">Как подтвердить статус IT-специалиста?</h3>
+                    <i class="fas fa-chevron-down text-[#0088CC] transition-transform duration-200" id="faq-icon-1"></i>
+                </button>
+                <div class="mt-3 text-gray-600 hidden" id="faq-content-1">
+                    <p class="leading-relaxed">Основные документы: паспорт, трудовой договор с IT-компанией, выписка из реестра аккредитованных организаций (при необходимости), справка 2-НДФЛ или выписка по зарплатному счету. Для резидентов Сколково - дополнительное подтверждение статуса.</p>
+                </div>
+            </div>
+            
+            <div class="bg-gray-50 rounded-xl p-6 shadow-sm">
+                <button class="flex justify-between items-center w-full text-left" onclick="toggleFAQ(2)">
+                    <h3 class="text-lg font-medium">Какие документы нужны для IT-ипотеки?</h3>
+                    <i class="fas fa-chevron-down text-[#0088CC] transition-transform" id="faq-icon-2"></i>
+                </button>
+                <div class="mt-3 text-gray-600 hidden" id="faq-content-2">
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>Паспорт и ИНН</li>
+                        <li>Трудовой договор с аккредитованной IT-компанией</li>
+                        <li>Справка 2-НДФЛ или выписка по зарплатному счету</li>
+                        <li>Подтверждение аккредитации компании в реестре Минцифры</li>
+                        <li>Для резидентов Сколково - дополнительное подтверждение статуса</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// IT Mortgage Calculator
+function updateItCalculator() {
+    const propertyPriceEl = document.getElementById('itPropertyPrice');
+    const downPaymentEl = document.getElementById('itDownPayment');
+    const loanTermEl = document.getElementById('itLoanTerm');
+    const monthlyPaymentEl = document.getElementById('itMonthlyPayment');
+    const loanAmountEl = document.getElementById('itLoanAmount');
+    const overpaymentEl = document.getElementById('itOverpayment');
+    const cashbackEl = document.getElementById('itCashback');
+
+    const propertyPriceRange = document.getElementById('itPropertyPriceRange');
+    const downPaymentRange = document.getElementById('itDownPaymentRange');
+    const loanTermRange = document.getElementById('itLoanTermRange');
+
+    const propertyPrice = parseInt(propertyPriceRange.value);
+    const downPaymentPercent = parseInt(downPaymentRange.value);
+    const loanTermYears = parseInt(loanTermRange.value);
+    const interestRate = 3.5; // Fixed 3.5% for IT mortgage
+
+    // IT mortgage logic: max loan body is 9 million, remainder is down payment, but not less than 20%
+    const maxLoanAmount = 9000000; // 9 million max loan
+    const minDownPaymentPercent = 20;
+    const minDownPaymentAmount = propertyPrice * minDownPaymentPercent / 100;
+    const maxPossibleLoanAmount = propertyPrice - minDownPaymentAmount;
+    
+    // Calculate actual loan amount (can't exceed max loan or max possible)
+    const actualLoanAmount = Math.min(maxLoanAmount, maxPossibleLoanAmount);
+    const downPaymentAmount = propertyPrice - actualLoanAmount;
+    const actualDownPaymentPercent = Math.round((downPaymentAmount / propertyPrice) * 100);
+    
+    const loanAmount = actualLoanAmount;
+    const monthlyRate = interestRate / 100 / 12;
+    const totalPayments = loanTermYears * 12;
+
+    // Calculate monthly payment
+    let monthlyPayment = 0;
+    if (monthlyRate > 0) {
+        monthlyPayment = loanAmount * monthlyRate * Math.pow(1 + monthlyRate, totalPayments) / (Math.pow(1 + monthlyRate, totalPayments) - 1);
+    } else {
+        monthlyPayment = loanAmount / totalPayments;
+    }
+
+    const totalPaid = monthlyPayment * totalPayments;
+    const overpayment = totalPaid - loanAmount;
+    const cashback = propertyPrice * 0.025; // 2.5% cashback
+
+    // Update UI
+    propertyPriceEl.textContent = formatNumber(propertyPrice) + ' ₽';
+    downPaymentEl.textContent = formatNumber(Math.round(downPaymentAmount)) + ' ₽ (' + actualDownPaymentPercent + '%)';
+    loanTermEl.textContent = loanTermYears + ' лет';
+    monthlyPaymentEl.textContent = formatNumber(Math.round(monthlyPayment)) + ' ₽';
+    loanAmountEl.textContent = formatNumber(Math.round(loanAmount)) + ' ₽';
+    overpaymentEl.textContent = formatNumber(Math.round(overpayment)) + ' ₽';
+    cashbackEl.textContent = formatNumber(Math.round(cashback)) + ' ₽';
+}
+
+function formatNumber(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+}
+
+// Initialize calculator
+document.addEventListener('DOMContentLoaded', function() {
+    updateItCalculator();
+    
+    // Add event listeners
+    document.getElementById('itPropertyPriceRange').addEventListener('input', updateItCalculator);
+    document.getElementById('itDownPaymentRange').addEventListener('input', updateItCalculator);
+    document.getElementById('itLoanTermRange').addEventListener('input', updateItCalculator);
+});
+
+// Modal functions
+// openApplicationModal function is defined globally in base.html
+
+// Company check modal functions
+function openCompanyCheckModal() {
+    const modal = document.getElementById('companyCheckModal');
+    modal.classList.remove('hidden');
+    document.body.classList.add('overflow-hidden');
+}
+
+function closeCompanyCheckModal() {
+    const modal = document.getElementById('companyCheckModal');
+    modal.classList.add('hidden');
+    document.body.classList.remove('overflow-hidden');
+    
+    // Reset form
+    document.getElementById('companyCheckForm').reset();
+    document.getElementById('companyCheckResult').classList.add('hidden');
+}
+
+async function checkCompany(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    // Дополнительная защита от всплытия события
+    if (event.stopImmediatePropagation) {
+        event.stopImmediatePropagation();
+    }
+    
+    const submitBtn = document.getElementById('submitCheckBtn');
+    const submitText = document.getElementById('submitCheckText');
+    const resultDiv = document.getElementById('companyCheckResult');
+    
+    // Get form data
+    const formData = new FormData(event.target);
+    const inn = formData.get('inn').trim();
+    const companyName = formData.get('company_name').trim();
+    
+    if (!inn && !companyName) {
+        showCheckResult('Необходимо указать ИНН или название компании', 'error');
+        return;
+    }
+    
+    // Show loading state
+    submitBtn.disabled = true;
+    submitText.textContent = 'Проверяем...';
+    resultDiv.classList.add('hidden');
+    
+    try {
+        const response = await fetch('/api/check-it-company', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                inn: inn,
+                company_name: companyName
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            if (data.found) {
+                showCheckResult(
+                    `✅ ${data.message}<br><strong>ИНН:</strong> ${data.inn}<br><strong>Название:</strong> ${data.company_name}`,
+                    'success'
+                );
+            } else {
+                showCheckResult(`❌ ${data.message}`, 'error');
+            }
+        } else {
+            showCheckResult(`❌ ${data.error || 'Ошибка при проверке компании'}`, 'error');
+        }
+        
+    } catch (error) {
+        console.error('Error checking company:', error);
+        showCheckResult('❌ Ошибка при проверке компании. Попробуйте снова.', 'error');
+    } finally {
+        // Reset button state
+        submitBtn.disabled = false;
+        submitText.textContent = 'Проверить';
+    }
+    
+    // Возвращаем false для предотвращения дальнейшей обработки
+    return false;
+}
+
+function showCheckResult(message, type) {
+    const resultDiv = document.getElementById('companyCheckResult');
+    const resultText = document.getElementById('checkResultText');
+    
+    resultText.innerHTML = message;
+    resultDiv.className = `mt-4 p-4 rounded-lg ${type === 'success' ? 'bg-green-50 text-green-800 border border-green-200' : 'bg-red-50 text-red-800 border border-red-200'}`;
+    resultDiv.classList.remove('hidden');
+}
+
+// Company suggestions functionality
+let suggestionsTimeout;
+async function suggestCompanies(query) {
+    const suggestionsDiv = document.getElementById('companySuggestions');
+    
+    // Clear previous timeout
+    if (suggestionsTimeout) {
+        clearTimeout(suggestionsTimeout);
+    }
+    
+    // Hide suggestions if query is too short
+    if (query.length < 2) {
+        suggestionsDiv.classList.add('hidden');
+        return;
+    }
+    
+    // Debounce API calls
+    suggestionsTimeout = setTimeout(async () => {
+        try {
+            const response = await fetch('/api/suggest-it-companies', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ query: query })
+            });
+            
+            const data = await response.json();
+            
+            if (data.suggestions && data.suggestions.length > 0) {
+                suggestionsDiv.innerHTML = data.suggestions.map((suggestion, index) => 
+                    `<div class="px-4 py-2 hover:bg-gray-100 cursor-pointer border-b last:border-b-0" onclick="selectCompany(${index})" data-company="${suggestion.replace(/"/g, '&quot;')}">${suggestion}</div>`
+                ).join('');
+                suggestionsDiv.classList.remove('hidden');
+            } else {
+                suggestionsDiv.classList.add('hidden');
+            }
+        } catch (error) {
+            console.error('Error fetching company suggestions:', error);
+            suggestionsDiv.classList.add('hidden');
+        }
+    }, 300);
+}
+
+function selectCompany(index) {
+    const suggestionsDiv = document.getElementById('companySuggestions');
+    const suggestionElement = suggestionsDiv.children[index];
+    if (suggestionElement) {
+        const companyName = suggestionElement.getAttribute('data-company');
+        document.getElementById('company_name').value = companyName;
+        suggestionsDiv.classList.add('hidden');
+    }
+}
+
+// Hide suggestions when clicking outside
+document.addEventListener('click', function(e) {
+    const suggestionsDiv = document.getElementById('companySuggestions');
+    const companyInput = document.getElementById('company_name');
+    
+    if (suggestionsDiv && !suggestionsDiv.contains(e.target) && e.target !== companyInput) {
+        suggestionsDiv.classList.add('hidden');
+    }
+});
+
+// FAQ Toggle function
+function toggleFAQ(id) {
+    const content = document.getElementById(`faq-content-${id}`);
+    const icon = document.getElementById(`faq-icon-${id}`);
+    
+    if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        icon.style.transform = 'rotate(180deg)';
+    } else {
+        content.classList.add('hidden');
+        icon.style.transform = 'rotate(0deg)';
+    }
+}
+</script>
+
+<style>
+.slider::-webkit-slider-thumb {
+    appearance: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #0088CC;
+    cursor: pointer;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.slider::-moz-range-thumb {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #0088CC;
+    cursor: pointer;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+</style>
+
+<!-- Company Check Modal -->
+<div id="companyCheckModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-2xl font-bold text-gray-900">Проверка IT-компании</h3>
+            <button onclick="closeCompanyCheckModal()" class="text-gray-400 hover:text-gray-600 text-2xl">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <p class="text-gray-600 mb-6">
+            Проверьте, включена ли ваша компания в реестр IT-организаций для получения льготной ипотеки
+        </p>
+        
+        <form id="companyCheckForm" onsubmit="checkCompany(event)" class="company-check-form">
+            <div class="mb-4">
+                <label for="inn" class="block text-gray-700 font-medium mb-2">ИНН компании</label>
+                <input 
+                    type="text" 
+                    id="inn" 
+                    name="inn" 
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent"
+                    placeholder="Введите ИНН"
+                    maxlength="12"
+                >
+            </div>
+            
+            <div class="mb-4">
+                <div class="text-center text-gray-500 mb-2">или</div>
+                <label for="company_name" class="block text-gray-700 font-medium mb-2">Название компании</label>
+                <div class="relative">
+                <input 
+                    type="text" 
+                    id="company_name" 
+                    name="company_name" 
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] focus:border-transparent"
+                    placeholder="Введите название компании"
+                    autocomplete="off"
+                    oninput="suggestCompanies(this.value)"
+                >
+                <div id="companySuggestions" class="hidden absolute bg-white border border-gray-300 rounded-lg shadow-lg max-h-40 overflow-y-auto w-full z-10 mt-1"></div>
+                </div>
+            </div>
+            
+            <div id="companyCheckResult" class="hidden">
+                <div id="checkResultText"></div>
+            </div>
+            
+            <div class="flex gap-4 mt-6">
+                <button 
+                    type="submit" 
+                    id="submitCheckBtn"
+                    class="flex-1 bg-gradient-to-r from-[#0088CC] to-[#006699] text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transition-all"
+                >
+                    <span id="submitCheckText">Проверить</span>
+                </button>
+                <button 
+                    type="button" 
+                    onclick="closeCompanyCheckModal()" 
+                    class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+                >
+                    Отмена
+                </button>
+            </div>
+        </form>
+        
+        <div class="mt-4 text-sm text-gray-500">
+            <p><strong>Примечание:</strong> Проверка осуществляется по официальному реестру IT-организаций от 28.05.2025</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

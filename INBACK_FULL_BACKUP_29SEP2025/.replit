@@ -1,0 +1,50 @@
+modules = ["php-8.2", "web", "nodejs-20", "python-3.11", "postgresql-16"]
+run = "python main.py"
+
+[nix]
+channel = "stable-25_05"
+packages = ["chromedriver", "chromium", "fontconfig", "freetype", "geckodriver", "ghostscript", "gitFull", "glib", "glibcLocales", "harfbuzz", "lcms2", "libimagequant", "libjpeg", "libtiff", "libwebp", "libxcrypt", "openjpeg", "openssl", "pango", "php", "playwright-driver", "postgresql", "tcl", "tk", "xcodebuild", "zlib"]
+
+[deployment]
+deploymentTarget = "autoscale"
+run = ["gunicorn", "--bind", "0.0.0.0:5000", "--reuse-port"]
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Start application"
+
+[[workflows.workflow]]
+name = "Start application"
+author = "agent"
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "gunicorn --bind 0.0.0.0:5000 --reuse-port --reload main:app"
+waitForPort = 5000
+
+[[ports]]
+localPort = 5000
+externalPort = 80
+
+[[ports]]
+localPort = 43081
+externalPort = 3001
+
+[[ports]]
+localPort = 45813
+externalPort = 3000
+
+[agent]
+integrations = ["web_scraper:1.0.0", "python_database:1.0.0", "python_sendgrid:1.0.0"]
+expertMode = true

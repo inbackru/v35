@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "name": "Кэшбек",
+    "slug": "keshbek", 
+    "description": "Статьи о получении кэшбека при покупке недвижимости",
+    "articles_count": 1,
+    "color": "#2563eb"
+  },
+  {
+    "id": 2,
+    "name": "Районы Краснодара", 
+    "slug": "rayony-krasnodara",
+    "description": "Обзоры районов Краснодара для покупки недвижимости",
+    "articles_count": 1,
+    "color": "#059669"
+  },
+  {
+    "id": 3,
+    "name": "Ипотека",
+    "slug": "ipoteka",
+    "description": "Все о ипотечных программах и льготном кредитовании",
+    "articles_count": 3,
+    "color": "#7c3aed"
+  },
+  {
+    "id": 4,
+    "name": "Инвестиции",
+    "slug": "investitsii", 
+    "description": "Инвестиционные стратегии в недвижимость",
+    "articles_count": 0,
+    "color": "#ea580c"
+  },
+  {
+    "id": 5,
+    "name": "Новостройки",
+    "slug": "novostroyki",
+    "description": "Новости и обзоры новостроек Краснодара",
+    "articles_count": 0,
+    "color": "#0891b2"
+  },
+  {
+    "id": 6,
+    "name": "Застройщики",
+    "slug": "zastroyshchiki", 
+    "description": "Рейтинги и обзоры застройщиков",
+    "articles_count": 0,
+    "color": "#be185d"
+  }
+]

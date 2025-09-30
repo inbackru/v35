@@ -1,0 +1,229 @@
+{% extends "admin/base.html" %}
+{% block title %}Создать вакансию - Административная панель{% endblock %}
+
+{% block page_header %}
+<div class="flex justify-between items-center mb-8">
+    <div>
+        <h1 class="text-3xl font-bold text-gray-900">Создать вакансию</h1>
+        <p class="text-gray-600">Добавление новой карьерной возможности</p>
+    </div>
+    <a href="{{ url_for('admin_careers') }}" class="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition duration-200">
+        <i class="fas fa-arrow-left mr-2"></i>
+        Назад к списку
+    </a>
+</div>
+{% endblock %}
+
+{% block content %}
+<form method="POST" class="space-y-8">
+    <!-- Основная информация -->
+    <div class="bg-white p-6 rounded-lg shadow-sm border">
+        <h3 class="text-lg font-semibold text-gray-900 mb-6">Основная информация</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="md:col-span-2">
+                <label for="title" class="block text-sm font-medium text-gray-700 mb-2">Название вакансии *</label>
+                <input type="text" id="title" name="title" required
+                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                       placeholder="Frontend-разработчик">
+            </div>
+            
+            <div>
+                <label for="department" class="block text-sm font-medium text-gray-700 mb-2">Отдел *</label>
+                <select id="department" name="department" required
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <option value="">Выберите отдел</option>
+                    <option value="IT">IT</option>
+                    <option value="Продажи">Продажи</option>
+                    <option value="Маркетинг">Маркетинг</option>
+                    <option value="HR">HR</option>
+                    <option value="Финансы">Финансы</option>
+                    <option value="Юридический">Юридический</option>
+                    <option value="Административный">Административный</option>
+                    <option value="Поддержка">Поддержка</option>
+                </select>
+            </div>
+            
+            <div>
+                <label for="location" class="block text-sm font-medium text-gray-700 mb-2">Локация *</label>
+                <input type="text" id="location" name="location" required value="Краснодар"
+                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+            
+            <div>
+                <label for="employment_type" class="block text-sm font-medium text-gray-700 mb-2">Тип занятости *</label>
+                <select id="employment_type" name="employment_type" required
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <option value="">Выберите тип</option>
+                    <option value="Полная занятость">Полная занятость</option>
+                    <option value="Частичная занятость">Частичная занятость</option>
+                    <option value="Стажировка">Стажировка</option>
+                    <option value="Фриланс">Фриланс</option>
+                    <option value="Проект">Проект</option>
+                </select>
+            </div>
+            
+            <div>
+                <label for="experience_level" class="block text-sm font-medium text-gray-700 mb-2">Уровень опыта *</label>
+                <select id="experience_level" name="experience_level" required
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <option value="">Выберите уровень</option>
+                    <option value="Без опыта">Без опыта</option>
+                    <option value="Junior">Junior (1-2 года)</option>
+                    <option value="Middle">Middle (3-5 лет)</option>
+                    <option value="Senior">Senior (5+ лет)</option>
+                    <option value="Lead">Lead/Team Lead</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Настройки -->
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="flex items-center">
+                <input type="checkbox" id="is_featured" name="is_featured" value="1"
+                       class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                <label for="is_featured" class="ml-2 text-sm text-gray-700">Рекомендуемая вакансия</label>
+            </div>
+            <div class="flex items-center">
+                <input type="checkbox" id="is_remote" name="is_remote" value="1"
+                       class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                <label for="is_remote" class="ml-2 text-sm text-gray-700">Удаленная работа</label>
+            </div>
+            <div class="flex items-center">
+                <input type="checkbox" id="is_urgent" name="is_urgent" value="1"
+                       class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                <label for="is_urgent" class="ml-2 text-sm text-gray-700">Срочная вакансия</label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Описание вакансии -->
+    <div class="bg-white p-6 rounded-lg shadow-sm border">
+        <h3 class="text-lg font-semibold text-gray-900 mb-6">Описание вакансии</h3>
+        
+        <div class="space-y-6">
+            <div>
+                <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Общее описание *</label>
+                <textarea id="description" name="description" rows="4" required
+                          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          placeholder="Краткое описание вакансии и компании..."></textarea>
+            </div>
+            
+            <div>
+                <label for="responsibilities" class="block text-sm font-medium text-gray-700 mb-2">Обязанности *</label>
+                <textarea id="responsibilities" name="responsibilities" rows="6" required
+                          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          placeholder="• Разработка веб-приложений&#10;• Участие в проектировании архитектуры&#10;• Код-ревью..."></textarea>
+                <p class="mt-1 text-sm text-gray-500">Каждую обязанность с новой строки, используйте символ • для списка</p>
+            </div>
+            
+            <div>
+                <label for="requirements" class="block text-sm font-medium text-gray-700 mb-2">Требования *</label>
+                <textarea id="requirements" name="requirements" rows="6" required
+                          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          placeholder="• Опыт работы с React от 2 лет&#10;• Знание TypeScript&#10;• Понимание REST API..."></textarea>
+                <p class="mt-1 text-sm text-gray-500">Каждое требование с новой строки, используйте символ • для списка</p>
+            </div>
+            
+            <div>
+                <label for="benefits" class="block text-sm font-medium text-gray-700 mb-2">Условия и льготы</label>
+                <textarea id="benefits" name="benefits" rows="4"
+                          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          placeholder="• Конкурентная зарплата&#10;• Медицинская страховка&#10;• Гибкий график..."></textarea>
+                <p class="mt-1 text-sm text-gray-500">Каждую льготу с новой строки, используйте символ • для списка</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Зарплата -->
+    <div class="bg-white p-6 rounded-lg shadow-sm border">
+        <h3 class="text-lg font-semibold text-gray-900 mb-6">Зарплата</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+                <label for="salary_min" class="block text-sm font-medium text-gray-700 mb-2">Минимальная зарплата (₽)</label>
+                <input type="number" id="salary_min" name="salary_min" min="0" step="1000"
+                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                       placeholder="80000">
+            </div>
+            
+            <div>
+                <label for="salary_max" class="block text-sm font-medium text-gray-700 mb-2">Максимальная зарплата (₽)</label>
+                <input type="number" id="salary_max" name="salary_max" min="0" step="1000"
+                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                       placeholder="150000">
+            </div>
+            
+            <div>
+                <label for="salary_note" class="block text-sm font-medium text-gray-700 mb-2">Примечание к зарплате</label>
+                <input type="text" id="salary_note" name="salary_note"
+                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                       placeholder="По договоренности">
+            </div>
+        </div>
+    </div>
+
+    <!-- Контакты -->
+    <div class="bg-white p-6 rounded-lg shadow-sm border">
+        <h3 class="text-lg font-semibold text-gray-900 mb-6">Контактная информация</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label for="contact_email" class="block text-sm font-medium text-gray-700 mb-2">Email для отправки резюме</label>
+                <input type="email" id="contact_email" name="contact_email"
+                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                       placeholder="hr@inback.ru">
+            </div>
+            
+            <div>
+                <label for="contact_phone" class="block text-sm font-medium text-gray-700 mb-2">Телефон для связи</label>
+                <input type="tel" id="contact_phone" name="contact_phone"
+                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                       placeholder="+7 (861) 123-45-67">
+            </div>
+            
+            <div>
+                <label for="application_deadline" class="block text-sm font-medium text-gray-700 mb-2">Срок подачи заявок</label>
+                <input type="date" id="application_deadline" name="application_deadline"
+                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+        </div>
+    </div>
+
+    <!-- SEO -->
+    <div class="bg-white p-6 rounded-lg shadow-sm border">
+        <h3 class="text-lg font-semibold text-gray-900 mb-6">SEO настройки</h3>
+        
+        <div class="space-y-6">
+            <div>
+                <label for="meta_title" class="block text-sm font-medium text-gray-700 mb-2">Meta Title</label>
+                <input type="text" id="meta_title" name="meta_title" maxlength="60"
+                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                       placeholder="Frontend-разработчик в InBack - Краснодар">
+                <p class="mt-1 text-sm text-gray-500">Рекомендуется до 60 символов</p>
+            </div>
+            
+            <div>
+                <label for="meta_description" class="block text-sm font-medium text-gray-700 mb-2">Meta Description</label>
+                <textarea id="meta_description" name="meta_description" rows="2" maxlength="160"
+                          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          placeholder="Присоединяйтесь к команде InBack! Ищем опытного Frontend-разработчика для работы в Краснодаре."></textarea>
+                <p class="mt-1 text-sm text-gray-500">Рекомендуется до 160 символов</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Действия -->
+    <div class="flex justify-end space-x-4">
+        <a href="{{ url_for('admin_careers') }}" 
+           class="px-6 py-3 border border-gray-300 text-gray-700 bg-white rounded-lg hover:bg-gray-50 transition duration-200">
+            Отмена
+        </a>
+        <button type="submit" 
+                class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200">
+            <i class="fas fa-plus mr-2"></i>
+            Создать вакансию
+        </button>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,661 @@
+{% extends "base.html" %}
+
+{% block title %}Вход в личный кабинет | inback{% endblock %}
+
+{% block content %}
+<style>
+    .gradient-bg {
+        background: linear-gradient(135deg, #0088cc 0%, #32a4fb 100%);
+    }
+    
+    .btn-ton {
+        background: linear-gradient(135deg, #0088cc 0%, #32a4fb 100%);
+        transition: all 0.3s ease;
+    }
+    
+    .btn-ton:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 136, 204, 0.3);
+    }
+    
+    .input-ton {
+        border: 1px solid #e5e7eb;
+        transition: all 0.3s ease;
+    }
+    
+    .input-ton:focus {
+        border-color: #0088cc;
+        box-shadow: 0 0 0 3px rgba(0, 136, 204, 0.1);
+    }
+    
+    .floating-card {
+        animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+    }
+    
+    .tab-active {
+        color: #0088cc;
+        border-bottom: 2px solid #0088cc;
+        background-color: #f8fafc;
+    }
+</style>
+
+<div class="relative overflow-hidden min-h-screen bg-gray-50">
+    <!-- Decorative elements -->
+    <div class="absolute top-0 left-0 w-full h-1 gradient-bg"></div>
+    <div class="absolute top-20 -left-20 w-40 h-40 rounded-full bg-blue-500 opacity-10"></div>
+    <div class="absolute bottom-20 -right-20 w-60 h-60 rounded-full bg-[#0088CC] opacity-10"></div>
+    
+    <div class="container mx-auto px-4 py-12">
+        <div class="flex flex-col lg:flex-row items-center justify-center min-h-screen">
+            <!-- Left side - Illustration and info -->
+            <div class="lg:w-1/2 lg:pr-12 mb-12 lg:mb-0 relative">
+                <div class="max-w-md mx-auto">
+                    <div class="flex items-center mb-8">
+                        <div class="w-12 h-12 bg-gradient-to-r from-[#0088CC] to-[#006699] rounded-lg flex items-center justify-center text-white font-bold text-lg mr-4">In</div>
+                        <h1 class="text-3xl font-bold bg-gradient-to-r from-[#0088CC] to-[#006699] bg-clip-text text-transparent">InBack</h1>
+                    </div>
+                    
+                    <h2 class="text-4xl font-bold text-gray-800 mb-6 leading-tight">
+                        Получайте кешбэк <span class="text-[#0088CC]">до 5%</span> при покупке новостроек
+                    </h2>
+                    
+                    <p class="text-gray-600 mb-8 text-lg">
+                        Зарегистрируйтесь и получайте возврат денег с каждой покупки недвижимости. Просто, надежно и выгодно.
+                    </p>
+                    
+                    <div class="bg-white rounded-xl shadow-lg p-6 mb-8 floating-card">
+                        <div class="flex items-start">
+                            <div class="bg-gray-100 p-3 rounded-lg mr-4">
+                                <i class="fas fa-coins text-[#0088CC] text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-800 mb-2">Как это работает?</h3>
+                                <p class="text-gray-600 text-sm">
+                                    1. Зарегистрируйтесь в сервисе<br/>
+                                    2. Получите подборку квартир и ЖК<br/>
+                                    3. Посмотрите ЖК с менеджером сервиса<br/>
+                                    4. Определитесь с квартирой<br/>
+                                    5. Получите кешбэк за пользование сервисом
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-4">
+                        <div class="flex items-center bg-white px-4 py-2 rounded-lg shadow-sm">
+                            <i class="fas fa-check-circle text-[#0088CC] mr-2"></i>
+                            <span class="text-sm">Без скрытых условий</span>
+                        </div>
+                        <div class="flex items-center bg-white px-4 py-2 rounded-lg shadow-sm">
+                            <i class="fas fa-shield-alt text-[#0088CC] mr-2"></i>
+                            <span class="text-sm">Защита данных</span>
+                        </div>
+                        <div class="flex items-center bg-white px-4 py-2 rounded-lg shadow-sm">
+                            <i class="fas fa-bolt text-[#0088CC] mr-2"></i>
+                            <span class="text-sm">Мгновенные выплаты</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right side - Auth forms -->
+            <div class="lg:w-1/2">
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden max-w-md w-full mx-auto">
+                    <!-- Tabs -->
+                    <div class="flex border-b">
+                        <button class="flex-1 py-4 px-6 text-center font-medium tab-active" id="login-tab">
+                            Вход
+                        </button>
+                        <button class="flex-1 py-4 px-6 text-center font-medium text-gray-500" id="register-tab">
+                            Регистрация
+                        </button>
+                    </div>
+                    
+                    <!-- Login Form -->
+                    <div class="p-8" id="login-form">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Войдите в аккаунт</h3>
+                        <p class="text-gray-500 mb-4">И начните получать кешбэк уже сегодня</p>
+                        
+                        <!-- Demo Access Panel -->
+                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-4 mb-6">
+                            <div class="flex items-start">
+                                <div class="bg-blue-500 p-2 rounded-lg mr-3">
+                                    <i class="fas fa-users text-white text-sm"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="text-sm font-bold text-gray-700 mb-1">Тестовые аккаунты</h4>
+                                    <p class="text-xs text-[#0088CC] mb-2">Попробуйте разные типы личных кабинетов</p>
+                                    
+                                    <!-- Покупатель -->
+                                    <div class="bg-white rounded p-2 border border-blue-200 mb-2">
+                                        <div class="text-xs font-semibold text-gray-800 mb-1">🏠 Личный кабинет покупателя</div>
+                                        <div class="flex items-center text-xs">
+                                            <strong class="text-gray-700 mr-2">Email:</strong>
+                                            <code class="bg-gray-100 px-2 py-1 rounded text-[#0088CC] font-mono">demo@inback.ru</code>
+                                        </div>
+                                        <div class="flex items-center text-xs mt-1">
+                                            <strong class="text-gray-700 mr-2">Пароль:</strong>
+                                            <code class="bg-gray-100 px-2 py-1 rounded text-[#0088CC] font-mono">demo123</code>
+                                        </div>
+                                        <button type="button" onclick="fillCredentials('demo@inback.ru', 'demo123')" class="text-xs text-[#0088CC] hover:text-[#006699] font-medium mt-1 underline">
+                                            Войти как покупатель
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Менеджер -->
+                                    <div class="bg-white rounded p-2 border border-green-200 mb-2">
+                                        <div class="text-xs font-semibold text-gray-800 mb-1">👔 Кабинет менеджера</div>
+                                        <div class="flex items-center text-xs">
+                                            <strong class="text-gray-700 mr-2">Email:</strong>
+                                            <code class="bg-gray-100 px-2 py-1 rounded text-green-600 font-mono">manager@inback.ru</code>
+                                        </div>
+                                        <div class="flex items-center text-xs mt-1">
+                                            <strong class="text-gray-700 mr-2">Пароль:</strong>
+                                            <code class="bg-gray-100 px-2 py-1 rounded text-green-600 font-mono">demo123</code>
+                                        </div>
+                                        <button type="button" onclick="window.location.href='/manager/login'" class="text-xs text-green-600 hover:text-green-700 font-medium mt-1 underline">
+                                            Войти как менеджер
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Администратор -->
+                                    <div class="bg-white rounded p-2 border border-red-200">
+                                        <div class="text-xs font-semibold text-gray-800 mb-1">⚙️ Кабинет администратора</div>
+                                        <div class="flex items-center text-xs">
+                                            <strong class="text-gray-700 mr-2">Email:</strong>
+                                            <code class="bg-gray-100 px-2 py-1 rounded text-[#0088CC] font-mono">admin@inback.ru</code>
+                                        </div>
+                                        <div class="flex items-center text-xs mt-1">
+                                            <strong class="text-gray-700 mr-2">Пароль:</strong>
+                                            <code class="bg-gray-100 px-2 py-1 rounded text-[#0088CC] font-mono">demo123</code>
+                                        </div>
+                                        <button type="button" onclick="window.location.href='/admin/login'" class="text-xs text-[#0088CC] hover:text-red-700 font-medium mt-1 underline">
+                                            Войти как админ
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    <div class="mb-4 p-4 rounded-lg {% if category == 'error' %}bg-red-50 text-red-700 border border-red-200{% else %}bg-green-50 text-green-700 border border-green-200{% endif %}">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                        
+                        <!-- Email Verification Required Section -->
+                        {% if unverified_email %}
+                        <div class="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg" id="email-verification-section">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-envelope-open-text text-amber-500 text-xl mr-3 mt-1"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="text-amber-800 font-semibold mb-2">
+                                        Требуется подтверждение email
+                                    </h3>
+                                    <p class="text-amber-700 text-sm mb-3">
+                                        Ваш аккаунт <strong>{{ unverified_email }}</strong> не подтвержден. 
+                                        Проверьте почту или запросите новое письмо подтверждения.
+                                    </p>
+                                    
+                                    <div class="flex flex-col sm:flex-row gap-3">
+                                        <button 
+                                            type="button" 
+                                            onclick="resendVerificationEmail('{{ unverified_email }}')"
+                                            class="resend-btn px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-medium rounded-lg transition-colors duration-200 flex items-center justify-center"
+                                            id="resend-verification-btn"
+                                        >
+                                            <i class="fas fa-paper-plane mr-2"></i>
+                                            <span class="btn-text">Отправить письмо повторно</span>
+                                        </button>
+                                        
+                                        <button 
+                                            type="button" 
+                                            onclick="hideVerificationSection()"
+                                            class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition-colors duration-200"
+                                        >
+                                            Понятно
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Success/Error Messages -->
+                                    <div id="resend-result" class="mt-3 hidden">
+                                        <div id="resend-success" class="p-3 bg-green-50 border border-green-200 text-green-700 rounded-lg text-sm hidden">
+                                            <i class="fas fa-check-circle mr-2"></i>
+                                            <span id="success-message"></span>
+                                        </div>
+                                        <div id="resend-error" class="p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm hidden">
+                                            <i class="fas fa-exclamation-triangle mr-2"></i>
+                                            <span id="error-message"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        <form method="POST" action="{{ url_for('login') }}" id="login-form-element">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <div class="mb-6">
+                                <label class="block text-gray-700 text-sm font-medium mb-2" for="email">
+                                    Email или телефон
+                                </label>
+                                <div class="relative">
+                                    <i class="fas fa-user absolute left-3 top-3 text-gray-400"></i>
+                                    <input class="input-ton w-full pl-10 pr-4 py-3 rounded-lg border focus:outline-none" 
+                                           id="email" name="email" placeholder="example@mail.com" type="text" required/>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-gray-700 text-sm font-medium mb-2" for="password">
+                                    Пароль
+                                </label>
+                                <div class="relative">
+                                    <i class="fas fa-lock absolute left-3 top-3 text-gray-400"></i>
+                                    <input class="input-ton w-full pl-10 pr-4 py-3 rounded-lg border focus:outline-none" 
+                                           id="password" name="password" placeholder="••••••••" type="password" required/>
+                                    <button type="button" class="absolute right-3 top-3 text-gray-400 hover:text-gray-600" onclick="togglePassword('password')">
+                                        <i class="fas fa-eye" id="password-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="flex items-center">
+                                    <input class="h-4 w-4 text-[#0088CC] focus:ring-[#0088CC] border-gray-300 rounded" 
+                                           id="remember" name="remember" type="checkbox"/>
+                                    <label class="ml-2 block text-sm text-gray-700" for="remember">
+                                        Запомнить меня
+                                    </label>
+                                </div>
+                                <button type="button" class="text-sm text-[#0088CC] hover:text-[#0088CC] font-medium" id="show-forgot">
+                                    Забыли пароль?
+                                </button>
+                            </div>
+                            
+                            <button type="submit" class="btn-ton w-full py-3 px-4 rounded-lg text-white font-medium mb-6">
+                                Войти
+                            </button>
+                        </form>
+                        
+                        <div class="flex items-center mb-6">
+                            <div class="flex-1 border-t border-gray-200"></div>
+                            <span class="px-3 text-gray-500 text-sm">Или войдите через</span>
+                            <div class="flex-1 border-t border-gray-200"></div>
+                        </div>
+                        
+                        <div class="flex justify-center gap-4 mb-6">
+                            <button class="w-12 h-12 rounded-full border flex items-center justify-center text-gray-600 hover:bg-gray-50">
+                                <i class="fab fa-google text-xl"></i>
+                            </button>
+                            <button class="w-12 h-12 rounded-full border flex items-center justify-center text-gray-600 hover:bg-gray-50">
+                                <i class="fab fa-apple text-xl"></i>
+                            </button>
+                            <button class="w-12 h-12 rounded-full border flex items-center justify-center text-gray-600 hover:bg-gray-50">
+                                <i class="fab fa-vk text-xl"></i>
+                            </button>
+                        </div>
+                        
+                        <p class="text-center text-gray-500 text-sm">
+                            Нет аккаунта? <button type="button" class="text-[#0088CC] hover:text-[#0088CC] font-medium" id="show-register">Зарегистрируйтесь</button>
+                        </p>
+                    </div>
+                    
+                    <!-- Register Form (hidden by default) -->
+                    <div class="p-8 hidden" id="register-form">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Создайте аккаунт</h3>
+                        <p class="text-gray-500 mb-6">И получите бонус 500₽ на первый кешбэк</p>
+                        
+                        <form method="POST" action="{{ url_for('register') }}" id="register-form-element">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <div class="mb-6">
+                                <label class="block text-gray-700 text-sm font-medium mb-2" for="full_name">
+                                    Ваше имя
+                                </label>
+                                <div class="relative">
+                                    <i class="fas fa-user absolute left-3 top-3 text-gray-400"></i>
+                                    <input class="input-ton w-full pl-10 pr-4 py-3 rounded-lg border focus:outline-none" 
+                                           id="full_name" name="full_name" placeholder="Иван Иванов" type="text" required/>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-gray-700 text-sm font-medium mb-2" for="reg_email">
+                                    Email
+                                </label>
+                                <div class="relative">
+                                    <i class="fas fa-envelope absolute left-3 top-3 text-gray-400"></i>
+                                    <input class="input-ton w-full pl-10 pr-4 py-3 rounded-lg border focus:outline-none" 
+                                           id="reg_email" name="email" placeholder="example@mail.com" type="email" required/>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-gray-700 text-sm font-medium mb-2" for="phone">
+                                    Телефон
+                                </label>
+                                <div class="relative">
+                                    <i class="fas fa-phone absolute left-3 top-3 text-gray-400"></i>
+                                    <input class="input-ton w-full pl-10 pr-4 py-3 rounded-lg border focus:outline-none" 
+                                           id="phone" name="phone" placeholder="+7 (999) 123-45-67" type="tel"/>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-gray-700 text-sm font-medium mb-2" for="reg_password">
+                                    Пароль
+                                </label>
+                                <div class="relative">
+                                    <i class="fas fa-lock absolute left-3 top-3 text-gray-400"></i>
+                                    <input class="input-ton w-full pl-10 pr-4 py-3 rounded-lg border focus:outline-none" 
+                                           id="reg_password" name="password" placeholder="••••••••" type="password" minlength="8" required/>
+                                    <button type="button" class="absolute right-3 top-3 text-gray-400 hover:text-gray-600" onclick="togglePassword('reg_password')">
+                                        <i class="fas fa-eye" id="reg_password-eye"></i>
+                                    </button>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">Минимум 8 символов, включая цифры</p>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-gray-700 text-sm font-medium mb-2" for="confirm_password">
+                                    Подтвердите пароль
+                                </label>
+                                <div class="relative">
+                                    <i class="fas fa-lock absolute left-3 top-3 text-gray-400"></i>
+                                    <input class="input-ton w-full pl-10 pr-4 py-3 rounded-lg border focus:outline-none" 
+                                           id="confirm_password" name="confirm_password" placeholder="••••••••" type="password" required/>
+                                    <button type="button" class="absolute right-3 top-3 text-gray-400 hover:text-gray-600" onclick="togglePassword('confirm_password')">
+                                        <i class="fas fa-eye" id="confirm_password-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <div class="flex items-start">
+                                    <input class="h-4 w-4 text-[#0088CC] focus:ring-[#0088CC] border-gray-300 rounded mt-1" 
+                                           id="terms" name="terms" type="checkbox" required/>
+                                    <label class="ml-2 block text-sm text-gray-700" for="terms">
+                                        Я согласен с <a class="text-[#0088CC] hover:underline" href="{{ url_for('privacy_policy') }}">Условиями использования</a> 
+                                        и <a class="text-[#0088CC] hover:underline" href="{{ url_for('data_processing_consent') }}">Политикой конфиденциальности</a>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn-ton w-full py-3 px-4 rounded-lg text-white font-medium mb-6">
+                                Зарегистрироваться
+                            </button>
+                        </form>
+                        
+                        <p class="text-center text-gray-500 text-sm">
+                            Уже есть аккаунт? <button type="button" class="text-[#0088CC] hover:text-[#0088CC] font-medium" id="show-login">Войдите</button>
+                        </p>
+                    </div>
+                    
+                    <!-- Forgot Password Form (hidden by default) -->
+                    <div class="p-8 hidden" id="forgot-form">
+                        <div class="text-center mb-6">
+                            <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-key text-white text-2xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2">Восстановление пароля</h3>
+                            <p class="text-gray-500">Введите email, указанный при регистрации</p>
+                        </div>
+                        
+                        <form method="POST" action="{{ url_for('forgot_password') }}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <div class="mb-6">
+                                <label class="block text-gray-700 text-sm font-medium mb-2" for="forgot_email">
+                                    Email
+                                </label>
+                                <div class="relative">
+                                    <i class="fas fa-envelope absolute left-3 top-3 text-gray-400"></i>
+                                    <input class="input-ton w-full pl-10 pr-4 py-3 rounded-lg border focus:outline-none" 
+                                           id="forgot_email" name="email" placeholder="example@mail.com" type="email" required/>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn-ton w-full py-3 px-4 rounded-lg text-white font-medium mb-6">
+                                Отправить инструкции
+                            </button>
+                        </form>
+                        
+                        <p class="text-center text-gray-500 text-sm">
+                            <button type="button" class="text-[#0088CC] hover:text-[#0088CC] font-medium" id="back-to-login">Вернуться к входу</button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Manager Login Link -->
+        <div class="text-center mt-6">
+            <a href="{{ url_for('manager_login') }}" class="text-sm text-gray-500 hover:text-[#0088cc] font-medium">
+                <i class="fas fa-user-tie mr-1"></i>
+                Вход для менеджеров
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+// Toggle password visibility
+function togglePassword(fieldId) {
+    const field = document.getElementById(fieldId);
+    const eye = document.getElementById(fieldId + '-eye');
+    
+    if (field.type === 'password') {
+        field.type = 'text';
+        eye.classList.remove('fa-eye');
+        eye.classList.add('fa-eye-slash');
+    } else {
+        field.type = 'password';
+        eye.classList.remove('fa-eye-slash');
+        eye.classList.add('fa-eye');
+    }
+}
+
+// Fill credentials
+function fillCredentials(email, password) {
+    document.getElementById('email').value = email;
+    document.getElementById('password').value = password;
+    
+    // Add visual feedback
+    const demoPanel = document.querySelector('.bg-gradient-to-r.from-blue-50');
+    if (demoPanel) {
+        demoPanel.style.transform = 'scale(1.02)';
+        demoPanel.style.transition = 'transform 0.2s ease';
+        setTimeout(() => {
+            demoPanel.style.transform = 'scale(1)';
+        }, 200);
+    }
+}
+
+// Fill demo credentials (legacy support)
+function fillDemoCredentials() {
+    fillCredentials('demo@inback.ru', 'demo123');
+}
+
+// Tab switching
+document.addEventListener('DOMContentLoaded', function() {
+    const loginTab = document.getElementById('login-tab');
+    const registerTab = document.getElementById('register-tab');
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const forgotForm = document.getElementById('forgot-form');
+    
+    const showRegisterBtn = document.getElementById('show-register');
+    const showLoginBtn = document.getElementById('show-login');
+    const showForgotBtn = document.getElementById('show-forgot');
+    const backToLoginBtn = document.getElementById('back-to-login');
+    
+    function showLogin() {
+        loginTab.classList.add('tab-active');
+        registerTab.classList.remove('tab-active');
+        loginForm.classList.remove('hidden');
+        registerForm.classList.add('hidden');
+        forgotForm.classList.add('hidden');
+    }
+    
+    function showRegister() {
+        registerTab.classList.add('tab-active');
+        loginTab.classList.remove('tab-active');
+        registerForm.classList.remove('hidden');
+        loginForm.classList.add('hidden');
+        forgotForm.classList.add('hidden');
+    }
+    
+    function showForgot() {
+        loginTab.classList.remove('tab-active');
+        registerTab.classList.remove('tab-active');
+        forgotForm.classList.remove('hidden');
+        loginForm.classList.add('hidden');
+        registerForm.classList.add('hidden');
+    }
+    
+    loginTab.addEventListener('click', showLogin);
+    registerTab.addEventListener('click', showRegister);
+    showRegisterBtn.addEventListener('click', showRegister);
+    showLoginBtn.addEventListener('click', showLogin);
+    showForgotBtn.addEventListener('click', showForgot);
+    backToLoginBtn.addEventListener('click', showLogin);
+    
+    // Validate password confirmation
+    const regPassword = document.getElementById('reg_password');
+    const confirmPassword = document.getElementById('confirm_password');
+    
+    function validatePasswords() {
+        if (regPassword.value !== confirmPassword.value) {
+            confirmPassword.setCustomValidity('Пароли не совпадают');
+        } else {
+            confirmPassword.setCustomValidity('');
+        }
+    }
+    
+    regPassword.addEventListener('input', validatePasswords);
+    confirmPassword.addEventListener('input', validatePasswords);
+    
+    // Ensure forms submit properly
+    const loginFormElement = document.getElementById('login-form-element');
+    const registerFormElement = document.getElementById('register-form-element');
+    
+    loginFormElement.addEventListener('submit', function(e) {
+        console.log('Login form submitted');
+        // Allow normal form submission
+    });
+    
+    registerFormElement.addEventListener('submit', function(e) {
+        console.log('Register form submitted');
+        // Allow normal form submission
+    });
+});
+
+// Email Verification Resend Functionality
+function resendVerificationEmail(email) {
+    const btn = document.getElementById('resend-verification-btn');
+    const btnText = btn.querySelector('.btn-text');
+    const resultDiv = document.getElementById('resend-result');
+    const successDiv = document.getElementById('resend-success');
+    const errorDiv = document.getElementById('resend-error');
+    const successMessage = document.getElementById('success-message');
+    const errorMessage = document.getElementById('error-message');
+    
+    // Disable button and show loading
+    btn.disabled = true;
+    btn.classList.add('opacity-75', 'cursor-not-allowed');
+    btnText.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Отправляется...';
+    
+    // Hide previous results
+    resultDiv.classList.add('hidden');
+    successDiv.classList.add('hidden');
+    errorDiv.classList.add('hidden');
+    
+    // Get CSRF token
+    const csrfToken = document.querySelector('input[name="csrf_token"]').value;
+    
+    // Make AJAX request
+    fetch('/resend-verification', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({
+            email: email
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        resultDiv.classList.remove('hidden');
+        
+        if (data.success) {
+            // Show success message
+            successMessage.textContent = data.message;
+            successDiv.classList.remove('hidden');
+            
+            // Update button text
+            btnText.innerHTML = '<i class="fas fa-check mr-2"></i>Письмо отправлено';
+            btn.classList.remove('bg-amber-500', 'hover:bg-amber-600');
+            btn.classList.add('bg-green-500');
+            
+            // Re-enable button after 30 seconds
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.classList.remove('opacity-75', 'cursor-not-allowed', 'bg-green-500');
+                btn.classList.add('bg-amber-500', 'hover:bg-amber-600');
+                btnText.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Отправить письмо повторно';
+            }, 30000); // 30 seconds
+            
+        } else {
+            // Show error message
+            errorMessage.textContent = data.error;
+            errorDiv.classList.remove('hidden');
+            
+            // Re-enable button immediately for errors
+            btn.disabled = false;
+            btn.classList.remove('opacity-75', 'cursor-not-allowed');
+            btnText.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Попробовать снова';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        
+        resultDiv.classList.remove('hidden');
+        errorMessage.textContent = 'Произошла ошибка сети. Проверьте подключение и попробуйте снова.';
+        errorDiv.classList.remove('hidden');
+        
+        // Re-enable button
+        btn.disabled = false;
+        btn.classList.remove('opacity-75', 'cursor-not-allowed');
+        btnText.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Попробовать снова';
+    });
+}
+
+function hideVerificationSection() {
+    const section = document.getElementById('email-verification-section');
+    if (section) {
+        section.style.transition = 'opacity 0.3s ease, height 0.3s ease';
+        section.style.opacity = '0';
+        section.style.height = '0';
+        section.style.overflow = 'hidden';
+        section.style.padding = '0';
+        section.style.margin = '0';
+        
+        setTimeout(() => {
+            section.style.display = 'none';
+        }, 300);
+    }
+}
+
+</script>
+{% endblock %}

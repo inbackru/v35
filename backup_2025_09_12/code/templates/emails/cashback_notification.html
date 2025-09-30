@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кэшбек одобрен! | InBack</title>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #1f2937;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9fafb;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #059669;
+            margin-bottom: 16px;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            color: #6b7280;
+            font-size: 16px;
+        }
+        .celebration-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+        .content {
+            margin: 32px 0;
+        }
+        .cashback-card {
+            background: linear-gradient(135deg, #059669, #10b981);
+            color: white;
+            border-radius: 12px;
+            padding: 32px;
+            margin: 24px 0;
+            text-align: center;
+        }
+        .cashback-amount {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .cashback-label {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        .property-details {
+            background: #f3f4f6;
+            border-radius: 8px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .detail-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        .detail-label {
+            font-weight: 600;
+            color: #374151;
+        }
+        .detail-value {
+            color: #6b7280;
+        }
+        .timeline {
+            background: #eff6ff;
+            border: 1px solid #3b82f6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 24px 0;
+        }
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        .timeline-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #3b82f6;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 12px;
+        }
+        .btn {
+            display: inline-block;
+            background: #059669;
+            color: white !important;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid #e5e7eb;
+            font-size: 14px;
+            color: #6b7280;
+        }
+        .highlight-box {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 24px 0;
+            color: #92400e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">InBack</div>
+            <div class="celebration-icon">🎉</div>
+            <h1 class="title">Кэшбек одобрен!</h1>
+            <p class="subtitle">Поздравляем с успешным получением кэшбека</p>
+        </div>
+
+        <div class="content">
+            <p>Отличные новости, {{ user.first_name or user.full_name.split()[0] }}!</p>
+            
+            <p>Ваш кэшбек за покупку недвижимости через InBack успешно одобрен и будет переведен на ваш счет.</p>
+
+            <div class="cashback-card">
+                <div class="cashback-amount">{{ "{:,}".format(cashback_record.amount).replace(',', ' ') }} ₽</div>
+                <div class="cashback-label">Ваш кэшбек</div>
+            </div>
+
+            <div class="property-details">
+                <h3 style="margin-top: 0;">📋 Детали сделки</h3>
+                <div class="detail-row">
+                    <span class="detail-label">Объект:</span>
+                    <span class="detail-value">{{ cashback_record.property_name }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Стоимость:</span>
+                    <span class="detail-value">{{ "{:,}".format(cashback_record.property_price).replace(',', ' ') }} ₽</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Процент кэшбека:</span>
+                    <span class="detail-value">{{ cashback_record.percentage }}%</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Дата одобрения:</span>
+                    <span class="detail-value">{{ cashback_record.approved_at.strftime('%d.%m.%Y') if cashback_record.approved_at else 'Сегодня' }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Статус:</span>
+                    <span class="detail-value" style="color: #16a34a; font-weight: 600;">✅ Одобрен</span>
+                </div>
+            </div>
+
+            <div class="timeline">
+                <h3 style="margin-top: 0; color: #1e40af;">⏰ Что происходит дальше?</h3>
+                <div class="timeline-item">
+                    <div class="timeline-icon">✓</div>
+                    <div>Кэшбек одобрен и подготовлен к выплате</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-icon">2</div>
+                    <div>Обработка платежа в банке (2-3 рабочих дня)</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-icon">3</div>
+                    <div>Перевод средств на ваш счет (до 5 рабочих дней)</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-icon">🔔</div>
+                    <div>Уведомление о поступлении средств</div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <strong>💡 Важная информация:</strong><br>
+                Средства будут переведены на банковский счет, указанный в ваших документах. 
+                Если вы не получите кэшбек в течение 7 рабочих дней, обязательно свяжитесь с нами.
+            </div>
+
+            <div style="text-align: center;">
+                <a href="{{ base_url }}/dashboard" class="btn">Проверить баланс кэшбека</a>
+            </div>
+
+            <p><strong>Служба поддержки:</strong></p>
+            <ul>
+                <li>Телефон: <a href="tel:+78612345678">+7 (861) 234-56-78</a></li>
+                <li>Email: <a href="mailto:support@inback.ru">support@inback.ru</a></li>
+                <li>Telegram: <a href="https://t.me/inback_support">@inback_support</a></li>
+                <li>Рабочие часы: Пн-Пт 9:00-18:00, Сб 10:00-16:00</li>
+            </ul>
+
+            <p>Спасибо, что выбрали InBack для покупки недвижимости! Рекомендуйте нас друзьям и получайте дополнительные бонусы.</p>
+        </div>
+
+        <div class="footer">
+            <p><strong>Поздравляем с успешной покупкой!</strong></p>
+            <p>&copy; 2025 InBack. Все права защищены.</p>
+        </div>
+    </div>
+</body>
+</html>

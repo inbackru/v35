@@ -1,0 +1,4263 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<style>
+/* Filter styles from properties page */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    min-width: 200px;
+    padding: 0.5rem;
+    margin-top: 0.25rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s ease;
+}
+
+.dropdown-menu.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-section {
+    padding: 0.5rem 0;
+}
+
+.filter-option {
+    display: flex;
+    align-items: center;
+    padding: 0.375rem 0;
+    font-size: 0.875rem;
+    color: #374151;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.filter-option:hover {
+    color: #0088CC;
+}
+
+.filter-option input[type="checkbox"] {
+    margin-right: 0.5rem;
+    width: 16px;
+    height: 16px;
+    accent-color: #0088CC;
+}
+
+.price-inputs {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.5rem;
+}
+
+.price-inputs input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    outline: none;
+}
+
+.price-inputs input:focus {
+    border-color: #0088CC;
+    box-shadow: 0 0 0 2px rgba(0, 136, 204, 0.1);
+}
+
+.apply-price-btn {
+    background: #0088CC;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    margin: 0 0.5rem 0.5rem;
+    transition: opacity 0.2s;
+}
+
+.apply-price-btn:hover {
+    opacity: 0.9;
+}
+
+.filter-option-btn {
+    transition: all 0.2s ease;
+    border: 1px solid #e5e7eb;
+    background: #f9fafb;
+}
+
+.filter-option-btn:hover {
+    background: #f3f4f6;
+    border-color: #d1d5db;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.filter-option-btn.active {
+    background: #eff6ff;
+    border-color: #3b82f6;
+    color: #1d4ed8;
+}
+
+/* Chip styles */
+.active-filter-chip {
+    display: inline-flex;
+    align-items: center;
+    background: #0088CC;
+    color: white;
+    padding: 0.375rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    gap: 0.5rem;
+    margin: 0.25rem;
+}
+
+.active-filter-chip .remove-btn {
+    width: 18px;
+    height: 18px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    transition: background 0.2s;
+}
+
+.active-filter-chip .remove-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Enhanced marker styles for clustering */
+.custom-marker-cluster {
+    background: linear-gradient(135deg, #0088CC, #0066AA);
+    border: 3px solid white;
+    border-radius: 50%;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    line-height: 1;
+    box-shadow: 0 4px 12px rgba(0, 136, 204, 0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.custom-marker-cluster:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(0, 136, 204, 0.6);
+}
+
+.custom-marker-cluster.large {
+    background: linear-gradient(135deg, #dc2626, #991b1b);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4); }
+    50% { box-shadow: 0 6px 20px rgba(220, 38, 38, 0.8); }
+    100% { box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4); }
+}
+
+.custom-marker-single {
+    background: #0088CC;
+    border: 2px solid white;
+    border-radius: 50%;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 136, 204, 0.3);
+    transition: transform 0.2s ease;
+}
+
+.custom-marker-single:hover {
+    transform: scale(1.05);
+}
+
+/* Complex info popup styles */
+.complex-popup {
+    max-width: 400px;
+    font-family: Inter, sans-serif;
+}
+
+.complex-header {
+    background: linear-gradient(135deg, #0088CC, #0066AA);
+    color: white;
+    padding: 1rem;
+    margin: -1rem -1rem 1rem -1rem;
+    border-radius: 8px 8px 0 0;
+}
+
+.complex-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1rem 0;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 8px;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #0088CC;
+    display: block;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: #64748b;
+    margin-top: 0.25rem;
+}
+
+.properties-preview {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    margin-top: 1rem;
+}
+
+.property-item {
+    padding: 0.75rem;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+
+.property-item:hover {
+    background-color: #f1f5f9;
+}
+
+.property-item:last-child {
+    border-bottom: none;
+}
+
+.property-title {
+    font-weight: 500;
+    color: #1e293b;
+    font-size: 0.875rem;
+}
+
+.property-details {
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-top: 0.25rem;
+}
+
+.property-price {
+    font-weight: bold;
+    color: #0088CC;
+    font-size: 0.875rem;
+}
+
+.view-all-btn {
+    background: #0088CC;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 1rem;
+    transition: background-color 0.2s;
+}
+
+.view-all-btn:hover {
+    background: #0066AA;
+}
+.custom-marker-compact {
+    background: none !important;
+    border: none !important;
+}
+.custom-marker-compact div {
+    animation: markerPulse 2s infinite;
+}
+@keyframes markerPulse {
+    0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+    70% { box-shadow: 0 0 0 8px rgba(59, 130, 246, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+}
+.property-group-modal {
+    max-height: 80vh;
+    overflow-y: auto;
+}
+.custom-marker-compact div {
+    white-space: nowrap;
+}
+.leaflet-popup-content {
+    margin: 8px 12px;
+    line-height: 1.4;
+    font-size: 13px;
+    font-size: 1.08333em;
+    min-height: 1px;
+}
+.leaflet-popup-content-wrapper {
+    padding: 0;
+    text-align: left;
+    border-radius: 12px;
+}
+.object-card:hover .absolute.top-2.right-2 {
+    transform: scale(1.1);
+    transition: transform 0.2s;
+}
+
+/* Enhanced Search Styles */
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    color: #374151;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.dropdown-item:hover {
+    background-color: #f3f4f6;
+}
+
+.suggestion-group {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.suggestion-group:last-child {
+    border-bottom: none;
+}
+
+.suggestion-group-header {
+    padding: 0.75rem;
+    background-color: #f9fafb;
+    font-weight: 600;
+    font-size: 0.75rem;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.suggestion-item {
+    padding: 0.75rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.suggestion-item:hover {
+    background-color: #f3f4f6;
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestion-name {
+    font-weight: 500;
+    color: #1f2937;
+    font-size: 0.875rem;
+}
+
+.suggestion-subtitle {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-top: 0.25rem;
+}
+
+/* Dropdown styles */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-btn {
+    background: white;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.dropdown-btn:hover {
+    background-color: #f9fafb;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    margin-top: 0.25rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    z-index: 99999;
+    max-height: 16rem;
+    overflow-y: auto;
+    display: none;
+    min-width: 12rem;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+/* Advanced Filters Sidebar */
+.filter-section {
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.filter-section:last-child {
+    border-bottom: none;
+}
+
+/* Sidebar animations */
+#advancedFiltersSidebar.open {
+    transform: translateX(0);
+}
+
+/* Hide footer on map page */
+body.map-page footer {
+    display: none !important;
+}
+
+/* Ensure search section is above map */
+.bg-white.shadow-sm.sticky {
+    z-index: 10000 !important;
+}
+
+/* Dropdown positioning */
+.dropdown {
+    z-index: 99999;
+}
+
+/* Make dropdown items clickable */
+.dropdown-item input[type="checkbox"] {
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.dropdown-item {
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+/* Ensure dropdown menu is interactive */
+.dropdown-menu {
+    pointer-events: auto;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Loading Animation -->
+<div class="loading-animation fixed inset-0 bg-gradient-to-b from-[#006699] to-[#0088CC] flex flex-col items-center justify-center z-[9999]">
+    <div class="relative w-32 h-32">
+        <div class="absolute inset-0 rounded-full border-[10px] border-white/20 animate-ping"></div>
+        <div class="absolute inset-[15px] rounded-full border-[10px] border-white/30 animate-ping animation-delay-200"></div>
+        <div class="absolute inset-[30px] rounded-full border-[10px] border-white/40 animate-ping animation-delay-400"></div>
+        <div class="absolute inset-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white flex items-center justify-center">
+            <div class="w-8 h-8 rounded-full gradient-bg"></div>
+        </div>
+    </div>
+    <div class="mt-8 text-white text-xl font-semibold">Загружаем лучшие предложения...</div>
+</div>
+
+<!-- Enhanced Search Section -->
+<div class="bg-white shadow-sm sticky top-0 z-30 relative">
+    <div class="container mx-auto px-4 py-4">
+        <!-- Smart Search Bar -->
+        <div class="bg-white rounded-lg shadow-md border border-gray-200 p-4 mb-4">
+            <div class="flex flex-col lg:flex-row gap-3 items-center">
+                <!-- Enhanced Search Input -->
+                <div class="flex-1 relative">
+                    <input type="text" 
+                           id="mapSmartSearch"
+                           placeholder="Умный поиск: район, застройщик, ЖК, тип квартиры..." 
+                           class="w-full pl-4 pr-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#0088CC] focus:border-blue-500 outline-none transition-all text-gray-700">
+                    <!-- Enhanced Search Suggestions -->
+                    <div id="mapSearchSuggestions" class="hidden absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-md mt-1 shadow-lg z-50 max-h-96 overflow-y-auto">
+                        <!-- Suggestions will be populated by JavaScript -->
+                    </div>
+                </div>
+                <!-- Search Results Info -->
+                <div class="text-sm text-gray-500">
+                    Поиск с подсказками
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Filters -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-3">
+            <div class="flex items-center gap-3 text-sm">
+                <div class="text-gray-600 whitespace-nowrap font-medium">Быстрые фильтры</div>
+                
+                <!-- Quick Filter Buttons -->
+                <div class="flex flex-wrap gap-2">
+                    <!-- Room Type Filter -->
+                    <div class="dropdown" data-filter="rooms">
+                        <button class="dropdown-btn border border-gray-300 px-3 py-1.5 rounded text-sm hover:bg-gray-50 flex items-center gap-1">
+                            <span id="mapRoomsFilterText">Комнат</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="dropdown-menu">
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="студия" data-filter-type="rooms" class="mr-2" onchange="handleMapRoomFilterChange()"> Студия
+                            </label>
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="1-комн" data-filter-type="rooms" class="mr-2" onchange="handleMapRoomFilterChange()"> 1-комнатная
+                            </label>
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="2-комн" data-filter-type="rooms" class="mr-2" onchange="handleMapRoomFilterChange()"> 2-комнатная
+                            </label>
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="3-комн" data-filter-type="rooms" class="mr-2" onchange="handleMapRoomFilterChange()"> 3-комнатная
+                            </label>
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="4+-комн" data-filter-type="rooms" class="mr-2" onchange="handleMapRoomFilterChange()"> 4-комнатная
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Price Filter -->
+                    <div class="dropdown" data-filter="price">
+                        <button class="dropdown-btn border border-gray-300 px-3 py-1.5 rounded text-sm hover:bg-gray-50 flex items-center gap-1">
+                            <span id="mapPriceFilterText">Цена</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="dropdown-menu" style="min-width: 280px;">
+                            <div class="p-3">
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="text-xs text-gray-600 mb-1 block">От, млн ₽</label>
+                                        <input type="number" id="mapPriceFrom" placeholder="1" min="0" step="0.1" class="w-full px-2 py-1 border border-gray-300 rounded text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="text-xs text-gray-600 mb-1 block">До, млн ₽</label>
+                                        <input type="number" id="mapPriceTo" placeholder="20" min="0" step="0.1" class="w-full px-2 py-1 border border-gray-300 rounded text-sm">
+                                    </div>
+                                </div>
+                                <button onclick="applyMapPriceFilter()" class="w-full bg-[#0088CC] text-white py-2 rounded mt-3 text-sm hover:opacity-90">Применить</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Developer Filter -->
+                    <div class="dropdown" data-filter="developers">
+                        <button class="dropdown-btn border border-gray-300 px-3 py-1.5 rounded text-sm hover:bg-gray-50 flex items-center gap-1">
+                            <span id="mapDeveloperFilterText">Застройщик</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="dropdown-menu" id="mapDeveloperDropdown">
+                            <!-- Will be populated dynamically -->
+                        </div>
+                    </div>
+                    
+                    <!-- Completion Date Filter -->
+                    <div class="dropdown" data-filter="completion">
+                        <button class="dropdown-btn border border-gray-300 px-3 py-1.5 rounded text-sm hover:bg-gray-50 flex items-center gap-1">
+                            <span id="mapCompletionFilterText">Сдача</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="dropdown-menu">
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="2024" data-filter-type="completion" class="mr-2" onchange="handleMapCompletionFilterChange()"> 2024
+                            </label>
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="2025" data-filter-type="completion" class="mr-2" onchange="handleMapCompletionFilterChange()"> 2025
+                            </label>
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="2026" data-filter-type="completion" class="mr-2" onchange="handleMapCompletionFilterChange()"> 2026
+                            </label>
+                            <label class="dropdown-item">
+                                <input type="checkbox" value="2028" data-filter-type="completion" class="mr-2" onchange="handleMapCompletionFilterChange()"> 2028
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Advanced Filters Toggle -->
+                    <button id="advancedFiltersToggle" onclick="toggleAdvancedFilters()" class="dropdown-btn border border-gray-300 px-3 py-1.5 rounded-lg text-sm hover:bg-gray-50 flex items-center gap-1 relative transition-all duration-200 hover:border-[#0088CC] group">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-gray-500 group-hover:text-[#0088CC]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" />
+                        </svg>
+                        <span class="font-medium">Еще</span>
+                    </button>
+
+                    <!-- Search Button -->
+                    <button id="mapApplyFiltersBtn" onclick="applyMapFilters()" class="px-4 py-1.5 bg-gradient-to-r from-[#0088CC] to-[#006699] text-white font-medium rounded hover:from-[#006699] hover:to-[#004477] transition-all duration-300 shadow-sm hover:shadow-md whitespace-nowrap text-sm">
+                        <i class="fas fa-search mr-1"></i>
+                        Найти
+                    </button>
+                    
+                    <!-- Clear Filters -->
+                    <button onclick="clearMapFilters()" class="px-3 py-1.5 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 transition text-sm">
+                        Очистить
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Advanced Filters Sidebar -->
+<div id="advancedFiltersSidebar" class="fixed top-0 right-0 h-full w-96 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 z-[99999] overflow-y-auto">
+    <div class="p-6">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-xl font-bold text-gray-800">Дополнительные фильтры</h3>
+            <button onclick="closeAdvancedFilters()" class="p-2 hover:bg-gray-100 rounded-full transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        
+        <!-- Advanced Filter Options -->
+        <div class="space-y-6">
+            <!-- Area Filter -->
+            <div class="filter-section">
+                <label class="block text-sm font-medium text-gray-700 mb-3">Площадь квартиры, м²</label>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-xs text-gray-600 mb-1 block">От</label>
+                        <input type="number" id="areaFrom" placeholder="20" min="0" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-[#0088CC] focus:border-[#0088CC]">
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-600 mb-1 block">До</label>
+                        <input type="number" id="areaTo" placeholder="200" min="0" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-[#0088CC] focus:border-[#0088CC]">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Floor Filter -->
+            <div class="filter-section">
+                <label class="block text-sm font-medium text-gray-700 mb-3">Этаж</label>
+                <div class="space-y-2">
+                    <label class="flex items-center">
+                        <input type="checkbox" value="not_first" class="mr-2 text-[#0088CC] focus:ring-[#0088CC]">
+                        <span class="text-sm">Не первый этаж</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="checkbox" value="not_last" class="mr-2 text-[#0088CC] focus:ring-[#0088CC]">
+                        <span class="text-sm">Не последний этаж</span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Renovation Filter -->
+            <div class="filter-section">
+                <label class="block text-sm font-medium text-gray-700 mb-3">Отделка</label>
+                <div class="space-y-2">
+                    <label class="flex items-center">
+                        <input type="checkbox" value="no_renovation" class="mr-2 text-[#0088CC] focus:ring-[#0088CC]">
+                        <span class="text-sm">Без отделки</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="checkbox" value="fine_finish" class="mr-2 text-[#0088CC] focus:ring-[#0088CC]">
+                        <span class="text-sm">Чистовая</span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Complex Class Filter -->
+            <div class="filter-section">
+                <label class="block text-sm font-medium text-gray-700 mb-3">Класс жилья</label>
+                <div class="space-y-2">
+                    <label class="flex items-center">
+                        <input type="checkbox" value="Бизнес" class="mr-2 text-[#0088CC] focus:ring-[#0088CC]">
+                        <span class="text-sm">Бизнес</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="checkbox" value="Комфорт" class="mr-2 text-[#0088CC] focus:ring-[#0088CC]">
+                        <span class="text-sm">Комфорт</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="checkbox" value="Премиум" class="mr-2 text-[#0088CC] focus:ring-[#0088CC]">
+                        <span class="text-sm">Премиум</span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Mortgage Programs Filter -->
+            <div class="filter-section">
+                <label class="block text-sm font-medium text-gray-700 mb-3">Ипотечные программы</label>
+                <div class="space-y-2">
+                    <label class="flex items-center">
+                        <input type="checkbox" value="mortgage_subsidy" class="mr-2 text-[#0088CC] focus:ring-[#0088CC]">
+                        <span class="text-sm">Ипотечные субсидии</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="checkbox" value="government_program" class="mr-2 text-[#0088CC] focus:ring-[#0088CC]">
+                        <span class="text-sm">Господдержка</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="checkbox" value="green_mortgage" class="mr-2 text-[#0088CC] focus:ring-[#0088CC]">
+                        <span class="text-sm">Зеленая ипотека</span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Cashback Filter -->
+            <div class="filter-section">
+                <label class="block text-sm font-medium text-gray-700 mb-3">Кешбек</label>
+                <div class="space-y-2">
+                    <label class="flex items-center">
+                        <input type="checkbox" value="cashback_available" class="mr-2 text-[#0088CC] focus:ring-[#0088CC]">
+                        <span class="text-sm">Только с кешбеком</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Apply Button -->
+        <div class="mt-8">
+            <button onclick="applyAdvancedFilters()" class="w-full bg-gradient-to-r from-[#0088CC] to-[#006699] text-white py-3 rounded-lg font-medium hover:from-[#006699] hover:to-[#004477] transition-all duration-300 shadow-sm hover:shadow-md">
+                Применить фильтры
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Sidebar Overlay -->
+<div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-[99998] hidden" onclick="closeAdvancedFilters()"></div>
+
+<!-- Main Content -->
+<div class="flex flex-col lg:flex-row h-[calc(100vh-200px)]">
+    <!-- Objects List -->
+    <div class="lg:w-[500px] xl:w-[600px] bg-white shadow-sm z-20 lg:overflow-y-auto lg:h-full">
+        <div class="bg-white rounded-lg shadow-sm p-4 mb-4">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="font-semibold text-lg"><span id="objectCount">{{ properties|length }}</span> объектов</h3>
+                <div class="flex items-center text-sm text-gray-500">
+                    <span class="mr-2">Сортировка:</span>
+                    <select id="sortSelect" class="font-medium text-[#0088CC] bg-transparent border-0 focus:outline-none cursor-pointer" onchange="applySorting()">
+                        <option value="price_asc">Цена: дешевле</option>
+                        <option value="price_desc">Цена: дороже</option>
+                        <option value="area_asc">Площадь: меньше</option>
+                        <option value="area_desc">Площадь: больше</option>
+                        <option value="cashback_desc">Кэшбэк: больше</option>
+                        <option value="delivery_asc">Сдача: ближе</option>
+                    </select>
+                </div>
+            </div>
+            <label class="flex items-center">
+                <input id="onlyCashbackList" class="rounded border-gray-300 text-[#0088CC] focus:ring-[#0088CC] mr-2" type="checkbox"/>
+                <span>Только с кешбеком</span>
+            </label>
+        </div>
+
+        <!-- Object Cards List -->
+        <div id="objectsList" class="grid grid-cols-1 lg:grid-cols-2 gap-4 px-4">
+            <!-- Cards will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Map -->
+    <div class="flex-1 relative h-full">
+        <div id="map" class="w-full h-full rounded-xl shadow-sm overflow-hidden"></div>
+        
+        <!-- Floating Drawing Controls -->
+        <div class="absolute top-4 right-4 flex flex-col space-y-2" style="z-index: 1000;">
+            <button id="drawAreaBtn" class="bg-white shadow-lg hover:shadow-xl border border-gray-200 text-gray-700 hover:text-[#0088CC] px-4 py-2 rounded-lg text-sm font-medium transition-all">
+                <i class="fas fa-draw-polygon mr-2"></i>Выделить область
+            </button>
+            <button id="clearAreaBtn" class="bg-white shadow-lg hover:shadow-xl border border-gray-200 text-[#0088CC] hover:text-red-700 px-4 py-2 rounded-lg text-sm font-medium transition-all hidden">
+                <i class="fas fa-times mr-2"></i>Очистить область
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fixed inset-0 z-50 flex items-center justify-center bg-black/50 opacity-0 pointer-events-none transition" id="objectModal">
+    <div class="modal-content bg-white rounded-lg max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto relative">
+        <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 z-10" onclick="hideModal()">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+            </svg>
+        </button>
+        <div class="p-6">
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <!-- Image Gallery -->
+                    <div class="relative">
+                        <img alt="Object" class="w-full h-64 md:h-80 object-cover rounded-lg" id="modalImage" src=""/>
+                        <div class="absolute top-2 right-2 bg-amber-400 text-xs font-medium px-2 py-1 rounded-full" id="modalBadge">Кешбек 3%</div>
+                    </div>
+                    <div class="grid grid-cols-4 gap-2 mt-2" id="modalThumbnails">
+                        <!-- Thumbnails will be populated by JavaScript -->
+                    </div>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold" id="modalTitle">Загрузка...</h2>
+                    <p class="text-gray-600 mt-1" id="modalAddress">Загрузка...</p>
+                    <div class="bg-blue-50 rounded-lg p-4 mt-4">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-sm text-gray-500">Цена</p>
+                                <p class="font-bold text-xl" id="modalPrice">Загрузка...</p>
+                            </div>
+                            <div class="bg-gray-100 px-3 py-1 rounded-full">
+                                <span class="font-medium text-[#0088CC]" id="modalCashback">Кешбек 3%</span>
+                            </div>
+                        </div>
+                        <button class="ton-gradient w-full text-white py-3 rounded-lg font-medium mt-3 hover:opacity-90 transition">
+                            Оставить заявку
+                        </button>
+                    </div>
+                    
+                    <!-- Property Details -->
+                    <div class="mt-6" id="modalDetails">
+                        <!-- Details will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Global variables
+let map;
+let markers = [];
+let properties = [];
+let allProperties = [];
+let filteredProperties = [];
+
+// Initialize properties from server data
+try {
+    properties = {{ properties | tojson | safe }} || [];
+    allProperties = [...properties];
+    filteredProperties = [...properties];
+    console.log('Properties loaded:', properties.length);
+} catch(e) {
+    console.warn('Error loading properties:', e);
+    properties = [];
+    allProperties = [];
+    filteredProperties = [];
+}
+
+// Load filtered properties data for better filtering experience
+async function loadFilteredProperties() {
+    try {
+        const response = await fetch('/static/data/properties_filtered.json');
+        if (response.ok) {
+            const filteredData = await response.json();
+            if (filteredData && filteredData.length > 0) {
+                allProperties = filteredData;
+                filteredProperties = [...filteredData];
+                console.log('Filtered properties loaded:', filteredData.length);
+                
+                // Refresh map with new data
+                if (map) {
+                    loadProperties();
+                }
+            }
+        }
+    } catch(e) {
+        console.log('Using default properties data');
+    }
+}
+
+// Initialize map
+document.addEventListener('DOMContentLoaded', function() {
+    // Hide header during loading
+    const header = document.querySelector('header');
+    if (header) {
+        header.style.display = 'none';
+    }
+    
+    console.log('Initializing map with', properties.length, 'properties');
+    console.log('First property:', properties[0]);
+    
+    // Initialize map
+    initializeMap();
+    
+    // Small delay to ensure map is ready
+    setTimeout(() => {
+        loadProperties();
+    }, 500);
+    
+    // Initialize search functionality
+    initializeSearch();
+    
+    // Initialize filter functionality
+    // initializeFilters(); // Commented out until defined
+    
+    // Initialize filter dropdowns
+    initializeFilterDropdowns();
+    
+    // Hide loading animation and show header
+    setTimeout(() => {
+        const loadingEl = document.querySelector('.loading-animation');
+        if (loadingEl) {
+            loadingEl.style.display = 'none';
+        }
+        // Show header and other elements
+        const header = document.querySelector('header');
+        if (header) {
+            header.style.display = 'block';
+        }
+    }, 1000);
+});
+
+function initializeMap() {
+    try {
+        // Initialize Leaflet map
+        map = L.map('map').setView([45.0448, 38.9760], 12); // Krasnodar coordinates
+        
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        
+        // Add zoom event listener to update markers without refitting bounds
+        map.on('zoomend', function() {
+            if (filteredProperties && filteredProperties.length > 0) {
+                updateMarkersForZoom();
+                // Only filter by bounds if no polygon is drawn
+                if (!drawnPolygon) {
+                    filterPropertiesByMapBounds();
+                } else {
+                    filterPropertiesByPolygon();
+                }
+            }
+        });
+        
+        // Add move end handler to filter properties by visible area
+        map.on('moveend', function() {
+            // Only filter by bounds if no polygon is drawn
+            if (!drawnPolygon) {
+                filterPropertiesByMapBounds();
+            } else {
+                filterPropertiesByPolygon();
+            }
+        });
+        
+        console.log('Map initialized successfully');
+        
+        // Set up drawing buttons
+        document.getElementById('drawAreaBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            if (!isDrawing) {
+                enableDrawing();
+            }
+        });
+        
+        document.getElementById('clearAreaBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            clearDrawnArea();
+        });
+        
+    } catch(e) {
+        console.warn('Error initializing map:', e);
+    }
+}
+
+function loadProperties() {
+    try {
+        // Clear existing markers
+        markers.forEach(marker => {
+            try {
+                map.removeLayer(marker);
+            } catch(e) {
+                console.log('Could not remove marker:', e);
+            }
+        });
+        markers = [];
+        
+        // Clear marker groups
+        window.markerGroups = {};
+        
+        // Clear existing cards
+        const objectsListContainer = document.getElementById('objectsList');
+        if (objectsListContainer) {
+            objectsListContainer.innerHTML = '';
+        }
+        
+        console.log('Loading', filteredProperties.length, 'properties');
+        
+        // Enhanced clustering: Group properties by proximity
+        const CLUSTER_RADIUS = 0.001; // ~100m clustering radius
+        const locationClusters = {};
+        
+        filteredProperties.forEach((property, index) => {
+            if (!property.coordinates) {
+                // Generate coordinates if missing
+                if (property.latitude && property.longitude) {
+                    property.coordinates = {
+                        lat: property.latitude,
+                        lng: property.longitude
+                    };
+                } else {
+                    const baseLatOffsets = [0.02, -0.015, 0.035, -0.025, 0.01, -0.005, 0.045, -0.03];
+                    const baseLngOffsets = [0.03, -0.02, 0.015, -0.04, 0.025, -0.01, 0.035, -0.045];
+                    property.coordinates = {
+                        lat: 45.0448 + (baseLatOffsets[index % baseLatOffsets.length] || 0),
+                        lng: 38.9760 + (baseLngOffsets[index % baseLngOffsets.length] || 0)
+                    };
+                }
+            } else if (Array.isArray(property.coordinates) && property.coordinates.length === 2) {
+                property.coordinates = {
+                    lat: property.coordinates[0],
+                    lng: property.coordinates[1]
+                };
+            }
+            
+            // Find existing cluster or create new one
+            let clusterId = null;
+            const propertyLat = parseFloat(property.coordinates.lat);
+            const propertyLng = parseFloat(property.coordinates.lng);
+            
+            for (let id in locationClusters) {
+                const cluster = locationClusters[id];
+                const distance = Math.sqrt(
+                    Math.pow(cluster.lat - propertyLat, 2) + 
+                    Math.pow(cluster.lng - propertyLng, 2)
+                );
+                
+                if (distance <= CLUSTER_RADIUS) {
+                    clusterId = id;
+                    break;
+                }
+            }
+            
+            if (!clusterId) {
+                clusterId = `${propertyLat.toFixed(4)}_${propertyLng.toFixed(4)}`;
+                locationClusters[clusterId] = {
+                    lat: propertyLat,
+                    lng: propertyLng,
+                    properties: []
+                };
+            }
+            
+            locationClusters[clusterId].properties.push(property);
+        });
+        
+        // Create enhanced markers for each cluster
+        Object.keys(locationClusters).forEach(clusterId => {
+            const cluster = locationClusters[clusterId];
+            const marker = createEnhancedClusterMarker(
+                cluster.properties, 
+                { lat: cluster.lat, lng: cluster.lng }, 
+                map.getZoom()
+            );
+            markers.push(marker);
+        });
+        
+        console.log(`Created ${Object.keys(locationClusters).length} cluster markers for ${filteredProperties.length} properties`);
+        
+        // Add property cards to sidebar
+        filteredProperties.forEach((property, index) => {
+            const objectsListContainer = document.getElementById('objectsList');
+            if (objectsListContainer) {
+                objectsListContainer.appendChild(createPropertyCard(property));
+            }
+        });
+        
+        // Update count
+        const objectCountEl = document.getElementById('objectCount');
+        if (objectCountEl) {
+            objectCountEl.textContent = filteredProperties.length;
+        }
+        
+        console.log('Added', markers.length, 'markers to map');
+        const objectsListElement = document.getElementById('objectsList');
+        console.log('Added', objectsListElement ? objectsListElement.children.length : 0, 'property cards');
+        
+        // Fit map to show all markers if there are any
+        if (markers.length > 0 && map) {
+            try {
+                const group = new L.featureGroup(markers);
+                map.fitBounds(group.getBounds().pad(0.1));
+                console.log('Map bounds fitted to markers');
+            } catch (e) {
+                console.log('Could not fit bounds, centering on Krasnodar:', e);
+                map.setView([45.0448, 38.9760], 12);
+            }
+        } else {
+            // If no markers, center on Krasnodar
+            if (map) {
+                map.setView([45.0448, 38.9760], 12);
+            }
+        }
+        
+    } catch(e) {
+        console.warn('Error in loadProperties:', e);
+    }
+}
+
+// Enhanced function to update markers for zoom using new clustering system
+function updateMarkersForZoom() {
+    try {
+        // Clear existing markers
+        markers.forEach(marker => {
+            try {
+                map.removeLayer(marker);
+            } catch(e) {
+                console.log('Could not remove marker:', e);
+            }
+        });
+        markers = [];
+        
+        console.log('Updating markers for zoom level:', map.getZoom());
+        
+        // Enhanced clustering: Group properties by proximity
+        const CLUSTER_RADIUS = 0.001; // ~100m clustering radius
+        const locationClusters = {};
+        
+        filteredProperties.forEach((property, index) => {
+            if (!property.coordinates) {
+                // Generate coordinates if missing
+                if (property.latitude && property.longitude) {
+                    property.coordinates = {
+                        lat: property.latitude,
+                        lng: property.longitude
+                    };
+                } else {
+                    const baseLatOffsets = [0.02, -0.015, 0.035, -0.025, 0.01, -0.005, 0.045, -0.03];
+                    const baseLngOffsets = [0.03, -0.02, 0.015, -0.04, 0.025, -0.01, 0.035, -0.045];
+                    property.coordinates = {
+                        lat: 45.0448 + (baseLatOffsets[index % baseLatOffsets.length] || 0),
+                        lng: 38.9760 + (baseLngOffsets[index % baseLngOffsets.length] || 0)
+                    };
+                }
+            } else if (Array.isArray(property.coordinates) && property.coordinates.length === 2) {
+                property.coordinates = {
+                    lat: property.coordinates[0],
+                    lng: property.coordinates[1]
+                };
+            }
+            
+            // Find existing cluster or create new one
+            let clusterId = null;
+            const propertyLat = parseFloat(property.coordinates.lat);
+            const propertyLng = parseFloat(property.coordinates.lng);
+            
+            for (let id in locationClusters) {
+                const cluster = locationClusters[id];
+                const distance = Math.sqrt(
+                    Math.pow(cluster.lat - propertyLat, 2) + 
+                    Math.pow(cluster.lng - propertyLng, 2)
+                );
+                
+                if (distance <= CLUSTER_RADIUS) {
+                    clusterId = id;
+                    break;
+                }
+            }
+            
+            if (!clusterId) {
+                clusterId = `${propertyLat.toFixed(4)}_${propertyLng.toFixed(4)}`;
+                locationClusters[clusterId] = {
+                    lat: propertyLat,
+                    lng: propertyLng,
+                    properties: []
+                };
+            }
+            
+            locationClusters[clusterId].properties.push(property);
+        });
+        
+        // Create enhanced markers for each cluster
+        Object.keys(locationClusters).forEach(clusterId => {
+            const cluster = locationClusters[clusterId];
+            const marker = createEnhancedClusterMarker(
+                cluster.properties, 
+                { lat: cluster.lat, lng: cluster.lng }, 
+                map.getZoom()
+            );
+            markers.push(marker);
+        });
+        
+        console.log(`Updated ${Object.keys(locationClusters).length} cluster markers for ${filteredProperties.length} properties`);
+        
+    } catch(e) {
+        console.warn('Error in updateMarkersForZoom:', e);
+    }
+}
+
+// Filter properties by visible map bounds
+function filterPropertiesByMapBounds() {
+    if (!map) {
+        return;
+    }
+    
+    try {
+        const bounds = map.getBounds();
+        const visibleProperties = filteredProperties.filter(property => {
+            if (!property.coordinates || !property.coordinates.lat || !property.coordinates.lng) {
+                return false;
+            }
+            return bounds.contains([property.coordinates.lat, property.coordinates.lng]);
+        });
+        
+        // Update sidebar with only visible properties
+        const objectsListContainer = document.getElementById('objectsList');
+        if (objectsListContainer) {
+            objectsListContainer.innerHTML = '';
+            visibleProperties.forEach(property => {
+                objectsListContainer.appendChild(createPropertyCard(property));
+            });
+        }
+        
+        // Update count
+        const objectCountEl = document.getElementById('objectCount');
+        if (objectCountEl) {
+            objectCountEl.textContent = visibleProperties.length;
+        }
+        
+        console.log(`Filtered to ${visibleProperties.length} properties in map bounds`);
+    } catch(e) {
+        console.warn('Error filtering properties by map bounds:', e);
+    }
+}
+
+// Create cluster marker HTML
+function createClusterMarkerHtml(count, priceText, zoom) {
+    let markerHtml, iconSize, iconAnchor;
+    
+    if (zoom < 13) {
+        // Simple dot marker for distant view
+        markerHtml = `<div class="w-3 h-3 bg-gradient-to-r from-[#006699] to-[#0088CC] rounded-full border-2 border-white shadow-lg"></div>`;
+        iconSize = [12, 12];
+        iconAnchor = [6, 6];
+    } else {
+        // Detailed marker for close view with cluster styling
+        if (count > 1) {
+            markerHtml = `
+                <div class="bg-gradient-to-r from-[#006699] to-[#0088CC] text-white px-3 py-2 rounded-lg shadow-lg border border-white relative">
+                    <div class="text-center text-sm font-medium whitespace-nowrap">
+                        ${count} от ${priceText} млн
+                    </div>
+                    <div class="absolute -top-1 -right-1 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">${count}</div>
+                </div>
+            `;
+            iconSize = [130, 35];
+            iconAnchor = [65, 35];
+        } else {
+            markerHtml = `
+                <div class="bg-gradient-to-r from-[#006699] to-[#0088CC] text-white px-3 py-2 rounded-lg shadow-lg border border-white">
+                    <div class="text-center text-sm font-medium whitespace-nowrap">
+                        от ${priceText} млн
+                    </div>
+                </div>
+            `;
+            iconSize = [90, 30];
+            iconAnchor = [45, 30];
+        }
+    }
+    
+    return { markerHtml, iconSize, iconAnchor };
+}
+
+// Drawing functionality
+let isDrawing = false;
+let drawnPolygon = null;
+let drawingHandler = null;
+
+function enableDrawing() {
+    if (!map) return;
+    
+    isDrawing = true;
+    document.getElementById('drawAreaBtn').classList.add('bg-orange-500', 'text-white', 'shadow-xl');
+    document.getElementById('drawAreaBtn').classList.remove('text-gray-700', 'hover:text-[#0088CC]');
+    document.getElementById('drawAreaBtn').innerHTML = '<i class="fas fa-hand-paper mr-2"></i>Кликните точки. Соедините с первой';
+    
+    map.getContainer().style.cursor = 'crosshair';
+    
+    // Create temporary polygon for drawing
+    const drawingPoints = [];
+    const drawingMarkers = [];
+    let tempPolygon = null;
+    let previewLine = null;
+    
+    drawingHandler = {
+        click: function(e) {
+            const clickPoint = [e.latlng.lat, e.latlng.lng];
+            
+            // Check if clicking on first point to close polygon (if we have at least 3 points)
+            if (drawingPoints.length >= 3) {
+                const firstPoint = drawingPoints[0];
+                const distance = Math.sqrt(
+                    Math.pow(e.latlng.lat - firstPoint[0], 2) + 
+                    Math.pow(e.latlng.lng - firstPoint[1], 2)
+                );
+                
+                // If clicking close to first point (within reasonable distance), close polygon
+                if (distance < 0.005) { // ~500m threshold
+                    finishDrawing(drawingPoints, drawingMarkers, tempPolygon, previewLine);
+                    return;
+                }
+            }
+            
+            drawingPoints.push(clickPoint);
+            
+            // Add visible point marker with special styling for first point
+            const isFirstPoint = drawingPoints.length === 1;
+            const pointMarker = L.circleMarker([e.latlng.lat, e.latlng.lng], {
+                color: isFirstPoint ? '#00aa44' : '#ff6b35',
+                fillColor: isFirstPoint ? '#00aa44' : '#ff6b35',
+                fillOpacity: 1,
+                radius: isFirstPoint ? 8 : 6,
+                weight: isFirstPoint ? 3 : 2
+            }).addTo(map);
+            
+            // Add tooltip for first point
+            if (isFirstPoint) {
+                pointMarker.bindTooltip('Начальная точка<br>Кликните сюда для завершения', {
+                    permanent: false,
+                    direction: 'top'
+                });
+            }
+            
+            drawingMarkers.push(pointMarker);
+            
+            // Update temporary polygon
+            if (tempPolygon) {
+                map.removeLayer(tempPolygon);
+            }
+            
+            if (drawingPoints.length >= 3) {
+                // Show polygon preview but don't auto-complete
+                tempPolygon = L.polygon(drawingPoints, {
+                    color: '#ff6b35',
+                    fillColor: '#ff6b35',
+                    fillOpacity: 0.2,
+                    weight: 2,
+                    dashArray: '5, 5'
+                }).addTo(map);
+            } else if (drawingPoints.length === 2) {
+                // Show line between first two points
+                tempPolygon = L.polyline(drawingPoints, {
+                    color: '#ff6b35',
+                    weight: 2,
+                    dashArray: '5, 5'
+                }).addTo(map);
+            }
+        },
+        dblclick: function(e) {
+            // Prevent default double-click behavior
+            e.originalEvent.preventDefault();
+            // Double-click only finishes if we have enough points, but doesn't auto-complete
+            if (drawingPoints.length >= 3) {
+                finishDrawing(drawingPoints, drawingMarkers, tempPolygon, previewLine);
+            }
+        },
+        mousemove: function(e) {
+            if (drawingPoints.length > 0) {
+                // Remove previous preview line
+                if (previewLine) {
+                    map.removeLayer(previewLine);
+                }
+                
+                const lastPoint = drawingPoints[drawingPoints.length - 1];
+                const currentPoint = [e.latlng.lat, e.latlng.lng];
+                
+                // If we have 3+ points, check if cursor is near first point
+                if (drawingPoints.length >= 3) {
+                    const firstPoint = drawingPoints[0];
+                    const distanceToFirst = Math.sqrt(
+                        Math.pow(e.latlng.lat - firstPoint[0], 2) + 
+                        Math.pow(e.latlng.lng - firstPoint[1], 2)
+                    );
+                    
+                    // If close to first point, show preview to close polygon
+                    if (distanceToFirst < 0.005) {
+                        previewLine = L.polyline([lastPoint, firstPoint], {
+                            color: '#00aa44',
+                            weight: 3,
+                            dashArray: '8, 8',
+                            opacity: 0.8
+                        }).addTo(map);
+                        
+                        // Change cursor style
+                        map.getContainer().style.cursor = 'pointer';
+                        return;
+                    }
+                }
+                
+                // Default preview line to cursor
+                previewLine = L.polyline([lastPoint, currentPoint], {
+                    color: '#ff6b35',
+                    weight: 2,
+                    dashArray: '8, 8',
+                    opacity: 0.7
+                }).addTo(map);
+                
+                // Reset cursor
+                map.getContainer().style.cursor = 'crosshair';
+            }
+        }
+    };
+    
+    map.on('click', drawingHandler.click);
+    map.on('dblclick', drawingHandler.dblclick);
+    map.on('mousemove', drawingHandler.mousemove);
+}
+
+function finishDrawing(points, markers, tempPoly, previewLine) {
+    if (!map || points.length < 3) return;
+    
+    // Remove temporary polygon, markers and preview line
+    if (tempPoly) {
+        map.removeLayer(tempPoly);
+    }
+    if (previewLine) {
+        map.removeLayer(previewLine);
+    }
+    markers.forEach(marker => map.removeLayer(marker));
+    
+    // Remove event handlers
+    map.off('click', drawingHandler.click);
+    map.off('dblclick', drawingHandler.dblclick);
+    map.off('mousemove', drawingHandler.mousemove);
+    
+    // Create final polygon
+    if (drawnPolygon) {
+        map.removeLayer(drawnPolygon);
+    }
+    
+    drawnPolygon = L.polygon(points, {
+        color: '#ff6b35',
+        fillColor: '#ff6b35',
+        fillOpacity: 0.15,
+        weight: 3
+    }).addTo(map);
+    
+    // Reset drawing state
+    isDrawing = false;
+    map.getContainer().style.cursor = '';
+    
+    // Update buttons
+    document.getElementById('drawAreaBtn').classList.remove('bg-orange-500', 'text-white', 'shadow-xl');
+    document.getElementById('drawAreaBtn').classList.add('text-gray-700', 'hover:text-[#0088CC]');
+    document.getElementById('drawAreaBtn').innerHTML = '<i class="fas fa-draw-polygon mr-2"></i>Выделить область';
+    document.getElementById('clearAreaBtn').classList.remove('hidden');
+    
+    // Filter properties by drawn polygon
+    filterPropertiesByPolygon();
+    
+    console.log('Drawing completed with', points.length, 'points');
+}
+
+function clearDrawnArea() {
+    if (drawnPolygon) {
+        map.removeLayer(drawnPolygon);
+        drawnPolygon = null;
+    }
+    
+    // Hide clear button
+    document.getElementById('clearAreaBtn').classList.add('hidden');
+    
+    // Reset filters and show all properties
+    filterPropertiesByMapBounds();
+    
+    console.log('Drawn area cleared');
+}
+
+function filterPropertiesByPolygon() {
+    if (!drawnPolygon || !filteredProperties) return;
+    
+    try {
+        const polygonBounds = drawnPolygon.getBounds();
+        const propertiesInPolygon = filteredProperties.filter(property => {
+            if (!property.coordinates || !property.coordinates.lat || !property.coordinates.lng) {
+                return false;
+            }
+            
+            const point = L.latLng(property.coordinates.lat, property.coordinates.lng);
+            return polygonBounds.contains(point);
+        });
+        
+        // Update sidebar with only properties in polygon
+        const objectsListContainer = document.getElementById('objectsList');
+        if (objectsListContainer) {
+            objectsListContainer.innerHTML = '';
+            propertiesInPolygon.forEach(property => {
+                objectsListContainer.appendChild(createPropertyCard(property));
+            });
+        }
+        
+        // Update count
+        const objectCountEl = document.getElementById('objectCount');
+        if (objectCountEl) {
+            objectCountEl.textContent = propertiesInPolygon.length;
+        }
+        
+        console.log(`Filtered to ${propertiesInPolygon.length} properties in drawn polygon`);
+    } catch(e) {
+        console.warn('Error filtering properties by polygon:', e);
+    }
+}
+
+function createPropertyCard(property) {
+    const card = document.createElement('div');
+    card.className = 'object-card property-card bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer transition hover:shadow-lg transform hover:scale-105';
+    card.dataset.propertyId = property.id;
+    card.onclick = () => showObjectDetails(property.id);
+    
+    // Format price - same as properties page
+    const price = property.price ? property.price.toLocaleString('ru-RU') : 'Цена не указана';
+    
+    // Room count formatting - same as properties page
+    let roomText;
+    if (property.rooms == 0) {
+        roomText = 'Студия';
+    } else if (property.type === 'пентхаус') {
+        roomText = 'Пентхаус';
+    } else if (property.type === 'апартаменты') {
+        roomText = 'Апартаменты';
+    } else if (property.type === 'таунхаус') {
+        roomText = 'Таунхаус';
+    } else if (property.type === 'дом') {
+        roomText = 'Дом';
+    } else {
+        roomText = `${property.rooms}-к. квартира`;
+    }
+    
+    const area = property.area || 'не указана';
+    
+    // Floor info - use real database fields from Excel data
+    // object_min_floor и object_max_floor - это этажи квартиры (может быть 1-1, 2-2, 13-13 и т.д.)
+    const apartmentFloor = property.object_min_floor || 0;
+    const buildingFloors = property.object_max_floor || 0; 
+    let floorText = 'не указан';
+    
+    // Показываем этаж квартиры из общего количества этажей
+    if (apartmentFloor > 0 && buildingFloors > 0) {
+        floorText = `${apartmentFloor}/${buildingFloors}`;
+    } else if (apartmentFloor > 0) {
+        floorText = `${apartmentFloor}`;
+    } else if (buildingFloors > 0) {
+        floorText = `1/${buildingFloors}`;
+    }
+    
+    
+    const title = property.title || property.residential_complex || 'Квартира';
+    const developer = property.developer_name || property.developer || 'Застройщик';
+    const district = property.district || 'Краснодар';
+    
+    // Унифицированный формат адреса: ЖК + адрес
+    const complexName = property.complex_name || property.residential_complex || '';
+    const addressRaw = property.address_display_name || property.address || property.location || '';
+    
+    let address = '';
+    if (complexName && addressRaw) {
+        // Убираем дублирование ЖК если оно уже есть в адресе
+        if (addressRaw.includes(complexName.replace(/^ЖК\s*"?/, '').replace(/"?$/, ''))) {
+            address = addressRaw;
+        } else {
+            address = `${complexName}, ${addressRaw}`;
+        }
+    } else if (complexName) {
+        address = complexName;
+    } else if (addressRaw) {
+        address = addressRaw;
+    } else {
+        address = 'Адрес не указан';
+    }
+    
+    // Handle images - parse JSON array like properties page
+    let firstImage = 'https://images.unsplash.com/photo-1560448204-603b3fc33ddc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+    let imageCount = 0;
+    let allImages = [];
+    
+    // Try gallery field first (can be array or JSON string)
+    if (property.gallery) {
+        try {
+            if (Array.isArray(property.gallery)) {
+                allImages = property.gallery;
+            } else {
+                allImages = JSON.parse(property.gallery);
+            }
+            if (allImages.length > 0) {
+                firstImage = allImages[0];
+                imageCount = allImages.length;
+            }
+        } catch(e) {
+            // If not parseable, treat as single image
+            allImages = [property.gallery];
+            firstImage = property.gallery;
+            imageCount = 1;
+        }
+    }
+    
+    // Fallback to main_image
+    if (imageCount === 0 && property.main_image) {
+        try {
+            const images = JSON.parse(property.main_image);
+            if (Array.isArray(images) && images.length > 0) {
+                allImages = images;
+                firstImage = images[0];
+                imageCount = images.length;
+            }
+        } catch(e) {
+            // If not JSON, use as single image
+            allImages = [property.main_image];
+            firstImage = property.main_image;
+            imageCount = 1;
+        }
+    }
+    
+    // Final fallback to image field
+    if (imageCount === 0 && property.image) {
+        allImages = [property.image];
+        firstImage = property.image;
+        imageCount = 1;
+    }
+    
+    // Cashback calculation
+    const cashbackPercent = property.cashback_available ? (property.cashback_percent || 5) : 0;
+    const cashbackText = cashbackPercent > 0 ? `Кешбек ${cashbackPercent}%` : '';
+    
+    // Реальный год сдачи из базы данных
+    let completionYear = '2024 год'; // fallback
+    if (property.complex_building_end_build_year) {
+        const year = property.complex_building_end_build_year;
+        const quarter = property.complex_building_end_build_quarter || null;
+        if (quarter) {
+            completionYear = `${quarter} кв. ${year}`;
+        } else {
+            completionYear = `${year} год`;
+        }
+    }
+    
+    // Store images data on the card element for slider
+    card.imageData = allImages;
+    
+    card.innerHTML = `
+        <div class="relative image-slider-container" onmouseenter="startImageSlider(this)" onmouseleave="stopImageSlider(this)" onclick="nextSliderImage(this)">
+            <img alt="${title}" class="w-full h-32 lg:h-40 object-cover object-center main-image cursor-pointer transition-all duration-300" src="${firstImage}" onerror="this.src='https://images.unsplash.com/photo-1560448204-603b3fc33ddc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'"/>
+            ${cashbackText ? `<div class="absolute top-2 right-2 bg-amber-400 text-xs font-medium px-2 py-1 rounded-full pointer-events-none">${cashbackText}</div>` : ''}
+            ${imageCount > 1 ? `<div class="absolute bottom-2 left-2 bg-white/90 text-xs font-medium px-2 py-1 rounded pointer-events-none">${imageCount} фото</div>` : ''}
+            ${imageCount > 1 ? `<div class="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded hidden slider-indicator pointer-events-none">1/${imageCount}</div>` : ''}
+            ${imageCount > 1 ? `<div class="absolute top-2 left-2 bg-black/60 text-white text-xs px-1.5 py-1 rounded-full pointer-events-none flex items-center">
+                <svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+                </svg>
+            </div>` : ''}
+        </div>
+        <div class="p-3">
+            <div class="flex justify-between items-start mb-2">
+                <div>
+                    <h3 class="font-bold text-base">${price} ₽</h3>
+                    <p class="text-gray-600 text-sm">${roomText}, ${area} м², ${floorText} эт.</p>
+                </div>
+                ${(apartmentFloor > 0 || buildingFloors > 0) ? `<div class="bg-blue-50 text-[#0088CC] px-2 py-1 rounded-2xl text-xs">${floorText} эт</div>` : ''}
+            </div>
+            <p class="text-gray-800 text-sm">${title}</p>
+            <p class="text-xs text-gray-500 mt-1">${developer}</p>
+            <p class="text-xs text-gray-500">${address}</p>
+            <div class="flex items-center justify-between mt-3 text-xs text-gray-500">
+                <span>${completionYear}</span>
+                <span class="flex items-center">
+                    <svg class="h-3 w-3 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path clip-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" fill-rule="evenodd"></path>
+                    </svg>
+                    На карте
+                </span>
+            </div>
+        </div>
+    `;
+    
+    return card;
+}
+
+function createGroupedMarkerPopup(properties) {
+    if (properties.length === 1) {
+        return createSingleMarkerPopup(properties[0]);
+    }
+    
+    const minPrice = Math.min(...properties.map(p => p.price || 0));
+    const maxPrice = Math.max(...properties.map(p => p.price || 0));
+    const priceRange = minPrice === maxPrice ? 
+        minPrice.toLocaleString('ru-RU') : 
+        `${minPrice.toLocaleString('ru-RU')} - ${maxPrice.toLocaleString('ru-RU')}`;
+    
+    const complexName = properties[0].complex_name || properties[0].residential_complex || 'Жилой комплекс';
+    const image = properties[0].image || 'https://images.unsplash.com/photo-1560448204-603b3fc33ddc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+    
+    return `
+        <div class="min-w-[300px] max-w-[350px] bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
+            <div class="relative">
+                <img src="${image}" alt="${complexName}" class="w-full h-32 object-cover" onerror="this.src='https://images.unsplash.com/photo-1560448204-603b3fc33ddc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                <div class="absolute top-3 right-3 bg-gradient-to-r from-amber-400 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+                    ${properties.length} квартир
+                </div>
+                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent h-16"></div>
+                <h3 class="absolute bottom-3 left-3 text-white font-bold text-lg drop-shadow-lg">${complexName}</h3>
+            </div>
+            <div class="p-4">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-2xl font-bold text-gray-800">от ${priceRange.split(' - ')[0]} ₽</span>
+                    <div class="bg-blue-50 text-[#0088CC] px-3 py-1 rounded-full text-xs font-medium">
+                        Кешбек 5%
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm mb-4">Разные планировки и этажи</p>
+                <button onclick="showGroupedProperties([${properties.map(p => p.id).join(',')}])" class="w-full bg-gradient-to-r from-blue-500 to-[#006699] hover:from-[#0088CC] hover:to-purple-700 text-white font-bold py-3 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                    Показать все ${properties.length} квартиры
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+function createSingleMarkerPopup(property) {
+    const price = property.price ? property.price.toLocaleString('ru-RU') : 'Цена не указана';
+    const rooms = property.rooms || '1';
+    const area = property.area || '50';
+    const title = property.title || property.residential_complex || 'Квартира';
+    const image = property.main_image || property.image || 'https://images.unsplash.com/photo-1560448204-603b3fc33ddc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+    
+    return `
+        <div class="min-w-[280px] max-w-[320px] bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
+            <div class="relative">
+                <img src="${image}" alt="${title}" class="w-full h-32 object-cover" onerror="this.src='https://images.unsplash.com/photo-1560448204-603b3fc33ddc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                <div class="absolute top-3 right-3 bg-gradient-to-r from-amber-400 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+                    Кешбек 5%
+                </div>
+                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent h-16"></div>
+                <div class="absolute bottom-3 left-3 text-white">
+                    <div class="text-lg font-bold drop-shadow-lg">${price} ₽</div>
+                    <div class="text-sm opacity-90">${rooms}-комн., ${area} м²</div>
+                </div>
+            </div>
+            <div class="p-4">
+                <h4 class="font-semibold text-gray-800 mb-2 line-clamp-2">${title}</h4>
+                <div class="flex items-center text-xs text-gray-500 mb-4">
+                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                    </svg>
+                    На карте
+                </div>
+                <button onclick="showObjectDetails(${property.id || 0})" class="w-full bg-gradient-to-r from-blue-500 to-[#006699] hover:from-[#0088CC] hover:to-purple-700 text-white font-bold py-3 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                    Подробнее
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+function showObjectDetails(propertyId) {
+    const property = properties.find(p => p.id == propertyId);
+    if (!property) {
+        console.warn('Property not found:', propertyId);
+        return;
+    }
+    
+    // Переход на страницу объекта
+    if (property.url) {
+        window.location.href = property.url;
+    } else {
+        // Fallback если нет URL
+        window.location.href = `/object/${propertyId}`;
+    }
+}
+
+function hideModal() {
+    const modal = document.getElementById('objectModal');
+    modal.classList.add('opacity-0', 'pointer-events-none');
+    modal.classList.remove('opacity-100');
+}
+
+function initializeSearch() {
+    const searchInput = document.getElementById('mapSearchInput');
+    const suggestions = document.getElementById('searchSuggestions');
+    
+    let searchTimeout;
+    
+    searchInput.addEventListener('input', function() {
+        const query = this.value.trim();
+        
+        // Clear previous timeout
+        if (searchTimeout) {
+            clearTimeout(searchTimeout);
+        }
+        
+        if (query.length < 2) {
+            suggestions.classList.add('hidden');
+            return;
+        }
+        
+        // Debounce search requests
+        searchTimeout = setTimeout(() => {
+            // Call smart search API
+            fetch('/api/smart-search-suggestions?q=' + encodeURIComponent(query))
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Search API unavailable');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.suggestions && data.suggestions.length > 0) {
+                        displaySearchSuggestions(data.suggestions);
+                    } else {
+                        suggestions.classList.add('hidden');
+                    }
+                })
+                .catch(error => {
+                    console.log('Smart search unavailable, using local search');
+                    // Fallback to local search
+                    performLocalSearch(query);
+                    suggestions.classList.add('hidden');
+                });
+        }, 300);
+    });
+    
+    // Handle Enter key
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            performMapSearch();
+        }
+    });
+    
+    // Hide suggestions when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!searchInput.contains(e.target) && !suggestions.contains(e.target)) {
+            suggestions.classList.add('hidden');
+        }
+    });
+}
+
+function performLocalSearch(query) {
+    const searchTerm = query.toLowerCase();
+    filteredProperties = properties.filter(property => {
+        const searchFields = [
+            property.title || '',
+            property.district || '',
+            property.address || '',
+            property.developer || '',
+            property.residential_complex || '',
+            property.location || '',
+            property.complex_name || '',
+            property.rooms ? `${property.rooms}-комн` : '',
+            property.area ? `${property.area}м` : '',
+            property.price ? `${Math.round(property.price / 1000000)}млн` : ''
+        ].filter(field => field && field.length > 0).join(' ').toLowerCase();
+        
+        return searchFields.includes(searchTerm);
+    });
+    
+    loadProperties();
+}
+
+function performMapSearch() {
+    const searchInput = document.getElementById('mapSearchInput');
+    const query = searchInput.value.trim().toLowerCase();
+    
+    if (query.length === 0) {
+        filteredProperties = [...properties];
+        loadProperties();
+        return;
+    }
+    
+    performLocalSearch(query);
+    
+    // Update results count
+    const resultsCount = document.getElementById('objectCount');
+    if (resultsCount) {
+        resultsCount.textContent = filteredProperties.length;
+    }
+}
+
+function displaySearchSuggestions(suggestions) {
+    const suggestionsDiv = document.getElementById('searchSuggestions');
+    
+    suggestionsDiv.innerHTML = suggestions.map(suggestion => `
+        <div class="px-4 py-2 hover:bg-gray-100 cursor-pointer border-b last:border-b-0" 
+             onclick="selectSuggestion('${suggestion.value}', '${suggestion.category}')">
+            <div class="flex items-center justify-between">
+                <span class="text-gray-900">${suggestion.value}</span>
+                <span class="text-xs px-2 py-1 bg-gray-100 text-[#0088CC] rounded-full">${suggestion.category}</span>
+            </div>
+        </div>
+    `).join('');
+    
+    suggestionsDiv.classList.remove('hidden');
+}
+
+function selectSuggestion(value, category) {
+    document.getElementById('mapSearchInput').value = value;
+    document.getElementById('searchSuggestions').classList.add('hidden');
+    
+    // Apply search filter
+    performMapSearch();
+}
+
+// Global filter state
+let activeFilters = {
+    priceFrom: null,
+    priceTo: null,
+    districtFilter: '',
+    developerFilter: '',
+    areaFrom: null,
+    areaTo: null,
+    floorFrom: null,
+    floorTo: null,
+    rooms: [],
+    hasBalcony: false,
+    cashbackAvailable: false,
+    familyMortgage: false,
+    itMortgage: false
+};
+
+function performMapSearch() {
+    const query = document.getElementById('mapSearchInput').value.toLowerCase();
+    if (query.trim()) {
+        // Filter properties by search query
+        filteredProperties = allProperties.filter(property => {
+            return property.title.toLowerCase().includes(query) ||
+                   property.description.toLowerCase().includes(query) ||
+                   property.district?.toLowerCase().includes(query) ||
+                   property.developer?.toLowerCase().includes(query) ||
+                   property.complex_name?.toLowerCase().includes(query);
+        });
+        updateMapAndSidebar();
+    } else {
+        // If no search query, apply current filters
+        applyFilters();
+    }
+    console.log('Search query:', query, 'Found:', filteredProperties.length, 'properties');
+}
+
+function toggleFilters() {
+    const filtersPanel = document.getElementById('advancedFilters');
+    filtersPanel.classList.toggle('hidden');
+}
+
+function clearAllFilters() {
+    // Clear all filter inputs
+    document.getElementById('priceFrom').value = '';
+    document.getElementById('priceTo').value = '';
+    document.getElementById('districtFilter').value = '';
+    document.getElementById('developerFilter').value = '';
+    document.getElementById('areaFrom').value = '';
+    document.getElementById('areaTo').value = '';
+    document.getElementById('floorFrom').value = '';
+    document.getElementById('floorTo').value = '';
+    document.getElementById('hasBalcony').checked = false;
+    document.getElementById('cashbackAvailable').checked = false;
+    document.getElementById('familyMortgage').checked = false;
+    document.getElementById('itMortgage').checked = false;
+    
+    // Clear room selections
+    document.querySelectorAll('.filter-pill').forEach(btn => {
+        btn.classList.remove('bg-blue-500', 'text-white');
+        btn.classList.add('border-gray-300', 'hover:bg-gray-100');
+    });
+    
+    // Reset active filters
+    activeFilters = {
+        priceFrom: null,
+        priceTo: null,
+        districtFilter: '',
+        developerFilter: '',
+        areaFrom: null,
+        areaTo: null,
+        floorFrom: null,
+        floorTo: null,
+        rooms: [],
+        hasBalcony: false,
+        cashbackAvailable: false,
+        familyMortgage: false,
+        itMortgage: false
+    };
+    
+    // Show all properties
+    filteredProperties = allProperties;
+    updateMapAndSidebar();
+    updateActiveFiltersDisplay();
+}
+
+function applyFilters() {
+    // Get filter values
+    activeFilters.priceFrom = parseFloat(document.getElementById('priceFrom').value) || null;
+    activeFilters.priceTo = parseFloat(document.getElementById('priceTo').value) || null;
+    activeFilters.districtFilter = document.getElementById('districtFilter').value;
+    activeFilters.developerFilter = document.getElementById('developerFilter').value;
+    activeFilters.areaFrom = parseFloat(document.getElementById('areaFrom').value) || null;
+    activeFilters.areaTo = parseFloat(document.getElementById('areaTo').value) || null;
+    activeFilters.floorFrom = parseFloat(document.getElementById('floorFrom').value) || null;
+    activeFilters.floorTo = parseFloat(document.getElementById('floorTo').value) || null;
+    activeFilters.hasBalcony = document.getElementById('hasBalcony').checked;
+    activeFilters.cashbackAvailable = document.getElementById('cashbackAvailable').checked;
+    activeFilters.familyMortgage = document.getElementById('familyMortgage').checked;
+    activeFilters.itMortgage = document.getElementById('itMortgage').checked;
+    
+    // Apply filters to properties
+    filteredProperties = allProperties.filter(property => {
+        // Price filter
+        if (activeFilters.priceFrom && property.price < activeFilters.priceFrom) return false;
+        if (activeFilters.priceTo && property.price > activeFilters.priceTo) return false;
+        
+        // District filter
+        if (activeFilters.districtFilter && property.district !== activeFilters.districtFilter) return false;
+        
+        // Developer filter
+        if (activeFilters.developerFilter && property.developer !== activeFilters.developerFilter) return false;
+        
+        // Area filter
+        if (activeFilters.areaFrom && property.area < activeFilters.areaFrom) return false;
+        if (activeFilters.areaTo && property.area > activeFilters.areaTo) return false;
+        
+        // Floor filter
+        if (activeFilters.floorFrom && property.floor < activeFilters.floorFrom) return false;
+        if (activeFilters.floorTo && property.floor > activeFilters.floorTo) return false;
+        
+        // Rooms filter
+        if (activeFilters.rooms.length > 0) {
+            const propertyRooms = property.rooms === 0 ? 'studio' : property.rooms.toString();
+            if (!activeFilters.rooms.includes(propertyRooms)) return false;
+        }
+        
+        // Features filters
+        if (activeFilters.hasBalcony && !property.balcony && !property.has_balcony) return false;
+        if (activeFilters.cashbackAvailable && !property.cashback_available) return false;
+        if (activeFilters.familyMortgage && !property.family_mortgage) return false;
+        if (activeFilters.itMortgage && !property.it_mortgage) return false;
+        
+        return true;
+    });
+    
+    updateMapAndSidebar();
+    updateActiveFiltersDisplay();
+    
+    console.log('Applied filters, found:', filteredProperties.length, 'properties');
+}
+
+function updateMapAndSidebar() {
+    // Update map markers
+    if (map && filteredProperties) {
+        clearMapMarkers();
+        addMarkersToMap(filteredProperties);
+        
+        // Update sidebar
+        updatePropertyCards(filteredProperties);
+        
+        // Update count
+        document.getElementById('filteredCount').textContent = filteredProperties.length;
+        
+        // Filter by map bounds if no polygon is drawn
+        if (!drawnPolygon) {
+            filterPropertiesByMapBounds();
+        } else {
+            filterPropertiesByPolygon();
+        }
+    }
+}
+
+function clearMapMarkers() {
+    markers.forEach(marker => {
+        try {
+            map.removeLayer(marker);
+        } catch(e) {
+            console.log('Could not remove marker:', e);
+        }
+    });
+    markers = [];
+    window.markerGroups = {};
+}
+
+function addMarkersToMap(propertiesToShow) {
+    propertiesToShow.forEach((property, index) => {
+        if (property.coordinates && property.coordinates.lat && property.coordinates.lng) {
+            // Group properties by coordinates (same building)
+            const coordKey = `${property.coordinates.lat}_${property.coordinates.lng}`;
+            if (!window.markerGroups) window.markerGroups = {};
+            
+            if (!window.markerGroups[coordKey]) {
+                window.markerGroups[coordKey] = [];
+            }
+            window.markerGroups[coordKey].push(property);
+            
+            // Only create marker if this is the first property at this location
+            if (window.markerGroups[coordKey].length === 1) {
+                const propertiesAtLocation = window.markerGroups[coordKey];
+                const count = propertiesAtLocation.length;
+                const minPrice = Math.min(...propertiesAtLocation.map(p => p.price || 0));
+                const priceText = minPrice > 0 ? Math.round(minPrice / 1000000 * 10) / 10 + 'М' : '?';
+                
+                // Get current zoom level to determine marker style
+                const zoom = map.getZoom();
+                let markerHtml, iconSize, iconAnchor;
+                
+                if (zoom < 13) {
+                    // Simple dot marker for distant view
+                    markerHtml = `<div class="w-3 h-3 bg-gradient-to-r from-[#006699] to-[#0088CC] rounded-full border-2 border-white shadow-lg"></div>`;
+                    iconSize = [12, 12];
+                    iconAnchor = [6, 6];
+                } else {
+                    // Detailed marker for close view
+                    markerHtml = `
+                        <div class="bg-gradient-to-r from-[#006699] to-[#0088CC] text-white px-2 py-1 rounded-lg shadow-lg border border-white">
+                            <div class="text-center text-xs font-medium whitespace-nowrap">
+                                <div class="flex items-center justify-center gap-1">
+                                    <div class="bg-white/20 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">${count}</div>
+                                    <span>от ${priceText}₽</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    iconSize = [90, 25];
+                    iconAnchor = [45, 25];
+                }
+                
+                const customIcon = L.divIcon({
+                    className: 'custom-marker-compact',
+                    html: markerHtml,
+                    iconSize: iconSize,
+                    iconAnchor: iconAnchor,
+                    popupAnchor: [0, -40]
+                });
+                
+                const marker = L.marker([property.coordinates.lat, property.coordinates.lng], {icon: customIcon})
+                    .bindPopup(createGroupedMarkerPopup(propertiesAtLocation))
+                    .addTo(map);
+                    
+                markers.push(marker);
+            } else {
+                // Update existing marker to show more properties
+                const existingMarker = markers.find(m => {
+                    const pos = m.getLatLng();
+                    return Math.abs(pos.lat - property.coordinates.lat) < 0.0001 && 
+                           Math.abs(pos.lng - property.coordinates.lng) < 0.0001;
+                });
+                
+                if (existingMarker) {
+                    const propertiesAtLocation = window.markerGroups[coordKey];
+                    const count = propertiesAtLocation.length;
+                    const minPrice = Math.min(...propertiesAtLocation.map(p => p.price || 0));
+                    const priceText = minPrice > 0 ? Math.round(minPrice / 1000000 * 10) / 10 + 'М' : '?';
+                    
+                    // Get current zoom level for updated marker
+                    const zoom = map.getZoom();
+                    let markerHtml, iconSize, iconAnchor;
+                    
+                    if (zoom < 13) {
+                        // Simple dot marker for distant view
+                        markerHtml = `<div class="w-3 h-3 bg-gradient-to-r from-[#006699] to-[#0088CC] rounded-full border-2 border-white shadow-lg"></div>`;
+                        iconSize = [12, 12];
+                        iconAnchor = [6, 6];
+                    } else {
+                        // Detailed marker for close view
+                        markerHtml = `
+                            <div class="bg-gradient-to-r from-[#006699] to-[#0088CC] text-white px-2 py-1 rounded-lg shadow-lg border border-white">
+                                <div class="text-center text-xs font-medium whitespace-nowrap">
+                                    <div class="flex items-center justify-center gap-1">
+                                        <div class="bg-white/20 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">${count}</div>
+                                        <span>от ${priceText}₽</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        iconSize = [90, 25];
+                        iconAnchor = [45, 25];
+                    }
+                    
+                    const customIcon = L.divIcon({
+                        className: 'custom-marker-compact',
+                        html: markerHtml,
+                        iconSize: iconSize,
+                        iconAnchor: iconAnchor,
+                        popupAnchor: [0, -40]
+                    });
+                    
+                    existingMarker.setIcon(customIcon);
+                    existingMarker.bindPopup(createGroupedMarkerPopup(propertiesAtLocation));
+                }
+            }
+        }
+    });
+}
+
+function updatePropertyCards(propertiesToShow) {
+    const objectsListContainer = document.getElementById('objectsList');
+    if (objectsListContainer) {
+        objectsListContainer.innerHTML = '';
+        propertiesToShow.forEach(property => {
+            objectsListContainer.appendChild(createPropertyCard(property));
+        });
+    }
+}
+
+function updateActiveFiltersDisplay() {
+    const activeFiltersContainer = document.getElementById('activeFilters');
+    const activeFiltersList = document.getElementById('activeFiltersList');
+    
+    // Clear existing active filters
+    activeFiltersList.innerHTML = '';
+    
+    let hasActiveFilters = false;
+    
+    // Price filters
+    if (activeFilters.priceFrom || activeFilters.priceTo) {
+        const priceText = `Цена: ${activeFilters.priceFrom ? `от ${activeFilters.priceFrom.toLocaleString()}` : ''} ${activeFilters.priceTo ? `до ${activeFilters.priceTo.toLocaleString()}` : ''} ₽`;
+        addActiveFilterTag(priceText, () => {
+            document.getElementById('priceFrom').value = '';
+            document.getElementById('priceTo').value = '';
+            applyFilters();
+        });
+        hasActiveFilters = true;
+    }
+    
+    // District filter
+    if (activeFilters.districtFilter) {
+        addActiveFilterTag(`Район: ${activeFilters.districtFilter}`, () => {
+            document.getElementById('districtFilter').value = '';
+            applyFilters();
+        });
+        hasActiveFilters = true;
+    }
+    
+    // Developer filter
+    if (activeFilters.developerFilter) {
+        addActiveFilterTag(`Застройщик: ${activeFilters.developerFilter}`, () => {
+            document.getElementById('developerFilter').value = '';
+            applyFilters();
+        });
+        hasActiveFilters = true;
+    }
+    
+    // Area filters
+    if (activeFilters.areaFrom || activeFilters.areaTo) {
+        const areaText = `Площадь: ${activeFilters.areaFrom ? `от ${activeFilters.areaFrom}` : ''} ${activeFilters.areaTo ? `до ${activeFilters.areaTo}` : ''} м²`;
+        addActiveFilterTag(areaText, () => {
+            document.getElementById('areaFrom').value = '';
+            document.getElementById('areaTo').value = '';
+            applyFilters();
+        });
+        hasActiveFilters = true;
+    }
+    
+    // Rooms filter
+    if (activeFilters.rooms.length > 0) {
+        const roomsText = `Комнат: ${activeFilters.rooms.join(', ')}`;
+        addActiveFilterTag(roomsText, () => {
+            activeFilters.rooms = [];
+            document.querySelectorAll('.filter-pill').forEach(btn => {
+                btn.classList.remove('bg-blue-500', 'text-white');
+                btn.classList.add('border-gray-300', 'hover:bg-gray-100');
+            });
+            applyFilters();
+        });
+        hasActiveFilters = true;
+    }
+    
+    // Feature filters
+    if (activeFilters.hasBalcony) {
+        addActiveFilterTag('С балконом', () => {
+            document.getElementById('hasBalcony').checked = false;
+            applyFilters();
+        });
+        hasActiveFilters = true;
+    }
+    
+    if (activeFilters.cashbackAvailable) {
+        addActiveFilterTag('Кешбек', () => {
+            document.getElementById('cashbackAvailable').checked = false;
+            applyFilters();
+        });
+        hasActiveFilters = true;
+    }
+    
+    // Show/hide active filters container
+    if (hasActiveFilters) {
+        activeFiltersContainer.classList.remove('hidden');
+    } else {
+        activeFiltersContainer.classList.add('hidden');
+    }
+}
+
+function addActiveFilterTag(text, removeCallback) {
+    const activeFiltersList = document.getElementById('activeFiltersList');
+    
+    const filterTag = document.createElement('span');
+    filterTag.className = 'inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700';
+    filterTag.innerHTML = `
+        ${text}
+        <button class="ml-2 text-[#0088CC] hover:text-gray-700" onclick="event.stopPropagation()">
+            <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            </svg>
+        </button>
+    `;
+    
+    // Add click handler to remove button
+    filterTag.querySelector('button').addEventListener('click', removeCallback);
+    
+    activeFiltersList.appendChild(filterTag);
+}
+
+// Initialize room filter buttons
+function initializeRoomFilters() {
+    document.querySelectorAll('.filter-pill').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const roomValue = this.getAttribute('data-rooms');
+            
+            // Toggle selection
+            if (this.classList.contains('bg-blue-500')) {
+                // Deselect
+                this.classList.remove('bg-blue-500', 'text-white');
+                this.classList.add('border-gray-300', 'hover:bg-gray-100');
+                activeFilters.rooms = activeFilters.rooms.filter(r => r !== roomValue);
+            } else {
+                // Select
+                this.classList.add('bg-blue-500', 'text-white');
+                this.classList.remove('border-gray-300', 'hover:bg-gray-100');
+                if (!activeFilters.rooms.includes(roomValue)) {
+                    activeFilters.rooms.push(roomValue);
+                }
+            }
+            
+            // Apply filters
+            applyFilters();
+        });
+    });
+}
+
+// Initialize quick filter tags
+function initializeQuickFilters() {
+    document.querySelectorAll('[data-filter]').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const filterType = this.getAttribute('data-filter');
+            
+            switch(filterType) {
+                case 'cashback':
+                    document.getElementById('cashbackAvailable').checked = true;
+                    break;
+                case 'newbuilding':
+                    // Filter for new buildings
+                    filteredProperties = allProperties.filter(p => p.completion_date && 
+                        (p.completion_date.includes('2024') || p.completion_date.includes('2025')));
+                    updateMapAndSidebar();
+                    return;
+                case 'secondary':
+                    // Filter for secondary market
+                    filteredProperties = allProperties.filter(p => !p.completion_date || 
+                        (!p.completion_date.includes('2024') && !p.completion_date.includes('2025')));
+                    updateMapAndSidebar();
+                    return;
+                case 'balcony':
+                    document.getElementById('hasBalcony').checked = true;
+                    break;
+            }
+            
+            applyFilters();
+            
+            // Remove this quick filter tag
+            this.remove();
+        });
+    });
+}
+
+// Initialize filter change events
+function initializeFilterEvents() {
+    // Price filters
+    document.getElementById('priceFrom').addEventListener('input', debounce(applyFilters, 500));
+    document.getElementById('priceTo').addEventListener('input', debounce(applyFilters, 500));
+    
+    // Area filters
+    document.getElementById('areaFrom').addEventListener('input', debounce(applyFilters, 500));
+    document.getElementById('areaTo').addEventListener('input', debounce(applyFilters, 500));
+    
+    // Floor filters
+    document.getElementById('floorFrom').addEventListener('input', debounce(applyFilters, 500));
+    document.getElementById('floorTo').addEventListener('input', debounce(applyFilters, 500));
+    
+    // Dropdown filters
+    document.getElementById('districtFilter').addEventListener('change', applyFilters);
+    document.getElementById('developerFilter').addEventListener('change', applyFilters);
+    
+    // Checkbox filters
+    document.getElementById('hasBalcony').addEventListener('change', applyFilters);
+    document.getElementById('cashbackAvailable').addEventListener('change', applyFilters);
+    document.getElementById('familyMortgage').addEventListener('change', applyFilters);
+    document.getElementById('itMortgage').addEventListener('change', applyFilters);
+}
+
+// Debounce function for input fields
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Show grouped properties function
+function showGroupedProperties(propertyIds) {
+    const groupedProperties = propertyIds.map(id => allProperties.find(p => p.id === id)).filter(p => p);
+    if (groupedProperties.length === 0) return;
+    
+    // Clear current property list and show only selected group
+    const objectsListContainer = document.getElementById('objectsList');
+    if (objectsListContainer) {
+        objectsListContainer.innerHTML = '';
+        
+        // Add header
+        const header = document.createElement('div');
+        header.className = 'col-span-full mb-4 p-4 bg-blue-50 rounded-lg';
+        header.innerHTML = `
+            <h3 class="font-bold text-lg text-gray-700">${groupedProperties[0].complex_name || 'Жилой комплекс'}</h3>
+            <p class="text-[#0088CC]">${groupedProperties.length} квартир в этом доме</p>
+            <button onclick="applyFilters()" class="mt-2 text-[#0088CC] underline text-sm">← Показать все объекты</button>
+        `;
+        objectsListContainer.appendChild(header);
+        
+        // Add grouped properties
+        groupedProperties.forEach(property => {
+            objectsListContainer.appendChild(createPropertyCard(property));
+        });
+    }
+    
+    // Update count
+    const objectCountEl = document.getElementById('objectCount');
+    if (objectCountEl) {
+        objectCountEl.textContent = groupedProperties.length;
+    }
+}
+
+// Initialize everything when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    initializeMap();
+    initializeSearch();
+    initializeRoomFilters();
+    initializeQuickFilters();
+    initializeFilterEvents();
+    
+    // Load filtered properties data
+    loadFilteredProperties();
+    
+    // Set initial filtered properties to all properties
+    if (typeof allProperties !== 'undefined') {
+        filteredProperties = allProperties;
+    }
+});
+
+// Filter functionality - same as properties page
+let currentFilters = {
+    rooms: [],
+    priceMin: null,
+    priceMax: null,
+    district: null,
+    developer: null,
+    mortgage: []
+};
+
+// Initialize filter dropdowns
+function initializeFilterDropdowns() {
+    // Setup dropdown toggle functionality
+    document.querySelectorAll('.dropdown-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const dropdown = this.parentElement;
+            const menu = dropdown.querySelector('.dropdown-menu');
+            const isOpen = menu.classList.contains('open');
+            
+            // Close all other dropdowns
+            document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('open'));
+            
+            // Toggle current dropdown
+            if (!isOpen) {
+                menu.classList.add('open');
+            }
+        });
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.dropdown')) {
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                menu.classList.remove('open');
+            });
+        }
+    });
+}
+
+// Filter toggle functions
+function toggleRoomFilter(rooms) {
+    const checkbox = document.getElementById(`room-${rooms}`);
+    checkbox.checked = !checkbox.checked;
+    
+    if (checkbox.checked) {
+        if (!currentFilters.rooms.includes(rooms)) {
+            currentFilters.rooms.push(rooms);
+        }
+    } else {
+        currentFilters.rooms = currentFilters.rooms.filter(r => r !== rooms);
+    }
+    
+    updateFilterButtons();
+}
+
+function toggleDistrictFilter(district) {
+    currentFilters.district = currentFilters.district === district ? null : district;
+    updateFilterButtons();
+}
+
+function toggleDeveloperFilter(developer) {
+    currentFilters.developer = currentFilters.developer === developer ? null : developer;
+    updateFilterButtons();
+}
+
+function toggleMortgageFilter(mortgage) {
+    if (currentFilters.mortgage.includes(mortgage)) {
+        currentFilters.mortgage = currentFilters.mortgage.filter(m => m !== mortgage);
+    } else {
+        currentFilters.mortgage.push(mortgage);
+    }
+    updateFilterButtons();
+}
+
+function applyPriceFilter() {
+    const priceMin = document.getElementById('priceMin').value;
+    const priceMax = document.getElementById('priceMax').value;
+    
+    currentFilters.priceMin = priceMin ? parseInt(priceMin) : null;
+    currentFilters.priceMax = priceMax ? parseInt(priceMax) : null;
+    
+    updateFilterButtons();
+    
+    // Close dropdown
+    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+        menu.classList.remove('open');
+    });
+}
+
+function updateFilterButtons() {
+    // Update room buttons
+    document.querySelectorAll('[id^="room-"]').forEach(checkbox => {
+        const roomValue = checkbox.id.replace('room-', '');
+        checkbox.checked = currentFilters.rooms.includes(roomValue);
+    });
+    
+    // Update district checkboxes
+    document.querySelectorAll('[id^="district-"]').forEach(checkbox => {
+        const districtName = checkbox.parentElement.querySelector('span').textContent;
+        checkbox.checked = currentFilters.district === districtName;
+    });
+    
+    // Update developer checkboxes
+    document.querySelectorAll('[id^="developer-"]').forEach(checkbox => {
+        const developerName = checkbox.parentElement.querySelector('span').textContent;
+        checkbox.checked = currentFilters.developer === developerName;
+    });
+    
+    // Update mortgage checkboxes
+    document.querySelectorAll('[id^="mortgage-"]').forEach(checkbox => {
+        const mortgageValue = checkbox.id.replace('mortgage-', '');
+        checkbox.checked = currentFilters.mortgage.includes(mortgageValue);
+    });
+    
+    updateActiveFiltersDisplay();
+}
+
+function updateActiveFiltersDisplay() {
+    const activeFiltersDiv = document.getElementById('activeFilters');
+    const activeFilterChips = document.getElementById('activeFilterChips');
+    
+    if (!activeFilterChips) return;
+    
+    activeFilterChips.innerHTML = '';
+    
+    let hasFilters = false;
+    
+    // Room filters
+    if (currentFilters.rooms.length > 0) {
+        const roomNames = currentFilters.rooms.map(r => r === '0' ? 'Студия' : r + ' комн').join(', ');
+        addFilterChip(`Комнаты: ${roomNames}`, () => {
+            currentFilters.rooms = [];
+            updateFilterButtons();
+            applyMapFilters();
+        });
+        hasFilters = true;
+    }
+    
+    // Price filter
+    if (currentFilters.priceMin || currentFilters.priceMax) {
+        let priceText = 'Цена: ';
+        if (currentFilters.priceMin) priceText += `от ${currentFilters.priceMin.toLocaleString()} ₽`;
+        if (currentFilters.priceMax) priceText += ` до ${currentFilters.priceMax.toLocaleString()} ₽`;
+        
+        addFilterChip(priceText, () => {
+            currentFilters.priceMin = null;
+            currentFilters.priceMax = null;
+            document.getElementById('priceMin').value = '';
+            document.getElementById('priceMax').value = '';
+            updateFilterButtons();
+            applyMapFilters();
+        });
+        hasFilters = true;
+    }
+    
+    // District filter
+    if (currentFilters.district) {
+        addFilterChip(`Район: ${currentFilters.district}`, () => {
+            currentFilters.district = null;
+            updateFilterButtons();
+            applyMapFilters();
+        });
+        hasFilters = true;
+    }
+    
+    // Developer filter
+    if (currentFilters.developer) {
+        addFilterChip(`Застройщик: ${currentFilters.developer}`, () => {
+            currentFilters.developer = null;
+            updateFilterButtons();
+            applyMapFilters();
+        });
+        hasFilters = true;
+    }
+    
+    // Mortgage filters
+    if (currentFilters.mortgage.length > 0) {
+        const mortgageNames = currentFilters.mortgage.map(m => {
+            switch(m) {
+                case 'family': return 'Семейная';
+                case 'it': return 'IT-ипотека';
+                case 'military': return 'Военная';
+                case 'developer': return 'От застройщика';
+                default: return m;
+            }
+        }).join(', ');
+        
+        addFilterChip(`Ипотека: ${mortgageNames}`, () => {
+            currentFilters.mortgage = [];
+            updateFilterButtons();
+            applyMapFilters();
+        });
+        hasFilters = true;
+    }
+    
+    if (activeFiltersDiv) {
+        activeFiltersDiv.style.display = hasFilters ? 'block' : 'none';
+    }
+}
+
+function addFilterChip(text, removeCallback) {
+    const chip = document.createElement('div');
+    chip.className = 'active-filter-chip';
+    chip.innerHTML = `
+        <span>${text}</span>
+        <div class="remove-btn" onclick="event.stopPropagation()">×</div>
+    `;
+    
+    chip.querySelector('.remove-btn').addEventListener('click', removeCallback);
+    document.getElementById('activeFilterChips').appendChild(chip);
+}
+
+function applyMapFilters() {
+    // Apply filters to properties and reload map
+    const params = new URLSearchParams();
+    
+    if (currentFilters.rooms.length > 0) {
+        currentFilters.rooms.forEach(room => params.append('rooms', room));
+    }
+    if (currentFilters.priceMin) params.append('price_min', currentFilters.priceMin);
+    if (currentFilters.priceMax) params.append('price_max', currentFilters.priceMax);
+    if (currentFilters.district) params.append('district', currentFilters.district);
+    if (currentFilters.developer) params.append('developer', currentFilters.developer);
+    if (currentFilters.mortgage.length > 0) {
+        currentFilters.mortgage.forEach(mortgage => params.append('mortgage', mortgage));
+    }
+    
+    // Reload page with filters
+    window.location.href = `/map?${params.toString()}`;
+}
+
+function clearAllFilters() {
+    currentFilters = {
+        rooms: [],
+        priceMin: null,
+        priceMax: null,
+        district: null,
+        developer: null,
+        mortgage: []
+    };
+    
+    // Clear form inputs
+    document.getElementById('priceMin').value = '';
+    document.getElementById('priceMax').value = '';
+    
+    updateFilterButtons();
+    applyMapFilters();
+}
+
+function toggleFilters() {
+    const filtersDiv = document.getElementById('advancedFilters');
+    filtersDiv.classList.toggle('hidden');
+}
+
+// Enhanced clustering functions for better UX
+function showGroupedProperties(propertyIds) {
+    // Get properties by IDs
+    const groupProperties = allProperties.filter(p => propertyIds.includes(p.id));
+    
+    // Update sidebar with grouped view
+    const objectsListContainer = document.getElementById('objectsList');
+    if (objectsListContainer) {
+        const complexName = groupProperties[0].residential_complex || groupProperties[0].complex_name || 'Жилой комплекс';
+        const developer = groupProperties[0].developer || 'Не указан';
+        
+        objectsListContainer.innerHTML = `
+            <div class="bg-gradient-to-r from-[#006699] to-[#0088CC] text-white p-4 rounded-lg mb-4">
+                <div class="flex items-start justify-between">
+                    <div class="flex-1">
+                        <h3 class="font-bold text-lg mb-1">${complexName}</h3>
+                        <p class="text-sm opacity-90 mb-2">
+                            <i class="fas fa-building mr-1"></i>
+                            ${developer}
+                        </p>
+                        <p class="text-sm opacity-90">
+                            <i class="fas fa-home mr-1"></i>
+                            ${groupProperties.length} предложений в этом комплексе
+                        </p>
+                    </div>
+                    <div class="bg-white/20 rounded-full px-3 py-1 text-sm font-bold">
+                        ${groupProperties.length}
+                    </div>
+                </div>
+                <button onclick="resetToAllProperties()" class="mt-3 text-white/80 hover:text-white text-sm underline">
+                    ← Показать все объекты
+                </button>
+            </div>
+        `;
+        
+        // Add grouped property cards
+        groupProperties.forEach(property => {
+            objectsListContainer.appendChild(createPropertyCard(property));
+        });
+    }
+    
+    // Update count
+    const objectCountEl = document.getElementById('objectCount');
+    if (objectCountEl) {
+        objectCountEl.textContent = groupProperties.length;
+    }
+    
+    // Close popup
+    if (map) {
+        map.closePopup();
+    }
+}
+
+function resetToAllProperties() {
+    filteredProperties = [...allProperties];
+    loadProperties();
+}
+
+// Price formatting functions
+function formatPrice(price) {
+    if (!price || price === 0) return 'По запросу';
+    return new Intl.NumberFormat('ru-RU').format(price) + ' ₽';
+}
+
+function formatPriceShort(price) {
+    if (!price || price === 0) return 'По запросу';
+    if (price >= 1000000) {
+        return (Math.round(price / 100000) / 10) + ' млн';
+    } else if (price >= 1000) {
+        return Math.round(price / 1000) + ' тыс';
+    }
+    return price.toLocaleString('ru-RU');
+}
+
+// Enhanced marker creation with improved clustering display
+function createEnhancedClusterMarker(propertiesGroup, coordinates, zoom = 14) {
+    const count = propertiesGroup.length;
+    const minPrice = Math.min(...propertiesGroup.map(p => p.price || Infinity));
+    const complexName = propertiesGroup[0].residential_complex || propertiesGroup[0].complex_name || 'ЖК';
+    const developer = propertiesGroup[0].developer || '';
+    
+    // Format price text
+    const priceText = formatPriceShort(minPrice);
+    
+    let markerHtml, iconSize, iconAnchor;
+    
+    if (zoom < 13) {
+        // Simple dot marker for distant view
+        markerHtml = `<div class="w-3 h-3 bg-gradient-to-r from-[#006699] to-[#0088CC] rounded-full border-2 border-white shadow-lg"></div>`;
+        iconSize = [12, 12];
+        iconAnchor = [6, 6];
+    } else if (count === 1) {
+        // Single property marker - более аккуратный
+        markerHtml = `
+            <div class="bg-gradient-to-r from-[#006699] to-[#0088CC] text-white px-2 py-1 rounded-lg shadow-md border border-white hover:scale-105 transition-all">
+                <div class="text-center text-xs font-medium whitespace-nowrap">
+                    <div class="font-bold">от ${priceText}</div>
+                </div>
+            </div>
+        `;
+        iconSize = [70, 28];
+        iconAnchor = [35, 32];
+    } else {
+        // Multi-property cluster - компактный дизайн
+        const shortComplexName = complexName.length > 8 ? 
+                               complexName.substring(0, 8) + '...' : complexName;
+        
+        markerHtml = `
+            <div class="bg-gradient-to-r from-[#006699] to-[#0088CC] text-white px-2 py-1.5 rounded-lg shadow-lg border border-white relative hover:scale-105 transition-all cursor-pointer">
+                <div class="text-center font-medium whitespace-nowrap">
+                    <div class="text-xs font-bold">${count} от ${priceText}</div>
+                    <div class="text-xs opacity-80">${shortComplexName}</div>
+                </div>
+                <div class="absolute -top-1.5 -right-1.5 bg-orange-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center font-bold border border-white shadow-sm">
+                    ${count}
+                </div>
+            </div>
+        `;
+        iconSize = [100, 40];
+        iconAnchor = [50, 42];
+    }
+    
+    const customIcon = L.divIcon({
+        className: 'custom-marker-enhanced',
+        html: markerHtml,
+        iconSize: iconSize,
+        iconAnchor: iconAnchor,
+        popupAnchor: [0, -iconAnchor[1] - 10]
+    });
+    
+    const marker = L.marker([coordinates.lat, coordinates.lng], { icon: customIcon })
+        .addTo(map)
+        .bindPopup(createEnhancedComplexPopup(propertiesGroup));
+    
+    marker.on('click', () => {
+        if (count > 1) {
+            // Show detailed complex view in sidebar
+            showComplexDetails(propertiesGroup);
+        } else {
+            // Show single property details
+            showObjectDetails(propertiesGroup[0].id);
+        }
+    });
+    
+    return marker;
+}
+
+// Enhanced popup for complex with building details
+function createEnhancedComplexPopup(properties) {
+    if (properties.length === 1) {
+        return createSingleMarkerPopup(properties[0]);
+    }
+    
+    const complexName = properties[0].residential_complex || properties[0].complex_name || 'Жилой комплекс';
+    const developer = properties[0].developer || 'Не указан';
+    const minPrice = Math.min(...properties.map(p => p.price || Infinity));
+    const maxPrice = Math.max(...properties.map(p => p.price || 0));
+    
+    // Group by buildings/sections (литеры)
+    const buildingGroups = {};
+    properties.forEach(prop => {
+        const building = prop.building || prop.liter || prop.section || 'Корпус 1';
+        if (!buildingGroups[building]) {
+            buildingGroups[building] = {
+                count: 0,
+                minPrice: Infinity,
+                rooms: new Set(),
+                properties: []
+            };
+        }
+        buildingGroups[building].count++;
+        buildingGroups[building].properties.push(prop);
+        if (prop.price && prop.price < buildingGroups[building].minPrice) {
+            buildingGroups[building].minPrice = prop.price;
+        }
+        if (prop.rooms) {
+            buildingGroups[building].rooms.add(prop.rooms);
+        }
+    });
+    
+    // Group by room types for overall stats
+    const roomTypes = {};
+    properties.forEach(prop => {
+        const rooms = prop.rooms || 'studio';
+        if (!roomTypes[rooms]) roomTypes[rooms] = 0;
+        roomTypes[rooms]++;
+    });
+    
+    return `
+        <div class="complex-popup">
+            <div class="complex-header">
+                <div class="flex items-start justify-between mb-2">
+                    <div class="flex-1">
+                        <h3 class="font-bold text-lg">${complexName}</h3>
+                        <p class="text-sm opacity-90">
+                            <i class="fas fa-building mr-1"></i>
+                            ${developer}
+                        </p>
+                    </div>
+                    <div class="bg-white/20 rounded-full px-3 py-1 text-sm font-bold">
+                        ${properties.length}
+                    </div>
+                </div>
+                <div class="flex items-center justify-between text-sm opacity-90">
+                    <span><i class="fas fa-home mr-1"></i>${properties.length} квартир</span>
+                    <span><i class="fas fa-building-columns mr-1"></i>${Object.keys(buildingGroups).length} корпусов</span>
+                </div>
+            </div>
+            
+            <div class="complex-stats">
+                <div class="stat-item">
+                    <span class="stat-number">${formatPriceShort(minPrice)}</span>
+                    <div class="stat-label">Мин цена</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">${formatPriceShort(maxPrice)}</span>
+                    <div class="stat-label">Макс цена</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">${Object.keys(roomTypes).length}</span>
+                    <div class="stat-label">Планировок</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">${Object.keys(buildingGroups).length}</span>
+                    <div class="stat-label">Корпусов</div>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <div class="text-sm font-medium text-gray-700 mb-2">Корпуса и литеры:</div>
+                <div class="space-y-2">
+                    ${Object.keys(buildingGroups).slice(0, 3).map(building => {
+                        const group = buildingGroups[building];
+                        const roomsText = Array.from(group.rooms).sort().join(', ') + ' комн';
+                        const priceText = formatPriceShort(group.minPrice);
+                        return `
+                            <div class="bg-blue-50 border border-blue-200 rounded-lg p-2 cursor-pointer hover:bg-gray-100 transition-colors"
+                                 onclick="filterByBuilding('${building}', '${complexName}')">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <div class="font-medium text-gray-700 text-sm">${building}</div>
+                                        <div class="text-xs text-[#0088CC]">${roomsText} • ${group.count} квартир</div>
+                                    </div>
+                                    <div class="text-sm font-bold text-gray-700">от ${priceText}</div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                    ${Object.keys(buildingGroups).length > 3 ? `
+                        <div class="text-center text-sm text-gray-600">
+                            и еще ${Object.keys(buildingGroups).length - 3} корпусов...
+                        </div>
+                    ` : ''}
+                </div>
+            </div>
+            
+            <button onclick="showComplexDetails(${JSON.stringify(properties.map(p => p.id))})" 
+                    class="view-all-btn">
+                <i class="fas fa-eye mr-2"></i>
+                Посмотреть все ${properties.length} квартир
+            </button>
+        </div>
+    `;
+}
+
+// Reset to all properties view
+function resetToAllProperties() {
+    filteredProperties = [...allProperties];
+    loadProperties();
+}
+
+// Show detailed complex view in sidebar
+function showComplexDetails(properties) {
+    const complexName = properties[0]?.residential_complex || properties[0]?.complex_name || 'Жилой комплекс';
+    const developer = properties[0]?.developer || 'Не указан';
+    
+    // Group by buildings
+    const buildingGroups = {};
+    properties.forEach(prop => {
+        const building = prop.building || prop.liter || prop.section || 'Основной корпус';
+        if (!buildingGroups[building]) buildingGroups[building] = [];
+        buildingGroups[building].push(prop);
+    });
+    
+    const objectsListContainer = document.getElementById('objectsList');
+    if (objectsListContainer) {
+        let html = `
+            <div class="bg-gradient-to-r from-[#006699] to-[#0088CC] text-white p-4 rounded-lg mb-4">
+                <div class="flex items-start justify-between mb-3">
+                    <div class="flex-1">
+                        <h3 class="font-bold text-xl mb-1">${complexName}</h3>
+                        <p class="text-sm opacity-90 mb-2">
+                            <i class="fas fa-building mr-1"></i>
+                            ${developer}
+                        </p>
+                        <div class="flex items-center gap-4 text-sm opacity-90">
+                            <span><i class="fas fa-home mr-1"></i>${properties.length} квартир</span>
+                            <span><i class="fas fa-building-columns mr-1"></i>${Object.keys(buildingGroups).length} корпусов</span>
+                        </div>
+                    </div>
+                    <div class="bg-white/20 rounded-full px-4 py-2 text-lg font-bold">
+                        ${properties.length}
+                    </div>
+                </div>
+                <button onclick="resetToAllProperties()" class="text-white/80 hover:text-white text-sm underline">
+                    ← Показать все объекты
+                </button>
+            </div>
+        `;
+        
+        // Show building sections
+        Object.keys(buildingGroups).forEach(building => {
+            const buildingProps = buildingGroups[building];
+            const minPrice = Math.min(...buildingProps.map(p => p.price || Infinity));
+            const rooms = [...new Set(buildingProps.map(p => p.rooms))].sort();
+            
+            html += `
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-3 mb-3">
+                    <div class="flex justify-between items-center mb-2">
+                        <h4 class="font-semibold text-gray-800">${building}</h4>
+                        <span class="text-sm text-gray-600">${buildingProps.length} квартир</span>
+                    </div>
+                    <div class="text-sm text-gray-600 mb-2">
+                        Планировки: ${rooms.join(', ')} комн • От ${formatPrice(minPrice)}
+                    </div>
+                </div>
+            `;
+        });
+        
+        objectsListContainer.innerHTML = html;
+        
+        // Add property cards grouped by buildings
+        Object.keys(buildingGroups).forEach(building => {
+            buildingGroups[building].forEach(property => {
+                objectsListContainer.appendChild(createPropertyCard(property));
+            });
+        });
+    }
+    
+    // Update count
+    const objectCountEl = document.getElementById('objectCount');
+    if (objectCountEl) {
+        objectCountEl.textContent = properties.length;
+    }
+    
+    // Close popup
+    if (map) map.closePopup();
+}
+
+function filterByBuilding(building, complexName) {
+    const filteredProps = allProperties.filter(p => 
+        (p.residential_complex === complexName || p.complex_name === complexName) && 
+        (p.building === building || p.liter === building || p.section === building)
+    );
+    
+    showComplexDetails(filteredProps);
+}
+
+// Create single property popup for individual properties
+function createSingleMarkerPopup(property) {
+    const price = property.price ? formatPrice(property.price) : 'По запросу';
+    const cashback = property.cashback || 3;
+    const rooms = property.rooms || '?';
+    const area = property.area || '?';
+    const floor = property.floor || '?';
+    const developer = property.developer || 'Не указан';
+    
+    return `
+        <div class="property-popup">
+            <div class="property-header">
+                <h3 class="font-bold text-lg mb-2">${property.title || 'Квартира'}</h3>
+                <div class="text-sm text-gray-600 mb-2">
+                    <i class="fas fa-building mr-1"></i>
+                    ${developer}
+                </div>
+            </div>
+            
+            <div class="property-stats">
+                <div class="stat-row">
+                    <div class="stat-item">
+                        <span class="stat-number">${rooms}</span>
+                        <div class="stat-label">комн</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">${area}</span>
+                        <div class="stat-label">м²</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">${floor}</span>
+                        <div class="stat-label">этаж</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="property-price">
+                <div class="price-main">${price}</div>
+                <div class="cashback">Кешбек ${cashback}%</div>
+            </div>
+            
+            <button onclick="showObjectDetails(${property.id})" class="view-details-btn">
+                <i class="fas fa-eye mr-2"></i>
+                Подробнее
+            </button>
+        </div>
+    `;
+}
+
+// Enhanced search functionality for MAP page
+let mapSearchFilters = {
+    rooms: [],
+    priceMin: null,
+    priceMax: null,
+    developers: [],
+    completion: [],
+    searchQuery: '',
+    areaMin: null,
+    areaMax: null,
+    advancedFilters: []
+};
+
+// Initialize smart search functionality
+function initializeMapSmartSearch() {
+    const searchInput = document.getElementById('mapSmartSearch');
+    const suggestionsContainer = document.getElementById('mapSearchSuggestions');
+    
+    if (searchInput && suggestionsContainer) {
+        let searchTimeout;
+        
+        searchInput.addEventListener('input', function() {
+            const query = this.value.trim();
+            
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                if (query.length >= 2) {
+                    fetchMapSearchSuggestions(query);
+                } else {
+                    hideSuggestions();
+                }
+            }, 300);
+        });
+        
+        // Hide suggestions when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('#mapSmartSearch') && !e.target.closest('#mapSearchSuggestions')) {
+                hideSuggestions();
+            }
+        });
+    }
+}
+
+// Fetch search suggestions using API
+function fetchMapSearchSuggestions(query) {
+    fetch(`/api/search/suggestions?q=${encodeURIComponent(query)}`)
+        .then(response => response.json())
+        .then(suggestions => {
+            displayMapSuggestions(suggestions);
+        })
+        .catch(error => {
+            console.error('Error fetching suggestions:', error);
+            hideSuggestions();
+        });
+}
+
+// Display suggestions dropdown
+function displayMapSuggestions(suggestions) {
+    const suggestionsContainer = document.getElementById('mapSearchSuggestions');
+    
+    if (suggestions.length === 0) {
+        hideSuggestions();
+        return;
+    }
+    
+    let html = '';
+    
+    // Group suggestions by type
+    const groupedSuggestions = {};
+    suggestions.forEach(suggestion => {
+        if (!groupedSuggestions[suggestion.type]) {
+            groupedSuggestions[suggestion.type] = [];
+        }
+        groupedSuggestions[suggestion.type].push(suggestion);
+    });
+    
+    // Render grouped suggestions
+    const typeLabels = {
+        'complex': 'Жилые комплексы',
+        'developer': 'Застройщики',
+        'district': 'Районы',
+        'street': 'Улицы'
+    };
+    
+    Object.keys(groupedSuggestions).forEach(type => {
+        if (groupedSuggestions[type].length > 0) {
+            html += `<div class="suggestion-group">`;
+            html += `<div class="suggestion-group-header">${typeLabels[type] || type}</div>`;
+            
+            groupedSuggestions[type].slice(0, 5).forEach(suggestion => {
+                html += `
+                    <div class="suggestion-item" onclick="selectMapSuggestion('${suggestion.name}', '${suggestion.type}')">
+                        <div class="suggestion-name">${suggestion.name}</div>
+                        <div class="suggestion-subtitle">${suggestion.subtitle}</div>
+                    </div>
+                `;
+            });
+            
+            html += `</div>`;
+        }
+    });
+    
+    suggestionsContainer.innerHTML = html;
+    suggestionsContainer.classList.remove('hidden');
+}
+
+// Handle suggestion selection
+function selectMapSuggestion(name, type) {
+    const searchInput = document.getElementById('mapSmartSearch');
+    searchInput.value = name;
+    
+    mapSearchFilters.searchQuery = name;
+    
+    // Apply the filter based on type
+    switch(type) {
+        case 'developer':
+            mapSearchFilters.developers = [name];
+            break;
+        case 'complex':
+            // Filter by complex name
+            break;
+        case 'district':
+            // Filter by district
+            break;
+    }
+    
+    hideSuggestions();
+    applyMapFilters();
+}
+
+// Hide suggestions
+function hideSuggestions() {
+    const suggestionsContainer = document.getElementById('mapSearchSuggestions');
+    if (suggestionsContainer) {
+        suggestionsContainer.classList.add('hidden');
+    }
+}
+
+// Handle room filter changes
+function handleMapRoomFilterChange() {
+    setTimeout(() => {
+        const checkedRooms = Array.from(document.querySelectorAll('input[data-filter-type="rooms"]:checked')).map(cb => cb.value);
+        mapSearchFilters.rooms = checkedRooms;
+        
+        // Update button text
+        const buttonText = document.getElementById('mapRoomsFilterText');
+        if (buttonText) {
+            if (checkedRooms.length === 0) {
+                buttonText.textContent = 'Комнат';
+            } else if (checkedRooms.length === 1) {
+                buttonText.textContent = checkedRooms[0];
+            } else {
+                buttonText.textContent = `${checkedRooms.length} типов`;
+            }
+        }
+        
+        applyMapFilters();
+    }, 100);
+}
+
+// Handle completion date filter changes
+function handleMapCompletionFilterChange() {
+    setTimeout(() => {
+        const checkedDates = Array.from(document.querySelectorAll('input[data-filter-type="completion"]:checked')).map(cb => cb.value);
+        mapSearchFilters.completion = checkedDates;
+        
+        // Update button text
+        const buttonText = document.getElementById('mapCompletionFilterText');
+        if (buttonText) {
+            if (checkedDates.length === 0) {
+                buttonText.textContent = 'Сдача';
+            } else if (checkedDates.length === 1) {
+                buttonText.textContent = checkedDates[0];
+            } else {
+                buttonText.textContent = `${checkedDates.length} годов`;
+            }
+        }
+        
+        applyMapFilters();
+    }, 100);
+}
+
+// Apply price filter
+function applyMapPriceFilter() {
+    const priceFrom = document.getElementById('mapPriceFrom').value;
+    const priceTo = document.getElementById('mapPriceTo').value;
+    
+    mapSearchFilters.priceMin = priceFrom ? parseFloat(priceFrom) * 1000000 : null;
+    mapSearchFilters.priceMax = priceTo ? parseFloat(priceTo) * 1000000 : null;
+    
+    // Update button text
+    const buttonText = document.getElementById('mapPriceFilterText');
+    if (buttonText) {
+        if (!priceFrom && !priceTo) {
+            buttonText.textContent = 'Цена';
+        } else {
+            const from = priceFrom ? `от ${priceFrom}` : '';
+            const to = priceTo ? `до ${priceTo}` : '';
+            buttonText.textContent = `${from} ${to} млн ₽`.trim();
+        }
+    }
+    
+    // Close dropdown
+    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+        menu.classList.remove('show');
+        menu.style.display = 'none';
+    });
+    
+    applyMapFilters();
+}
+
+// Apply all filters
+function applyMapFilters() {
+    let filtered = allProperties;
+    
+    // Apply search query filter
+    if (mapSearchFilters.searchQuery) {
+        const query = mapSearchFilters.searchQuery.toLowerCase();
+        filtered = filtered.filter(property => {
+            return (property.residential_complex && property.residential_complex.toLowerCase().includes(query)) ||
+                   (property.developer && property.developer.toLowerCase().includes(query)) ||
+                   (property.developer_name && property.developer_name.toLowerCase().includes(query)) ||
+                   (property.district && property.district.toLowerCase().includes(query)) ||
+                   (property.address && property.address.toLowerCase().includes(query));
+        });
+    }
+    
+    // Apply room filter
+    if (mapSearchFilters.rooms.length > 0) {
+        filtered = filtered.filter(property => {
+            const rooms = property.rooms;
+            if (mapSearchFilters.rooms.includes('студия') && rooms === 0) return true;
+            if (mapSearchFilters.rooms.includes('1-комн') && rooms === 1) return true;
+            if (mapSearchFilters.rooms.includes('2-комн') && rooms === 2) return true;
+            if (mapSearchFilters.rooms.includes('3-комн') && rooms === 3) return true;
+            if (mapSearchFilters.rooms.includes('4+-комн') && rooms >= 4) return true;
+            return false;
+        });
+    }
+    
+    // Apply price filter
+    if (mapSearchFilters.priceMin || mapSearchFilters.priceMax) {
+        filtered = filtered.filter(property => {
+            const price = property.price || 0;
+            if (mapSearchFilters.priceMin && price < mapSearchFilters.priceMin) return false;
+            if (mapSearchFilters.priceMax && price > mapSearchFilters.priceMax) return false;
+            return true;
+        });
+    }
+    
+    // Apply completion date filter
+    if (mapSearchFilters.completion.length > 0) {
+        filtered = filtered.filter(property => {
+            const completionDate = property.completion_date || '';
+            return mapSearchFilters.completion.some(year => completionDate.includes(year));
+        });
+    }
+    
+    // Apply developer filter
+    if (mapSearchFilters.developers.length > 0) {
+        filtered = filtered.filter(property => {
+            const developer = property.developer || property.developer_name || '';
+            return mapSearchFilters.developers.includes(developer);
+        });
+    }
+    
+    // Apply area filter
+    if (mapSearchFilters.areaMin || mapSearchFilters.areaMax) {
+        filtered = filtered.filter(property => {
+            const area = property.area || 0;
+            if (mapSearchFilters.areaMin && area < mapSearchFilters.areaMin) return false;
+            if (mapSearchFilters.areaMax && area > mapSearchFilters.areaMax) return false;
+            return true;
+        });
+    }
+    
+    // Apply advanced filters
+    if (mapSearchFilters.advancedFilters && mapSearchFilters.advancedFilters.length > 0) {
+        filtered = filtered.filter(property => {
+            const floor = property.floor || 0;
+            const totalFloors = property.total_floors || property.object_max_floor || 0;
+            
+            for (const filter of mapSearchFilters.advancedFilters) {
+                switch(filter) {
+                    case 'not_first':
+                        if (floor <= 1) return false;
+                        break;
+                    case 'not_last':
+                        if (floor >= totalFloors) return false;
+                        break;
+                    case 'cashback_available':
+                        if (!property.cashback_available) return false;
+                        break;
+                    // Фильтры отделки из реальной базы
+                    case 'no_renovation':
+                        if (property.renovation_type !== 'no_renovation') return false;
+                        break;
+                    case 'fine_finish':
+                        if (property.renovation_type !== 'fine_finish') return false;
+                        break;
+                    // Фильтры класса жилья
+                    case 'Бизнес':
+                        if (property.complex_object_class_display_name !== 'Бизнес') return false;
+                        break;
+                    case 'Комфорт':
+                        if (property.complex_object_class_display_name !== 'Комфорт') return false;
+                        break;
+                    case 'Премиум':
+                        if (property.complex_object_class_display_name !== 'Премиум') return false;
+                        break;
+                    // Ипотечные программы
+                    case 'mortgage_subsidy':
+                        if (!property.complex_has_mortgage_subsidy) return false;
+                        break;
+                    case 'government_program':
+                        if (!property.complex_has_government_program) return false;
+                        break;
+                    case 'green_mortgage':
+                        if (!property.complex_has_green_mortgage) return false;
+                        break;
+                }
+            }
+            return true;
+        });
+    }
+    
+    // Update map and sidebar
+    filteredProperties = filtered;
+    updateMapAndSidebar();
+    
+    console.log('Map filters applied, found:', filtered.length, 'properties');
+}
+
+// Update map and sidebar with filtered properties
+function updateMapAndSidebar() {
+    if (!filteredProperties || !map) return;
+    
+    // Update map markers
+    if (markersLayer) {
+        markersLayer.clearLayers();
+    }
+    
+    // Add filtered markers
+    filteredProperties.forEach(property => {
+        if (property.coordinates && property.coordinates.lat && property.coordinates.lng) {
+            const marker = L.marker([property.coordinates.lat, property.coordinates.lng]);
+            marker.bindPopup(createSingleMarkerPopup(property));
+            markersLayer.addLayer(marker);
+        }
+    });
+    
+    // Update objects list
+    const objectsListContainer = document.getElementById('objectsList');
+    if (objectsListContainer) {
+        // Clear existing content
+        objectsListContainer.innerHTML = '';
+        
+        // Add header with count
+        const headerHtml = `
+            <div class="p-4 border-b border-gray-200 bg-gradient-to-r from-[#0088CC] to-[#006699] text-white">
+                <h2 class="text-lg font-semibold mb-2">Найдено объектов</h2>
+                <div class="flex justify-between items-center">
+                    <div class="bg-white/20 rounded-full px-4 py-2 text-lg font-bold">
+                        ${filteredProperties.length}
+                    </div>
+                </div>
+            </div>
+        `;
+        objectsListContainer.innerHTML = headerHtml;
+        
+        // Add property cards
+        filteredProperties.forEach(property => {
+            objectsListContainer.appendChild(createPropertyCard(property));
+        });
+    }
+    
+    // Update count in header if exists
+    const objectCountEl = document.getElementById('objectCount');
+    if (objectCountEl) {
+        objectCountEl.textContent = filteredProperties.length;
+    }
+}
+
+// Clear all filters
+function clearMapFilters() {
+    // Reset filter object
+    mapSearchFilters = {
+        rooms: [],
+        priceMin: null,
+        priceMax: null,
+        developers: [],
+        completion: [],
+        searchQuery: '',
+        areaMin: null,
+        areaMax: null,
+        advancedFilters: []
+    };
+    
+    // Clear form inputs
+    document.getElementById('mapSmartSearch').value = '';
+    document.getElementById('mapPriceFrom').value = '';
+    document.getElementById('mapPriceTo').value = '';
+    
+    // Clear advanced filter inputs
+    const areaFromInput = document.getElementById('areaFrom');
+    const areaToInput = document.getElementById('areaTo');
+    if (areaFromInput) areaFromInput.value = '';
+    if (areaToInput) areaToInput.value = '';
+    
+    // Uncheck all checkboxes
+    document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
+        checkbox.checked = false;
+    });
+    
+    // Reset button texts
+    document.getElementById('mapRoomsFilterText').textContent = 'Комнат';
+    document.getElementById('mapPriceFilterText').textContent = 'Цена';
+    document.getElementById('mapDeveloperFilterText').textContent = 'Застройщик';
+    document.getElementById('mapCompletionFilterText').textContent = 'Сдача';
+    
+    // Show all properties
+    filteredProperties = allProperties;
+    updateMapAndSidebar();
+    
+    console.log('Map filters cleared, showing all properties');
+}
+
+// Load developers dynamically
+function loadMapDevelopers() {
+    if (!allProperties) return;
+    
+    // Get unique developers from properties
+    const developers = [...new Set(allProperties.map(p => p.developer || p.developer_name).filter(d => d))];
+    const developerDropdown = document.getElementById('mapDeveloperDropdown');
+    
+    if (developerDropdown) {
+        let html = '';
+        developers.sort().forEach(developer => {
+            const count = allProperties.filter(p => (p.developer || p.developer_name) === developer).length;
+            html += `
+                <label class="dropdown-item">
+                    <input type="checkbox" value="${developer}" data-filter-type="developer" class="mr-2" onchange="handleMapDeveloperFilterChange()"> ${developer} (${count})
+                </label>
+            `;
+        });
+        developerDropdown.innerHTML = html;
+    }
+}
+
+// Handle developer filter changes
+function handleMapDeveloperFilterChange() {
+    setTimeout(() => {
+        const checkedDevelopers = Array.from(document.querySelectorAll('input[data-filter-type="developer"]:checked')).map(cb => cb.value);
+        mapSearchFilters.developers = checkedDevelopers;
+        
+        // Update button text
+        const buttonText = document.getElementById('mapDeveloperFilterText');
+        if (buttonText) {
+            if (checkedDevelopers.length === 0) {
+                buttonText.textContent = 'Застройщик';
+            } else if (checkedDevelopers.length === 1) {
+                buttonText.textContent = checkedDevelopers[0];
+            } else {
+                buttonText.textContent = `${checkedDevelopers.length} застр.`;
+            }
+        }
+        
+        applyMapFilters();
+    }, 100);
+}
+
+// Toggle advanced filters sidebar
+function toggleAdvancedFilters() {
+    const sidebar = document.getElementById('advancedFiltersSidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    
+    if (sidebar && overlay) {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('hidden');
+        
+        if (sidebar.classList.contains('open')) {
+            sidebar.style.transform = 'translateX(0)';
+        } else {
+            sidebar.style.transform = 'translateX(100%)';
+        }
+    }
+}
+
+// Close advanced filters sidebar
+function closeAdvancedFilters() {
+    const sidebar = document.getElementById('advancedFiltersSidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    
+    if (sidebar && overlay) {
+        sidebar.classList.remove('open');
+        overlay.classList.add('hidden');
+        sidebar.style.transform = 'translateX(100%)';
+    }
+}
+
+// Apply advanced filters
+function applyAdvancedFilters() {
+    // Get advanced filter values
+    const areaFrom = document.getElementById('areaFrom').value;
+    const areaTo = document.getElementById('areaTo').value;
+    const floorFilters = Array.from(document.querySelectorAll('#advancedFiltersSidebar input[type="checkbox"]:checked')).map(cb => cb.value);
+    
+    // Apply to existing filters
+    mapSearchFilters.areaMin = areaFrom ? parseFloat(areaFrom) : null;
+    mapSearchFilters.areaMax = areaTo ? parseFloat(areaTo) : null;
+    mapSearchFilters.advancedFilters = floorFilters;
+    
+    // Apply filters
+    applyMapFilters();
+    
+    // Close sidebar
+    closeAdvancedFilters();
+    
+    console.log('Advanced filters applied:', mapSearchFilters);
+}
+
+// Fix dropdown functionality
+function initializeDropdowns() {
+    document.querySelectorAll('.dropdown-btn').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const dropdown = this.closest('.dropdown');
+            const menu = dropdown ? dropdown.querySelector('.dropdown-menu') : null;
+            
+            if (!menu) {
+                console.log('Menu not found for dropdown');
+                return;
+            }
+            
+            // Close all other dropdowns
+            document.querySelectorAll('.dropdown-menu').forEach(otherMenu => {
+                if (otherMenu !== menu) {
+                    otherMenu.classList.remove('show');
+                    otherMenu.style.display = 'none';
+                }
+            });
+            
+            // Toggle current dropdown
+            if (menu.classList.contains('show')) {
+                menu.classList.remove('show');
+                menu.style.display = 'none';
+            } else {
+                menu.classList.add('show');
+                menu.style.display = 'block';
+            }
+        });
+    });
+    
+    // Prevent dropdown from closing when clicking inside menu
+    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+        menu.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    });
+    
+    // Add event listeners to checkboxes and inputs in dropdowns
+    document.querySelectorAll('.dropdown-menu input[type="checkbox"]').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            updateMapFilters();
+        });
+    });
+    
+    // Add event listeners to price range inputs
+    document.querySelectorAll('.dropdown-menu input[type="range"]').forEach(range => {
+        range.addEventListener('input', function() {
+            updateMapFilters();
+        });
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.dropdown')) {
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                menu.classList.remove('show');
+                menu.style.display = 'none';
+            });
+        }
+    });
+    
+    console.log('Dropdowns initialized for', document.querySelectorAll('.dropdown-btn').length, 'buttons');
+}
+
+// Update map filters based on dropdown selections
+function updateMapFilters() {
+    const filters = {
+        rooms: [],
+        priceMin: null,
+        priceMax: null,
+        developers: [],
+        deliveryYear: []
+    };
+    
+    // Get selected room filters
+    document.querySelectorAll('#roomsDropdown input[type="checkbox"]:checked').forEach(checkbox => {
+        filters.rooms.push(checkbox.value);
+    });
+    
+    // Get price range
+    const priceMinInput = document.querySelector('#priceMin');
+    const priceMaxInput = document.querySelector('#priceMax');
+    if (priceMinInput) filters.priceMin = parseInt(priceMinInput.value);
+    if (priceMaxInput) filters.priceMax = parseInt(priceMaxInput.value);
+    
+    // Get selected developers
+    document.querySelectorAll('#developerDropdown input[type="checkbox"]:checked').forEach(checkbox => {
+        filters.developers.push(checkbox.value);
+    });
+    
+    // Get selected delivery years
+    document.querySelectorAll('#deliveryDropdown input[type="checkbox"]:checked').forEach(checkbox => {
+        filters.deliveryYear.push(checkbox.value);
+    });
+    
+    // Get sidebar cashback filter
+    const sidebarCashback = document.getElementById('onlyCashbackList');
+    if (sidebarCashback && sidebarCashback.checked) {
+        filters.onlyCashback = true;
+    }
+    
+    console.log('Applying filters:', filters);
+    
+    // Apply filters to map and property list
+    filterMapProperties(filters);
+    updatePropertyList(filters);
+}
+
+// Filter properties on map
+function filterMapProperties(filters) {
+    if (!allProperties || allProperties.length === 0) return;
+    
+    let filteredProperties = allProperties.filter(property => {
+        // Room filter
+        if (filters.rooms.length > 0) {
+            const propertyRooms = property.rooms?.toString() || '0';
+            if (!filters.rooms.includes(propertyRooms)) return false;
+        }
+        
+        // Price filter
+        if (filters.priceMin && property.price < filters.priceMin * 1000000) return false;
+        if (filters.priceMax && property.price > filters.priceMax * 1000000) return false;
+        
+        // Developer filter
+        if (filters.developers.length > 0) {
+            if (!filters.developers.includes(property.developer)) return false;
+        }
+        
+        // Delivery year filter
+        if (filters.deliveryYear.length > 0) {
+            const propertyYear = new Date(property.delivery_date || '2024').getFullYear().toString();
+            if (!filters.deliveryYear.includes(propertyYear)) return false;
+        }
+        
+        // Cashback filter
+        if (filters.onlyCashback && !property.cashback_available) return false;
+        
+        return true;
+    });
+    
+    console.log(`Filtered from ${allProperties.length} to ${filteredProperties.length} properties`);
+    
+    // Update map markers
+    // updateMapMarkers(filteredProperties); // Not implemented yet
+    
+    // Update property count display
+    const countElement = document.querySelector('.property-count');
+    if (countElement) {
+        countElement.textContent = `Найдено ${filteredProperties.length} объектов`;
+    }
+}
+
+// Update property list in sidebar
+function updatePropertyList(filters) {
+    const propertyCards = document.querySelectorAll('#propertyList .property-card');
+    let visibleCount = 0;
+    
+    propertyCards.forEach(card => {
+        const propertyId = parseInt(card.dataset.propertyId);
+        const property = allProperties.find(p => p.id === propertyId);
+        
+        if (property && passesFilters(property, filters)) {
+            card.style.display = 'block';
+            visibleCount++;
+        } else {
+            card.style.display = 'none';
+        }
+    });
+    
+    // Update property count in sidebar
+    const sidebarCount = document.querySelector('.sidebar-property-count');
+    if (sidebarCount) {
+        sidebarCount.textContent = `Показано ${visibleCount} объектов`;
+    }
+}
+
+// Check if property passes filters
+function passesFilters(property, filters) {
+    // Room filter
+    if (filters.rooms.length > 0) {
+        const propertyRooms = property.rooms?.toString() || '0';
+        if (!filters.rooms.includes(propertyRooms)) return false;
+    }
+    
+    // Price filter
+    if (filters.priceMin && property.price < filters.priceMin * 1000000) return false;
+    if (filters.priceMax && property.price > filters.priceMax * 1000000) return false;
+    
+    // Developer filter
+    if (filters.developers.length > 0) {
+        if (!filters.developers.includes(property.developer)) return false;
+    }
+    
+    // Delivery year filter
+    if (filters.deliveryYear.length > 0) {
+        const propertyYear = new Date(property.delivery_date || '2024').getFullYear().toString();
+        if (!filters.deliveryYear.includes(propertyYear)) return false;
+    }
+    
+    // Cashback filter
+    if (filters.onlyCashback && !property.cashback_available) return false;
+    
+    return true;
+}
+
+// Apply sorting to property list
+function applySorting() {
+    const sortValue = document.getElementById('sortSelect')?.value;
+    if (!sortValue) return;
+    
+    const propertyList = document.getElementById('objectsList');
+    if (!propertyList) return;
+    
+    const propertyCards = Array.from(propertyList.children);
+    
+    // Sort the cards based on selected criteria
+    propertyCards.sort((a, b) => {
+        const propertyA = allProperties.find(p => p.id === parseInt(a.dataset.propertyId));
+        const propertyB = allProperties.find(p => p.id === parseInt(b.dataset.propertyId));
+        
+        if (!propertyA || !propertyB) return 0;
+        
+        switch (sortValue) {
+            case 'price_asc':
+                return propertyA.price - propertyB.price;
+            case 'price_desc':
+                return propertyB.price - propertyA.price;
+            case 'area_asc':
+                return propertyA.area - propertyB.area;
+            case 'area_desc':
+                return propertyB.area - propertyA.area;
+            case 'cashback_desc':
+                return propertyB.cashback - propertyA.cashback;
+            case 'delivery_asc':
+                const dateA = new Date(propertyA.delivery_date || '2024-12-31');
+                const dateB = new Date(propertyB.delivery_date || '2024-12-31');
+                return dateA - dateB;
+            default:
+                return 0;
+        }
+    });
+    
+    // Re-append sorted cards to the container
+    propertyCards.forEach(card => {
+        propertyList.appendChild(card);
+    });
+    
+    console.log('Applied sorting:', sortValue);
+}
+
+// Add event listener for sidebar cashback filter
+function initializeSidebarFilters() {
+    const cashbackFilter = document.getElementById('onlyCashbackList');
+    if (cashbackFilter) {
+        cashbackFilter.addEventListener('change', function() {
+            updateMapFilters(); // Use the same filter function
+        });
+    }
+}
+
+// Image slider functionality for property cards
+let imageSliders = new Map();
+
+function startImageSlider(container) {
+    // Get images from card element
+    const card = container.closest('.property-card');
+    const images = card ? card.imageData : null;
+    if (!images || images.length <= 1) return;
+    
+    const img = container.querySelector('.main-image');
+    const indicator = container.querySelector('.slider-indicator');
+    
+    if (indicator) {
+        indicator.classList.remove('hidden');
+    }
+    
+    let currentIndex = 0;
+    const interval = setInterval(() => {
+        currentIndex = (currentIndex + 1) % images.length;
+        if (img) {
+            img.src = images[currentIndex];
+        }
+        if (indicator) {
+            indicator.textContent = `${currentIndex + 1}/${images.length}`;
+        }
+    }, 800); // Change image every 800ms like on ayax.ru
+    
+    imageSliders.set(container, {
+        interval: interval,
+        images: images,
+        originalImage: img ? img.src : images[0]
+    });
+}
+
+function stopImageSlider(container) {
+    const sliderData = imageSliders.get(container);
+    if (sliderData) {
+        clearInterval(sliderData.interval);
+        
+        const img = container.querySelector('.main-image');
+        const indicator = container.querySelector('.slider-indicator');
+        
+        // Return to first image
+        if (img && sliderData.images && sliderData.images.length > 0) {
+            img.src = sliderData.images[0];
+        }
+        
+        if (indicator) {
+            indicator.classList.add('hidden');
+        }
+        
+        imageSliders.delete(container);
+    }
+}
+
+function nextSliderImage(container) {
+    const card = container.closest('.property-card');
+    const images = card ? card.imageData : null;
+    if (!images || images.length <= 1) return;
+    
+    const img = container.querySelector('.main-image');
+    const indicator = container.querySelector('.slider-indicator');
+    
+    if (!img || !indicator) return;
+    
+    // Get current image index
+    const currentSrc = img.src;
+    let currentIndex = images.findIndex(url => currentSrc.includes(url.split('/').pop()));
+    if (currentIndex === -1) currentIndex = 0;
+    
+    // Next image
+    const nextIndex = (currentIndex + 1) % images.length;
+    img.src = images[nextIndex];
+    indicator.textContent = `${nextIndex + 1}/${images.length}`;
+    
+    // Show indicator temporarily
+    indicator.classList.remove('hidden');
+    setTimeout(() => {
+        const sliderData = imageSliders.get(container);
+        if (!sliderData) {
+            indicator.classList.add('hidden');
+        }
+    }, 1500);
+}
+
+// Initialize enhanced map search on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // Add map-page class to body
+    document.body.classList.add('map-page');
+    
+    // Wait for properties to load
+    setTimeout(() => {
+        initializeSmartSearch();
+        loadMapDevelopers();
+        initializeDropdowns();
+        initializeSidebarFilters();
+    }, 1000);
+});
+
+// Initialize smart autocomplete search
+function initializeSmartSearch() {
+    const searchInput = document.getElementById('mapSmartSearch');
+    if (!searchInput) return;
+    
+    // Make the input container relative
+    searchInput.parentElement.style.position = 'relative';
+    
+    // Initialize smart autocomplete
+    const autocomplete = new SmartAutocomplete(searchInput, {
+        placeholder: 'Поиск по адресу, ЖК, застройщику...',
+        onSelect: function(suggestion) {
+            handleSearchSelection(suggestion);
+        },
+        onSearch: function(query, suggestion) {
+            performSmartMapSearch(query, suggestion);
+        }
+    });
+    
+    // Store reference globally
+    window.mapAutocomplete = autocomplete;
+}
+
+// Handle search suggestion selection
+function handleSearchSelection(suggestion) {
+    console.log('Selected suggestion:', suggestion);
+    
+    switch(suggestion.type) {
+        case 'address':
+            filterByAddress(suggestion.text);
+            break;
+        case 'complex':
+            filterByComplex(suggestion.text);
+            break;
+        case 'developer':
+            filterByDeveloper(suggestion.text);
+            break;
+        case 'district':
+            filterByDistrict(suggestion.text);
+            break;
+        default:
+            performSmartMapSearch(suggestion.text, suggestion);
+    }
+}
+
+// Smart map search with suggestion context
+function performSmartMapSearch(query, suggestion) {
+    console.log('Performing smart search:', query, suggestion);
+    
+    if (!allProperties || !allProperties.length) {
+        console.log('No properties loaded yet');
+        return;
+    }
+    
+    const lowerQuery = query.toLowerCase();
+    let filtered = [];
+    
+    // If we have suggestion context, use it for precise filtering
+    if (suggestion) {
+        switch(suggestion.type) {
+            case 'address':
+                filtered = allProperties.filter(p => 
+                    p.address && p.address.toLowerCase().includes(lowerQuery)
+                );
+                break;
+            case 'complex':
+                filtered = allProperties.filter(p => 
+                    (p.complex_name && p.complex_name.toLowerCase().includes(lowerQuery)) ||
+                    (p.residential_complex && p.residential_complex.toLowerCase().includes(lowerQuery))
+                );
+                break;
+            case 'developer':
+                filtered = allProperties.filter(p => 
+                    p.developer && p.developer.toLowerCase().includes(lowerQuery)
+                );
+                break;
+            case 'district':
+                filtered = allProperties.filter(p => 
+                    p.district && p.district.toLowerCase().includes(lowerQuery)
+                );
+                break;
+            default:
+                filtered = performGeneralSearch(lowerQuery);
+        }
+    } else {
+        filtered = performGeneralSearch(lowerQuery);
+    }
+    
+    // Update map and sidebar
+    filteredProperties = filtered;
+    loadProperties();
+    
+    console.log(`Found ${filtered.length} properties matching "${query}"`);
+}
+
+// General search across all fields
+function performGeneralSearch(query) {
+    return allProperties.filter(property => {
+        return (
+            (property.address && property.address.toLowerCase().includes(query)) ||
+            (property.complex_name && property.complex_name.toLowerCase().includes(query)) ||
+            (property.residential_complex && property.residential_complex.toLowerCase().includes(query)) ||
+            (property.developer && property.developer.toLowerCase().includes(query)) ||
+            (property.district && property.district.toLowerCase().includes(query)) ||
+            (property.description && property.description.toLowerCase().includes(query))
+        );
+    });
+}
+
+// Filter functions for different types
+function filterByAddress(address) {
+    filteredProperties = allProperties.filter(p => 
+        p.address && p.address.toLowerCase().includes(address.toLowerCase())
+    );
+    loadProperties();
+}
+
+function filterByComplex(complexName) {
+    filteredProperties = allProperties.filter(p => 
+        (p.complex_name && p.complex_name.toLowerCase().includes(complexName.toLowerCase())) ||
+        (p.residential_complex && p.residential_complex.toLowerCase().includes(complexName.toLowerCase()))
+    );
+    console.log(`Filtering by complex: ${complexName}, found ${filteredProperties.length} results`);
+    loadProperties();
+}
+
+function filterByDeveloper(developerName) {
+    filteredProperties = allProperties.filter(p => 
+        p.developer && p.developer.toLowerCase().includes(developerName.toLowerCase())
+    );
+    loadProperties();
+}
+
+function filterByDistrict(districtName) {
+    filteredProperties = allProperties.filter(p => 
+        p.district && p.district.toLowerCase().includes(districtName.toLowerCase())
+    );
+    loadProperties();
+}
+
+// Image slider functions for property cards
+let sliderIntervals = new Map();
+
+function startImageSlider(container) {
+    const card = container.closest('.object-card');
+    if (!card || !card.imageData || card.imageData.length <= 1) return;
+    
+    // Stop existing interval
+    stopImageSlider(container);
+    
+    let currentIndex = 0;
+    const images = card.imageData;
+    const mainImage = container.querySelector('.main-image');
+    const indicator = container.querySelector('.slider-indicator');
+    
+    const interval = setInterval(() => {
+        currentIndex = (currentIndex + 1) % images.length;
+        if (mainImage) {
+            mainImage.src = images[currentIndex];
+        }
+        if (indicator) {
+            indicator.textContent = `${currentIndex + 1}/${images.length}`;
+            indicator.classList.remove('hidden');
+        }
+    }, 2000); // Смена каждые 2 секунды
+    
+    sliderIntervals.set(container, interval);
+}
+
+function stopImageSlider(container) {
+    const interval = sliderIntervals.get(container);
+    if (interval) {
+        clearInterval(interval);
+        sliderIntervals.delete(container);
+    }
+    
+    const indicator = container.querySelector('.slider-indicator');
+    if (indicator) {
+        indicator.classList.add('hidden');
+    }
+}
+
+function nextSliderImage(event) {
+    event.stopPropagation(); // Предотвратить клик по карточке
+    
+    const container = event.currentTarget;
+    const card = container.closest('.object-card');
+    if (!card || !card.imageData || card.imageData.length <= 1) return;
+    
+    // Остановить автослайдер
+    stopImageSlider(container);
+    
+    const images = card.imageData;
+    const mainImage = container.querySelector('.main-image');
+    const indicator = container.querySelector('.slider-indicator');
+    
+    // Найти текущий индекс
+    let currentIndex = 0;
+    if (mainImage) {
+        currentIndex = images.findIndex(img => mainImage.src.includes(img.split('/').pop()));
+        if (currentIndex === -1) currentIndex = 0;
+    }
+    
+    // Переключить на следующую
+    currentIndex = (currentIndex + 1) % images.length;
+    
+    if (mainImage) {
+        mainImage.src = images[currentIndex];
+    }
+    if (indicator) {
+        indicator.textContent = `${currentIndex + 1}/${images.length}`;
+        indicator.classList.remove('hidden');
+    }
+    
+    // Перезапустить автослайдер через 5 секунд
+    setTimeout(() => {
+        startImageSlider(container);
+    }, 5000);
+}
+</script>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/smart_autocomplete.js') }}"></script>
+{% endblock %}

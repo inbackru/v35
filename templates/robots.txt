@@ -1,0 +1,34 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /auth/
+Disallow: /api/
+Disallow: /manager/
+Disallow: /dashboard
+
+Sitemap: https://inback.ru/sitemap.xml
+
+# Crawl-delay for better server performance
+Crawl-delay: 1
+
+# Specific rules for major search engines
+User-agent: Googlebot
+Allow: /
+Disallow: /admin/
+Disallow: /auth/
+Disallow: /api/
+Disallow: /manager/
+
+User-agent: Yandex
+Allow: /
+Disallow: /admin/
+Disallow: /auth/
+Disallow: /api/
+Disallow: /manager/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /admin/
+Disallow: /auth/
+Disallow: /api/
+Disallow: /manager/
